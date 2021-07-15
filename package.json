@@ -1,8 +1,7 @@
 {
-    "name": "datta-able-react-hook",
-    "version": "17.0.4",
+    "name": "react-datta-able-dashboard",
+    "version": "0.0.1",
     "private": true,
-    "homepage": "https://codedthemes.com/demos/admin-templates/datta-able/react/default/",
     "dependencies": {
         "@amcharts/amcharts3-react": "^3.1.0",
         "@reduxjs/toolkit": "^1.5.0",

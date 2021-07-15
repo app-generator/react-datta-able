@@ -145,8 +145,10 @@ const NavRight = () => {
                         <Dropdown.Menu alignRight className="profile-notification">
                             <div className="pro-head">
                                 <img src={avatar1} className="img-radius" alt="User Profile" />
-                                <span>John Doe</span>
-                                <Link to="#" className="dud-logout" title="Logout">
+                                <span>
+                                    User Menu
+                                </span>
+                                <Link to="#" className="dud-logout" onClick={handleLogout} title="Logout">
                                     <i className="feather icon-log-out" />
                                 </Link>
                             </div>

@@ -1,7 +1,7 @@
-export const BASENAME = '/demos/admin-templates/datta-able/react/default'; // don't add '/' at end off BASENAME
+export const BASENAME = ''; // don't add '/' at end off BASENAME
 export const BASE_URL = '/app/dashboard/default';
-export const BASE_TITLE = ' | Datta Able Premium React Hooks + Redux Admin Template';
-export const API_SERVER = 'https://api-server-nodejs.appseed.us/api/';
+export const BASE_TITLE = ' | React Datta Able ';
+export const API_SERVER = 'http://localhost:5000/api/';
 
 export const CONFIG = {
     layout: 'vertical', // disable on free version

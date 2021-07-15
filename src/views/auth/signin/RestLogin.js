@@ -119,7 +119,7 @@ const RestLogin = ({ className, ...rest }) => {
                                     type="submit"
                                     variant="primary"
                                 >
-                                    Signin
+                                    Sign IN
                                 </Button>
                             </Col>
                         </Row>

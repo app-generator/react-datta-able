@@ -126,7 +126,7 @@ const RestRegister = ({ className, ...rest }) => {
                                     type="submit"
                                     variant="primary"
                                 >
-                                    Signup
+                                    Sign UP
                                 </Button>
                             </Col>
                         </Row>
