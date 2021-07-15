@@ -63,7 +63,7 @@ $ yarn start
 
 The product comes with a usable JWT Authentication flow that provides only the basic requests: login/logout/register. 
 
-**API Server URL** - `src/config.js` 
+**API Server URL** - `src/config/constant.js` 
 
 ```javascript
 const config = {
