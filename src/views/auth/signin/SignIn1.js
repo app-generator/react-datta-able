@@ -1,10 +1,8 @@
 import React from 'react';
-import { Card, Button, Alert } from 'react-bootstrap';
-import { NavLink, Link } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
 import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
-
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import RestLogin from './RestLogin';
 
@@ -22,10 +20,7 @@ const Signin1 = () => {
                     </div>
                     <Card className="borderless text-center">
                         <Card.Body>
-
-                            <h4 className="mb-4">
-                                React Datta Able 
-                            </h4>
+                            <h4 className="mb-4">React Datta Able</h4>
 
                             <div className="mb-4">
                                 <i className="feather icon-unlock auth-icon" />
@@ -43,10 +38,16 @@ const Signin1 = () => {
                             <br />
 
                             <p className="mb-0 text-muted">
-                                &copy; <a target="_blank" href="https://codedthemes.com/">CodedThemes</a> 
-                                - <a target="_blank" href="https://appseed.us">AppSeed</a>.
+                                &copy;{' '}
+                                <a target="_blank" href="https://codedthemes.com/" rel="noreferrer">
+                                    CodedThemes
+                                </a>
+                                -{' '}
+                                <a target="_blank" href="https://appseed.us" rel="noreferrer">
+                                    AppSeed
+                                </a>
+                                .
                             </p>
-
                         </Card.Body>
                     </Card>
                 </div>
