@@ -16,8 +16,7 @@
 > Links
 
 - [React Nodejs Datta Able](https://appseed.us/product/react-node-js-datta-able) - product page
-- [React Nodejs Datta Able](#) - LIVE Demo (coming soon)
-- [Node JS API](https://github.com/app-generator/api-server-nodejs) - the backend server 
+- [React Nodejs Datta Able](https://docs.appseed.us/products/react/node-js-datta-able) - product documentation
 - Support via **Github** (issues tracker) and [Discord](https://appseed.us/support) - LIVE Assistance 
 
 <br >
