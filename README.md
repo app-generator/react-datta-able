@@ -1,4 +1,4 @@
-# [React Nodejs Datta Able](https://appseed.us/product/react-node-js-datta-able)
+# [React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able)
 
 **Datta Able** is an open-source **React Dashboard** that provides a colorful and modern design. Datta Able React Free is the most stylised React Free Admin Template, around all other admin templates in the market. It comes with high feature-rich pages and components with fully developer-centric code. The product comes with a simple JWT authentication flow: login/register/logout.
 
@@ -15,9 +15,9 @@
 
 > Links
 
-- [React Nodejs Datta Able](https://appseed.us/product/react-node-js-datta-able) - product page
-- [React Nodejs Datta Able](https://react-node-js-datta-able.appseed-srv1.com/) - LIVE Demo
-- [React Nodejs Datta Able](https://docs.appseed.us/products/react/node-js-datta-able) - product documentation
+- [React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able) - product page
+- [React Node JS Datta Able](https://react-node-js-datta-able.appseed-srv1.com/) - LIVE Demo
+- [React Node JS Datta Able](https://docs.appseed.us/products/react/node-js-datta-able) - product documentation
 - Support via **Github** (issues tracker) and [Discord](https://appseed.us/support) - LIVE Assistance 
 
 <br >
@@ -102,4 +102,4 @@ The product is also open-source and cis already configured to work with Berry Da
 <br />
 
 ---
-[React Nodejs Datta Able](https://appseed.us/product/react-node-js-datta-able) - Provided by [CodedThemes](https://codedthemes.com/) and **AppSeed [App Generator](https://appseed.us/app-generator)**.
+[React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able) - Provided by [CodedThemes](https://codedthemes.com/) and **AppSeed [App Generator](https://appseed.us/app-generator)**.
