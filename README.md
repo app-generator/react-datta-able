@@ -9,7 +9,17 @@
 - Modern aesthetics UI design - Designed by [CodedThemes](https://codedthemes.com/)
 - React, Redux, Redux-persist
 - Authentication: JWT Login/Register/Logout
-- (Optional) - can be used with a [Node JS API server](https://github.com/app-generator/api-server-nodejs) for a complete full-stack experience 
+
+<br />
+
+> Can be used with many API Servers for a complete fullstack experience. ALL servers use an unified API definition  
+
+- [Django API Server](https://github.com/app-generator/api-server-django) - open-source product
+- [Flask API Server](https://github.com/app-generator/api-server-flask) - open-source product
+- [Node JS API Server](https://github.com/app-generator/api-server-nodejs) - open-source product / Typescript / SQLite / TypeORM / Joy for validation
+- [Node JS API Server PRO](https://github.com/app-generator/api-server-nodejs-pro) - **commercial product**
+    - SQLite / TypeORM / Joy / Docker
+    - MongoDB / Mongoose / Joy Docker (separate branch, same project)
 
 <br />
 
