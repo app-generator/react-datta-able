@@ -12,6 +12,15 @@
 
 <br />
 
+> Links
+
+- [React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able) - product page
+- [React Node JS Datta Able](https://react-node-js-datta-able.appseed-srv1.com/) - LIVE Demo
+- [React Node JS Datta Able](https://docs.appseed.us/products/react/node-js-datta-able) - product documentation
+- Support via **Github** (issues tracker) and [Discord](https://appseed.us/support) - LIVE Assistance 
+
+<br >
+
 > **Note**: This product can be used with other API Servers for a complete fullstack experience. **ALL API servers use an unified interface**
 
 - [Django API Server](https://github.com/app-generator/api-server-django) - open-source product
@@ -23,14 +32,6 @@
 
 <br />
 
-> Links
-
-- [React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able) - product page
-- [React Node JS Datta Able](https://react-node-js-datta-able.appseed-srv1.com/) - LIVE Demo
-- [React Node JS Datta Able](https://docs.appseed.us/products/react/node-js-datta-able) - product documentation
-- Support via **Github** (issues tracker) and [Discord](https://appseed.us/support) - LIVE Assistance 
-
-<br >
 
 ![React Nodejs Datta Able - Open-source full-stack seed project crafted by CodedThemes and AppSeed.](https://user-images.githubusercontent.com/51070104/125737710-834a9e6f-c39b-4f3b-a42a-9583ce2ce1da.png)
 
