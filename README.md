@@ -95,7 +95,7 @@ The API Server definition is provided by the [Nodejs API Server](https://github.
 
 ## Node JS API Server
 
-The product is also open-source and cis already configured to work with Berry Dashboard Template - product features:
+The product is also open-source and is already configured to work with Berry Dashboard Template - product features:
 
 - Nodejs / Express server
 - JWT authentication (`passport-jwt` strategy)
