@@ -27,8 +27,8 @@
 - [Flask API Server](https://github.com/app-generator/api-server-flask) - open-source product
 - [Node JS API Server](https://github.com/app-generator/api-server-nodejs) - open-source product / Typescript / SQLite / TypeORM / Joy for validation
 - [Node JS API Server PRO](https://github.com/app-generator/api-server-nodejs-pro) - **commercial product**
-    - SQLite / TypeORM / Joy / Docker
-    - MongoDB / Mongoose / Joy Docker (separate branch, same project)
+    - Typescript / SQLite / TypeORM / Joy Validation / Docker
+    - Typescript / MongoDB / Mongoose / Joy Validation / Docker (separate branch, same project)
 
 <br />
 
@@ -97,18 +97,51 @@ The API Server definition is provided by the [Nodejs API Server](https://github.
 
 The product is also open-source and is already configured to work with Berry Dashboard Template - product features:
 
-- Nodejs / Express server
+- Typescript / Node js / Express server
 - JWT authentication (`passport-jwt` strategy)
-- Persistence: MongoDB 
+- Persistence: SQLite 
 
 > Links
 
 - [Node JS API](https://github.com/app-generator/api-server-nodejs) - source code
-- [Node JS API](https://appseed.us/boilerplate-code) - product page
+- [Node JS API](https://appseed.us/boilerplate-code/nodejs-starter) - product page
 
 <br />
 
 ![Node JS API - Open-source API server built on top of Express Nodejs Framework.](https://user-images.githubusercontent.com/51070104/124934824-c210a700-e00d-11eb-9d01-e05bd8bfb608.png)
+
+<br />
+
+### Compile the API Server
+
+**Step #1** - Clone the project
+
+```bash
+$ git clone https://github.com/app-generator/api-server-nodejs.git
+$ cd api-server-nodejs
+```
+
+**Step #2** - Install dependencies via NPM or Yarn
+
+```bash
+$ npm i
+// OR
+$ yarn
+```
+
+**Step #3** - Run the SQLite migration via TypeORM
+
+```
+$ yarn typeorm migration:run
+```
+
+**Step #4** - Start the API server (development mode)
+
+```bash
+$ npm dev
+// OR
+$ yarn dev
+```
 
 <br />
 
