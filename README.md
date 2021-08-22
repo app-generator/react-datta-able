@@ -1,4 +1,4 @@
-# [React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able)
+# [React Datta Able](https://appseed.us/product/react-node-js-datta-able)
 
 **Datta Able** is an open-source **React Dashboard** that provides a colorful and modern design. Datta Able React Free is the most stylised React Free Admin Template, around all other admin templates in the market. It comes with high feature-rich pages and components with fully developer-centric code. The product comes with a simple JWT authentication flow: login/register/logout.
 
@@ -54,8 +54,8 @@ To use the product Node JS (>= 12.x) is required and GIT to clone/download the p
 **Step #1** - Clone the project
 
 ```bash
-$ git clone https://github.com/app-generator/react-datta-able-dashboard.git
-$ cd react-datta-able-dashboard
+$ git clone https://github.com/app-generator/react-datta-able.git
+$ cd react-datta-able
 ```
 
 <br >
@@ -97,9 +97,9 @@ const config = {
 
 **API Server Descriptor** - POSTMAN Collection
 
-The API Server definition is provided by the [Nodejs API Server](https://github.com/app-generator/api-server-nodejs)
+The API Server signature is provided by the [Unified API Definition](https://docs.appseed.us/boilerplate-code/api-unified-definition)
 
-- [API POSTMAN Collection](https://github.com/app-generator/api-server-nodejs/blob/master/media/api.postman_collection.json) - can be used to mock (simulate) the backend server or code a new one in your preferred framework. 
+- [API POSTMAN Collection](https://github.com/app-generator/api-server-unified/blob/main/api.postman_collection.json) - can be used to mock (simulate) the backend server or code a new one in your preferred framework. 
 
 <br />
 
