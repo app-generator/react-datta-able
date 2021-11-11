@@ -22,7 +22,7 @@
 
 <br />
 
-![React Nodejs Datta Able - Open-source full-stack seed project crafted by CodedThemes and AppSeed.](https://user-images.githubusercontent.com/51070104/125737710-834a9e6f-c39b-4f3b-a42a-9583ce2ce1da.png)
+![React Nodejs Datta Able - Open-source full-stack seed project crafted by CodedThemes and AppSeed.](https://user-images.githubusercontent.com/51070104/141265336-a024cf65-c9ea-4b73-bcdc-79456d30a8be.gif)
 
 <br >
 
