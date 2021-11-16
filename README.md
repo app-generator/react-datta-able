@@ -22,6 +22,27 @@
 
 <br />
 
+## Quick Start in [Docker](https://www.docker.com/)
+
+> Get the code
+
+```bash
+$ git clone https://github.com/app-generator/react-datta-able.git
+$ cd react-datta-able
+```
+
+> Start the app in Docker
+
+```bash
+$ docker-compose pull  # download dependencies 
+$ docker-compose build # local set up
+$ docker-compose up    # start the app 
+```
+
+The React UI starts on port `3000` and expects an API server on port `5000` (saved in configuration).
+
+<br />
+
 ![React Nodejs Datta Able - Open-source full-stack seed project crafted by CodedThemes and AppSeed.](https://user-images.githubusercontent.com/51070104/141265336-a024cf65-c9ea-4b73-bcdc-79456d30a8be.gif)
 
 <br >
