@@ -1,6 +1,6 @@
 {
     "name": "react-datta-able-dashboard",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "private": true,
     "dependencies": {
         "@amcharts/amcharts3-react": "^3.1.0",
@@ -46,8 +46,7 @@
     },
     "eslintConfig": {
         "extends": [
-            "react-app",
-            "react-app/jest"
+            "react-app"
         ]
     },
     "browserslist": {
