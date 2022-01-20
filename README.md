@@ -16,13 +16,13 @@
 
 > Links
 
-- [React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able) - product page
-- [React Node JS Datta Able](https://react-node-js-datta-able.appseed-srv1.com/) - LIVE Demo
-- Support via **Github** (issues tracker) and [Discord](https://appseed.us/support) - LIVE Assistance 
+- 👉 [React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able) - product page
+- 👉 [React Node JS Datta Able](https://react-node-js-datta-able.appseed-srv1.com/) - LIVE Demo
+- Free [Support](https://appseed.us/support) via **Github** (issues tracker), Email and [Discord](https://discord.gg/fZC6hup).
 
 <br />
 
-## Quick Start in [Docker](https://www.docker.com/)
+## ✨ Quick Start in `Docker`
 
 > Get the code
 
@@ -58,7 +58,7 @@ The React UI starts on port `3000` and expects an API server on port `5000` (sav
 
 <br />
 
-## How to use it
+## ✨ How to use it
 
 To use the product Node JS (>= 12.x) is required and GIT to clone/download the project from the public repository.
 
@@ -91,7 +91,7 @@ $ yarn start
 
 <br />
 
-## Configure the backend server
+## ✨ Configure the backend server
 
 The product comes with a usable JWT Authentication flow that provides only the basic requests: login/logout/register. 
 
@@ -114,7 +114,7 @@ The API Server signature is provided by the [Unified API Definition](https://doc
 
 <br />
 
-## Node JS API Server
+## ✨ Node JS API Server
 
 The product is also open-source and is already configured to work with Berry Dashboard Template - product features:
 
