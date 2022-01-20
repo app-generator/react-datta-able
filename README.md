@@ -34,9 +34,7 @@ $ cd react-datta-able
 > Start the app in Docker
 
 ```bash
-$ docker-compose pull  # download dependencies 
-$ docker-compose build # local set up
-$ docker-compose up    # start the app 
+$ docker-compose up --build 
 ```
 
 The React UI starts on port `3000` and expects an API server on port `5000` (saved in configuration).
