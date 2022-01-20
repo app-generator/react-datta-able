@@ -18,7 +18,7 @@
 
 - 👉 [React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able) - product page
 - 👉 [React Node JS Datta Able](https://react-node-js-datta-able.appseed-srv1.com/) - LIVE Demo
-- Free [Support](https://appseed.us/support) via **Github** (issues tracker), Email and [Discord](https://discord.gg/fZC6hup).
+- 👉 Free [Support](https://appseed.us/support) via **Github** (issues tracker), Email and [Discord](https://discord.gg/fZC6hup).
 
 <br />
 
