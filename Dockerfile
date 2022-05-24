@@ -11,6 +11,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 RUN npm install --silent
 RUN npm install react-scripts@4.0.0 -g --silent
+RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
 
 # add app
 COPY . ./
@@ -19,4 +20,4 @@ COPY . ./
 EXPOSE 3000
 
 # start app
-CMD ["npm", "start"]
+CMD ["npm", "run","start"]
