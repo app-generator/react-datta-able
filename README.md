@@ -22,6 +22,10 @@
 
 <br />
 
+![React Datta Able - Full-stack product powered by a simple NodeJS API backend.](https://user-images.githubusercontent.com/51070104/175767137-e9b7cb1b-ae57-4ea3-9e31-4b976ab4465f.png)
+
+<br >
+
 ## ✨ Quick Start in `Docker`
 
 > Get the code
@@ -39,11 +43,7 @@ $ docker-compose up --build
 
 The React UI starts on port `3000` and expects an API server on port `5000` (saved in configuration).
 
-<br />
-
-![React Datta Able - Full-stack product powered by a simple NodeJS API backend.](https://user-images.githubusercontent.com/51070104/175767137-e9b7cb1b-ae57-4ea3-9e31-4b976ab4465f.png)
-
-<br >
+<br /> 
 
 > **Note**: This product can be used with other API Servers for a complete fullstack experience. **ALL API servers use an unified interface**
 
