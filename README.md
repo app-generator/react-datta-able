@@ -6,7 +6,7 @@
 
 > Features
 
-- Modern aesthetics UI design - Designed by [CodedThemes](https://codedthemes.com/)
+- Modern aesthetics UI design - Designed by `[CodedThemes](https://bit.ly/37fF9RT)`
 - React, Redux, Redux-persist
 - Authentication: JWT Login/Register/Logout
 - Full-stack ready using **[Node JS API Server](https://github.com/app-generator/api-server-nodejs)** (open-source project)
