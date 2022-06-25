@@ -41,7 +41,7 @@ The React UI starts on port `3000` and expects an API server on port `5000` (sav
 
 <br />
 
-![React Nodejs Datta Able - Open-source full-stack seed project crafted by CodedThemes and AppSeed.](https://user-images.githubusercontent.com/51070104/141265336-a024cf65-c9ea-4b73-bcdc-79456d30a8be.gif)
+![React Datta Able - Full-stack product powered by a simple NodeJS API backend.](https://user-images.githubusercontent.com/51070104/175767137-e9b7cb1b-ae57-4ea3-9e31-4b976ab4465f.png)
 
 <br >
 
