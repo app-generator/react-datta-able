@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   ngen-frontend:
-    container_name: react-datta
+    image: ngen-frontend:latest
     build:
       context: .
       dockerfile: Dockerfile
