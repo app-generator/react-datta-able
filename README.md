@@ -9,10 +9,10 @@
 
 > 🚀 Built with **[React App Generator](https://appseed.us/generator/react/)**
 
-- Modern aesthetics UI design - Designed by [CodedThemes](https://bit.ly/37fF9RT)
-- React, Redux, Redux-persist
-- Authentication: JWT Login/Register/Logout
-- Full-stack ready using **[Node JS API Server](https://github.com/app-generator/api-server-nodejs)** (open-source project)
+- ✅ Modern aesthetics UI design - Designed by [CodedThemes](https://bit.ly/37fF9RT)
+- ✅ React, Redux, Redux-persist
+- ✅ Authentication: JWT Login/Register/Logout
+- ✅ Full-stack ready using **[Node JS API Server](https://github.com/app-generator/api-server-nodejs)** (open-source project)
   - Features: Typescript / SQLite / TypeORM / Joy (validation) / Passport library - `passport-jwt` strategy.
 
 <br />
