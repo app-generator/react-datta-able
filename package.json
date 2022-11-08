@@ -2,6 +2,10 @@
     "name": "react-datta-able-dashboard",
     "version": "0.0.2",
     "private": true,
+    "build": {
+        "yarn": "v14.0.0,v16.0.0",
+        "npm": "v16.0.0"
+    },    
     "dependencies": {
         "@amcharts/amcharts3-react": "^3.1.0",
         "@reduxjs/toolkit": "^1.5.0",
