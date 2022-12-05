@@ -1,6 +1,51 @@
 const menuItems = {
     items: [
         {
+            id: 'constituency',
+            title: 'Constituencias',
+            type: /*item*/ 'group',
+            icon: 'fas fa-network-wired',
+            children: [
+                {
+                    id: 'entity',
+                    title: 'Entidades',
+                    type: 'collapse',
+                    /*url: '/entity/tables',*/
+                    icon: 'fas fa-network-wired',
+                    children: [
+                        {
+                            id: 'tables',
+                            title: 'Lista de entidades',
+                            type: 'item',
+                            url: '/entity/tables',
+                            breadcrumbs: true
+                        },
+                        {
+                            id: 'create',
+                            title: 'Agregar Entidad',
+                            type: 'item',
+                            url: '/entity/create',
+                            breadcrumbs: true
+                        },
+                        {
+                            id: 'serv',
+                            title: 'Museos',
+                            type: 'item',
+                            url: '/entity/museos',
+                            breadcrumbs: true
+                        },
+                        {
+                            id: 'fetch',
+                            title: 'Traer Datos',
+                            type: 'item',
+                            url: '/entity/datos',
+                            breadcrumbs: true
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
             id: 'navigation',
             title: 'Navigation',
             type: 'group',

@@ -1,0 +1,51 @@
+import React from 'react';
+import { Row, Col, Card, Breadcrumb, Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+
+const CreateEntity = () => {
+
+    return (
+        <React.Fragment>          
+            {/*<Row>
+                <Breadcrumb>
+                    <Breadcrumb.Item as={Link} to="#">
+                        <i className="feather icon-sidebar" />
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item as={Link} to='/entity/tables'>
+                        Entidades
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item as={Link} to="#" active>
+                        Agregar Entidad
+                    </Breadcrumb.Item>
+                </Breadcrumb>    
+            </Row>*/}
+            <Row>
+                <Col sm={12}>
+                    <Card>
+                        <Card.Header>
+                            <Card.Title as="h5">Entidades</Card.Title>
+                            <span className="d-block m-t-5">Agregar Entidad</span>
+                        </Card.Header>
+                        <Card.Body>
+                            <Row>
+                                <Col sm={12} lg={12}>
+                                    <Form>
+                                        <Form.Group controlId="exampleForm.ControlInput1">
+                                            <Form.Label>Nombre</Form.Label>
+                                            <Form.Control type="nombre" placeholder="Nombre" />
+                                        </Form.Group>    
+                                        <Button variant="primary">Guardar</Button>
+                                        <Button variant="primary" href="/entity/tables">Cancelar</Button>
+                                    </Form>
+                                </Col>
+                            </Row>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </React.Fragment>
+    );
+};
+
+export default CreateEntity;
