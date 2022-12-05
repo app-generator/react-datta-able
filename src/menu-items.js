@@ -1,6 +1,51 @@
 const menuItems = {
     items: [
         {
+            id: 'NGEN',
+            title: 'NGEN',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'feeds',
+                    title: 'Fuentes de Informacion',
+                    type: 'collapse',
+                    icon: 'feather icon-globe',
+                    children: [
+                        {
+                        id: 'feed_list',
+                        title: 'Listado',
+                        type: 'item',
+                        url: '/app/feeds',
+                        icon: 'feather icon-list',
+                        },
+                        {
+                            id: 'view_feed',
+                            title: 'Vista',
+                            type: 'item',
+                            url: '/app/feeds/view',
+                            icon: 'feather icon-eye'
+                        },
+                        {
+                            id: 'new_feed',
+                            title: 'Nueva',
+                            type: 'item',
+                            url: '/app/feeds/new',
+                            icon: 'feather icon-plus'
+                        },
+                        {
+                            id: 'edit_feed',
+                            title: 'Modificar',
+                            type: 'item',
+                            url: '/app/feeds/edit',
+                            icon: 'feather icon-edit'
+                        }
+
+                    ]
+                }              
+            ]
+        },
+        {
             id: 'navigation',
             title: 'Navigation',
             type: 'group',
