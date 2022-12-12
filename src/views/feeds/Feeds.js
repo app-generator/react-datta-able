@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Row, Col, Card, Table, Button, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import AddButton from './components/AddButton';
+import Search from './components/Search';
 
 
 
-const BootstrapTable = () => {
+const ListFeeds = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -14,13 +16,14 @@ const BootstrapTable = () => {
                 <Col>             
                     <Card>
                         <Card.Header>
-                            <Card.Title as="h5">Fuentes de Informacion</Card.Title>
-                            <span className="d-block m-t-5">
-                               Listado de Fuentes de Informacion                            
-                            </span>  
-                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} >
-                                <i className='feather icon-plus mx-1'/>
-                            </Button>                                                     
+                            <Row>
+                                <Col sm={12} lg={9}>
+                                    <Search></Search>                            
+                                </Col> 
+                                <Col sm={12} lg={3}>
+                                    <AddButton></AddButton>                            
+                                </Col>  
+                            </Row>                                                                           
                         </Card.Header>
                         <Card.Body>                            
                             <Table responsive hover>
@@ -42,7 +45,7 @@ const BootstrapTable = () => {
                                         <td>
                                             <Link to="/app/feeds/new">
                                                 <Button className="btn-icon btn-rounded" variant={'outline-success'} >
-                                                    <i className='feather icon-check mx-1'/>
+                                                    <i className='fas fa-check mx-1'/>
                                                 </Button>
                                             </Link>                                            
                                         </td>
@@ -51,13 +54,13 @@ const BootstrapTable = () => {
                                         <td>2019-04-08T11:41:41Z</td>                                        
                                         <td>
                                             <Button className="btn-icon btn-rounded" variant={'outline-primary'} >
-                                                <i className='feather icon-eye mx-1'/>
+                                                <i className='fas fa-eye mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-warning'} >
-                                                <i className='feather icon-edit mx-1'/>
+                                                <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-                                                <i className='feather icon-trash mx-1'/>
+                                                <i className='fas fa-trash-alt mx-1'/>
                                             </Button>                                            
                                         </td>
                                     </tr>
@@ -66,7 +69,7 @@ const BootstrapTable = () => {
                                         <td>Dorkbot</td>
                                         <td>
                                             <Button className="btn-icon btn-rounded" variant={'outline-success'} >
-                                                <i className='feather icon-check mx-1'/>
+                                                <i className='fas fa-check mx-1'/>
                                             </Button>
                                         </td>
                                         <td></td>
@@ -74,13 +77,13 @@ const BootstrapTable = () => {
                                         <td>2019-04-01T14:53:08Z</td>                                        
                                         <td>
                                             <Button className="btn-icon btn-rounded" variant={'outline-primary'} >
-                                                <i className='feather icon-eye mx-1'/>
+                                                <i className='fas fa-eye mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-warning'} >
-                                                <i className='feather icon-edit mx-1'/>
+                                                <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-                                                <i className='feather icon-trash mx-1'/>
+                                                <i className='fas fa-trash-alt mx-1'/>
                                             </Button>
                                         </td>
                                     </tr>
@@ -89,7 +92,7 @@ const BootstrapTable = () => {
                                         <td>Have I Been Pwned</td>
                                         <td>
                                             <Button className="btn-icon btn-rounded" variant={'outline-danger'} >
-                                                <i className='feather icon-slash mx-1'/>
+                                                <i className='fas fa-ban mx-1'/>
                                             </Button>
                                         </td>
                                         <td></td>
@@ -97,13 +100,13 @@ const BootstrapTable = () => {
                                         <td>2019-04-01T15:25:12Z</td>                                        
                                         <td>
                                             <Button className="btn-icon btn-rounded" variant={'outline-primary'} >
-                                                <i className='feather icon-eye mx-1'/>
+                                                <i className='fas fa-eye mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-warning'} >
-                                                <i className='feather icon-edit mx-1'/>
+                                                <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-                                                <i className='feather icon-trash mx-1'/>
+                                                <i className='fas fa-trash-alt mx-1'/>
                                             </Button>
                                         </td>
                                     </tr>
@@ -112,7 +115,7 @@ const BootstrapTable = () => {
                                         <td>Shadowserver</td>
                                         <td>
                                             <Button className="btn-icon btn-rounded" variant={'outline-success'} >
-                                                <i className='feather icon-check mx-1'/>
+                                                <i className='fas fa-check mx-1'/>
                                             </Button>
                                         </td>
                                         <td></td>
@@ -120,13 +123,13 @@ const BootstrapTable = () => {
                                         <td>2019-03-22T16:21:24Z</td>                                       
                                         <td>
                                             <Button className="btn-icon btn-rounded" variant={'outline-primary'} >
-                                                <i className='feather icon-eye mx-1'/>
+                                                <i className='fas fa-eye mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-warning'} >
-                                                <i className='feather icon-edit mx-1'/>
+                                                <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-                                                <i className='feather icon-trash mx-1'/>
+                                                <i className='fas fa-trash-alt mx-1'/>
                                             </Button>
                                         </td>
                                     </tr>
@@ -154,4 +157,4 @@ const BootstrapTable = () => {
     );
 };
 
-export default BootstrapTable;
+export default ListFeeds;
