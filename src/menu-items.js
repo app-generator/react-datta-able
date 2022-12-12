@@ -4,41 +4,40 @@ const menuItems = {
             id: 'NGEN',
             title: 'NGEN',
             type: 'group',
-            icon: 'icon-navigation',
             children: [
                 {
                     id: 'feeds',
                     title: 'Fuentes de Informacion',
                     type: 'collapse',
-                    icon: 'feather icon-globe',
+                    icon: 'fas fa-globe',
                     children: [
                         {
                         id: 'feed_list',
                         title: 'Listado',
                         type: 'item',
                         url: '/app/feeds',
-                        icon: 'feather icon-list',
+                        icon: 'fas fa-list',
                         },
                         {
                             id: 'view_feed',
                             title: 'Vista',
                             type: 'item',
                             url: '/app/feeds/view',
-                            icon: 'feather icon-eye'
+                            icon: 'fas fa-eye'
                         },
                         {
                             id: 'new_feed',
                             title: 'Nueva',
                             type: 'item',
                             url: '/app/feeds/new',
-                            icon: 'feather icon-plus'
+                            icon: 'fas fa-plus'
                         },
                         {
                             id: 'edit_feed',
                             title: 'Modificar',
                             type: 'item',
                             url: '/app/feeds/edit',
-                            icon: 'feather icon-edit'
+                            icon: 'fas fa-edit'
                         }
 
                     ]
