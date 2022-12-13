@@ -17,27 +17,31 @@ const menuItems = {
                         type: 'item',
                         url: '/app/feeds',
                         icon: 'fas fa-list',
+                        breadcrumbs: true
                         },
                         {
                             id: 'view_feed',
                             title: 'Vista',
                             type: 'item',
                             url: '/app/feeds/view',
-                            icon: 'fas fa-eye'
+                            icon: 'fas fa-eye',
+                            breadcrumbs: true
                         },
                         {
                             id: 'new_feed',
                             title: 'Nueva',
                             type: 'item',
                             url: '/app/feeds/new',
-                            icon: 'fas fa-plus'
+                            icon: 'fas fa-plus',
+                            breadcrumbs: true
                         },
                         {
                             id: 'edit_feed',
                             title: 'Modificar',
                             type: 'item',
                             url: '/app/feeds/edit',
-                            icon: 'fas fa-edit'
+                            icon: 'fas fa-edit',
+                            breadcrumbs: true
                         }
 
                     ]

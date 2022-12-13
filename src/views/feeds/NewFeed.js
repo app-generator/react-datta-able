@@ -1,11 +1,25 @@
 import React from 'react';
-import { Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
+import FeedState from './components/FeedState';
 
 
-const FormsElements = () => {
+const NewFeed = () => {
    
     return (
         <React.Fragment>
+            <Row>
+                <Breadcrumb>
+                    <Breadcrumb.Item href='/app/dhasboard/default'>
+                        <i className="fas fa-home" />
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item href='/app/feeds'>
+                        Fuentes de Informacion
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item href='#' active>
+                        Nueva 
+                    </Breadcrumb.Item>
+                </Breadcrumb>    
+            </Row>
             <Row>
                 <Col sm={12}>
                     <Card>
@@ -25,12 +39,9 @@ const FormsElements = () => {
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
-                                    <Form.Label>Activo</Form.Label>
-                                    <Button className="btn-icon btn-rounded" variant={'outline-success'} >
-                                        <i className='feather icon-check mx-1'/>
-                                    </Button>
-                                </Form.Group>
-                              
+                                    <Form.Label>Estado Inicial</Form.Label>
+                                    <FeedState></FeedState>
+                                </Form.Group>                              
                                   
                                 <Button variant="primary">Guardar</Button>
                             </Form>
@@ -42,4 +53,4 @@ const FormsElements = () => {
     );
 };
 
-export default FormsElements;
+export default NewFeed;

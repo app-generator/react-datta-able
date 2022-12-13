@@ -1,12 +1,25 @@
 import React from 'react';
-import { Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 
 
-const FormsElements = () => {
+const ViewFeed = () => {
    
     return (
         <React.Fragment>
             <Row>
+            <Row>
+                <Breadcrumb>
+                    <Breadcrumb.Item href='/app/dhasboard/default'>
+                        <i className="fas fa-home" />
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item href='/app/feeds'>
+                        Fuentes de Informacion
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item href='#' active>
+                        Vista 
+                    </Breadcrumb.Item>
+                </Breadcrumb>    
+            </Row>
                 <Col sm={12}>
                     <Card>
                         <Card.Header>
@@ -55,4 +68,4 @@ const FormsElements = () => {
     );
 };
 
-export default FormsElements;
+export default ViewFeed;

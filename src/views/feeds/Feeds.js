@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, Card, Table, Button, Modal } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Row, Col, Card, Table, Button, Modal, Breadcrumb } from 'react-bootstrap';
 import AddButton from './components/AddButton';
 import Search from './components/Search';
 
@@ -12,6 +11,19 @@ const ListFeeds = () => {
     const handleShow = () => setShow(true);
     return (
         <React.Fragment>
+            <Row>
+                <Breadcrumb>
+                    <Breadcrumb.Item href='/app/dhasboard/default'>
+                        <i className="fas fa-home" />
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item href='#'>
+                        Fuentes de Informacion
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item href='#' active>
+                        Listado 
+                    </Breadcrumb.Item>
+                </Breadcrumb>    
+            </Row>
             <Row>
                 <Col>             
                     <Card>
@@ -43,20 +55,18 @@ const ListFeeds = () => {
                                         <th scope="row">1</th>
                                         <td>Americas</td>
                                         <td>
-                                            <Link to="/app/feeds/new">
-                                                <Button className="btn-icon btn-rounded" variant={'outline-success'} >
-                                                    <i className='fas fa-check mx-1'/>
-                                                </Button>
-                                            </Link>                                            
+                                            <Button className="btn-icon btn-rounded" variant={'outline-success'} >
+                                                <i className='fas fa-check mx-1'/>
+                                            </Button>                                            
                                         </td>
                                         <td></td>
                                         <td>2019-04-08T11:41:41Z</td>
                                         <td>2019-04-08T11:41:41Z</td>                                        
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} >
+                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} href="./feeds/view" >
                                                 <i className='fas fa-eye mx-1'/>
                                             </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'} >
+                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
@@ -76,10 +86,10 @@ const ListFeeds = () => {
                                         <td>2019-04-01T14:53:08Z</td>
                                         <td>2019-04-01T14:53:08Z</td>                                        
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} >
+                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} href="./feeds/view" >
                                                 <i className='fas fa-eye mx-1'/>
                                             </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'} >
+                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'}  href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
@@ -99,10 +109,10 @@ const ListFeeds = () => {
                                         <td>2019-04-01T15:25:12Z</td>
                                         <td>2019-04-01T15:25:12Z</td>                                        
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} >
+                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} href="./feeds/view" >
                                                 <i className='fas fa-eye mx-1'/>
                                             </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'} >
+                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
@@ -111,7 +121,7 @@ const ListFeeds = () => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">3</th>
+                                        <th scope="row">4</th>
                                         <td>Shadowserver</td>
                                         <td>
                                             <Button className="btn-icon btn-rounded" variant={'outline-success'} >
@@ -122,10 +132,10 @@ const ListFeeds = () => {
                                         <td>2019-03-22T16:21:24Z</td>
                                         <td>2019-03-22T16:21:24Z</td>                                       
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} >
+                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} href="./feeds/view" >
                                                 <i className='fas fa-eye mx-1'/>
                                             </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'} >
+                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
@@ -139,7 +149,7 @@ const ListFeeds = () => {
                     </Card>
                 </Col>
             </Row>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} >
                 <Modal.Header closeButton>
                     <Modal.Title>Eliminar fuente de informacion</Modal.Title>
                 </Modal.Header>
