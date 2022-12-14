@@ -1,23 +1,22 @@
 import React from 'react';
 import { Row, Col, Breadcrumb, Card, Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 const EditEntity = () => {
     return (
         <React.Fragment>          
-            {/*<Row>
+            <Row>
                 <Breadcrumb>
-                    <Breadcrumb.Item as={Link} to="#">
-                        <i className="feather icon-sidebar" />
+                    <Breadcrumb.Item href="./app/dashboard/default">
+                        <i className="feather icon-home" />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item as={Link} to='/entity/tables'>
-                        Entidades
+                    <Breadcrumb.Item href="./tables">
+                        <i className="fas fa-network-wired" /> Entidades
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item as={Link} to="#" active>
-                        Agregar Entidad
+                    <Breadcrumb.Item active>
+                        <b>Editar Entidad</b>
                     </Breadcrumb.Item>
                 </Breadcrumb>    
-    </Row>*/}
+            </Row>
             <Row>
                 <Col sm={12}>
                     <Card>
@@ -27,22 +26,17 @@ const EditEntity = () => {
                         </Card.Header>
                         <Card.Body>
                             <Row>
-                                <Col sm={12} lg={6}>
+                                <Col sm={12} >
                                     <Form>
                                         <Form.Group controlId="exampleForm.ControlInput1">
                                             <Form.Label>Nombre</Form.Label>
-                                            <Form.Control type="email" placeholder="Text" />
+                                            <Form.Control type="text" placeholder="Ingrese nombre..." />
                                         </Form.Group>    
                                         <Button variant="primary">Guardar</Button>
                                         <Button variant="primary" href="/entity/tables">Cancelar</Button>
                                     </Form>
                                 </Col>
-                                <Col sm={12} lg={6}>
-                                    <Form.Group controlId="formPlaintextEmail">
-                                        <Form.Label>Slug</Form.Label>
-                                        <Form.Control readOnly defaultValue="unNombre" /> 
-                                    </Form.Group>
-                                </Col>
+                                
                             </Row>
                         </Card.Body>
                     </Card>

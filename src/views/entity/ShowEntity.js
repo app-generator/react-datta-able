@@ -28,17 +28,19 @@ const ShowEntity = () => {
     return (
         <React.Fragment>          
             <Row>
+            <Row>
                 <Breadcrumb>
-                    <Breadcrumb.Item as={Link} to="#">
-                        <i className="fas fa-network-wired" />
+                    <Breadcrumb.Item href="./app/dashboard/default">
+                        <i className="feather icon-home" />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item as={Link} to='/entity/tables'>
-                        Entidades 
+                    <Breadcrumb.Item href="./tables">
+                        <i className="fas fa-network-wired" /> Entidades
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item as={Link} to="#" active>
-                        Detalle
+                    <Breadcrumb.Item active>
+                        <b>Detalle de Entidad</b>
                     </Breadcrumb.Item>
                 </Breadcrumb>    
+            </Row>  
             </Row>
             <Row>    
                 <Col>                 
@@ -89,10 +91,10 @@ const ShowEntity = () => {
                                     <tr>
                                     <td>Informacion Relacionada</td>
                                         <td>
-                                        <Button size="sm" variant='light' className="text-capitalize">
-                                            Network
+                                            <Button size="sm" variant='light' className="text-capitalize">
+                                                Network
                                             <Badge variant="light" className="ml-1">4</Badge>
-                                        </Button>
+                                            </Button>
                                         </td>
                                     </tr>
 

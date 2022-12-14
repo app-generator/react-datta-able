@@ -7,19 +7,19 @@ const CreateEntity = () => {
 
     return (
         <React.Fragment>          
-            {/*<Row>
+            <Row>
                 <Breadcrumb>
-                    <Breadcrumb.Item as={Link} to="#">
-                        <i className="feather icon-sidebar" />
+                    <Breadcrumb.Item href="./app/dashboard/default">
+                        <i className="feather icon-home" />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item as={Link} to='/entity/tables'>
-                        Entidades
+                    <Breadcrumb.Item href="./tables">
+                        <i className="fas fa-network-wired" /> Entidades
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item as={Link} to="#" active>
-                        Agregar Entidad
+                    <Breadcrumb.Item active>
+                        <b>Crear Entidad</b>
                     </Breadcrumb.Item>
                 </Breadcrumb>    
-            </Row>*/}
+            </Row>
             <Row>
                 <Col sm={12}>
                     <Card>

@@ -1,32 +1,140 @@
 import React from 'react';
 import { Row, Col, Card, Table } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import Search from './elements/Search';
 import AddButton from './elements/AddButton';
+import axios from 'axios';
+import {API_SERVER} from './../../config/constant';
+import { data } from 'jquery';
 
 const TraerEntity = () => {
-    const url = "http://localhost:8000/api/entity/";
     
+    const urlLog = 'https://localhost:8000/api/login';
+    const urlBase = 'https://localhost:8000/api/entity/';
+
+    const login = (request, callback) =>{
+        var responseOk = false;
+        fetch (urlLog,{
+            method : "POST",
+            headers:{"Content-Type": "application/json"},
+            body : JSON.stringify(request)
+        }) 
+        .then((httpResponse) =>{
+            if(httpResponse.ok){
+                responseOk = true;
+            }
+            return httpResponse.json();
+        })
+        .then(body =>{
+
+        if(responseOk){
+            console.log("Salio Todo bien");
+            console.log(body);
+            localStorage.setItem("token",body.result);
+            callback(body);
+        }else{
+            alert(body.result); 
+        }
+        })
+    }
+    const tok = JSON.parse(localStorage.getItem("datta-account")).token;
+    console.log(tok);    
+
+    const getEntity = async () => {
+
+//        fetch(`${API_SERVER}`+'entity/', {
+    const res = await fetch('http://localhost:8000/api/entity/', {
+        method: "GET",
+            credentials: 'include',
+            mode: 'cors',
+            redirect : 'manual',
+            headers:{
+                'Access-Control-Allow-Credentials': 'true',
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + tok,
+            }
+        });
+        console.log(res);
+    const data = await data.response;
+//
+    }
+    getEntity();
+
+     
     
-    const cookie = document.cookie
-    console.log(cookie)
+{/*    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+    axios.defaults.xsrfCookieName = "csrftoken";
+    axios.defaults.withCredentials = true;
+    axios.Authorization = localStorage.getItem('token');
+    axios.get('http://localhost:8000/api/entity/');
     
-    const datos2 = fetch(url, {
-        method: 'GET',
-        credentials : 'include',
-        
+
+
+
+    const url = "/api/entity/";  
+    const urlLogin = "http://localhost:8000/api/login/";
+    
+    const csrf = document.cookie.split('=')[1]
+    const option = {
+        withCredentials: 'true',
         headers: {
-            'Access-Control-Allow-Credentials':true,
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'X-CSRFToken': {
-                'csrftoken':'ZtWrkJMH0Tv9T0rkpkK5WhPap8TjKvKR0Rz0XPdI3Gp9k23mYv3V5ypcnZhCOE3c',
-                'sessionid' :'y09si1owompdwdji3fgvvk6hlb1hnx9m'
-            }
-            }
+            'Cookie': 'csrftoken=dqzgnWfy71FsuvO6v81NWMsJt7JPTUk6takSudEoaEXPWcxZouHg8DSEZ9UwjOwk; sessionid=gknnvltavloeauk3f0zbcrw7l8hvuxx7',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': '*'
+
+          },
+    }
+    const datos4 = fetch(url,option).then((res) => console.log(res)) 
+
+    
+    
+    async function loginUser(credentials) {
+        return fetch(urlLogin, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
         })
-        .then((res) => console.log(res))        
-        {/*
+        .then(data => data.json())
+    }
+    loginUser({'user':'ngen','password':'ngen'});
+    const cookie = document.cookie
+
+    const login = async() => {
+        const res = await fetch(url, option);
+        const data = await data.response;
+        console.log(res)
+    }
+    getEntities();
+
+    const datos4 = fetch().then((res) => res.json()).then((data) => console.log(data)) 
+    var myHeaders = new Headers();
+    myHeaders.append('Cookie',`${cookie}`)
+    myHeaders.append('Access-Control-Allow-Origin', '*')
+    
+    var myInit = { 
+        mode: 'cors',
+        credentials: "include",
+        cache: 'default',
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Cookie':`${cookie}`,
+        },
+        origin : 'http://localhost:3000'
+    };
+    
+    const datos3 = fetch(url, { 
+        credentials : 'include',
+        headers: {
+            'Access-Control-Allow-Credentials':'true',
+            'Cookie':`${cookie}`,
+        },
+        origin : 'http://localhost:3000'
+    }).then((res) => res.json()).then((data) => console.log(data))        
+   
+    const datos2 = fetch(url).then((res) => res.json()).then((data) => console.log(data))        
     const [data, setData] = useState([]);
     useEffect(() => {
         fetch(url, {
@@ -53,7 +161,7 @@ return (
                     <Card.Header>
                         <Row>
                             <Col sm={12} lg={9}>
-                                <Search></Search>
+                                {/*<Search></Search>*/}
                             </Col> 
                             <Col sm={12} lg={3}>
                                 <AddButton></AddButton>
