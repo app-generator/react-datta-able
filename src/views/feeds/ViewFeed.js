@@ -53,11 +53,9 @@ const ViewFeed = () => {
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
-                                    <Form.Label>Activo</Form.Label>
-                                    <Button className="btn-icon btn-rounded" variant={'outline-success'} >
-                                        <i className='feather icon-check mx-1'/>
-                                    </Button>
-                                </Form.Group>                              
+                                    <Form.Label>Estado</Form.Label>
+                                    <Form.Control type="text" placeholder="Activo" disabled readOnly />
+                                </Form.Group>                            
                                 
                             </Form>
                         </Card.Body>

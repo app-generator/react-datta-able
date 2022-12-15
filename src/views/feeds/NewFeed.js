@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
-import FeedState from './components/FeedState';
+import StateDropdown from './components/StateDropdown';
 
 
 const NewFeed = () => {
@@ -40,10 +40,11 @@ const NewFeed = () => {
 
                                 <Form.Group as={Col}>
                                     <Form.Label>Estado Inicial</Form.Label>
-                                    <FeedState></FeedState>
+                                    <StateDropdown></StateDropdown>
                                 </Form.Group>                              
                                   
-                                <Button variant="primary">Guardar</Button>
+                                <Button variant="success">Guardar</Button>
+                                <Button variant="info" href='/app/feeds'>Volver</Button>
                             </Form>
                         </Card.Body>
                     </Card>
