@@ -8,43 +8,10 @@ const menuItems = {
                 {
                     id: 'feeds',
                     title: 'Fuentes de Informacion',
-                    type: 'collapse',
+                    type: 'item',
+                    url: '/app/feeds',
                     icon: 'fas fa-globe',
-                    children: [
-                        {
-                        id: 'feed_list',
-                        title: 'Listado',
-                        type: 'item',
-                        url: '/app/feeds',
-                        icon: 'fas fa-list',
-                        breadcrumbs: true
-                        },
-                        {
-                            id: 'view_feed',
-                            title: 'Vista',
-                            type: 'item',
-                            url: '/app/feeds/view',
-                            icon: 'fas fa-eye',
-                            breadcrumbs: true
-                        },
-                        {
-                            id: 'new_feed',
-                            title: 'Nueva',
-                            type: 'item',
-                            url: '/app/feeds/new',
-                            icon: 'fas fa-plus',
-                            breadcrumbs: true
-                        },
-                        {
-                            id: 'edit_feed',
-                            title: 'Modificar',
-                            type: 'item',
-                            url: '/app/feeds/edit',
-                            icon: 'fas fa-edit',
-                            breadcrumbs: true
-                        }
-
-                    ]
+                    breadcrumbs: true
                 }              
             ]
         },

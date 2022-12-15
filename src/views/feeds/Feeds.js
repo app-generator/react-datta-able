@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
-import { Row, Col, Card, Table, Button, Modal, Breadcrumb } from 'react-bootstrap';
+import React from 'react';
+import { Row, Col, Card, Table, Button, Breadcrumb } from 'react-bootstrap';
 import AddButton from './components/AddButton';
 import Search from './components/Search';
+import DeleteButtonModal from './components/DeleteButtonModal'
 
 
 
-const ListFeeds = () => {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+const ListFeeds = () => {    
     return (
         <React.Fragment>
             <Row>
@@ -69,9 +67,7 @@ const ListFeeds = () => {
                                             <Button className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-                                                <i className='fas fa-trash-alt mx-1'/>
-                                            </Button>                                            
+                                            <DeleteButtonModal></DeleteButtonModal>                                            
                                         </td>
                                     </tr>
                                     <tr>
@@ -92,18 +88,14 @@ const ListFeeds = () => {
                                             <Button className="btn-icon btn-rounded" variant={'outline-warning'}  href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-                                                <i className='fas fa-trash-alt mx-1'/>
-                                            </Button>
+                                            <DeleteButtonModal></DeleteButtonModal>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
                                         <td>Have I Been Pwned</td>
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-danger'} >
-                                                <i className='fas fa-ban mx-1'/>
-                                            </Button>
+                                            <DeleteButtonModal></DeleteButtonModal>
                                         </td>
                                         <td></td>
                                         <td>2019-04-01T15:25:12Z</td>
@@ -115,9 +107,7 @@ const ListFeeds = () => {
                                             <Button className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-                                                <i className='fas fa-trash-alt mx-1'/>
-                                            </Button>
+                                            <DeleteButtonModal></DeleteButtonModal>
                                         </td>
                                     </tr>
                                     <tr>
@@ -138,9 +128,7 @@ const ListFeeds = () => {
                                             <Button className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-                                                <i className='fas fa-trash-alt mx-1'/>
-                                            </Button>
+                                            <DeleteButtonModal></DeleteButtonModal>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -148,21 +136,7 @@ const ListFeeds = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-            </Row>
-            <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} >
-                <Modal.Header closeButton>
-                    <Modal.Title>Eliminar fuente de informacion</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>¿Corfirma la eliminación?</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="outline-secondary" onClick={handleClose}>
-                        Cancelar
-                    </Button>
-                    <Button variant="outline-danger" onClick={handleClose}>
-                        Eliminar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            </Row>            
         </React.Fragment>
     );
 };
