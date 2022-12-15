@@ -2,8 +2,7 @@ import React from 'react';
 import { Row, Col, Card, Table, Button, Breadcrumb } from 'react-bootstrap';
 import AddButton from './components/AddButton';
 import Search from './components/Search';
-import DeleteButtonModal from './components/DeleteButtonModal'
-
+import DeleteButtonModal from './components/DeleteButtonModal';
 
 
 const ListFeeds = () => {    
@@ -67,7 +66,7 @@ const ListFeeds = () => {
                                             <Button className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
-                                            <DeleteButtonModal></DeleteButtonModal>                                            
+                                            <DeleteButtonModal></DeleteButtonModal>
                                         </td>
                                     </tr>
                                     <tr>
@@ -95,7 +94,9 @@ const ListFeeds = () => {
                                         <th scope="row">3</th>
                                         <td>Have I Been Pwned</td>
                                         <td>
-                                            <DeleteButtonModal></DeleteButtonModal>
+                                            <Button className="btn-icon btn-rounded" variant={'outline-danger'} >
+                                                <i className='fas fa-ban mx-1'/>
+                                            </Button>
                                         </td>
                                         <td></td>
                                         <td>2019-04-01T15:25:12Z</td>
