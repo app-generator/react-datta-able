@@ -129,7 +129,7 @@ const routes = [
             {
                 exact: true,
                 path: '/entity/tables',
-                component: lazy(() => import('./views/entity/ListEntity2'))
+                component: lazy(() => import('./views/entity/ListEntity'))
             },
             {
                 exact: true,
@@ -138,18 +138,8 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/entity/show',
-                component: lazy(() => import('./views/entity/ShowEntity'))
-            },
-            {
-                exact: true,
                 path: '/entity/edit',
                 component: lazy(() => import('./views/entity/EditEntity'))
-            },
-            {
-                exact: true,
-                path: '/entity/datos',
-                component: lazy(() => import('./views/entity/traerDatos'))
             },
             {
                 path: '*',
