@@ -120,7 +120,6 @@ const routes = [
                 path: '/maps/google-map',
                 component: lazy(() => import('./views/maps/GoogleMaps'))
             },
-
             {
                 exact: true,
                 path: '/sample-page',
