@@ -2,14 +2,44 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {
   Button,
-   Card, Table , Modal
+   Card, Table , Modal, Row,Col
 } from 'react-bootstrap';
 
 function Posts({posts}) {
+  
+  
+
   return (
 
+    <div>
+    
+
+      <Card>
+      <Card.Header>
+                            <Row>
+                                <Col sm={12} lg={9}>
+                                <div id="main-search" className='open'>
+                                     <div className="input-group">
+                                        <input type="text" id="m-search" className="form-control" placeholder="Buscar usuario . . ." />
+                                            <span className="search-btn btn btn-primary" onClick="">
+                                                    <i className="feather icon-search " />
+                                            </span> 
+                                    </div>
+                                </div>
+
+                           
+                                </Col> 
+                                <Col sm={12} lg={3}>
+                                <Button className="text-capitalize" variant='outline-primary' title='Agregar Usuario' href="/add-user">
+                                    <i className='fa fa-plus' />
+                                        Agregar usuario
+                                </Button>
+                            
+                                </Col> 
+                            </Row>                                 
+                        </Card.Header>
+    <Card.Body>
     <ul className="list-group my-4">
-       <Card.Body>
        <Table responsive hover>
        <thead>
                                     <tr>
@@ -22,11 +52,16 @@ function Posts({posts}) {
                                         <th>Actualizado</th>
                                         <th>Opciones</th>
                                     </tr>
-                                </thead>
-                                <tbody>
+                    </thead>
+                    <tbody>
+                       {posts.map((post, index) => {
+                        return (
+                
+                  
+                    
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>@mdo</td>
+                                        <th >{index + 1 }</th>
+                                        <td>{post.title}</td>
                                         <td>Mark</td>
                                         <td>Mark@mark.com</td>
                                         <td>12/09/2022</td>
@@ -55,16 +90,15 @@ function Posts({posts}) {
  
                                         </td>
                                     </tr>
-                                  </tbody>
-
-      </Table>
-      </Card.Body>
-      {posts.map((post, index) => {
-        return (<td>
-                  <li key={index} >{post.title}</li>
-                </td>)
-      })}
-    </ul>
+                              )
+                            })}
+                            </tbody>
+                        </Table>
+                      </ul>
+                </Card.Body>
+     </Card>
+  </div>
+    
   )
 }
 

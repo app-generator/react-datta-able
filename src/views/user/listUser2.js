@@ -30,7 +30,6 @@ function App() {
   
   return (
     <div className="container mt-5">
-      <h1 className="text-primary mb-3">Lista de usuarios</h1>
       <Posts posts={currentPosts}/> 
       <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage}/>
     </div>

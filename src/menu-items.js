@@ -192,6 +192,8 @@ const menuItems = {
                     url: '/list-user',
                     classes: '',
                     icon: '',
+                    breadcrumbs: false
+
                    
                 },
                 {
@@ -201,6 +203,7 @@ const menuItems = {
                     url: '/list-user2',
                     classes: '',
                     icon: '',
+                    breadcrumbs: false
                    
                 },
          

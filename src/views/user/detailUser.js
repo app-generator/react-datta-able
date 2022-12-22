@@ -11,11 +11,11 @@ const DetailUser = () => {
 
         <Row>
                 <Breadcrumb>
-                    <Breadcrumb.Item as={Link} to="#">
-                        <i className="fas fa-network-wired" />
+                <Breadcrumb.Item href="./app/dashboard/default">
+                        <i className="feather icon-home" />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item as={Link} to='/entity/tables'>
-                        Entidades 
+                    <Breadcrumb.Item href="./list-user">
+                        <i className="fas fa-network-wired" /> Usuarios
                     </Breadcrumb.Item>
                     <Breadcrumb.Item as={Link} to="#" active>
                         Detalle
@@ -28,11 +28,11 @@ const DetailUser = () => {
                         <Card.Header>
                             <Row>
                                 <Col>
-                                <Card.Title as="h5">Entidades</Card.Title>
+                                <Card.Title as="h5">Usuario</Card.Title>
                                 <span className="d-block m-t-5">Detalle</span>
                                 </Col>
                                 <Col>                       
-                                    <Button title='Editar' className="btn-icon btn-rounded" variant='outline-warning' href='/entity/edit'>
+                                    <Button title='Editar' className="btn-icon btn-rounded" variant='outline-warning' href='/add-user'>
                                         <i className='fas fa-edit'/>
                                     </Button>
                                     <Button title='Activo' className="btn-icon btn-rounded" variant='outline-success' >
@@ -87,20 +87,24 @@ const DetailUser = () => {
                                             Incidentes
                                             <Badge variant="light" className="ml-1">4</Badge>
                                         </Button>
-                                        </td>
-                                        <td>
+
+                                        
                                         <Button size="sm" variant='light' className="text-capitalize">
-                                            Incidentes asignados
-                                            <Badge variant="light" className="ml-1">4</Badge>
+                                                Incidentes asignados
+                                        <Badge variant="light" className="ml-1">4</Badge>
                                         </Button>
+
                                         </td>
+                                        
+                                        
+                                        
                                         
                                     </tr>
 
                             </Table>
                         </Card.Body>
                     </Card>
-                    <Button variant="primary" href="/entity/tables">Volver</Button>
+                    <Button variant="primary" href='/list-user'>Volver</Button>
                 </Col> 
             </Row>
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Pagination.css'
 
 
 
@@ -70,12 +71,13 @@ function Pagination({ pages = 10, setCurrentPage }) {
 
   return (
     <div className="pagination-container">
+    
       <a
         href="#"
         className={`${currentButton === 1 ? 'disabled' : ''}`}
         onClick={() => setCurrentButton(prev => prev <= 1 ? prev : prev - 1)}
       >
-        Prev
+      {"<< "}
       </a>
 
       {arrOfCurrButtons.map(((item, index) => {
@@ -94,7 +96,7 @@ function Pagination({ pages = 10, setCurrentPage }) {
         className={`${currentButton === numberOfPages.length ? 'disabled' : ''}`}
         onClick={() => setCurrentButton(prev => prev >= numberOfPages.length ? prev : prev + 1)}
       >
-        Next
+        {" >>"}
       </a>
     </div>
   );

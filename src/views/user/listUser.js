@@ -19,26 +19,33 @@ const ListUser = () => {
 
 
   const [users, setUsers] = useState([]);
-  const requestOptions = {
-    method: "GET",
-
-    headers: { 
-        //'Access-Control-Allow-Origin': '*',
-        //"Content-Type": "application/json",
-        //'Access-Control-Allow-Credentials':"true",
-        //"Access-Control-Allow-Methods": "GET",
-        //"Access-Control-Allow-Headers": "Content-Type",
-        'Cookie': 'csrftoken=xH8Cu7TZjE4MOwiX8ZP1uQRlzn32s75Yg6daQTDiEpk1oGK4Ht2E4qdWih6OFmc7; sessionid=3u34xh5lpy7b5145faeub34uhv0m536v',
-        
-        },
-        //mode: 'cors',
-        //cache: 'default',
-    
-    };
 
   
-      useEffect(()=>{
+ 
+
+  
+      /*useEffect(()=>{
         const loadUsers=async()=>{
+            const requestOptions = {
+                method: "GET",
+                //credentials: 'same-origin',
+            
+                headers: { 
+                    //'Access-Control-Allow-Origin': '*',
+                    "Content-Type": "application/json",
+                    //'Access-Control-Allow-Credentials':"true",
+                    //"Access-Control-Allow-Methods": "GET",
+                    //"Access-Control-Allow-Headers": "Content-Type",
+                    
+                    "authorization":"Bearer csrftoken=xH8Cu7TZjE4MOwiX8ZP1uQRlzn32s75Yg6daQTDiEpk1oGK4Ht2E4qdWih6OFmc7; sessionid=3u34xh5lpy7b5145faeub34uhv0m536v",
+                    //'Cookie': 'Bearer csrftoken=xH8Cu7TZjE4MOwiX8ZP1uQRlzn32s75Yg6daQTDiEpk1oGK4Ht2E4qdWih6OFmc7; sessionid=3u34xh5lpy7b5145faeub34uhv0m536v',
+                    //"Cookie": "csrftoken=xH8Cu7TZjE4MOwiX8ZP1uQRlzn32s75Yg6daQTDiEpk1oGK4Ht2E4qdWih6OFmc7; sessionid=3u34xh5lpy7b5145faeub34uhv0m536v",
+                    
+                    },
+                    //mode: 'cors',
+                    //cache: 'default',
+                
+                };
             const res=await fetch('http://localhost:8000/api/user/', requestOptions)
             const data=await res.json()
             setUsers(data)
@@ -47,7 +54,7 @@ const ListUser = () => {
         }
      
         loadUsers()
-    },[]);
+    },[]);*/
 
 
   return (
@@ -89,10 +96,11 @@ const ListUser = () => {
                                         <th>Nombre de usuario</th>
                                         <th>Nombre</th>
                                         <th>Email</th>
+                                        <th>Activo</th>
                                         <th>Ultimo login</th>
                                         <th>Creado</th>
                                         <th>Actualizado</th>
-                                        <th>Activo</th>
+                                        
                                         <th>Opciones</th>
                                     </tr>
                                 </thead>
@@ -102,9 +110,6 @@ const ListUser = () => {
                                         <td>@mdo</td>
                                         <td>Mark</td>
                                         <td>Mark@mark.com</td>
-                                        <td>12/09/2022</td>
-                                        <td>11/08/2021</td>
-                                        <td>11/09/2022</td>
                                         <td>
                                             <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
                                                 <i className='feather icon-check-circle'/>
@@ -112,6 +117,10 @@ const ListUser = () => {
 
 
                                         </td>
+                                        <td>12/09/2022</td>
+                                        <td>11/08/2021</td>
+                                        <td>11/09/2022</td>
+                                        
                                         <td>
 
                                         <Link to="/detail-user" >
@@ -140,6 +149,13 @@ const ListUser = () => {
                                         <td>@fat</td>
                                         <td>Jacob</td>
                                         <td>jacob@jacob.com</td>
+                                        <td>
+                                            <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
+                                                <i className='feather icon-check-circle'/>
+                                            </Button>
+
+
+                                        </td>
                                         <td>12/09/2022</td>
                                         <td>11/08/2021</td>
                                         <td>11/09/2022</td>
@@ -149,6 +165,13 @@ const ListUser = () => {
                                         <td>@twitter</td>
                                         <td>Larry</td>
                                         <td>larry@larry.com</td>
+                                        <td>
+                                            <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
+                                                <i className='feather icon-check-circle'/>
+                                            </Button>
+
+
+                                        </td>
                                         <td>12/09/2022</td>
                                         <td>11/08/2021</td>
                                         <td>11/09/2022</td>
