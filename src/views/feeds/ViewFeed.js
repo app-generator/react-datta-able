@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
+import { Row, Col, Card, Form, Breadcrumb } from 'react-bootstrap';
 
 
 const ViewFeed = () => {

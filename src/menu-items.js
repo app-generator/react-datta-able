@@ -11,7 +11,7 @@ const menuItems = {
                     type: 'item',
                     url: '/app/feeds',
                     icon: 'fas fa-globe',
-                    breadcrumbs: true
+                    breadcrumbs: false
                 }              
             ]
         },
