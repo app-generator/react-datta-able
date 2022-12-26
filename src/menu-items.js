@@ -1,6 +1,22 @@
 const menuItems = {
     items: [
         {
+            id: 'constituency',
+            title: 'Constituencias',
+            type: 'group',
+            icon: 'fas fa-network-wired',
+            children: [
+                {
+                    id: 'contacts',
+                    title: 'Contactos',
+                    type: 'item',
+                    url: '/contact/tables',
+                    icon: 'feather icon-sidebar',
+                    breadcrumbs: false
+                }
+            ]
+        }, 
+        {
             id: 'navigation',
             title: 'Navigation',
             type: 'group',

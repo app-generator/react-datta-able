@@ -127,6 +127,21 @@ const routes = [
                 component: lazy(() => import('./views/extra/SamplePage'))
             },
             {
+                exact: true,
+                path: '/contact/tables',
+                component: lazy(() => import('./views/contact/ListContact'))
+            },
+            {
+                exact: true,
+                path: '/contact/create',
+                component: lazy(() => import('./views/contact/CreateContact'))
+            },
+            {
+                exact: true,
+                path: '/contact/edit',
+                component: lazy(() => import('./views/contact/EditContact'))
+            },
+            {
                 path: '*',
                 exact: true,
                 component: () => <Redirect to={BASE_URL} />
