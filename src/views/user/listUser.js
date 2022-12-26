@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 
 import {
     Button,
-     Card, Table , Modal,Row, Col
+     Card, Table , Modal,Row, Col,Breadcrumb
 } from 'react-bootstrap';
 import axios from "axios";
 
@@ -63,6 +63,16 @@ const ListUser = () => {
 
       <Card>
       <Card.Header>
+      <Row>
+            <Breadcrumb>
+                <Breadcrumb.Item href="./app/dashboard/default">
+                    <i className="feather icon-home" />
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active>
+                    <b>Usuarios</b>
+                </Breadcrumb.Item>
+            </Breadcrumb>    
+        </Row>
                             <Row>
                                 <Col sm={12} lg={9}>
                                 <div id="main-search" className='open'>

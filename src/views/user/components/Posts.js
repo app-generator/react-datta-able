@@ -48,6 +48,7 @@ function Posts({posts}) {
                                         <th>Nombre</th>
                                         <th>Email</th>
                                         <th>Ultimo login</th>
+                                        <th>Estado</th>
                                         <th>Creado</th>
                                         <th>Actualizado</th>
                                         <th>Opciones</th>
@@ -64,7 +65,15 @@ function Posts({posts}) {
                                         <td>{post.title}</td>
                                         <td>Mark</td>
                                         <td>Mark@mark.com</td>
+                                        <td>
+                                            <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
+                                                <i className='feather icon-check-circle'/>
+                                            </Button>
+
+
+                                        </td>
                                         <td>12/09/2022</td>
+                                        
                                         <td>11/08/2021</td>
                                         <td>11/09/2022</td>
                                         <td>
