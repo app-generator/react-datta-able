@@ -6,14 +6,15 @@ const options = ["Activo", "Inactivo"];
 
 function DropdownState() {
     const [selected, setSelected] = useState(options[0]);
+    console.log(selected);
     return (
-      <Dropdown onSelect={(e) => setSelected(e.target.value)}>
+      <Dropdown >
         <Dropdown.Toggle variant="secondary">
           Estado
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {options.map((value) => (
-            <Dropdown.Item eventKey={selected}>
+          {options.map((value) => ( 
+            <Dropdown.Item eventKey={value} key={value} onSelect={(e) => setSelected(value)} active={selected == value} >
               {value}
             </Dropdown.Item>
           ))}        
