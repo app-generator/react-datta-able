@@ -127,6 +127,16 @@ const routes = [
                 component: lazy(() => import('./views/extra/SamplePage'))
             },
             {
+                exact: true,
+                path: '/list-Priorities',
+                component: lazy(() => import('./views/priorities/listPriorities'))
+            },
+            {
+                exact: true,
+                path: '/add-Priority',
+                component: lazy(() => import('./views/priorities/addPriority'))
+            },
+            {
                 path: '*',
                 exact: true,
                 component: () => <Redirect to={BASE_URL} />

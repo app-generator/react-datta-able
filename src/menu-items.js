@@ -152,6 +152,25 @@ const menuItems = {
             ]
         },
         {
+            id: 'priorities',
+            title: 'Priorities',
+            type: 'group',
+            icon: 'icon-pages',
+            children: [{
+                id: 'Priorities',
+                title: 'Priorities',
+                type: 'item',
+                url: '/list-Priorities',
+                classes: '',
+                icon: '',
+                breadcrumbs: false
+
+            }
+
+                
+            ]
+        },
+        {
             id: 'resources',
             title: 'Resources',
             type: 'group',
