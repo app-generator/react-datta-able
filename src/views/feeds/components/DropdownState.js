@@ -10,7 +10,7 @@ function DropdownState() {
     return (
       <Dropdown >
         <Dropdown.Toggle variant="secondary">
-          Estado
+          {selected}
         </Dropdown.Toggle>
         <Dropdown.Menu>
           {options.map((value) => ( 
