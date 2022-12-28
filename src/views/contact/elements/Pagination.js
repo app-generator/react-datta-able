@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 
-const Pagination = ({ entitiesPerPage, totalEntities, paginate }) => {
+const Pagination = ({ itemsPerPage, totalItems, paginate }) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalEntities / entitiesPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 

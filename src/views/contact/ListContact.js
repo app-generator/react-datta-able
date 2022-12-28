@@ -7,18 +7,18 @@ import Pagination from './elements/Pagination';
 //paginacion fran
 
 const ListContact = () => {
-    const url = 'https://www.cultura.gob.ar/api/v2.0/museos/'
+    const url = 'https://jsonplaceholder.typicode.com/users/'
 
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
-    const [entitiesPerPage] = useState(5)
+    const [itemsPerPage] = useState(5)
 
     const showData = async () => {
         setLoading(true)
         const response = await fetch(url)
         const json = await response.json()
-        setData(json.results)
+        setData(json) //json.results
         setLoading(false)
     } 
 
@@ -35,7 +35,7 @@ const ListContact = () => {
         show = data
     } else {
         show = data.filter( (item) => 
-            item.nombre.toLowerCase().includes(search.toLocaleLowerCase())
+            item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
 
@@ -44,9 +44,9 @@ const ListContact = () => {
     }, [])
 
     // Get current posts
-    const indexOfLastEntity = currentPage * entitiesPerPage;
-    const indexOfFirstEntity = indexOfLastEntity - entitiesPerPage;
-    const currentEntity = show.slice(indexOfFirstEntity, indexOfLastEntity);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItem = show.slice(indexOfFirstItem, indexOfLastItem);
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
@@ -82,12 +82,12 @@ return (
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableContact listEntity={currentEntity} loading={loading} entitiesPerPage={entitiesPerPage} currentPage={currentPage} />
+                        <TableContact list={currentItem} loading={loading} itemsPerPage={itemsPerPage} currentPage={currentPage} />
                     </Card.Body>
                     <Card.Footer>
                     <Row className="justify-content-md-center">
                         <Col md="auto"> 
-                        <Pagination entitiesPerPage={entitiesPerPage} totalEntities={show.length} paginate={paginate} />
+                        <Pagination itemsPerPage={itemsPerPage} totalItems={show.length} paginate={paginate} />
                         </Col>
                     </Row>
                     </Card.Footer>

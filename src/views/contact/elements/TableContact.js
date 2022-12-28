@@ -1,49 +1,46 @@
 import React from 'react';
 import { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import Spinner1 from '../../../components/Loader/Spinner';
+import prioridad from '../service/getPriority';
 
 //href linea 79
 //y button edit href
-const TableContact = ({ listEntity, loading, entitiesPerPage, currentPage }) => {
+const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
     const [modalShow, setModalShow] = useState(false);
-    const [modalDelete, setModalDelete] = useState(false);
-
-    const entity = {
-        "count": 2,
-        "next": null,
-        "previous": null,
-        "results": [
-            {
-                "url": "http://localhost:8000/api/entity/19627/",
-                "created": "2022-12-11T22:10:15.281136Z",
-                "modified": "2022-12-11T22:10:15.281136Z",
-                "name": "UNLP2",
-                "slug": "unlp2",
-                "active": 0
-            },
-            {
-                "url": "http://localhost:8000/api/entity/19626/",
-                "created": "2020-04-16T13:09:25Z",
-                "modified": "2020-04-16T13:09:25Z",
-                "name": "Universidad Nacional de La Plata",
-                "slug": "universidad_nacional_de_la_plata",
-                "active": 1
-            }
-        ]
-    }
-        let array = entity.results[0].url.split('/');
-        let a = array.length;
-        let id = array[a-2];
+    const [modalDelete, setModalDelete] = useState(false);    
 
     if (loading) {
         return (
             <Row className="justify-content-md-center">
                 <Spinner animation="border" variant="primary" size='sm' />
-                <Spinner1> nuevo </Spinner1>
             </Row>
         );    
     }
+    const getContact = {
+        "count": 1,
+        "next": null,
+        "previous": null,
+        "results": [
+            {
+                "url": "http://localhost:8000/api/contact/57/",
+                "created": "2021-12-07T14:48:44.564000Z",
+                "modified": "2021-12-07T14:48:44.575000Z",
+                "name": "Soporte CERT",
+                "username": "soporte@cert.unlp.edu.ar",
+                "public_key": null,
+                "type": "email",
+                "role": "administrative",
+                "priority": "http://localhost:8000/api/administration/priority/6/"
+            }
+        ]
+    }
+    let getId = getContact.results[0].url.split('/');
+    let id = getId[getId.length-2];
+
+    let getPriority = getContact.results[0].priority.split('/');
+    let priority = getPriority[getPriority.length-2];
+
+    console.log(prioridad.name);
 
     return (
             <React.Fragment>
@@ -53,25 +50,27 @@ const TableContact = ({ listEntity, loading, entitiesPerPage, currentPage }) => 
                             <th>#</th>
                             <th>Nombre</th>
                             <th>Activo</th>
+                            <th>Contacto</th>
                             <th>Creado</th>
                             <th>Modificado</th>
                             <th>Accion</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {listEntity.map((museo, index) => {
+                        {list.map((contact, index) => {
                             return (
                                 /*console.log(data),*/
-                                <tr key={museo.id}>
-                                <th scope="row">{(entitiesPerPage*(currentPage-1)) + index +1}</th>
-                                <td>{museo.nombre}</td>
+                                <tr key={contact.id}>
+                                <th scope="row">{(itemsPerPage*(currentPage-1)) + index +1}</th>
+                                <td>{contact.username}</td>
                                 <td>
                                 <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
                                     <i className='feather icon-check-circle'/>
                                 </Button>
                                 </td>
-                                <td>{museo.direccion}</td>
-                                <td>{museo.telefono}</td>
+                                <td>{contact.email}</td>
+                                <td>{contact.address.zipcode}</td>
+                                <td>{contact.address.zipcode}</td>
                                 <td>
                                 <Button className="btn-icon btn-rounded" variant='outline-primary' title='Detalle' onClick={() => setModalShow(true)}>
                                     <i className='fas fa-eye'/>
@@ -123,27 +122,41 @@ const TableContact = ({ listEntity, loading, entitiesPerPage, currentPage }) => 
                                         <tr>
                                             <td>Nombre</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={entity.results[0].name} />
+                                                <Form.Control plaintext readOnly defaultValue={getContact.results[0].name} />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>{getContact.results[0].type}</td>
+                                            <td>
+                                                <Form.Control plaintext readOnly defaultValue={getContact.results[0].username} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Fecha de creación</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={entity.results[0].created} />
+                                                <Form.Control plaintext readOnly defaultValue={getContact.results[0].created} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Ultima actualización</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={entity.results[0].modified} />
+                                                <Form.Control plaintext readOnly defaultValue={getContact.results[0].modified} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Informacion Relacionada</td>
                                             <td>
                                                 <Button size="sm" variant='light' className="text-capitalize">
-                                                    Network
-                                                <Badge variant="light" className="ml-1">4</Badge>
+                                                    Redes
+                                                <Badge variant="light" className="ml-2">4</Badge>
+                                                </Button>
+                                                <Button size="sm" variant='light' className="text-capitalize">
+                                                    Prioridad
+                                                <Badge variant="success" className="ml-2">{priority}</Badge>
+                                                </Button>
+                                                <Button size="sm" variant='light' className="text-capitalize">
+                                                    Prioridad
+                                                <Badge variant="success" className="ml-2">{prioridad.name}</Badge>
                                                 </Button>
                                             </td>
                                         </tr>
@@ -159,7 +172,7 @@ const TableContact = ({ listEntity, loading, entitiesPerPage, currentPage }) => 
                 <Modal.Header closeButton>
                     <Modal.Title>Eliminar Contacto</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>¿Corfirma la eliminación?</Modal.Body>
+                <Modal.Body>¿Corfirma la eliminación del Id {id}?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>
                         Cancelar
