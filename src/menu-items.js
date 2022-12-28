@@ -1,18 +1,18 @@
 const menuItems = {
     items: [
         {
-            id: 'navigation',
-            title: 'Navigation',
+             id: 'NGEN',
+            title: 'NGEN',
             type: 'group',
-            icon: 'icon-navigation',
             children: [
                 {
-                    id: 'dashboard',
-                    title: 'Dashboard',
+                    id: 'tlp',
+                    title: 'Protocolo de Semaforo',
                     type: 'item',
-                    url: '/app/dashboard/default',
-                    icon: 'feather icon-home'
-                }
+                    url: '/app/tlp',
+                    icon: 'fas fa-globe',
+                    breadcrumbs: false
+                }              
             ]
         },
         {
