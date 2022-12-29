@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Card, Table, Button, Breadcrumb } from 'react-bootstrap';
 import AddButton from './components/AddButton';
 import Search from './components/Search';
+import ViewButtonModal from './components/ViewButtonModal';
 import DeleteButtonModal from './components/DeleteButtonModal';
 
 
@@ -52,7 +53,7 @@ const ListFeeds = () => {
                                         <th scope="row">1</th>
                                         <td>Americas</td>
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-success'} >
+                                            <Button title='Activo' className="btn-icon btn-rounded" variant={'outline-success'} >
                                                 <i className='fas fa-check mx-1'/>
                                             </Button>                                            
                                         </td>
@@ -60,10 +61,8 @@ const ListFeeds = () => {
                                         <td>2019-04-08T11:41:41Z</td>
                                         <td>2019-04-08T11:41:41Z</td>                                        
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} href="./feeds/view" >
-                                                <i className='fas fa-eye mx-1'/>
-                                            </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
+                                            <ViewButtonModal></ViewButtonModal>
+                                            <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <DeleteButtonModal></DeleteButtonModal>
@@ -73,7 +72,7 @@ const ListFeeds = () => {
                                         <th scope="row">2</th>
                                         <td>Dorkbot</td>
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-success'} >
+                                            <Button title='Activo' className="btn-icon btn-rounded" variant={'outline-success'} >
                                                 <i className='fas fa-check mx-1'/>
                                             </Button>
                                         </td>
@@ -81,10 +80,8 @@ const ListFeeds = () => {
                                         <td>2019-04-01T14:53:08Z</td>
                                         <td>2019-04-01T14:53:08Z</td>                                        
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} href="./feeds/view" >
-                                                <i className='fas fa-eye mx-1'/>
-                                            </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'}  href="./feeds/edit" >
+                                            <ViewButtonModal></ViewButtonModal>
+                                            <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'}  href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <DeleteButtonModal></DeleteButtonModal>
@@ -94,7 +91,7 @@ const ListFeeds = () => {
                                         <th scope="row">3</th>
                                         <td>Have I Been Pwned</td>
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-danger'} >
+                                            <Button title='Inactivo' className="btn-icon btn-rounded" variant={'outline-danger'} >
                                                 <i className='fas fa-ban mx-1'/>
                                             </Button>
                                         </td>
@@ -102,10 +99,8 @@ const ListFeeds = () => {
                                         <td>2019-04-01T15:25:12Z</td>
                                         <td>2019-04-01T15:25:12Z</td>                                        
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} href="./feeds/view" >
-                                                <i className='fas fa-eye mx-1'/>
-                                            </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
+                                            <ViewButtonModal></ViewButtonModal>
+                                            <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <DeleteButtonModal></DeleteButtonModal>
@@ -115,7 +110,7 @@ const ListFeeds = () => {
                                         <th scope="row">4</th>
                                         <td>Shadowserver</td>
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-success'} >
+                                            <Button title='Activo' className="btn-icon btn-rounded" variant={'outline-success'} >
                                                 <i className='fas fa-check mx-1'/>
                                             </Button>
                                         </td>
@@ -123,10 +118,8 @@ const ListFeeds = () => {
                                         <td>2019-03-22T16:21:24Z</td>
                                         <td>2019-03-22T16:21:24Z</td>                                       
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-primary'} href="./feeds/view" >
-                                                <i className='fas fa-eye mx-1'/>
-                                            </Button>
-                                            <Button className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
+                                            <ViewButtonModal></ViewButtonModal>
+                                            <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                 <i className='fas fa-edit mx-1'/>
                                             </Button>
                                             <DeleteButtonModal></DeleteButtonModal>

@@ -10,7 +10,7 @@ function DeleteButtonModal() {
 
   return (
     <>
-        <Button className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
+        <Button title='Eliminar' className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
             <i className='fas fa-trash-alt mx-1'/>
         </Button> 
         <Modal show={show} onHide={handleClose} >
