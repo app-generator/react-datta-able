@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Card, Table, Breadcrumb } from 'react-bootstrap';
 
-const ListFeeds = () => {    
+const ListTLP = () => {
     return (
         <React.Fragment>
             <Row>
@@ -86,4 +86,4 @@ const ListFeeds = () => {
     );
 };
 
-export default ListFeeds;
+export default ListTLP;
