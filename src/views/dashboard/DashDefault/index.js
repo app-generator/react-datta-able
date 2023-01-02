@@ -9,9 +9,33 @@ import avatar1 from '../../../assets/images/user/avatar-1.jpg';
 import avatar2 from '../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 
+import { useState , useEffect } from "react";
+import getUsers from "../../../api/services/users";
+
 const DashDefault = () => {
+
+    const [contacts, setContacts] = useState([]);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        getUsers()
+        .then((response) => {
+            setContacts(response.data);
+            setError(null);
+        })
+        .catch(setError);
+    }, []);
+
+    if (error) return <p>An error ocurred</p>
+
     return (
         <React.Fragment>
+            <p>
+                 {contacts.map(({url}) => (
+                    <p>{url}</p>
+                ))}
+            </p> 
+                
             <Row>
                 <Col md={6} xl={4}>
                     <Card>
