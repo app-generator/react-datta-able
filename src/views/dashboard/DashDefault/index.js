@@ -10,28 +10,35 @@ import avatar2 from '../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 
 import { useState , useEffect } from "react";
-import getUsers from "../../../api/services/users";
+import { getUsers, getUser, postUser } from "../../../api/services/users";
 
 const DashDefault = () => {
 
-    const [contacts, setContacts] = useState([]);
+    const [users, setUsers] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         getUsers()
         .then((response) => {
-            setContacts(response.data);
+            setUsers(response.data.results);
             setError(null);
         })
         .catch(setError);
+        getUser(29).then((response) => {
+            console.log(response);
+        });
+        postUser("prueba55", "prueba55", "prueba55", "prueba55@gmail.com", "http://localhost:8000/api/administration/priority/2/", true).then((response) => {
+            console.log(response);
+        }).catch(setError);
     }, []);
 
-    if (error) return <p>An error ocurred</p>
+    if (error) return <p>Ups! Se produjo un error al buscar los usuarios.</p>
+    console.log(error);
 
     return (
         <React.Fragment>
             <p>
-                 {contacts.map(({url}) => (
+                 {users.map(({url}) => (
                     <p>{url}</p>
                 ))}
             </p> 
