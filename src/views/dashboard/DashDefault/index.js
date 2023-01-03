@@ -10,7 +10,7 @@ import avatar2 from '../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 
 import { useState , useEffect } from "react";
-import { getUsers, getUser, postUser } from "../../../api/services/users";
+import { getUsers, getUser, postUser, putUser, isActive, deleteUser } from "../../../api/services/users";
 
 const DashDefault = () => {
 
@@ -24,25 +24,42 @@ const DashDefault = () => {
             setError(null);
         })
         .catch(setError);
+        /*
         getUser(29).then((response) => {
             console.log(response);
-        });
+        }).catch(setError);
         postUser("prueba55", "prueba55", "prueba55", "prueba55@gmail.com", "http://localhost:8000/api/administration/priority/2/", true).then((response) => {
             console.log(response);
         }).catch(setError);
+        putUser(30, "prueba66", "prueba66", "prueba66", "prueba66@gmail.com", "http://localhost:8000/api/administration/priority/2/", true).then((response) => {
+            console.log(response);
+        }).catch(setError);
+        isActive(30, false).then((response) => {
+            console.log(response);
+        }).catch(setError);
+        deleteUser(30).then((response) => {
+            console.log(response);
+        }).catch(setError);
+        */
     }, []);
 
-    if (error) return <p>Ups! Se produjo un error al buscar los usuarios.</p>
-    console.log(error);
+    if (error) {
+        console.log(error);
+        return <p>Ups! Se produjo un error al buscar los usuarios.</p>
+    }
+   
 
     return (
         <React.Fragment>
-            <p>
+        
+        
+       <div>
                  {users.map(({url}) => (
-                    <p>{url}</p>
+                    <p key={url} >{url}</p>
                 ))}
-            </p> 
-                
+        </div> 
+
+              
             <Row>
                 <Col md={6} xl={4}>
                     <Card>
