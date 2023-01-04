@@ -67,7 +67,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                                 {/*<Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
                                     <i className='feather icon-check-circle'/>
                             </Button>*/}
-                                <ActiveButton state={0}></ActiveButton>
+                                <ActiveButton state={Math.round(Math.random())}></ActiveButton>
                                 </td>
                                 <td>{contact.email}</td>
                                 <td>{contact.address.zipcode}</td>
