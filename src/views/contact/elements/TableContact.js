@@ -64,10 +64,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                                 <th scope="row">{(itemsPerPage*(currentPage-1)) + index +1}</th>
                                 <td>{contact.username}</td>
                                 <td>
-                                {/*<Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
-                                    <i className='feather icon-check-circle'/>
-                            </Button>*/}
-                                <ActiveButton state={Math.round(Math.random())}></ActiveButton>
+                                    <ActiveButton state={Math.round(Math.random())}></ActiveButton>
                                 </td>
                                 <td>{contact.email}</td>
                                 <td>{contact.address.zipcode}</td>
