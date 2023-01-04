@@ -3,7 +3,7 @@ import './Pagination.css'
 
 
 
-function Pagination({ pages = 10, setCurrentPage }) {
+function Pagination({ pages , setCurrentPage , setjumpPage}) {
 
   //Set number of pages
   const numberOfPages = []
@@ -13,9 +13,22 @@ function Pagination({ pages = 10, setCurrentPage }) {
 
   // Current active button number
   const [currentButton, setCurrentButton] = useState(1)
+  const [jump, setJump] = useState(false)
 
   // Array of buttons what we see on the page
   const [arrOfCurrButtons, setArrOfCurrButtons] = useState([])
+  function event1(){
+    setCurrentButton(prev => prev <= 1 ? prev : prev - 1)
+    setJump(true)
+  }
+  function event2(item){
+    setCurrentButton(item)
+    setJump(true)
+  }
+  function event3(){
+    setCurrentButton(prev => prev >= numberOfPages.length ? prev : prev + 1)
+    setJump(true)
+  }
 
   useEffect(() => {
     let tempNumberOfPages = [...arrOfCurrButtons]
@@ -55,17 +68,21 @@ function Pagination({ pages = 10, setCurrentPage }) {
       // [1, 2, 3, 4, 5, "...", 10].length = 7 - 3 = 4
       // [1, 2, 3, 4, 5, "...", 10][4] = 5 + 1 = 6
       setCurrentButton(arrOfCurrButtons[arrOfCurrButtons.length-3] + 1) 
+      setJump(true)
     }
     else if (currentButton === dotsRight) {
       setCurrentButton(arrOfCurrButtons[3] + 2)
+      setJump(true)
     }
 
     else if (currentButton === dotsLeft) {
       setCurrentButton(arrOfCurrButtons[3] - 2)
+      setJump(true)
     }
 
     setArrOfCurrButtons(tempNumberOfPages)
     setCurrentPage(currentButton)
+    setjumpPage(jump)
   }, [currentButton])
 
 
@@ -75,7 +92,7 @@ function Pagination({ pages = 10, setCurrentPage }) {
       <a
         href="#"
         className={`${currentButton === 1 ? 'disabled' : ''}`}
-        onClick={() => setCurrentButton(prev => prev <= 1 ? prev : prev - 1)}
+        onClick={() => event1}
       >
       {"<< "}
       </a>
@@ -85,7 +102,7 @@ function Pagination({ pages = 10, setCurrentPage }) {
           href="#"
           key={index}
           className={`${currentButton === item ? 'active' : ''}`}
-          onClick={() => setCurrentButton(item)}
+          onClick={() => event2(item)}
         >
           {item}
         </a>
@@ -94,7 +111,7 @@ function Pagination({ pages = 10, setCurrentPage }) {
       <a
         href="#"
         className={`${currentButton === numberOfPages.length ? 'disabled' : ''}`}
-        onClick={() => setCurrentButton(prev => prev >= numberOfPages.length ? prev : prev + 1)}
+        onClick={() => event3}
       >
         {" >>"}
       </a>
