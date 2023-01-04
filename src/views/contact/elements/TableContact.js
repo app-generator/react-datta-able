@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
 import priority from '../service/getPriority';
+import ActiveButton from './ActiveButton';
 
 //href linea 79
 //y button edit href
@@ -63,9 +64,10 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                                 <th scope="row">{(itemsPerPage*(currentPage-1)) + index +1}</th>
                                 <td>{contact.username}</td>
                                 <td>
-                                <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
+                                {/*<Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
                                     <i className='feather icon-check-circle'/>
-                                </Button>
+                            </Button>*/}
+                                <ActiveButton state={0}></ActiveButton>
                                 </td>
                                 <td>{contact.email}</td>
                                 <td>{contact.address.zipcode}</td>
