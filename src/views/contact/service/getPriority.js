@@ -2,7 +2,7 @@
 
 const getPriority = {
     "url": "http://localhost:8000/api/administration/priority/6/",
-    "color": "#FFFFFF",
+    "color": "#00FF00",
     "created": "2019-03-22T16:24:33Z",
     "modified": "2022-04-09T00:33:40.089000Z",
     "name": "Low",

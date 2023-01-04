@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { Row, Col, Card, Breadcrumb, Form, Button, Collapse } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Row, Col, Card, Breadcrumb, Form, Button } from 'react-bootstrap';
 
 const CreateContact = () => {
     const [supportedSelect, setSupportedSelect] = useState(0);
@@ -9,8 +8,6 @@ const CreateContact = () => {
     const [supportedContact, setSupportedContact] = useState('');
     const [selectType, setSelectType] = useState(0);
   
-    const [accordionKey, setAccordionKey] = useState(1);
-
     return (
         <React.Fragment>          
             <Row>
@@ -128,28 +125,7 @@ const CreateContact = () => {
                                     <Form.Control type="string" placeholder="Llave pública GPG" />
                                 </Form.Group>                              
 
-                                <Card className="mt-2">
-                                    <Card.Header>
-                                        <Card.Title as="h5">
-                                            <Link
-                                                to="#"
-                                                onClick={() => setAccordionKey(accordionKey !== 1 ? 1 : 0)}
-                                                aria-controls="accordion1"
-                                                aria-expanded={accordionKey === 1}>
-                                                Contacto
-                                            </Link>
-                                        </Card.Title>
-                                    </Card.Header>
-                                    <Collapse in={accordionKey === 1}>
-                                        <div id="accordion1">
-                                            <Card.Body>
-                                                <Card.Text>
-                                                    Algo
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </div>
-                                    </Collapse>
-                                </Card>
+
 
                                 <Button variant="primary">Guardar</Button>
                                 <Button variant="primary" href="/contact/tables">Cancelar</Button>

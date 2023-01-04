@@ -26,7 +26,7 @@ const ListContact = () => {
     const [search, setSearch] = useState("");
     const searcher = (e) => {
         setSearch(e.target.value) //actualizar
-        console.log(e.target)    
+        //console.log(e.target)    
         }
 
     //filtro
@@ -35,7 +35,7 @@ const ListContact = () => {
         show = data
     } else {
         show = data.filter( (item) => 
-            item.name.toLowerCase().includes(search.toLocaleLowerCase())
+            item.username.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
 
@@ -77,7 +77,7 @@ return (
                                 </div>
                             </Col> 
                             <Col sm={12} lg={3}>
-                                <AddButton></AddButton>
+                                <AddButton name='Agregar Contacto' link='/contact/create'></AddButton>
                             </Col> 
                         </Row>
                     </Card.Header>

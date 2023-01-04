@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import prioridad from '../service/getPriority';
+import priority from '../service/getPriority';
 
 //href linea 79
 //y button edit href
@@ -37,10 +37,9 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
     let getId = getContact.results[0].url.split('/');
     let id = getId[getId.length-2];
 
-    let getPriority = getContact.results[0].priority.split('/');
-    let priority = getPriority[getPriority.length-2];
-
-    console.log(prioridad.name);
+    let type = getContact.results[0].type;
+    let first = type.charAt(0).toUpperCase();
+    type = first+type.slice(1)
 
     return (
             <React.Fragment>
@@ -126,7 +125,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>{getContact.results[0].type}</td>
+                                            <td>{type}</td>
                                             <td>
                                                 <Form.Control plaintext readOnly defaultValue={getContact.results[0].username} />
                                             </td>
@@ -152,11 +151,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                                                 </Button>
                                                 <Button size="sm" variant='light' className="text-capitalize">
                                                     Prioridad
-                                                <Badge variant="success" className="ml-2">{priority}</Badge>
-                                                </Button>
-                                                <Button size="sm" variant='light' className="text-capitalize">
-                                                    Prioridad
-                                                <Badge variant="success" className="ml-2">{prioridad.name}</Badge>
+                                                    <span className="badge ml-2" style={{background: `${priority.color}`}}>{priority.name}</span>
                                                 </Button>
                                             </td>
                                         </tr>
