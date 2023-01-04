@@ -133,6 +133,11 @@ const routes = [
             },
             {
                 exact: true,
+                path: '/list-Priorities2',
+                component: lazy(() => import('./views/priorities/listPriority2'))
+            },
+            {
+                exact: true,
                 path: '/add-Priority',
                 component: lazy(() => import('./views/priorities/addPriority'))
             },

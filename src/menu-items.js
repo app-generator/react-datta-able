@@ -171,6 +171,25 @@ const menuItems = {
             ]
         },
         {
+            id: 'priorities2',
+            title: 'Priorities2',
+            type: 'group',
+            icon: 'icon-pages',
+            children: [{
+                id: 'Priorities2',
+                title: 'Priorities2',
+                type: 'item',
+                url: '/list-Priorities2',
+                classes: '',
+                icon: '',
+                breadcrumbs: false
+
+            }
+
+                
+            ]
+        },
+        {
             id: 'resources',
             title: 'Resources',
             type: 'group',
