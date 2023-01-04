@@ -14,20 +14,20 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage, setpostsPerPage] = useState(20)
   const [jumpPage, setjumpPage] = useState(false)
-  const [Pages, setPages] = useState([])
+  const [Pages, setPages] = useState(-1)
   //const [cantPages, setcantPages] = useState()
 
   const urlBase = 'https://www.cultura.gob.ar/api/v2.0/organismos/'
 
   
   function CambioDepagina(url){
-    console.log(url)
+   
 
     if (jumpPage){
       setjumpPage(false)
+      //console.log(jumpPage)
 
       const fetchPosts = async () => {
-        console.log("entro aca por el mor d dios")
         setLoading(true)
         const res = await axios.get(url)
         setPosts(res.data.results)
@@ -59,37 +59,35 @@ function App() {
       
     }
     console.log(arrayLinks)
-    return arrayLinks
+    console.log(numberOfPages)
+    cantPages=numberOfPages
+    return numberOfPages
     
   }
 
   useEffect(() => {
-
-    
-   
-
     const fetchPosts = async (urlBase) => {
       setLoading(true)
       const res = await axios.get(urlBase)
+      
       setPosts(res.data.results)
-      cantPages=Math.ceil(res.data.count/res.data.results.length)
-      setPages(arrayWithPages(res.data.count,res.data.results.length))
+      //cantPages = Math.ceil(res.data.count/res.data.results.length)
+      arrayWithPages(res.data.count,res.data.results.length)
       console.log("---------------aca---------------------------------")
+      
+      //console.log(cantPages)
       console.log(Pages)
-      console.log(arrayLinks)
+      //console.log(arrayLinks)
       setLoading(false)
     }
 
     fetchPosts(urlBase)
   }, [])
 
-  if (loading && posts.length === 0) {
+  if (loading && posts.length === 0 ) {
     return <h2>Loading...</h2>
   }
-  //Get current posts
-  const indexOfLastPost = currentPage * postsPerPage;//desde donde empieza
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;// hasta donde se muestra
-  //fetchPosts(urlBase)
+  
   CambioDepagina(arrayLinks[currentPage-1])
   const currentPosts = posts// lo que se muestra
   const howManyPages = cantPages//la cantidad de paginas del paginado 
@@ -100,23 +98,7 @@ function App() {
       <Posts posts={currentPosts}/> 
       <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
 
-      <a
-        href="#"
-      >
-      {"<< "}
-      </a>
-
-      <Button size="sm" variant='light' className="text-capitalize">
-                                                
-                                        <Badge variant="light" className="ml-1">1</Badge>
-                                        </Button>
-
-      <a
-        href="#"
-        
-      >
-        {" >>"}
-      </a>
+     
     </div>
     
   );

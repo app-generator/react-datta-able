@@ -18,12 +18,41 @@ function Pagination({ pages , setCurrentPage , setjumpPage}) {
   // Array of buttons what we see on the page
   const [arrOfCurrButtons, setArrOfCurrButtons] = useState([])
   function event1(){
+
     setCurrentButton(prev => prev <= 1 ? prev : prev - 1)
     setJump(true)
   }
-  function event2(item){
-    setCurrentButton(item)
-    setJump(true)
+  function event2(item, index){
+    console.log(item)
+    switch (item) {
+      
+      case "...":
+        setCurrentButton(arrOfCurrButtons[index-1]+1)
+        setJump(true)
+        break;
+      case " ...":
+        
+        setCurrentButton(arrOfCurrButtons[index+1]-1)
+        setJump(true)
+        break;
+      case "... ":
+       
+        setCurrentButton(arrOfCurrButtons[index-1]+1)
+        setJump(true)
+        break;
+      
+      default:
+        setCurrentButton(item)
+        setJump(true)
+        
+    }
+
+    if (arrOfCurrButtons[index] != "..." && arrOfCurrButtons[index] != " ..." && arrOfCurrButtons[index] != "... "){
+      
+      setCurrentButton(item)
+      setJump(true)
+    }
+    
   }
   function event3(){
     setCurrentButton(prev => prev >= numberOfPages.length ? prev : prev + 1)
@@ -92,7 +121,7 @@ function Pagination({ pages , setCurrentPage , setjumpPage}) {
       <a
         href="#"
         className={`${currentButton === 1 ? 'disabled' : ''}`}
-        onClick={() => event1}
+        onClick={() => event1()}
       >
       {"<< "}
       </a>
@@ -102,7 +131,7 @@ function Pagination({ pages , setCurrentPage , setjumpPage}) {
           href="#"
           key={index}
           className={`${currentButton === item ? 'active' : ''}`}
-          onClick={() => event2(item)}
+          onClick={() => event2(item,index)}
         >
           {item}
         </a>
@@ -111,7 +140,7 @@ function Pagination({ pages , setCurrentPage , setjumpPage}) {
       <a
         href="#"
         className={`${currentButton === numberOfPages.length ? 'disabled' : ''}`}
-        onClick={() => event3}
+        onClick={() => event3()}
       >
         {" >>"}
       </a>
