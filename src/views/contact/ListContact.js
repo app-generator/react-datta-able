@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
-import AddButton from './elements/AddButton';
-import TableContact from './elements/TableContact';
-import Pagination from './elements/Pagination';
+import AddButton from '../../components/Elements/AddButton';
+import TableContact from '../../components/Elements/TableContact';
+import Pagination from '../../components/Elements/Pagination';
+import { getContacts } from '../../api/services/contacts';
 
-//paginacion fran
 
 const ListContact = () => {
-    const url = 'https://jsonplaceholder.typicode.com/users/'
+    const [contacts, setContacts] = useState([]);
+    const [error, setError] = useState(null);
 
-    const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage] = useState(5)
 
-    const showData = async () => {
+    const showData = () => {
         setLoading(true)
-        const response = await fetch(url)
-        const json = await response.json()
-        setData(json) //json.results
+        getContacts()
+        .then((response) => {
+            setContacts(response.data.results);
+        })
+        .catch(setError);
         setLoading(false)
     } 
 
@@ -28,20 +30,24 @@ const ListContact = () => {
         setSearch(e.target.value) //actualizar
         //console.log(e.target)    
         }
-
     //filtro
     let show = []
     if (!search) {
-        show = data
+        show = contacts
     } else {
-        show = data.filter( (item) => 
-            item.username.toLowerCase().includes(search.toLocaleLowerCase())
+        show = contacts.filter( (item) => 
+            item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
 
     useEffect( ()=> {
         showData()
     }, [])
+
+    if (error) {
+        console.log(error);
+        return <p>Ups! Se produjo un error al buscar los usuarios.</p>
+    }
 
     // Get current posts
     const indexOfLastItem = currentPage * itemsPerPage;

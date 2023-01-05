@@ -1,8 +1,6 @@
 import React from 'react';
 import {Button} from 'react-bootstrap';
 
-//prop href
-
 const AddButton = ({name, link}) => {
     const button = { variant: 'primary', icon: 'fa fa-plus', title: name, link: link };
 

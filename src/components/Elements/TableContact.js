@@ -1,15 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import priority from '../service/getPriority';
-import ActiveButton from './ActiveButton';
+import priority from './../../../src/views/contact/service/getPriority';
+import ActiveButton from './../../components/Elements/ActiveButton';
+import EditButton from './EditButton';
 
-//href linea 79
-//y button edit href
 const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
     const [modalShow, setModalShow] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);    
-
     if (loading) {
         return (
             <Row className="justify-content-md-center">
@@ -35,8 +33,6 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
             }
         ]
     }
-    let getId = getContact.results[0].url.split('/');
-    let id = getId[getId.length-2];
 
     let type = getContact.results[0].type;
     let first = type.charAt(0).toUpperCase();
@@ -58,24 +54,23 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                     </thead>
                     <tbody>
                         {list.map((contact, index) => {
+                            let id = contact.url.split('/')[(contact.url.split('/')).length-2];
+                            //(itemsPerPage*(currentPage-1)) + index +1
                             return (
-                                /*console.log(data),*/
-                                <tr key={contact.id}>
-                                <th scope="row">{(itemsPerPage*(currentPage-1)) + index +1}</th>
-                                <td>{contact.username}</td>
+                                <tr key={id}>
+                                <th scope="row">{id}</th>
+                                <td>{contact.name}</td>
                                 <td>
-                                    <ActiveButton state={Math.round(Math.random())}></ActiveButton>
+                                    <ActiveButton state={Math.round(Math.random())}></ActiveButton>?
                                 </td>
-                                <td>{contact.email}</td>
-                                <td>{contact.address.zipcode}</td>
-                                <td>{contact.address.zipcode}</td>
+                                <td>{contact.username}</td>
+                                <td>{contact.created.slice(0, 10)}</td>
+                                <td>{contact.modified.slice(0, 10)}</td>
                                 <td>
                                 <Button className="btn-icon btn-rounded" variant='outline-primary' title='Detalle' onClick={() => setModalShow(true)}>
                                     <i className='fas fa-eye'/>
                                 </Button>
-                                <Button className="btn-icon btn-rounded" variant='outline-warning' title='Editar' href='/contact/edit'>
-                                    <i className='fas fa-edit'/>
-                                </Button>
+                                <EditButton link='/contact/edit'/>
                                 <Button className="btn-icon btn-rounded" variant='outline-danger' title='Eliminar' onClick={() => setModalDelete(true)}>
                                     <i className='fas fa-trash-alt'/>
                                 </Button>
@@ -86,7 +81,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                     </tbody>
                 </Table>
 
-                <Modal size='lg' show={modalShow} onHide={() => setModalShow(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
+                <Modal size='lg' show={modalShow} onHide={() => setModalShow(false)} aria-labelledby="contained-modal-title-vcenter" centered>
                 <Modal.Body>
                     <Row>    
                         <Col>                 
@@ -101,9 +96,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                                             <Button title='Editar' className="btn-icon btn-rounded" variant='outline-warning' href='/contact/edit'>
                                                 <i className='fas fa-edit'/>
                                             </Button>
-                                            <Button title='Activo' className="btn-icon btn-rounded" variant='outline-success' >
-                                                <i className='feather icon-check-circle'/>
-                                            </Button>                               
+                                            <ActiveButton state={Math.round(Math.random())}></ActiveButton>                              
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
                                     </Row>
@@ -113,7 +106,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                                         <tr>
                                             <td>Id del sistema</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={id} />
+                                                <Form.Control plaintext readOnly defaultValue={1} />
                                             </td>
                                             <td></td>
                                         </tr>
@@ -166,7 +159,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Eliminar Contacto</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>¿Corfirma la eliminación del Id {id}?</Modal.Body>
+                <Modal.Body>¿Corfirma la eliminación del Id {1}?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>
                         Cancelar
