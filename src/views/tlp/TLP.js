@@ -71,7 +71,7 @@ const ListTLP = () => {
                                     {tlp.map((item,i) => (
                                         <tr>
                                             <th scope="row">{i+1}</th>
-                                            <td><p style={{backgroundColor: item.color}}>{item.information}</p></td>
+                                            <td><p class="p-3 mb-2 bg-dark" style={{color: item.color}}>{item.information}</p></td>
                                             <td>{item.description}</td>
                                             <td>{item.when}</td>
                                             <td>{item.why}</td>
