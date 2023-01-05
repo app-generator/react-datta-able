@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
 
-function ViewButtonModal() {
+function ViewButtonModal({feed}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -39,32 +39,32 @@ function ViewButtonModal() {
                                     <tr>
                                         <td>Id del sistema</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue="abusix" />
+                                            <Form.Control plaintext readOnly defaultValue={feed.slug}/>
                                         </td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>Nombre</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue="Abusix" />
+                                            <Form.Control plaintext readOnly defaultValue={feed.name} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Descripcion</td>
                                         <td>
-                                            <Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue="Reportes relacionados  con SPAM de https://abusix.com" />
+                                            <Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={feed.description} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Fecha de creación</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue="2019-03-22T16:21:24Z" />
+                                            <Form.Control plaintext readOnly defaultValue={feed.created} />
                                         </td>
                                     </tr>
                                      <tr>
                                         <td>Ultima actualización</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue="2019-03-22T16:21:24Z" />
+                                            <Form.Control plaintext readOnly defaultValue={feed.modified} />
                                         </td>
                                     </tr>
                                     <tr>
