@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Card, Table, Breadcrumb } from 'react-bootstrap';
+import { Row, Col, Card, Table, Breadcrumb, Form } from 'react-bootstrap';
 import { getTLP } from '../../api/services/tlp';
 import { useState , useEffect } from "react";
 
@@ -61,7 +61,7 @@ const ListTLP = () => {
                                 <thead>
                                     <tr>
                                         <th>#</th>                                        
-                                        <th>Codigo</th>
+                                        <th width="5%" >Codigo</th>
                                         <th>Descripcion</th>
                                         <th>¿Cuando utilizarlo?</th>
                                         <th>¿Como compartirlo?</th>      
@@ -71,10 +71,10 @@ const ListTLP = () => {
                                     {tlp.sort((a,b) => a.code - b.code).map((item,i) => (
                                         <tr>
                                             <th scope="row">{i+1}</th>
-                                            <td><p class="p-3 mb-2 bg-dark" style={{color: item.color}}>{item.information}</p></td>
-                                            <td>{item.description}</td>
-                                            <td>{item.when}</td>
-                                            <td>{item.why}</td>
+                                            <td><p class="p-3 mb-2 bg-dark" style={{color: item.color}}><b>{item.information}</b></p></td>
+                                            <td><Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={item.description} /></td>
+                                            <td><Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={item.when} /></td>                                            
+                                            <td><Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={item.why} /></td>
                                         </tr>
                                      ))}
                                 </tbody>
