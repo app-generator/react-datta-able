@@ -68,7 +68,7 @@ const ListTLP = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {tlp.map((item,i) => (
+                                    {tlp.sort((a,b) => a.code - b.code).map((item,i) => (
                                         <tr>
                                             <th scope="row">{i+1}</th>
                                             <td><p class="p-3 mb-2 bg-dark" style={{color: item.color}}>{item.information}</p></td>
