@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
-import AddButton from './elements/AddButton';
-import TableEntity from './elements/TableEntity';
-import Pagination from './elements/Pagination';
+import AddButton from '../../components/Elements/AddButton';
+import TableEntity from '../../components/Elements/TableEntity';
+import Pagination from '../../components/Elements/Pagination';
 
 const ListEntity = () => {
     const url = 'https://www.cultura.gob.ar/api/v2.0/museos/'
