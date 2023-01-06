@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
+import { Row, Col, Breadcrumb, Card, Button } from 'react-bootstrap';
 import AddButton from '../../components/Elements/AddButton';
 import TableContact from '../../components/Elements/TableContact';
-import Pagination from '../../components/Elements/Pagination';
 import { getContacts } from '../../api/services/contacts';
 
 
 const ListContact = () => {
     const [contacts, setContacts] = useState([]);
     const [error, setError] = useState(null);
-
-    const [loading, setLoading] = useState(false)
-    const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage] = useState(5)
-
-    const showData = () => {
-        setLoading(true)
+    const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(true)
+    
+    useEffect( ()=> {
         getContacts()
         .then((response) => {
             setContacts(response.data.results);
         })
         .catch(setError);
         setLoading(false)
-    } 
+    }, [])
 
+    if (error) {
+        console.log(error);
+        return <p>Ups! Se produjo un error al buscar los usuarios.</p>
+    }
+    
     //valores ingresados
-    const [search, setSearch] = useState("");
     const searcher = (e) => {
         setSearch(e.target.value) //actualizar
         //console.log(e.target)    
@@ -39,25 +39,8 @@ const ListContact = () => {
             item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
-
-    useEffect( ()=> {
-        showData()
-    }, [])
-
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar los usuarios.</p>
-    }
-
-    // Get current posts
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItem = show.slice(indexOfFirstItem, indexOfLastItem);
-
-    // Change page
-    const paginate = pageNumber => setCurrentPage(pageNumber);
-
-return (
+    
+    return (
     <React.Fragment>
         <Row>
             <Breadcrumb>
@@ -88,12 +71,12 @@ return (
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableContact list={currentItem} loading={loading} itemsPerPage={itemsPerPage} currentPage={currentPage} />
+                        <TableContact list={show} loading={loading} />
                     </Card.Body>
                     <Card.Footer>
                     <Row className="justify-content-md-center">
                         <Col md="auto"> 
-                        <Pagination itemsPerPage={itemsPerPage} totalItems={show.length} paginate={paginate} />
+                            <Button> Paginacion </Button>
                         </Col>
                     </Row>
                     </Card.Footer>

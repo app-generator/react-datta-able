@@ -6,8 +6,8 @@ const EditButton = ({link}) => {
 
     return (
         <React.Fragment>
-            <Button className="btn-icon btn-rounded" variant={'outline-' + button.variant} title={button.title} href={button.link}>
-                <i className={button.icon} />
+            <Button className='btn-icon btn-rounded' variant={'outline-' + button.variant} title={button.title} href={button.link}>
+                <i className={'ml-1 ' + button.icon} />
             </Button>
         </React.Fragment>
     );

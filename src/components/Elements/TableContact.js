@@ -1,42 +1,58 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import priority from './../../../src/views/contact/service/getPriority';
 import ActiveButton from './../../components/Elements/ActiveButton';
 import EditButton from './EditButton';
+import { getContact } from '../../api/services/contacts';
+import Upper from './Upper';
 
-const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
+const TableContact = ({ list, loading}) => {
+    const [contact, setContact] = useState('');
+    const [error, setError] = useState(null);
     const [modalShow, setModalShow] = useState(false);
-    const [modalDelete, setModalDelete] = useState(false);    
+    const [modalDelete, setModalDelete] = useState(false);
+    const [id, setId] = useState(null);
+    console.log(list)
     if (loading) {
         return (
-            <Row className="justify-content-md-center">
-                <Spinner animation="border" variant="primary" size='sm' />
+            <Row className='justify-content-md-center'>
+                <Spinner animation='border' variant='primary' size='sm' />
             </Row>
         );    
     }
-    const getContact = {
-        "count": 1,
-        "next": null,
-        "previous": null,
-        "results": [
-            {
-                "url": "http://localhost:8000/api/contact/57/",
-                "created": "2021-12-07T14:48:44.564000Z",
-                "modified": "2021-12-07T14:48:44.575000Z",
-                "name": "Soporte CERT",
-                "username": "soporte@cert.unlp.edu.ar",
-                "public_key": null,
-                "type": "email",
-                "role": "administrative",
-                "priority": "http://localhost:8000/api/administration/priority/6/"
-            }
-        ]
-    }
+    const priority = {
+        "url": "http://localhost:8000/api/administration/priority/6/",
+        "color": "#00FF00",
+        "created": "2019-03-22T16:24:33Z",
+        "modified": "2022-04-09T00:33:40.089000Z",
+        "name": "Low",
+        "severity": 4,
+        "attend_time": "04:00:00",
+        "solve_time": "2 00:00:00",
+        "attend_deadline": "1 00:00:00",
+        "solve_deadline": "2 00:00:00",
+        "notification_amount": 3
+    };
+    const showContact = (key)=> {
+        setId(key)
+        setContact('')
+        getContact(key)
+        .then((response) => {
+            setContact(response.data)
+            setModalShow(true)
+        })
+        .catch(setError);
+    };
+        if (error) {
+            console.log(error);
+            return <p>Ups! Se produjo un error al buscar el contacto.</p>
+        }
 
-    let type = getContact.results[0].type;
-    let first = type.charAt(0).toUpperCase();
-    type = first+type.slice(1)
+
+    const Upper = (text) => {
+        let first = text.charAt(0).toUpperCase();
+        return (first+text.slice(1))
+    }
 
     return (
             <React.Fragment>
@@ -53,7 +69,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((contact, index) => {
+                        {list.map((contact) => {
                             let id = contact.url.split('/')[(contact.url.split('/')).length-2];
                             //(itemsPerPage*(currentPage-1)) + index +1
                             return (
@@ -67,7 +83,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                                 <td>{contact.created.slice(0, 10)}</td>
                                 <td>{contact.modified.slice(0, 10)}</td>
                                 <td>
-                                <Button className="btn-icon btn-rounded" variant='outline-primary' title='Detalle' onClick={() => setModalShow(true)}>
+                                <Button className="btn-icon btn-rounded" variant='outline-primary' title='Detalle' onClick={() => showContact(id)}>
                                     <i className='fas fa-eye'/>
                                 </Button>
                                 <EditButton link='/contact/edit'/>
@@ -93,7 +109,7 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                                             <span className="d-block m-t-5">Detalle de contacto</span>
                                         </Col>
                                         <Col sm={12} lg={4}>                       
-                                            <Button title='Editar' className="btn-icon btn-rounded" variant='outline-warning' href='/contact/edit'>
+                                            <Button title='Editar' className="ml-1 btn-icon btn-rounded" variant='outline-warning' href='/contact/edit'>
                                                 <i className='fas fa-edit'/>
                                             </Button>
                                             <ActiveButton state={Math.round(Math.random())}></ActiveButton>                              
@@ -106,34 +122,46 @@ const TableContact = ({ list, loading, itemsPerPage, currentPage }) => {
                                         <tr>
                                             <td>Id del sistema</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={1} />
+                                                <Form.Control plaintext readOnly defaultValue={id} />
                                             </td>
-                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td>Nombre</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={getContact.results[0].name} />
+                                                <Form.Control plaintext readOnly defaultValue={contact.name} />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>{type}</td>
+                                            <td>Rol</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={getContact.results[0].username} />
+                                                <Form.Control plaintext readOnly defaultValue={contact.role} />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>{contact.type}</td>
+                                            <td>
+                                                <Form.Control plaintext readOnly defaultValue={contact.username} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Fecha de creación</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={getContact.results[0].created} />
+                                                <Form.Control plaintext readOnly defaultValue={contact.created} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Ultima actualización</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={getContact.results[0].modified} />
+                                                <Form.Control plaintext readOnly defaultValue={contact.modified} />
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>Llave pública</td>
+                                            <td>
+                                                <Form.Control plaintext readOnly defaultValue={contact.public_key} />
+                                            </td>
+                                        </tr>
+                                        
                                         <tr>
                                             <td>Informacion Relacionada</td>
                                             <td>
