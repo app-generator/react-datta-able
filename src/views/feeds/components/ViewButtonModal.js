@@ -11,7 +11,7 @@ function ViewButtonModal({feed}) {
   return (
     <>
         <Button title='Ver' className="btn-icon btn-rounded" variant={'outline-primary'} onClick={handleShow} >
-            <i className='fas fa-eye mx-1'/>
+            <i className='fas fa-eye'/>
         </Button>
         <Modal size='lg' show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>            
             <Modal.Body>
