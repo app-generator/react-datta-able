@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function DeleteButtonModal() {
+function DeleteButtonModal({name}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -15,7 +15,7 @@ function DeleteButtonModal() {
         </Button> 
         <Modal show={show} onHide={handleClose} >
           <Modal.Header closeButton>
-            <Modal.Title>Eliminar fuente de informacion</Modal.Title>
+            <Modal.Title>Eliminar {name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>¿Corfirma la eliminación?</Modal.Body>
           <Modal.Footer>

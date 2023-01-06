@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
+import ButtonState from './ButtonState';
 
 function ViewButtonModal({feed}) {
   const [show, setShow] = useState(false);
@@ -27,9 +28,7 @@ function ViewButtonModal({feed}) {
                                         <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                             <i className='fas fa-edit mx-1'/>
                                         </Button>
-                                        <Button title='Activo' className="btn-icon btn-rounded" variant={'outline-success'} >
-                                            <i className='fas fa-check mx-1'/>
-                                        </Button>                            
+                                        <ButtonState state={feed.active}></ButtonState>                           
                                         <CloseButton aria-label='Cerrar' onClick={handleClose} />
                                     </Col>
                                 </Row>

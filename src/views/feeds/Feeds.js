@@ -4,6 +4,7 @@ import AddButton from './components/AddButton';
 import Search from './components/Search';
 import ViewButtonModal from './components/ViewButtonModal';
 import DeleteButtonModal from './components/DeleteButtonModal';
+import ButtonState from './components/ButtonState';
 import { getFeeds } from '../../api/services/feeds';
 import { useState , useEffect } from "react";
 
@@ -73,9 +74,7 @@ const ListFeeds = () => {
                                             <th scope="row">{i+1}</th>
                                             <td>{feed.name}</td>
                                             <td>
-                                                <Button title='Activo' className="btn-icon btn-rounded" variant={'outline-success'} >
-                                                    <i className='fas fa-check mx-1'/>
-                                                </Button>
+                                                <ButtonState state={feed.active}></ButtonState>
                                             </td>
                                             <td>{feed.description}</td>
                                             <td>{feed.created}</td>
@@ -85,7 +84,7 @@ const ListFeeds = () => {
                                                 <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
                                                     <i className='fas fa-edit mx-1'/>
                                                 </Button>
-                                                <DeleteButtonModal></DeleteButtonModal>
+                                                <DeleteButtonModal name={feed.name}></DeleteButtonModal>
                                             </td>
                                         </tr>
                                     ))}
