@@ -1,44 +1,56 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
+import ActiveButton from './../../components/Elements/ActiveButton';
+import EditButton from './EditButton';
+import { getEntity } from '../../api/services/entities';
 
-const TableEntity = ({ listEntity, loading, entitiesPerPage, currentPage }) => {
+const TableEntity = ({ list, loading }) => {
+    const [entity, setEntity] = useState('');
+    const [error, setError] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
-
-    const entity = {
-        "count": 2,
-        "next": null,
-        "previous": null,
-        "results": [
-            {
-                "url": "http://localhost:8000/api/entity/19627/",
-                "created": "2022-12-11T22:10:15.281136Z",
-                "modified": "2022-12-11T22:10:15.281136Z",
-                "name": "UNLP2",
-                "slug": "unlp2",
-                "active": 0
-            },
-            {
-                "url": "http://localhost:8000/api/entity/19626/",
-                "created": "2020-04-16T13:09:25Z",
-                "modified": "2020-04-16T13:09:25Z",
-                "name": "Universidad Nacional de La Plata",
-                "slug": "universidad_nacional_de_la_plata",
-                "active": 1
-            }
-        ]
-    }
-        let array = entity.results[0].url.split('/');
-        let a = array.length;
-        let id = array[a-2];
+    const [id, setId] = useState(null);
 
     if (loading) {
         return (
-            <Row className="justify-content-md-center">
-                <Spinner animation="border" variant="primary" size='sm' />
+            <Row className='justify-content-md-center'>
+                <Spinner animation='border' variant='primary' size='sm' />
             </Row>
         );    
+    }
+    const priority = {
+        "url": "http://localhost:8000/api/administration/priority/6/",
+        "color": "#00FF00",
+        "created": "2019-03-22T16:24:33Z",
+        "modified": "2022-04-09T00:33:40.089000Z",
+        "name": "Low",
+        "severity": 4,
+        "attend_time": "04:00:00",
+        "solve_time": "2 00:00:00",
+        "attend_deadline": "1 00:00:00",
+        "solve_deadline": "2 00:00:00",
+        "notification_amount": 3
+    };
+    const showEntity = (key)=> {
+        setId(key)
+        setEntity('')
+        getEntity(key)
+        .then((response) => {
+            setEntity(response.data)
+            setModalShow(true)
+        })
+        .catch(setError);
+    };
+        if (error) {
+            console.log(error);
+            return <p>Ups! Se produjo un error al buscar la entidad.</p>
+        }
+
+
+    const Upper = (text) => {
+        let first = text.charAt(0).toUpperCase();
+        return (first+text.slice(1))
     }
 
     return (
@@ -55,26 +67,22 @@ const TableEntity = ({ listEntity, loading, entitiesPerPage, currentPage }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {listEntity.map((museo, index) => {
+                        {list.map((entity) => {
+                            let id = entity.url.split('/')[(entity.url.split('/')).length-2];
                             return (
-                                /*console.log(data),*/
-                                <tr key={museo.id}>
-                                <th scope="row">{(entitiesPerPage*(currentPage-1)) + index +1}</th>
-                                <td>{museo.nombre}</td>
+                                <tr key={id}>
+                                <th scope="row">{id}</th>
+                                <td>{entity.name}</td>
                                 <td>
-                                <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
-                                    <i className='feather icon-check-circle'/>
-                                </Button>
+                                    <ActiveButton state={entity.active}></ActiveButton>
                                 </td>
-                                <td>{museo.direccion}</td>
-                                <td>{museo.telefono}</td>
+                                <td>{entity.created}</td>
+                                <td>{entity.modified}</td>
                                 <td>
-                                <Button className="btn-icon btn-rounded" variant='outline-primary' title='Detalle' onClick={() => setModalShow(true)}>
+                                <Button className="btn-icon btn-rounded" variant='outline-primary' title='Detalle' onClick={() => showEntity(id)}>
                                     <i className='fas fa-eye'/>
                                 </Button>
-                                <Button className="btn-icon btn-rounded" variant='outline-warning' title='Editar' href='/entity/edit'>
-                                    <i className='fas fa-edit'/>
-                                </Button>
+                                <EditButton link='/entity/edit'/>
                                 <Button className="btn-icon btn-rounded" variant='outline-danger' title='Eliminar' onClick={() => setModalDelete(true)}>
                                     <i className='fas fa-trash-alt'/>
                                 </Button>
@@ -100,9 +108,7 @@ const TableEntity = ({ listEntity, loading, entitiesPerPage, currentPage }) => {
                                             <Button title='Editar' className="btn-icon btn-rounded" variant='outline-warning' href='/entity/edit'>
                                                 <i className='fas fa-edit'/>
                                             </Button>
-                                            <Button title='Activo' className="btn-icon btn-rounded" variant='outline-success' >
-                                                <i className='feather icon-check-circle'/>
-                                            </Button>                               
+                                            <ActiveButton state={entity.active}></ActiveButton>                               
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
                                     </Row>
@@ -119,27 +125,26 @@ const TableEntity = ({ listEntity, loading, entitiesPerPage, currentPage }) => {
                                         <tr>
                                             <td>Nombre</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={entity.results[0].name} />
+                                                <Form.Control plaintext readOnly defaultValue={entity.name} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Fecha de creación</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={entity.results[0].created} />
+                                                <Form.Control plaintext readOnly defaultValue={entity.created} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Ultima actualización</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={entity.results[0].modified} />
+                                                <Form.Control plaintext readOnly defaultValue={entity.modified} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Informacion Relacionada</td>
                                             <td>
                                                 <Button size="sm" variant='light' className="text-capitalize">
-                                                    Network
-                                                <Badge variant="light" className="ml-1">4</Badge>
+                                                    Network <Badge variant="light" className="ml-1">4</Badge>
                                                 </Button>
                                             </td>
                                         </tr>
@@ -155,7 +160,7 @@ const TableEntity = ({ listEntity, loading, entitiesPerPage, currentPage }) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Eliminar Entidad</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>¿Corfirma la eliminación?</Modal.Body>
+                <Modal.Body>¿Corfirma la eliminación del Id {id}?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>
                         Cancelar

@@ -1,53 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
+import { Row, Col, Breadcrumb, Card, Button } from 'react-bootstrap';
 import AddButton from '../../components/Elements/AddButton';
 import TableEntity from '../../components/Elements/TableEntity';
-import Pagination from '../../components/Elements/Pagination';
+import { getEntities } from '../../api/services/entities';
 
 const ListEntity = () => {
-    const url = 'https://www.cultura.gob.ar/api/v2.0/museos/'
+    const [entities, setEntities] = useState([]);
+    const [error, setError] = useState(null);
+    const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(true)
 
-    const [data, setData] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [currentPage, setCurrentPage] = useState(1)
-    const [entitiesPerPage] = useState(5)
-
-    const showData = async () => {
-        setLoading(true)
-        const response = await fetch(url)
-        const json = await response.json()
-        setData(json.results)
+    useEffect( ()=> {
+        getEntities()
+        .then((response) => {
+            setEntities(response.data.results);
+        })
+        .catch(setError);
         setLoading(false)
-    } 
+    }, [])
+
+    if (error) {
+        console.log(error);
+        return <p>Ups! Se produjo un error al buscar los usuarios.</p>
+    }
 
     //valores ingresados
-    const [search, setSearch] = useState("");
     const searcher = (e) => {
         setSearch(e.target.value) //actualizar
-        console.log(e.target)    
+        //console.log(e.target)    
         }
-
     //filtro
     let show = []
     if (!search) {
-        show = data
+        show = entities
     } else {
-        show = data.filter( (item) => 
-            item.nombre.toLowerCase().includes(search.toLocaleLowerCase())
+        show = entities.filter( (item) => 
+            item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
-
-    useEffect( ()=> {
-        showData()
-    }, [])
-
-    // Get current posts
-    const indexOfLastEntity = currentPage * entitiesPerPage;
-    const indexOfFirstEntity = indexOfLastEntity - entitiesPerPage;
-    const currentEntity = show.slice(indexOfFirstEntity, indexOfLastEntity);
-
-    // Change page
-    const paginate = pageNumber => setCurrentPage(pageNumber);
 
 return (
     <React.Fragment>
@@ -75,22 +65,20 @@ return (
                                 </div>
                             </Col> 
                             <Col sm={12} lg={3}>
-                                <AddButton></AddButton>
+                                <AddButton name='Agregar Entidad' link='/entity/create'></AddButton>
                             </Col> 
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableEntity listEntity={currentEntity} loading={loading} entitiesPerPage={entitiesPerPage} currentPage={currentPage} />
+                        <TableEntity list={show} loading={loading} />
                     </Card.Body>
                     <Card.Footer >
-
-                    <Row className="justify-content-md-center">
-                        <Col md="auto"> 
-                        <Pagination entitiesPerPage={entitiesPerPage} totalEntities={show.length} paginate={paginate} />
-                        </Col>
-                    </Row>
-                        </Card.Footer>
-
+                        <Row className="justify-content-md-center">
+                            <Col md="auto"> 
+                                <Button> Paginacion </Button>
+                            </Col>
+                        </Row>
+                    </Card.Footer>
                 </Card>
             </Col>
         </Row>
