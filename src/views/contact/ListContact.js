@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Breadcrumb, Card, Button } from 'react-bootstrap';
-import AddButton from '../../components/Elements/AddButton';
 import TableContact from '../../components/Elements/TableContact';
+import CrudButton from '../../components/Elements/CrudButton';
 import { getContacts } from '../../api/services/contacts';
-
 
 const ListContact = () => {
     const [contacts, setContacts] = useState([]);
@@ -66,7 +65,7 @@ const ListContact = () => {
                                 </div>
                             </Col> 
                             <Col sm={12} lg={3}>
-                                <AddButton name='Agregar Contacto' link='/contact/create'></AddButton>
+                                <CrudButton type='create' name='Contacto' link='/contact/create' />
                             </Col> 
                         </Row>
                     </Card.Header>

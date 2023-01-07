@@ -2,9 +2,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
 import ActiveButton from './../../components/Elements/ActiveButton';
-import EditButton from './EditButton';
 import { getContact } from '../../api/services/contacts';
-import Upper from './Upper';
+import CrudButton from './CrudButton';
 
 const TableContact = ({ list, loading}) => {
     const [contact, setContact] = useState('');
@@ -12,7 +11,9 @@ const TableContact = ({ list, loading}) => {
     const [modalShow, setModalShow] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
     const [id, setId] = useState(null);
-    console.log(list)
+
+    const [time, setTime] = useState(null);
+
     if (loading) {
         return (
             <Row className='justify-content-md-center'>
@@ -39,6 +40,7 @@ const TableContact = ({ list, loading}) => {
         getContact(key)
         .then((response) => {
             setContact(response.data)
+            setTime(response.data.created.slice(0,10))
             setModalShow(true)
         })
         .catch(setError);
@@ -47,7 +49,6 @@ const TableContact = ({ list, loading}) => {
             console.log(error);
             return <p>Ups! Se produjo un error al buscar el contacto.</p>
         }
-
 
     const Upper = (text) => {
         let first = text.charAt(0).toUpperCase();
@@ -61,7 +62,6 @@ const TableContact = ({ list, loading}) => {
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
-                            <th>Activo</th>
                             <th>Contacto</th>
                             <th>Creado</th>
                             <th>Modificado</th>
@@ -76,21 +76,14 @@ const TableContact = ({ list, loading}) => {
                                 <tr key={id}>
                                 <th scope="row">{id}</th>
                                 <td>{contact.name}</td>
-                                <td>
-                                    <ActiveButton state={Math.round(Math.random())}></ActiveButton>?
-                                </td>
                                 <td>{contact.username}</td>
                                 <td>{contact.created.slice(0, 10)}</td>
                                 <td>{contact.modified.slice(0, 10)}</td>
                                 <td>
-                                <Button className="btn-icon btn-rounded" variant='outline-primary' title='Detalle' onClick={() => showContact(id)}>
-                                    <i className='fas fa-eye'/>
-                                </Button>
-                                <EditButton link='/contact/edit'/>
-                                <Button className="btn-icon btn-rounded" variant='outline-danger' title='Eliminar' onClick={() => setModalDelete(true)}>
-                                    <i className='fas fa-trash-alt'/>
-                                </Button>
-                            </td>
+                                    <CrudButton type='read' onClick={() => showContact(id)} />
+                                    <CrudButton type='edit' link='/contact/edit'/>
+                                    <CrudButton type='delete' onClick={() => setModalDelete(true)} />
+                                </td>
                             </tr>
                             );
                         })}
@@ -109,10 +102,8 @@ const TableContact = ({ list, loading}) => {
                                             <span className="d-block m-t-5">Detalle de contacto</span>
                                         </Col>
                                         <Col sm={12} lg={4}>                       
-                                            <Button title='Editar' className="ml-1 btn-icon btn-rounded" variant='outline-warning' href='/contact/edit'>
-                                                <i className='fas fa-edit'/>
-                                            </Button>
-                                            <ActiveButton state={Math.round(Math.random())}></ActiveButton>                              
+                                            <CrudButton type='edit' link='/contact/edit'/>
+                                            <ActiveButton state={id} />                              
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
                                     </Row>
@@ -146,7 +137,7 @@ const TableContact = ({ list, loading}) => {
                                         <tr>
                                             <td>Fecha de creación</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={contact.created} />
+                                                <Form.Control plaintext readOnly defaultValue={time} />
                                             </td>
                                         </tr>
                                         <tr>
@@ -187,7 +178,7 @@ const TableContact = ({ list, loading}) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Eliminar Contacto</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>¿Corfirma la eliminación del Id {1}?</Modal.Body>
+                <Modal.Body>¿Corfirma la eliminación del Id {id}?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>
                         Cancelar
