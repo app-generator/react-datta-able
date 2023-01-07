@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
 import ActiveButton from './../../components/Elements/ActiveButton';
-import EditButton from './EditButton';
+import CrudButton from './CrudButton';
 import { getEntity } from '../../api/services/entities';
 
 const TableEntity = ({ list, loading }) => {
@@ -11,6 +11,8 @@ const TableEntity = ({ list, loading }) => {
     const [modalShow, setModalShow] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
     const [id, setId] = useState(null);
+    const [created, setCreated] = useState(null);
+    const [modified, setModified] = useState(null);
 
     if (loading) {
         return (
@@ -19,25 +21,17 @@ const TableEntity = ({ list, loading }) => {
             </Row>
         );    
     }
-    const priority = {
-        "url": "http://localhost:8000/api/administration/priority/6/",
-        "color": "#00FF00",
-        "created": "2019-03-22T16:24:33Z",
-        "modified": "2022-04-09T00:33:40.089000Z",
-        "name": "Low",
-        "severity": 4,
-        "attend_time": "04:00:00",
-        "solve_time": "2 00:00:00",
-        "attend_deadline": "1 00:00:00",
-        "solve_deadline": "2 00:00:00",
-        "notification_amount": 3
-    };
+
     const showEntity = (key)=> {
         setId(key)
         setEntity('')
         getEntity(key)
         .then((response) => {
             setEntity(response.data)
+            let datetime = response.data.created.split('T')
+            setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
+            datetime = response.data.modified.split('T');
+            setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
             setModalShow(true)
         })
         .catch(setError);
@@ -46,7 +40,6 @@ const TableEntity = ({ list, loading }) => {
             console.log(error);
             return <p>Ups! Se produjo un error al buscar la entidad.</p>
         }
-
 
     const Upper = (text) => {
         let first = text.charAt(0).toUpperCase();
@@ -76,16 +69,12 @@ const TableEntity = ({ list, loading }) => {
                                 <td>
                                     <ActiveButton state={entity.active}></ActiveButton>
                                 </td>
-                                <td>{entity.created}</td>
-                                <td>{entity.modified}</td>
+                                <td>{entity.created.slice(0,10)}</td>
+                                <td>{entity.modified.slice(0,10)}</td>
                                 <td>
-                                <Button className="btn-icon btn-rounded" variant='outline-primary' title='Detalle' onClick={() => showEntity(id)}>
-                                    <i className='fas fa-eye'/>
-                                </Button>
-                                <EditButton link='/entity/edit'/>
-                                <Button className="btn-icon btn-rounded" variant='outline-danger' title='Eliminar' onClick={() => setModalDelete(true)}>
-                                    <i className='fas fa-trash-alt'/>
-                                </Button>
+                                    <CrudButton type='read' onClick={() => showEntity(id)} />
+                                    <CrudButton type='edit' link='/entity/edit'/>
+                                    <CrudButton type='delete' onClick={() => setModalDelete(true)} />
                             </td>
                             </tr>
                             );
@@ -105,9 +94,7 @@ const TableEntity = ({ list, loading }) => {
                                             <span className="d-block m-t-5">Detalle de entidad</span>
                                         </Col>
                                         <Col sm={12} lg={4}>                       
-                                            <Button title='Editar' className="btn-icon btn-rounded" variant='outline-warning' href='/entity/edit'>
-                                                <i className='fas fa-edit'/>
-                                            </Button>
+                                            <CrudButton type='edit' link='/entity/edit'/>
                                             <ActiveButton state={entity.active}></ActiveButton>                               
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
@@ -131,13 +118,13 @@ const TableEntity = ({ list, loading }) => {
                                         <tr>
                                             <td>Fecha de creación</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={entity.created} />
+                                                <Form.Control plaintext readOnly defaultValue={created} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Ultima actualización</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={entity.modified} />
+                                                <Form.Control plaintext readOnly defaultValue={modified} />
                                             </td>
                                         </tr>
                                         <tr>

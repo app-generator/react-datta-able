@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Breadcrumb, Card, Button } from 'react-bootstrap';
-import AddButton from '../../components/Elements/AddButton';
 import TableEntity from '../../components/Elements/TableEntity';
+import CrudButton from '../../components/Elements/CrudButton';
 import { getEntities } from '../../api/services/entities';
 
 const ListEntity = () => {
@@ -21,7 +21,7 @@ const ListEntity = () => {
 
     if (error) {
         console.log(error);
-        return <p>Ups! Se produjo un error al buscar los usuarios.</p>
+        return <p>Ups! Se produjo un error al buscar las entidades.</p>
     }
 
     //valores ingresados
@@ -65,7 +65,7 @@ return (
                                 </div>
                             </Col> 
                             <Col sm={12} lg={3}>
-                                <AddButton name='Agregar Entidad' link='/entity/create'></AddButton>
+                                <CrudButton type='create' name='Entidad' link='/entity/create' />
                             </Col> 
                         </Row>
                     </Card.Header>
