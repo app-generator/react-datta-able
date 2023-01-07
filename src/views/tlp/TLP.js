@@ -71,7 +71,7 @@ const ListTLP = () => {
                                     {tlp.sort((a,b) => a.code - b.code).map((item,i) => (
                                         <tr>
                                             <th scope="row">{i+1}</th>
-                                            <td><p class="p-3 mb-2 bg-dark" style={{color: item.color}}><b>{item.information}</b></p></td>
+                                            <td><p class="p-3 mb-2 bg-dark rounded" style={{color: item.color}}><b>{item.information}</b></p></td>
                                             <td><Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={item.description} /></td>
                                             <td><Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={item.when} /></td>                                            
                                             <td><Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={item.why} /></td>
