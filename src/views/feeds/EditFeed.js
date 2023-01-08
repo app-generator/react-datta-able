@@ -1,8 +1,12 @@
 import React from 'react';
 import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 import DropdownState from './components/DropdownState';
+import { useLocation } from "react-router-dom";
 
 const EditFeed = () => {
+    const location = useLocation();
+    const feed = location.state;
+    console.log(location);
    
     return (
         <React.Fragment>
@@ -29,12 +33,12 @@ const EditFeed = () => {
                             <Form>                                
                                 <Form.Group as={Col}>
                                     <Form.Label>Nombre</Form.Label>
-                                    <Form.Control type="text" placeholder="Abusix" />
+                                    <Form.Control type="text" placeholder={feed.name} />
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
                                     <Form.Label>Descripcion</Form.Label>
-                                    <Form.Control as="textarea" rows={3} placeholder="Reportes relacionados  con SPAM de https://abusix.com" />
+                                    <Form.Control as="textarea" rows={3} placeholder={feed.description} />
                                 </Form.Group>
 
                                 <Form.Group as={Col}>

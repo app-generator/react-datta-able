@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function DeleteButtonModal({name}) {
+function ButtonDelete({name}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -11,7 +11,7 @@ function DeleteButtonModal({name}) {
   return (
     <>
         <Button title='Eliminar' className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-            <i className='fas fa-trash-alt mx-1'/>
+            <i className='fas fa-trash-alt'/>
         </Button> 
         <Modal show={show} onHide={handleClose} >
           <Modal.Header closeButton>
@@ -31,4 +31,4 @@ function DeleteButtonModal({name}) {
   );
 }
 
-export default DeleteButtonModal;
+export default ButtonDelete;

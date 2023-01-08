@@ -1,9 +1,10 @@
 import React from 'react';
 import { Row, Col, Card, Table, Button, Breadcrumb } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import AddButton from './components/AddButton';
 import Search from './components/Search';
-import ViewButtonModal from './components/ViewButtonModal';
-import DeleteButtonModal from './components/DeleteButtonModal';
+import ButtonView from './components/ButtonView';
+import ButtonDelete from './components/ButtonDelete';
 import ButtonState from './components/ButtonState';
 import { getFeeds } from '../../api/services/feeds';
 import { useState , useEffect } from "react";
@@ -70,7 +71,7 @@ const ListFeeds = () => {
                                 </thead>
                                 <tbody>
                                     {feeds.map((feed,i) => (
-                                    <tr>
+                                    <tr key={i}>
                                             <th scope="row">{i+1}</th>
                                             <td>{feed.name}</td>
                                             <td>
@@ -80,11 +81,13 @@ const ListFeeds = () => {
                                             <td>{feed.created}</td>
                                             <td>{feed.modified}</td>
                                             <td>
-                                                <ViewButtonModal feed={feed}></ViewButtonModal>
-                                                <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
-                                                    <i className='fas fa-edit mx-1'/>
-                                                </Button>
-                                                <DeleteButtonModal name={feed.name}></DeleteButtonModal>
+                                                <ButtonView feed={feed}></ButtonView>
+                                                <Link to="./feeds/edit" state={feed} >
+                                                    <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} >
+                                                        <i className='fas fa-edit'/>                                                    
+                                                    </Button>
+                                                </Link>    
+                                                <ButtonDelete name={feed.name}></ButtonDelete>
                                             </td>
                                         </tr>
                                     ))}

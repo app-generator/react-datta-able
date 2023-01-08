@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import ButtonState from './ButtonState';
 
-function ViewButtonModal({feed}) {
+function ButtonView({feed}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -25,9 +26,11 @@ function ViewButtonModal({feed}) {
                                         <span className="d-block m-t-5">Detalle de fuente de informacion</span>
                                     </Col>
                                     <Col sm={12} lg={4}>
-                                        <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} href="./feeds/edit" >
-                                            <i className='fas fa-edit mx-1'/>
-                                        </Button>
+                                        <Link to="./feeds/edit" state={feed} >
+                                            <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} >
+                                                <i className='fas fa-edit'/>                                                    
+                                            </Button>
+                                        </Link>    
                                         <ButtonState state={feed.active}></ButtonState>                           
                                         <CloseButton aria-label='Cerrar' onClick={handleClose} />
                                     </Col>
@@ -86,4 +89,4 @@ function ViewButtonModal({feed}) {
   );
 }
 
-export default ViewButtonModal;
+export default ButtonView;
