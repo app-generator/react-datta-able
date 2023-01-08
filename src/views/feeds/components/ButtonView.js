@@ -26,7 +26,7 @@ function ButtonView({feed}) {
                                         <span className="d-block m-t-5">Detalle de fuente de informacion</span>
                                     </Col>
                                     <Col sm={12} lg={4}>
-                                        <Link to="./feeds/edit" state={feed} >
+                                        <Link to={{pathname:"./feeds/edit", state: {feed}}} >
                                             <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} >
                                                 <i className='fas fa-edit'/>                                                    
                                             </Button>
@@ -60,13 +60,13 @@ function ButtonView({feed}) {
                                     <tr>
                                         <td>Fecha de creación</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={feed.created} />
+                                            <Form.Control plaintext readOnly defaultValue={feed.created.slice(0,10)} />
                                         </td>
                                     </tr>
                                      <tr>
                                         <td>Ultima actualización</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={feed.modified} />
+                                            <Form.Control plaintext readOnly defaultValue={feed.modified.slice(0,10)} />
                                         </td>
                                     </tr>
                                     <tr>

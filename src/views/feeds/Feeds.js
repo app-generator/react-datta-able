@@ -78,11 +78,11 @@ const ListFeeds = () => {
                                                 <ButtonState state={feed.active}></ButtonState>
                                             </td>
                                             <td>{feed.description}</td>
-                                            <td>{feed.created}</td>
-                                            <td>{feed.modified}</td>
+                                            <td>{feed.created.slice(0,10)}</td>
+                                            <td>{feed.modified.slice(0,10)}</td>
                                             <td>
                                                 <ButtonView feed={feed}></ButtonView>
-                                                <Link to="./feeds/edit" state={feed} >
+                                                <Link to={{pathname:"./feeds/edit", state: {feed}}} >
                                                     <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} >
                                                         <i className='fas fa-edit'/>                                                    
                                                     </Button>

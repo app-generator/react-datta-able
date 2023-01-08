@@ -5,8 +5,7 @@ import { useLocation } from "react-router-dom";
 
 const EditFeed = () => {
     const location = useLocation();
-    const feed = location.state;
-    console.log(location);
+    const feed = location.state.feed;
    
     return (
         <React.Fragment>
