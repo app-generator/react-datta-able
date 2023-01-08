@@ -1,7 +1,8 @@
 import { apiInstance } from "../custom";
 
-const getUsers = () => {
-    return apiInstance.get("user");
+const getUsers = (url="user") => {
+    console.log(url+ "en user.js")
+    return apiInstance.get(url);
 }
 
 const getUser = (id) => { 

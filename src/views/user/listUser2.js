@@ -4,20 +4,21 @@ import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, 
 import Pagination from './Pagination'
 import axios from 'axios'
 import Posts from './components/Posts'
+import { getUsers, getUser, postUser, putUser, isActive, deleteUser } from "../../api/services/users";
+import { API_SERVER } from '../../config/constant';
 
 
-var cantPages
-var arrayLinks = []
+
+
 function App() {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage, setpostsPerPage] = useState(20)
   const [jumpPage, setjumpPage] = useState(false)
-  const [Pages, setPages] = useState(-1)
-  //const [cantPages, setcantPages] = useState()
+  const [pages, setPages] = useState()
+  const [cantPages, setcantPages] = useState([])
 
-  const urlBase = 'https://www.cultura.gob.ar/api/v2.0/organismos/'
 
   
   function CambioDepagina(url){
@@ -25,13 +26,16 @@ function App() {
 
     if (jumpPage){
       setjumpPage(false)
-      //console.log(jumpPage)
+      console.log(url)
 
       const fetchPosts = async () => {
         setLoading(true)
-        const res = await axios.get(url)
-        setPosts(res.data.results)
-        console.log(res.data.results)
+        getUsers(url).then((response) => {
+          setPosts(response.data.results)
+          console.log(response.data.results)
+          
+      })
+
         setLoading(false)
         
       }
@@ -39,58 +43,68 @@ function App() {
   
     }
   }
-  function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
 
-    const numberOfPages= Math.ceil(numberOfItems / numberOfElementsOnAPage)
-    console.log(numberOfPages)
-
-    const number = 20
-    //setpostsPerPage(number)//hay un bug ya que se va mostrar 8 paginas aunque debe ser el doble
-    var number2 = 0
-    const complementUrl = "?limit="
-    const complementUrl2 = "&offset="
-
-    arrayLinks=[urlBase+complementUrl+number]
-    
-
-    for (var i = 1; i < numberOfPages; i++) {
-      number2 += number 
-      arrayLinks.push(urlBase+complementUrl+number+complementUrl2+number2)
-      
-    }
-    console.log(arrayLinks)
-    console.log(numberOfPages)
-    cantPages=numberOfPages
-    return numberOfPages
-    
-  }
+  
+  
 
   useEffect(() => {
-    const fetchPosts = async (urlBase) => {
-      setLoading(true)
-      const res = await axios.get(urlBase)
+
+    function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
+
+      const numberOfPages= Math.ceil(numberOfItems / numberOfElementsOnAPage)
+      console.log(numberOfPages)
+  
       
-      setPosts(res.data.results)
-      //cantPages = Math.ceil(res.data.count/res.data.results.length)
-      arrayWithPages(res.data.count,res.data.results.length)
-      console.log("---------------aca---------------------------------")
+      //setpostsPerPage(number)//hay un bug ya que se va mostrar 8 paginas aunque debe ser el doble
       
-      //console.log(cantPages)
-      console.log(Pages)
-      //console.log(arrayLinks)
-      setLoading(false)
+      const complementUrl ="?page="
+      
+      const urlBase = "/user/"
+  
+      const arrayLinks=[]
+      
+  
+      for (var i = 1; i <= numberOfPages; i++) {
+      
+        arrayLinks.push(urlBase+complementUrl+i)
+        
+      }
+      console.log(arrayLinks)
+      setcantPages(arrayLinks)
+    
+      
+      return numberOfPages
+      
     }
 
-    fetchPosts(urlBase)
+    getUsers()
+      .then((response) => {
+          setPages(arrayWithPages(response.data.count,response.data.results.length))
+          
+      })
+        
+
+    const fetchPosts = async () => {
+      setLoading(true)
+
+      getUsers()
+      .then((response) => {
+          setPosts(response.data.results)
+          console.log(response.data.results)
+          
+      })
+    }
+
+    fetchPosts()
   }, [])
 
   if (loading && posts.length === 0 ) {
-    return <h2>Loading...</h2>
+    return <h2>Cargando...</h2>
   }
   
-  CambioDepagina(arrayLinks[currentPage-1])
+  CambioDepagina(cantPages[currentPage-1])
   const currentPosts = posts// lo que se muestra
-  const howManyPages = cantPages//la cantidad de paginas del paginado 
+  const howManyPages = pages//la cantidad de paginas del paginado 
   
   
   return (

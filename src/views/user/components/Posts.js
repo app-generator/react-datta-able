@@ -62,7 +62,7 @@ function Posts({posts}) {
                     
                                     <tr>
                                         <th >{index + 1 }</th>
-                                        <td>{post.nombre}</td>
+                                        <td>{post.username}</td>
                                         <td>Mark</td>
                                         <td>Mark@mark.com</td>
                                         <td>

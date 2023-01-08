@@ -23,8 +23,8 @@ function Pagination({ pages , setCurrentPage , setjumpPage}) {
     setJump(true)
   }
   function event2(item, index){
-    console.log(item)
-    switch (item) {
+    
+      switch (item) {
       
       case "...":
         setCurrentButton(arrOfCurrButtons[index-1]+1)
@@ -47,12 +47,7 @@ function Pagination({ pages , setCurrentPage , setjumpPage}) {
         
     }
 
-    if (arrOfCurrButtons[index] != "..." && arrOfCurrButtons[index] != " ..." && arrOfCurrButtons[index] != "... "){
-      
-      setCurrentButton(item)
-      setJump(true)
-    }
-    
+   
   }
   function event3(){
     setCurrentButton(prev => prev >= numberOfPages.length ? prev : prev + 1)
