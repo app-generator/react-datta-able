@@ -69,12 +69,12 @@ const TableContact = ({ list, loading}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((contact) => {
+                        {list.map((contact, index) => {
                             let id = contact.url.split('/')[(contact.url.split('/')).length-2];
                             //(itemsPerPage*(currentPage-1)) + index +1
                             return (
                                 <tr key={id}>
-                                <th scope="row">{id}</th>
+                                <th scope="row">{index+1}</th>
                                 <td>{contact.name}</td>
                                 <td>{contact.username}</td>
                                 <td>{contact.created.slice(0, 10)}</td>
