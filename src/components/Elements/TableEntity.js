@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
 import ActiveButton from './../../components/Elements/ActiveButton';
 import CrudButton from './CrudButton';
-import { getEntity } from '../../api/services/entities';
+import { getEntity, isActive, putEntity } from '../../api/services/entities';
 
 const TableEntity = ({ list, loading }) => {
     const [entity, setEntity] = useState('');
@@ -13,6 +13,7 @@ const TableEntity = ({ list, loading }) => {
     const [id, setId] = useState(null);
     const [created, setCreated] = useState(null);
     const [modified, setModified] = useState(null);
+    const [state,setState] = useState(null);
 
     if (loading) {
         return (
@@ -32,6 +33,7 @@ const TableEntity = ({ list, loading }) => {
             setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
             datetime = response.data.modified.split('T');
             setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
+            setState(response.data.active)
             setModalShow(true)
         })
         .catch(setError);
@@ -45,6 +47,26 @@ const TableEntity = ({ list, loading }) => {
         let first = text.charAt(0).toUpperCase();
         return (first+text.slice(1))
     }
+    const switchState = (id, active) => {
+        console.log(active)
+        if (active ==0) {
+            setState(1)
+        }
+        setState(0);
+
+        isActive(id, state).then((response) => {
+            console.log(response);
+        }).catch(setError)
+    }
+    /*
+    const switchState = (id, name, slug, active) => {
+        (active==1) ? setState(0) : setState(1);
+        console.log(state)
+        putEntity(id, name, slug, state).then((response) => {
+            console.log(response);
+        }).catch(setError)
+    }
+    */
 
     return (
             <React.Fragment>
@@ -62,12 +84,13 @@ const TableEntity = ({ list, loading }) => {
                     <tbody>
                         {list.map((entity) => {
                             let id = entity.url.split('/')[(entity.url.split('/')).length-2];
+                            //setState(entity.active);
                             return (
                                 <tr key={id}>
                                 <th scope="row">{id}</th>
                                 <td>{entity.name}</td>
                                 <td>
-                                    <ActiveButton state={entity.active}></ActiveButton>
+                                    <ActiveButton state={entity.active} id={id} />
                                 </td>
                                 <td>{entity.created.slice(0,10)}</td>
                                 <td>{entity.modified.slice(0,10)}</td>
@@ -95,7 +118,7 @@ const TableEntity = ({ list, loading }) => {
                                         </Col>
                                         <Col sm={12} lg={4}>                       
                                             <CrudButton type='edit' link='/entity/edit'/>
-                                            <ActiveButton state={entity.active}></ActiveButton>                               
+                                            <ActiveButton id={id} state={state} onClick={() => switchState(id, state)}  />
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
                                     </Row>

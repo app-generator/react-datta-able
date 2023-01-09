@@ -16,8 +16,8 @@ const postEntity = (name, slug, active) => {
     });
 }
 
-const putEntity = (name, slug, active) => {
-    return apiInstance.post("entity/", {
+const putEntity = (id, name, slug, active) => {
+    return apiInstance.put("entity/"+id+"/", {
         name: name, //*
         slug: slug, //*
         active: active //*
