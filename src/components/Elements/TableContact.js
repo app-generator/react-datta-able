@@ -1,7 +1,6 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import ActiveButton from './../../components/Elements/ActiveButton';
 import { getContact } from '../../api/services/contacts';
 import CrudButton from './CrudButton';
 
@@ -12,7 +11,11 @@ const TableContact = ({ list, loading}) => {
     const [modalDelete, setModalDelete] = useState(false);
     const [id, setId] = useState(null);
 
-    const [time, setTime] = useState(null);
+    const [created, setCreated] = useState(null);
+    const [modified, setModified] = useState(null);
+    const [type, setType] = useState(null);
+    const [role, setRole] = useState(null);
+
 
     if (loading) {
         return (
@@ -40,7 +43,10 @@ const TableContact = ({ list, loading}) => {
         getContact(key)
         .then((response) => {
             setContact(response.data)
-            setTime(response.data.created.slice(0,10))
+            setCreated(response.data.created.slice(0,10))
+            setModified(response.data.modified.slice(0,10))
+            setRole(Upper(response.data.role))
+            setType(Upper(response.data.type))
             setModalShow(true)
         })
         .catch(setError);
@@ -71,7 +77,6 @@ const TableContact = ({ list, loading}) => {
                     <tbody>
                         {list.map((contact, index) => {
                             let id = contact.url.split('/')[(contact.url.split('/')).length-2];
-                            //(itemsPerPage*(currentPage-1)) + index +1
                             return (
                                 <tr key={id}>
                                 <th scope="row">{index+1}</th>
@@ -101,9 +106,8 @@ const TableContact = ({ list, loading}) => {
                                             <Card.Title as="h5">Contactos</Card.Title>
                                             <span className="d-block m-t-5">Detalle de contacto</span>
                                         </Col>
-                                        <Col sm={12} lg={4}>                       
+                                        <Col sm={12} lg={2}>                       
                                             <CrudButton type='edit' link='/contact/edit'/>
-                                            <ActiveButton state={id} />                              
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
                                     </Row>
@@ -125,11 +129,11 @@ const TableContact = ({ list, loading}) => {
                                         <tr>
                                             <td>Rol</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={contact.role} />
+                                                <Form.Control plaintext readOnly defaultValue={role} />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>{contact.type}</td>
+                                            <td>{type}</td>
                                             <td>
                                                 <Form.Control plaintext readOnly defaultValue={contact.username} />
                                             </td>
@@ -137,13 +141,13 @@ const TableContact = ({ list, loading}) => {
                                         <tr>
                                             <td>Fecha de creación</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={time} />
+                                                <Form.Control plaintext readOnly defaultValue={created} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Ultima actualización</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={contact.modified} />
+                                                <Form.Control plaintext readOnly defaultValue={modified} />
                                             </td>
                                         </tr>
                                         <tr>
