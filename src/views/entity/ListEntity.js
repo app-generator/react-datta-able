@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Breadcrumb, Card, Button } from 'react-bootstrap';
-import TableEntity from '../../components/Elements/TableEntity';
-import CrudButton from '../../components/Elements/CrudButton';
+import TableEntity from '../../components/Table/TableEntity';
+import CrudButton from '../../components/Button/CrudButton';
 import { getEntities } from '../../api/services/entities';
 
 const ListEntity = () => {

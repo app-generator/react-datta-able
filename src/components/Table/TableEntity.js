@@ -1,20 +1,24 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import ActiveButton from './../../components/Elements/ActiveButton';
-import CrudButton from './CrudButton';
-import { getEntity, isActive, putEntity } from '../../api/services/entities';
+import ActiveButton from '../Button/ActiveButton';
+import CrudButton from '../Button/CrudButton';
+import { getEntity, isActive, putEntity, deleteEntity } from '../../api/services/entities';
 
 const TableEntity = ({ list, loading }) => {
     const [entity, setEntity] = useState('');
     const [error, setError] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
+    const [modalState, setModalState] = useState(false);
     const [id, setId] = useState(null);
     const [created, setCreated] = useState(null);
     const [modified, setModified] = useState(null);
     const [state,setState] = useState(null);
 
+    useEffect(() => {
+
+    },[]);
     if (loading) {
         return (
             <Row className='justify-content-md-center'>
@@ -23,6 +27,7 @@ const TableEntity = ({ list, loading }) => {
         );    
     }
 
+    
     const showEntity = (key)=> {
         setId(key)
         setEntity('')
@@ -38,35 +43,23 @@ const TableEntity = ({ list, loading }) => {
         })
         .catch(setError);
     };
+    const Delete = (key) => {
+        setId(key);
+        setModalDelete(true)
+    }
+    const removeEntity = (key)=> {
+        deleteEntity(key).then((response) => {
+            console.log(response);      
+            setModalDelete(false)
+        })
+        .catch(setError);
+        return window.location.reload();
+    };
         if (error) {
             console.log(error);
             return <p>Ups! Se produjo un error al buscar la entidad.</p>
         }
 
-    const Upper = (text) => {
-        let first = text.charAt(0).toUpperCase();
-        return (first+text.slice(1))
-    }
-    const switchState = (id, active) => {
-        console.log(active)
-        if (active ==0) {
-            setState(1)
-        }
-        setState(0);
-
-        isActive(id, state).then((response) => {
-            console.log(response);
-        }).catch(setError)
-    }
-    /*
-    const switchState = (id, name, slug, active) => {
-        (active==1) ? setState(0) : setState(1);
-        console.log(state)
-        putEntity(id, name, slug, state).then((response) => {
-            console.log(response);
-        }).catch(setError)
-    }
-    */
 
     return (
             <React.Fragment>
@@ -82,24 +75,23 @@ const TableEntity = ({ list, loading }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((entity) => {
-                            let id = entity.url.split('/')[(entity.url.split('/')).length-2];
-                            //setState(entity.active);
+                        {list.map((entity, index) => {
+                            let url = entity.url.split('/')[(entity.url.split('/')).length-2];
                             return (
-                                <tr key={id}>
-                                <th scope="row">{id}</th>
-                                <td>{entity.name}</td>
-                                <td>
-                                    <ActiveButton state={entity.active} id={id} />
-                                </td>
-                                <td>{entity.created.slice(0,10)}</td>
-                                <td>{entity.modified.slice(0,10)}</td>
-                                <td>
-                                    <CrudButton type='read' onClick={() => showEntity(id)} />
-                                    <CrudButton type='edit' link='/entity/edit'/>
-                                    <CrudButton type='delete' onClick={() => setModalDelete(true)} />
-                            </td>
-                            </tr>
+                                <tr key={url}>
+                                    <th scope="row">{index+1}</th>
+                                    <td>{entity.name}</td>
+                                    <td>
+                                        <ActiveButton active={entity.active} id={url} onClick={() => setModalState(true)} />
+                                    </td>
+                                    <td>{entity.created.slice(0,10)}</td>
+                                    <td>{entity.modified.slice(0,10)}</td>
+                                    <td>
+                                        <CrudButton type='read' onClick={() => showEntity(url)} />
+                                        <CrudButton type='edit' link='/entity/edit'/>
+                                        <CrudButton type='delete' onClick={() => Delete(url)} />
+                                    </td>
+                                </tr>
                             );
                         })}
                     </tbody>
@@ -116,9 +108,9 @@ const TableEntity = ({ list, loading }) => {
                                             <Card.Title as="h5">Entidades</Card.Title>
                                             <span className="d-block m-t-5">Detalle de entidad</span>
                                         </Col>
-                                        <Col sm={12} lg={4}>                       
+                                        <Col sm={12} lg={3}>                       
                                             <CrudButton type='edit' link='/entity/edit'/>
-                                            <ActiveButton id={id} state={state} onClick={() => switchState(id, state)}  />
+                                            <ActiveButton id={id} active={state} onClick={() => setModalState(true)} />
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
                                     </Row>
@@ -172,11 +164,29 @@ const TableEntity = ({ list, loading }) => {
                 </Modal.Header>
                 <Modal.Body>¿Corfirma la eliminación del Id {id}?</Modal.Body>
                 <Modal.Footer>
+                    <Button variant="outline-danger" onClick={() => removeEntity(id)}>
+                        Eliminar
+                    </Button>
                     <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>
                         Cancelar
                     </Button>
-                    <Button variant="outline-danger" onClick={() => setModalDelete(false)}>
-                        Eliminar
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={modalState} onHide={() => setModalState(false)} aria-labelledby="contained-modal-title-vcenter" centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Estado de la entidad</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Desea activar/desactivar la entidad de Id {id}?</Modal.Body>
+                <Modal.Footer centered>
+                    <Button variant="outline-primary" onClick={() => setModalState(false)}>
+                        Activar
+                    </Button>
+                    <Button variant="outline-danger" onClick={() => setModalState(false)}>
+                        Desactivar
+                    </Button>
+                    <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>
+                        Cancelar
                     </Button>
                 </Modal.Footer>
             </Modal>
