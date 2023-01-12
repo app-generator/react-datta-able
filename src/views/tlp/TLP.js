@@ -7,13 +7,7 @@ const ListTLP = () => {
 
     const [tlp, setTLP] = useState([]);
     const [error, setError] = useState(null);
-<<<<<<< Updated upstream
-=======
-    const [search, setSearch] = useState("");
->>>>>>> Stashed changes
-
     useEffect(() => {
-        getTLP()
         .then((response) => {
             setTLP(response.data.results);
             setError(null);
@@ -26,8 +20,6 @@ const ListTLP = () => {
         return <p>Ups! Se produjo un error al buscar el protocolo de semaforo.</p>
     }
 
-<<<<<<< Updated upstream
-=======
     //valores ingresados
     const searcher = (e) => {
         setSearch(e.target.value) //actualizar
@@ -43,7 +35,6 @@ const ListTLP = () => {
         )
     }
 
->>>>>>> Stashed changes
     return (
         <React.Fragment>
             <Row>
