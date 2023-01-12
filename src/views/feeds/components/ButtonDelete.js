@@ -9,7 +9,21 @@ function ButtonDelete({feed}) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  console.log(feed.url.split("/")[6]);
+  const [error, setError] = useState(null);
+
+  const removeFeed = (id)=> {
+    deleteFeed(id).then((response) => {
+        console.log(response);      
+        handleClose();
+    })
+    .catch(setError);
+    return window.location.reload();
+  };
+
+  if (error) {
+    console.log(error);
+    return <p>Ups! Se produjo un error al buscar el protocolo de semaforo.</p>
+  }
 
   return (
     <>
@@ -25,7 +39,7 @@ function ButtonDelete({feed}) {
             <Button variant="outline-secondary" onClick={handleClose}> 
               Cancelar
             </Button>
-            <Button variant="outline-danger" onClick={()=> console.log("Hola")}>
+            <Button variant="outline-danger" onClick={()=> removeFeed(feed.url.split("/")[6])}>
               Eliminar
             </Button>
           </Modal.Footer>
