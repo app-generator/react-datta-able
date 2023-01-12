@@ -28,6 +28,8 @@ const ListFeeds = () => {
         return <p>Ups! Se produjo un error al buscar las fuentes de informacion.</p>
     }
 
+    
+
     return (
         <React.Fragment>
             <Row>
@@ -87,7 +89,7 @@ const ListFeeds = () => {
                                                         <i className='fas fa-edit'/>                                                    
                                                     </Button>
                                                 </Link>    
-                                                <ButtonDelete name={feed.name}></ButtonDelete>
+                                                <ButtonDelete feed={feed}></ButtonDelete>
                                             </td>
                                         </tr>
                                     ))}
