@@ -7,8 +7,10 @@ const ListTLP = () => {
 
     const [tlp, setTLP] = useState([]);
     const [error, setError] = useState(null);
+    const [search, setSearch] = useState("");
+
     useEffect(() => {
-        .then((response) => {
+        getTLP().then((response) => {
             setTLP(response.data.results);
             setError(null);
         })
@@ -57,21 +59,11 @@ const ListTLP = () => {
                             <Row>
                                 <Col>
                                     <React.Fragment>
-<<<<<<< Updated upstream
-                                        <div id="main-search" className='open'>
-                                            <div className="input-group">
-                                                <input type="text" id="m-search" className="form-control" placeholder="Buscar protocolo de semaforo . . ." />
-                                                <span className="search-btn btn btn-primary" >
-                                                    <i className="fas fa-search " />
-                                                </span>
-                                            </div>
-=======
                                         <div className="input-group">
                                             <input value={search} onChange={searcher} type="text" id="m-search" className="form-control" placeholder="Buscar protocolo de semaforo . . ." />
                                             <span className="search-btn btn btn-primary">
                                                 <i className="feather icon-search " />
                                             </span>
->>>>>>> Stashed changes
                                         </div>
                                     </React.Fragment>                           
                                 </Col>                                  
@@ -89,14 +81,9 @@ const ListTLP = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-<<<<<<< Updated upstream
-                                    {tlp.sort((a,b) => a.code - b.code).map((item,i) => (
-                                        <tr>
-=======
                                     {list.sort((a,b) => a.code - b.code).map((item,i) => (
                                         console.log("Hola"),
                                         <tr key={i}>
->>>>>>> Stashed changes
                                             <th scope="row">{i+1}</th>
                                             <td><p class="p-3 mb-2 bg-dark rounded" style={{color: item.color}}><b>{item.information}</b></p></td>
                                             <td><Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={item.description} /></td>
