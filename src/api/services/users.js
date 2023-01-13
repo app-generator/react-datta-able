@@ -1,7 +1,6 @@
 import { apiInstance } from "../custom";
 
 const getUsers = (url="user") => {
-    console.log(url+ "en user.js")
     return apiInstance.get(url);
 }
 
@@ -10,6 +9,8 @@ const getUser = (id) => {
 }
 
 const postUser = (username, first_name, last_name, email, priority, is_active) => {
+    console.log(username)
+    console.log(first_name)
     return apiInstance.post("user/", {
         username: username, 
         first_name: first_name, 

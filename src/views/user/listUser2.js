@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown,
   Badge, Breadcrumb,  Table } from 'react-bootstrap';
 import Pagination from './Pagination'
-import axios from 'axios'
+
 import Posts from './components/Posts'
 import { getUsers, getUser, postUser, putUser, isActive, deleteUser } from "../../api/services/users";
-import { API_SERVER } from '../../config/constant';
 
 
 
@@ -14,7 +13,6 @@ function App() {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setpostsPerPage] = useState(20)
   const [jumpPage, setjumpPage] = useState(false)
   const [pages, setPages] = useState()
   const [cantPages, setcantPages] = useState([])

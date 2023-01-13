@@ -1,11 +1,35 @@
-import React from 'react'
+import React,{ useState} from 'react'
 import {Link} from 'react-router-dom'
 import {
   Button,
    Card, Table , Modal, Row,Col
 } from 'react-bootstrap';
+import { deleteUser } from "../../../api/services/users";
 
 function Posts({posts}) {
+  const [show, setShow] = useState(false);
+  var [deleteUsername, setDeleteUsername] = useState("");
+  var [deleteUrl, setDeleteUrl] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleClose = () => setShow(false);
+
+  const handleDelete = () => {
+    deleteUser(deleteUrl.substr(-3,2)).then((response) => {//esto tengo que cambiarlo porque no es nada bueno a futuro
+      console.log(response);      
+      setShow(false)
+    }).catch(setError);
+
+    return window.location.reload();
+  }
+
+  const handleShow = (username, url) => {
+
+    setDeleteUsername(username)
+    setDeleteUrl(url) 
+    setShow(true)
+   
+  }
   
   
 
@@ -47,8 +71,8 @@ function Posts({posts}) {
                                         <th>Nombre de usuario</th>
                                         <th>Nombre</th>
                                         <th>Email</th>
-                                        <th>Ultimo login</th>
                                         <th>Estado</th>
+                                        <th>Ultimo login</th>
                                         <th>Creado</th>
                                         <th>Actualizado</th>
                                         <th>Opciones</th>
@@ -63,14 +87,12 @@ function Posts({posts}) {
                                     <tr>
                                         <th >{index + 1 }</th>
                                         <td>{post.username}</td>
-                                        <td>Mark</td>
-                                        <td>Mark@mark.com</td>
+                                        <td>{post.first_name}</td>
+                                        <td>{post.email}</td>
                                         <td>
                                             <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
                                                 <i className='feather icon-check-circle'/>
                                             </Button>
-
-
                                         </td>
                                         <td>12/09/2022</td>
                                         
@@ -91,13 +113,25 @@ function Posts({posts}) {
                                             </Button>
                                         </Link>
 
-                                        
-                                            <Button className="btn-icon " variant="outline-danger" onClick="">
+                                            <Button className="btn-icon " variant="outline-danger" onClick={()=>handleShow(post.username,post.url)}>
                                                 <i className='fas fa-trash-alt' title="Eliminar" />
                                             </Button>
-                                      
- 
                                         </td>
+                                        <Modal show={show} onHide={handleClose}>
+                                              <Modal.Header closeButton>
+                                                <Modal.Title>Eliminar usuario</Modal.Title>
+                                              </Modal.Header>
+                                              <Modal.Body>¿Estas seguro que quiere eliminar el usuario {deleteUsername} </Modal.Body>
+                                              <Modal.Footer>
+                                                <Button variant="secondary" onClick={handleClose}>
+                                                  Cerrar
+                                                </Button>
+                                                <Button variant="danger" onClick={()=>handleDelete()}>
+                                                  Eliminar
+                                                </Button>
+                                              </Modal.Footer>
+                                            </Modal>
+
                                     </tr>
                               )
                             })}
@@ -105,6 +139,7 @@ function Posts({posts}) {
                         </Table>
                       </ul>
                 </Card.Body>
+                  
      </Card>
   </div>
     
