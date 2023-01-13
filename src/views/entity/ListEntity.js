@@ -32,7 +32,7 @@ const ListEntity = () => {
     //filtro
     let show = []
     if (!search) {
-        show = entities
+        show = entities.sort()
     } else {
         show = entities.filter( (item) => 
             item.name.toLowerCase().includes(search.toLocaleLowerCase())

@@ -16,12 +16,11 @@ const ActiveButton = ({id, active, onClick}) => {
         setEntityId(id);
         setState(active);
         setStateBool(active===1);
-        {/*
-    */}
-        console.log(entityId)
-        console.log(state)
-        console.log(stateBool)
-    },[]);
+},[]);
+
+//    console.log(entityId)
+//    console.log(state)
+//    console.log(stateBool)
 
     return (
         <React.Fragment>

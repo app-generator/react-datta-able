@@ -4,17 +4,21 @@ import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner
 import ActiveButton from '../Button/ActiveButton';
 import CrudButton from '../Button/CrudButton';
 import { getEntity, isActive, putEntity, deleteEntity } from '../../api/services/entities';
+import DeleteAlert from '../Alert/DeleteAlert'
 
 const TableEntity = ({ list, loading }) => {
     const [entity, setEntity] = useState('');
+    const [array, setArray] = useState(list);
     const [error, setError] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
     const [modalState, setModalState] = useState(false);
     const [id, setId] = useState(null);
+    const [name, setName] = useState(null);
     const [created, setCreated] = useState(null);
     const [modified, setModified] = useState(null);
     const [state,setState] = useState(null);
+    const [alert,setAlert] = useState(null);
 
     useEffect(() => {
 
@@ -27,6 +31,16 @@ const TableEntity = ({ list, loading }) => {
         );    
     }
 
+    const showAlert = (message, type) => {
+        setAlert({
+            message: message,
+            type: type
+        })
+        setTimeout(() => {
+            return window.location.reload();
+        }, 5000)
+
+    }
     
     const showEntity = (key)=> {
         setId(key)
@@ -43,26 +57,29 @@ const TableEntity = ({ list, loading }) => {
         })
         .catch(setError);
     };
-    const Delete = (key) => {
+    const Delete = (key, name) => {
         setId(key);
+        setName(name);
         setModalDelete(true)
     }
     const removeEntity = (key)=> {
         deleteEntity(key).then((response) => {
-            console.log(response);      
+            console.log(response)
+            //setArray(array.filter(item => item.name != name)
             setModalDelete(false)
+            showAlert('La entidad ha sido eliminada', 'success')
+            ///
         })
         .catch(setError);
-        return window.location.reload();
     };
         if (error) {
             console.log(error);
-            return <p>Ups! Se produjo un error al buscar la entidad.</p>
+            showAlert('Ha ocurrido un error', 'danger')
         }
-
 
     return (
             <React.Fragment>
+                <DeleteAlert alert={alert}/>
                 <Table responsive hover>
                     <thead>
                         <tr>
@@ -77,6 +94,7 @@ const TableEntity = ({ list, loading }) => {
                     <tbody>
                         {list.map((entity, index) => {
                             let url = entity.url.split('/')[(entity.url.split('/')).length-2];
+
                             return (
                                 <tr key={url}>
                                     <th scope="row">{index+1}</th>
@@ -89,7 +107,7 @@ const TableEntity = ({ list, loading }) => {
                                     <td>
                                         <CrudButton type='read' onClick={() => showEntity(url)} />
                                         <CrudButton type='edit' link='/entity/edit'/>
-                                        <CrudButton type='delete' onClick={() => Delete(url)} />
+                                        <CrudButton type='delete' onClick={() => Delete(url, entity.name)} />
                                     </td>
                                 </tr>
                             );
@@ -162,7 +180,7 @@ const TableEntity = ({ list, loading }) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Eliminar Entidad</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>¿Corfirma la eliminación del Id {id}?</Modal.Body>
+                <Modal.Body>¿Desea eliminar {name}?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-danger" onClick={() => removeEntity(id)}>
                         Eliminar
@@ -180,11 +198,9 @@ const TableEntity = ({ list, loading }) => {
                 <Modal.Body>Desea activar/desactivar la entidad de Id {id}?</Modal.Body>
                 <Modal.Footer centered>
                     <Button variant="outline-primary" onClick={() => setModalState(false)}>
-                        Activar
+                        Activar/desactivar
                     </Button>
-                    <Button variant="outline-danger" onClick={() => setModalState(false)}>
-                        Desactivar
-                    </Button>
+
                     <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>
                         Cancelar
                     </Button>
