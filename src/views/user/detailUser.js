@@ -3,7 +3,11 @@ import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, 
      Badge, Breadcrumb,  Table } from 'react-bootstrap';
 import {Link} from 'react-router-dom'
 
+
 const DetailUser = () => {
+
+
+    
     return (
         <>
           <h3 className="title-theme-color">Detalle de un usuario </h3>

@@ -9,6 +9,8 @@ import { getUsers, getUser, postUser, putUser, isActive, deleteUser } from "../.
 
 
 
+
+
 function App() {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(false)
@@ -57,7 +59,7 @@ function App() {
       
       const complementUrl ="?page="
       
-      const urlBase = "/user/"
+      const urlBase = "user/"
   
       const arrayLinks=[]
       

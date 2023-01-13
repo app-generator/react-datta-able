@@ -2,20 +2,23 @@ import React,{ useState} from 'react'
 import {Link} from 'react-router-dom'
 import {
   Button,
-   Card, Table , Modal, Row,Col
+   Card, Table , Modal, Row,Col, Breadcrumb,Form, Badge,CloseButton
 } from 'react-bootstrap';
-import { deleteUser } from "../../../api/services/users";
+import { deleteUser,putUser } from "../../../api/services/users";
 
 function Posts({posts}) {
   const [show, setShow] = useState(false);
-  var [deleteUsername, setDeleteUsername] = useState("");
-  var [deleteUrl, setDeleteUrl] = useState("");
+  const [deleteUsername, setDeleteUsername] = useState("");
+  const [deleteUrl, setDeleteUrl] = useState("");
   const [error, setError] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
+  const [showUser, setShowUser] = useState({});
+
 
   const handleClose = () => setShow(false);
 
   const handleDelete = () => {
-    deleteUser(deleteUrl.substr(-3,2)).then((response) => {//esto tengo que cambiarlo porque no es nada bueno a futuro
+    deleteUser(deleteUrl).then((response) => {//esto tengo que cambiarlo porque no es nada bueno a futuro
       console.log(response);      
       setShow(false)
     }).catch(setError);
@@ -30,6 +33,16 @@ function Posts({posts}) {
     setShow(true)
    
   }
+  const showModalUser = (url, username, first_name, last_name, email, priority, is_active) => {
+    putUser(url, username, first_name, last_name, email, priority, is_active).then((response) => {
+      console.log(response); 
+      setShowUser(response.data)
+      setModalShow(true)
+
+    })
+   
+  } 
+  
   
   
 
@@ -40,6 +53,16 @@ function Posts({posts}) {
 
       <Card>
       <Card.Header>
+      <Row>
+      <Breadcrumb>
+                <Breadcrumb.Item href="./app/dashboard/default">
+                    <i className="feather icon-home" />
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active>
+                    <b>Usuarios</b>
+                </Breadcrumb.Item>
+            </Breadcrumb>    
+        </Row>
                             <Row>
                                 <Col sm={12} lg={9}>
                                 <div id="main-search" className='open'>
@@ -90,9 +113,13 @@ function Posts({posts}) {
                                         <td>{post.first_name}</td>
                                         <td>{post.email}</td>
                                         <td>
-                                            <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
-                                                <i className='feather icon-check-circle'/>
-                                            </Button>
+                                        <Button 
+                                            className="btn-icon btn-rounded" 
+                                            variant={post.is_active ? 'outline-success' : 'outline-danger'} 
+                                            title={post.is_active ? 'Activo' : 'Inactivo'}
+                                            onClick="">
+                                           <i className={post.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
+                                        </Button>
                                         </td>
                                         <td>12/09/2022</td>
                                         
@@ -100,15 +127,16 @@ function Posts({posts}) {
                                         <td>11/09/2022</td>
                                         <td>
 
-                                        <Link to="/detail-user" >
-                                            <Button className="btn-icon " variant="outline-primary">
+                                        
+                                            <Button className="btn-icon " variant="outline-primary" 
+                                            onClick={() => showModalUser(post.url, post.username, post.first_name, post.last_name, post.email, post.priority, post.is_active)}>
                                                 <i className='fas fa-eye ' title="Detalle" />
                                             </Button>
-                                        </Link>
+                                        
 
                                         
-                                        <Link to="/add-user" >
-                                            <Button className="btn-icon " variant="outline-warning">
+                                        <Link to={`/edit-user/${post.url}`} >
+                                            <Button className="btn-icon " variant="outline-warning" >
                                                 <i className='far fa-edit' title="Editar" />
                                             </Button>
                                         </Link>
@@ -123,7 +151,7 @@ function Posts({posts}) {
                                               </Modal.Header>
                                               <Modal.Body>¿Estas seguro que quiere eliminar el usuario {deleteUsername} </Modal.Body>
                                               <Modal.Footer>
-                                                <Button variant="secondary" onClick={handleClose}>
+                                                <Button variant="secondary" onClick={()=>handleClose()}>
                                                   Cerrar
                                                 </Button>
                                                 <Button variant="danger" onClick={()=>handleDelete()}>
@@ -131,6 +159,90 @@ function Posts({posts}) {
                                                 </Button>
                                               </Modal.Footer>
                                             </Modal>
+                                            <Modal size='lg' show={modalShow} onHide={() => setModalShow(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
+            <Modal.Body>
+                <Row>    
+                    <Col>                 
+                        <Card>
+                            <Card.Header> 
+                                <Row>
+                                    <Col>
+                                        <Card.Title as="h5">Usuario</Card.Title>
+                                        <span className="d-block m-t-5">Detalle de usuario</span>
+                                    </Col>
+                                    <Col sm={12} lg={4}>                       
+                                        <Button title='Editar' className="btn-icon btn-rounded" variant='outline-warning' href='/entity/edit'>
+                                            <i className='fas fa-edit'/>
+                                        </Button>
+                                        <Button 
+                                            className="btn-icon btn-rounded" 
+                                            variant={showUser.is_active ? 'outline-success' : 'outline-danger'} 
+                                            title={showUser.is_active ? 'Activo' : 'Inactivo'}
+                                            onClick="">
+                                           <i className={post.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
+                                        </Button>
+
+                                        <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
+                                    </Col>
+                                </Row>         
+                            </Card.Header>
+                            <Card.Body>
+                                <Table responsive >
+                                    <tr>
+                                        <td>Nombre de usuario</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={showUser.username} />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={showUser.first_name} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ultimo inicio de cesion</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={showUser.last_login} />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Creado el</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={showUser.date_joined} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ultima Actulizacion</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue="" />
+                                        </td>
+                                    </tr>
+
+
+
+                                    <tr>
+                                        <td>Informacion Relacionada</td>
+                                        <td>
+                                            <Button size="sm" variant='light' className="text-capitalize">
+
+                                            Incidentes <Badge variant="light" className="ml-1"></Badge>
+                                            </Button>
+                                            <Button size="sm" variant='light' className="text-capitalize">
+
+                                            Incidentes asignados <Badge variant="light" className="ml-1"></Badge>
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                </Table>
+                            </Card.Body>
+                        </Card>
+                    </Col> 
+                </Row>
+            </Modal.Body>            
+        </Modal>
 
                                     </tr>
                               )

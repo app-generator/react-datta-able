@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 import { getUsers, getUser, postUser, putUser, isActive, deleteUser } from "../../api/services/users";
+import { useParams } from 'react-router-dom';
 
 
 const AddUser = () => {    
+    const {url} = useParams();
     
     const[username,setUsername]=useState(false)
     const[priority,setPriority]=useState(false)
@@ -66,6 +68,8 @@ const AddUser = () => {
     return (
         <>
           <Card>
+          <h1>El Id es: {url}</h1>
+
           <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default">
                         <i className="feather icon-home" />
