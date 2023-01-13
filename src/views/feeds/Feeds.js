@@ -77,7 +77,7 @@ const ListFeeds = () => {
                                             <th scope="row">{i+1}</th>
                                             <td>{feed.name}</td>
                                             <td>
-                                                <ButtonState state={feed.active}></ButtonState>
+                                                <ButtonState feed={feed}></ButtonState>
                                             </td>
                                             <td>{feed.description}</td>
                                             <td>{feed.created.slice(0,10)}</td>

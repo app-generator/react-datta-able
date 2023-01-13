@@ -31,7 +31,7 @@ function ButtonView({feed}) {
                                                 <i className='fas fa-edit'/>                                                    
                                             </Button>
                                         </Link>    
-                                        <ButtonState state={feed.active}></ButtonState>                           
+                                        <ButtonState feed={feed}></ButtonState>                           
                                         <CloseButton aria-label='Cerrar' onClick={handleClose} />
                                     </Col>
                                 </Row>

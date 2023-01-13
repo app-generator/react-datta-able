@@ -8,5 +8,11 @@ const deleteFeed = (id) => {
     return apiInstance.delete("administration/feed/"+id+"/");
 }
 
+const active = (id, state) => {
+    return apiInstance.patch("administration/feed/"+id+"/", {
+        active: state
+    } );
+}
 
-export { getFeeds, deleteFeed };
+
+export { getFeeds, deleteFeed, active };

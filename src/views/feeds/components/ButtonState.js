@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { active } from '../../../api/services/feeds';
 
-function ButtonState({state}) {    
+function ButtonState({feed}) {    
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -10,22 +11,43 @@ function ButtonState({state}) {
     const title = ["Inactivo", "Activo"];
     const variant = ['outline-danger', 'outline-success'];
     const className = ['fas fa-ban mx-1', 'fas fa-check mx-1'];
+    const [error, setError] = useState(null);
+
+    const changeState = (id, state)=> {
+        if(state === 0){
+            state+=1        
+        }
+        else{
+            state-=1
+        }
+        active(id, state).then((response) => {
+            console.log(response);      
+            handleClose();
+        })
+        .catch(setError);
+        return window.location.reload();
+    };
+
+    if (error) {
+        console.log(error);
+        return <p>Ups! Se produjo un error al buscar el protocolo de semaforo.</p>
+    }
 
     return(
         <>
-            <Button title={title[state]} className="btn-icon btn-rounded" variant={variant[state]} onClick={handleShow} >
-                <i className={className[state]}/>
+            <Button title={title[feed.active]} className="btn-icon btn-rounded" variant={variant[feed.active]} onClick={handleShow} >
+                <i className={className[feed.active]}/>
             </Button>
             <Modal show={show} onHide={handleClose} >
                 <Modal.Header closeButton>
-                    <Modal.Title>Modificar el estado {title[state]} </Modal.Title>
+                    <Modal.Title>Modificar el estado {title[feed.active]} </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>¿Corfirma la modificacion del estado?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-secondary" onClick={handleClose}> 
                         Cancelar
                     </Button>
-                    <Button variant="outline-warning" onClick={handleClose}>
+                    <Button variant="outline-warning" onClick={()=> changeState(feed.url.split("/")[6], feed.active)}>
                         Modiifcar
                     </Button>
                 </Modal.Footer>
