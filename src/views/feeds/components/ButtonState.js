@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { active } from '../../../api/services/feeds';
+import { putActivationStatus } from '../../../api/services/feeds';
 
 function ButtonState({feed}) {    
     const [show, setShow] = useState(false);
@@ -14,13 +14,7 @@ function ButtonState({feed}) {
     const [error, setError] = useState(null);
 
     const changeState = (id, state)=> {
-        if(state === 0){
-            state+=1        
-        }
-        else{
-            state-=1
-        }
-        active(id, state).then((response) => {
+        putActivationStatus(id, +!state).then((response) => {
             console.log(response);      
             handleClose();
         })
