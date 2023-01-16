@@ -18,8 +18,11 @@ function ButtonState({feed}) {
             console.log(response);      
             handleClose();
         })
-        .catch(setError);
-        return window.location.reload();
+        .catch((error) => {
+            setError(error);
+        }).finally(()=>{
+            window.location.reload();
+        })
     };
 
     if (error) {
