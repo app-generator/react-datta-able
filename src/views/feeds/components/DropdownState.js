@@ -4,8 +4,9 @@ import { useState } from "react";
 
 const options = ["Activo", "Inactivo"];
 
-function DropdownState() {
-    const [selected, setSelected] = useState(options[0]);
+function DropdownState({state, setActive}) {
+    const [selected, setSelected] = useState(options[+!state]);
+    setActive(+!options.indexOf(selected));
     return (
       <Dropdown >
         <Dropdown.Toggle variant="secondary">
