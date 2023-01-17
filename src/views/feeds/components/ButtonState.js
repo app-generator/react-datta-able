@@ -20,7 +20,8 @@ function ButtonState({feed}) {
         })
         .catch((error) => {
             setError(error);
-        }).finally(()=>{
+        })
+        .finally(()=>{
             window.location.reload();
         })
     };

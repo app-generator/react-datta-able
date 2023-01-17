@@ -13,16 +13,20 @@ function ButtonDelete({feed}) {
 
   const removeFeed = (id)=> {
     deleteFeed(id).then((response) => {
-        console.log(response);      
-        handleClose();
+      console.log(response);      
+      handleClose();
     })
-    .catch(setError);
-    return window.location.reload();
+    .catch((error) => {
+      setError(error);
+    })
+   .finally(()=>{
+      window.location.reload();
+    })
   };
 
   if (error) {
     console.log(error);
-    return <p>Ups! Se produjo un error al buscar el protocolo de semaforo.</p>
+    return <p>Ups! Se produjo un error al borrar el feed {feed.name}.</p>
   }
 
   return (

@@ -13,6 +13,23 @@ const EditFeed = () => {
     const [name, setName] = useState(feed.name);
     const [active, setActive] = useState(feed.active);
     const [description, setDescription] = useState(feed.description);
+
+    const [error, setError] = useState(null);
+
+    const changeFeed = (id, slug, name, description, active)=> {
+        putFeed(id, slug, name, description, active).then((response) => {
+            console.log(response);
+            window.history.back();
+        })
+        .catch((error) => {
+            setError(error);
+        })        
+    };
+
+    if (error) {
+        console.log(error);
+        return <p>Ups! Se produjo un error al editar el feed {feed.name}.</p>
+      }
     
    
     return (
@@ -54,7 +71,7 @@ const EditFeed = () => {
                                 </Form.Group>
                               
                                   
-                                <Button variant="success" onClick={()=> putFeed(feed.url.split("/")[6], slug, name, description, active)}>Guardar</Button>
+                                <Button variant="success" onClick={()=> changeFeed(feed.url.split("/")[6], slug, name, description, active)}>Guardar</Button>
                                 <Button variant="info" href='/app/feeds'>Volver</Button>
                             </Form>
                         </Card.Body>
