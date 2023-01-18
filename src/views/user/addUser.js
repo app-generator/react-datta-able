@@ -7,7 +7,8 @@ const AddUser = () => {
     
     const[username,setUsername]=useState(false)
     const[priority,setPriority]=useState(false)
-    const[body,setBody]=useState({ username: "", 
+    const[body,setBody]=useState({ 
+        username: "", 
     first_name: "", 
     last_name: "", 
     email: "", 
@@ -22,6 +23,30 @@ const AddUser = () => {
                 )  
           
         }
+    }
+    const validateFirstName=(event)=>{
+        
+        setBody({...body,
+        [event.target.name] : event.target.value}
+        )  
+          
+        
+    }
+    const validateLastName=(event)=>{
+        
+        setBody({...body,
+        [event.target.name] : event.target.value}
+        )  
+          
+        
+    }
+    const validateEmail=(event)=>{
+        
+        setBody({...body,
+        [event.target.name] : event.target.value}
+        )  
+          
+        
     }
     const validatePriority=(event)=>{
 
@@ -38,8 +63,6 @@ const AddUser = () => {
         }else{
             console.log("no ingresa")
         }
-    
-    
     }
     
     
@@ -70,7 +93,7 @@ const AddUser = () => {
                     <Breadcrumb.Item href="./app/dashboard/default">
                         <i className="feather icon-home" />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href="./list-user">
+                    <Breadcrumb.Item href="/list-user">
                         <i className="fas fa-network-wired" /> Usuarios
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>
@@ -91,17 +114,17 @@ const AddUser = () => {
 
                                 <Form.Group controlId="formGridAddress1">
                                         <Form.Label>Nombre/s</Form.Label>
-                                        <Form.Control placeholder="Ingrese el nombre/s" />
+                                        <Form.Control placeholder="Ingrese el nombre/s" name="first_name"onChange={validateFirstName}/>
                                 </Form.Group>
                                 <Form.Group controlId="formGridAddress1">
                                         <Form.Label>Apellido</Form.Label>
-                                        <Form.Control placeholder="Ingrese el apellido" />
+                                        <Form.Control placeholder="Ingrese el apellido" name="last_name" onChange={validateLastName}/>
                                 </Form.Group>
                                 
 
                                 <Form.Group controlId="formGridEmail">
                                         <Form.Label>Email</Form.Label>
-                                        <Form.Control type="email" placeholder="Ingrese el Email" />
+                                        <Form.Control type="email" placeholder="Ingrese el Email" name="email" onChange={validateEmail}/>
                                 </Form.Group>
                                 
                                 <Form.Group controlId="exampleForm.ControlSelect1">

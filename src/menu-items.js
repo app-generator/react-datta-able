@@ -191,22 +191,13 @@ const menuItems = {
                     type: 'item',
                     url: '/list-user',
                     classes: '',
-                    icon: '',
-                    breadcrumbs: false
+                    icon: 'fa fa-user',
+                    breadcrumbs: false,
+                    
+                    
 
                    
                 },
-                {
-                    id: 'usuarios2',
-                    title: 'usuarios2',
-                    type: 'item',
-                    url: '/list-user2',
-                    classes: '',
-                    icon: '',
-                    breadcrumbs: false
-                   
-                },
-         
                 
             ]
         }         

@@ -1,215 +1,121 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom'
+import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown,
+  Badge, Breadcrumb,  Table } from 'react-bootstrap';
+import Pagination from './Pagination'
+
+import Posts from './components/Posts'
+import { getUsers} from "../../api/services/users";
 
 
-import {
-    Button,
-     Card, Table , Modal,Row, Col,Breadcrumb
-} from 'react-bootstrap';
-import axios from "axios";
 
-const ListUser = () => {
+
+
+
+function App() {
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [jumpPage, setjumpPage] = useState(false)
+  const [pages, setPages] = useState()
+  const [cantPages, setcantPages] = useState([])
+
 
   
+  function CambioDepagina(url){
+   
 
-    const [show, setShow] = useState(false);
+    if (jumpPage){
+      setjumpPage(false)
+      console.log(url)
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+      const fetchPosts = async () => {
+        console.log(url)
+        setLoading(true)
+        getUsers(url).then((response) => {
+          setPosts(response.data.results)
+          console.log(response.data.results)
+          
+      })
 
-
-  const [users, setUsers] = useState([]);
+        setLoading(false)
+        
+      }
+      fetchPosts()
+  
+    }
+  }
 
   
- 
-
   
-      /*useEffect(()=>{
-        const loadUsers=async()=>{
-            const requestOptions = {
-                method: "GET",
-                //credentials: 'same-origin',
-            
-                headers: { 
-                    //'Access-Control-Allow-Origin': '*',
-                    "Content-Type": "application/json",
-                    //'Access-Control-Allow-Credentials':"true",
-                    //"Access-Control-Allow-Methods": "GET",
-                    //"Access-Control-Allow-Headers": "Content-Type",
-                    
-                    "authorization":"Bearer csrftoken=xH8Cu7TZjE4MOwiX8ZP1uQRlzn32s75Yg6daQTDiEpk1oGK4Ht2E4qdWih6OFmc7; sessionid=3u34xh5lpy7b5145faeub34uhv0m536v",
-                    //'Cookie': 'Bearer csrftoken=xH8Cu7TZjE4MOwiX8ZP1uQRlzn32s75Yg6daQTDiEpk1oGK4Ht2E4qdWih6OFmc7; sessionid=3u34xh5lpy7b5145faeub34uhv0m536v',
-                    //"Cookie": "csrftoken=xH8Cu7TZjE4MOwiX8ZP1uQRlzn32s75Yg6daQTDiEpk1oGK4Ht2E4qdWih6OFmc7; sessionid=3u34xh5lpy7b5145faeub34uhv0m536v",
-                    
-                    },
-                    //mode: 'cors',
-                    //cache: 'default',
-                
-                };
-            const res=await fetch('http://localhost:8000/api/user/', requestOptions)
-            const data=await res.json()
-            setUsers(data)
-            console.log(data)
-            console.log(res)
-        }
-     
-        loadUsers()
-    },[]);*/
 
+  useEffect(() => {
 
-  return (
-    <div>
+    function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
+
+      const numberOfPages= Math.ceil(numberOfItems / numberOfElementsOnAPage)
+      console.log(numberOfPages)
+  
+      
+      //setpostsPerPage(number)//hay un bug ya que se va mostrar 8 paginas aunque debe ser el doble
+      
+      const complementUrl ="?page="
     
+  
+      const arrayLinks=[]
+      
+  
+      for (var i = 1; i <= numberOfPages; i++) {
+      
+        arrayLinks.push(complementUrl+i)
+        
+      }
+      console.log(arrayLinks)
+      setcantPages(arrayLinks)
+    
+      
+      return numberOfPages
+      
+    }
 
-      <Card>
-      <Card.Header>
-      <Row>
-            <Breadcrumb>
-                <Breadcrumb.Item href="./app/dashboard/default">
-                    <i className="feather icon-home" />
-                </Breadcrumb.Item>
-                <Breadcrumb.Item active>
-                    <b>Usuarios</b>
-                </Breadcrumb.Item>
-            </Breadcrumb>    
-        </Row>
-                            <Row>
-                                <Col sm={12} lg={9}>
-                                <div id="main-search" className='open'>
-                                     <div className="input-group">
-                                        <input type="text" id="m-search" className="form-control" placeholder="Buscar usuario . . ." />
-                                            <span className="search-btn btn btn-primary" onClick="">
-                                                    <i className="feather icon-search " />
-                                            </span> 
-                                    </div>
-                                </div>
+    getUsers()
+      .then((response) => {
+          setPages(arrayWithPages(response.data.count,response.data.results.length))
+          
+      })
+        
 
-                           
-                                </Col> 
-                                <Col sm={12} lg={3}>
-                                <Button className="text-capitalize" variant='outline-primary' title='Agregar Usuario' href="/add-user">
-                                    <i className='fa fa-plus' />
-                                        Agregar usuario
-                                </Button>
-                            
-                                </Col> 
-                            </Row>                                 
-                        </Card.Header>
-                        
+    const fetchPosts = async () => {
+      setLoading(true)
 
+      getUsers()
+      .then((response) => {
+          setPosts(response.data.results)
+          console.log(response.data.results)
+          
+      })
+    }
 
-                        <Card.Body>
-                            <Table responsive hover>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nombre de usuario</th>
-                                        <th>Nombre</th>
-                                        <th>Email</th>
-                                        <th>Activo</th>
-                                        <th>Ultimo login</th>
-                                        <th>Creado</th>
-                                        <th>Actualizado</th>
-                                        
-                                        <th>Opciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>@mdo</td>
-                                        <td>Mark</td>
-                                        <td>Mark@mark.com</td>
-                                        <td>
-                                            <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
-                                                <i className='feather icon-check-circle'/>
-                                            </Button>
+    fetchPosts()
+  }, [])
 
+  if (loading && posts.length === 0 ) {
+    return <h2>Cargando...</h2>
+  }
+  
+  CambioDepagina(cantPages[currentPage-1])
+  const currentPosts = posts// lo que se muestra
+  const howManyPages = pages//la cantidad de paginas del paginado 
+  
+  
+  return (
+    <div className="container mt-5">
+      <Posts posts={currentPosts}/> 
+      <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
 
-                                        </td>
-                                        <td>12/09/2022</td>
-                                        <td>11/08/2021</td>
-                                        <td>11/09/2022</td>
-                                        
-                                        <td>
-
-                                        <Link to="/detail-user" >
-                                            <Button className="btn-icon btn-rounded" variant="outline-primary">
-                                                <i className='fas fa-eye ' title="Detalle" />
-                                            </Button>
-                                        </Link>
-
-                                        
-                                        <Link to="/add-user" >
-                                            <Button className="btn-icon btn-rounded " variant="outline-warning">
-                                                <i className='far fa-edit' title="Editar" />
-                                            </Button>
-                                        </Link>
-
-                                        
-                                            <Button className="btn-icon btn-rounded " variant="outline-danger" onClick={handleShow}>
-                                                <i className='fas fa-trash-alt' title="Eliminar" />
-                                            </Button>
-                                      
- 
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>@fat</td>
-                                        <td>Jacob</td>
-                                        <td>jacob@jacob.com</td>
-                                        <td>
-                                            <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
-                                                <i className='feather icon-check-circle'/>
-                                            </Button>
-
-
-                                        </td>
-                                        <td>12/09/2022</td>
-                                        <td>11/08/2021</td>
-                                        <td>11/09/2022</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>@twitter</td>
-                                        <td>Larry</td>
-                                        <td>larry@larry.com</td>
-                                        <td>
-                                            <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
-                                                <i className='feather icon-check-circle'/>
-                                            </Button>
-
-
-                                        </td>
-                                        <td>12/09/2022</td>
-                                        <td>11/08/2021</td>
-                                        <td>11/09/2022</td>
-                                    </tr>
-                      
-                                    
-                                </tbody>
-                               
-                            </Table>
-                            
-                        </Card.Body>
-                        <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Eliminar usuario</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>¿Estas seguro que quiere eliminar este usuario?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cerrar
-          </Button>
-          <Button variant="danger" onClick={handleClose}>
-            Eliminar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-                    </Card>
-                    
+     
     </div>
+    
   );
 }
-export default ListUser
+
+export default App;

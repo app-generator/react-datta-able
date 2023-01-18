@@ -4,7 +4,7 @@ import {
   Button,
    Card, Table , Modal, Row,Col, Breadcrumb,Form, Badge,CloseButton
 } from 'react-bootstrap';
-import { deleteUser,putUser } from "../../../api/services/users";
+import { deleteUser,putUser, isActive } from "../../../api/services/users";
 
 function Posts({posts}) {
   const [show, setShow] = useState(false);
@@ -42,6 +42,16 @@ function Posts({posts}) {
     })
    
   } 
+
+  const changeState = (url,active )=> {
+      active = ! active
+        isActive(url, active).then((response) => {
+            console.log(response) 
+          })
+        return window.location.reload();
+    }
+    
+   
   
   
   
@@ -117,7 +127,7 @@ function Posts({posts}) {
                                             className="btn-icon btn-rounded" 
                                             variant={post.is_active ? 'outline-success' : 'outline-danger'} 
                                             title={post.is_active ? 'Activo' : 'Inactivo'}
-                                            onClick="">
+                                            onClick={()=> changeState(post.url, post.is_active)}>
                                            <i className={post.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
                                         </Button>
                                         </td>
@@ -135,7 +145,8 @@ function Posts({posts}) {
                                         
 
                                         
-                                        <Link to={`/edit-user/${post.url}`} >
+                                        
+                                        <Link to={{pathname:"./edit-user/", state: {post}}} >
                                             <Button className="btn-icon " variant="outline-warning" >
                                                 <i className='far fa-edit' title="Editar" />
                                             </Button>
@@ -226,13 +237,10 @@ function Posts({posts}) {
                                     <tr>
                                         <td>Informacion Relacionada</td>
                                         <td>
+                                            
                                             <Button size="sm" variant='light' className="text-capitalize">
 
-                                            Incidentes <Badge variant="light" className="ml-1"></Badge>
-                                            </Button>
-                                            <Button size="sm" variant='light' className="text-capitalize">
-
-                                            Incidentes asignados <Badge variant="light" className="ml-1"></Badge>
+                                            Casos asignados <Badge variant="light" className="ml-1"></Badge>
                                             </Button>
                                         </td>
                                     </tr>

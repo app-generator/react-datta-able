@@ -133,22 +133,12 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/list-user2',
-                component: lazy(() => import('./views/user/listUser2'))
-            },
-            {
-                exact: true,
                 path: '/add-user',
                 component: lazy(() => import('./views/user/addUser'))
             },
             {
                 exact: true,
-                path: '/detail-user',
-                component: lazy(() => import('./views/user/detailUser'))
-            },
-            {
-                exact: true,
-                path: "/edit-user/:url",
+                path: "/edit-user",
                 component: lazy(() => import('./views/user/editUser'))
             },
             {

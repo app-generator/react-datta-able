@@ -1,9 +1,9 @@
 import { apiInstance } from "../custom";
 import { API_SERVER,COMPONENT_URL } from '../../config/constant';
 
-const getUsers = () => {
+const getUsers = (page="") => {//el parametro es para completar la url con el numero de pagina
     
-    return apiInstance.get(COMPONENT_URL.user);
+    return apiInstance.get(COMPONENT_URL.user+page);
 }
 
 const getUser = (url) => { 
@@ -13,7 +13,7 @@ const getUser = (url) => {
 const postUser = (username, first_name, last_name, email, priority, is_active) => {
     console.log(username)
     console.log(first_name)
-    return apiInstance.post(API_SERVER + "user/", {
+    return apiInstance.post(COMPONENT_URL.user, {
         username: username, 
         first_name: first_name, 
         last_name: last_name, 
@@ -23,7 +23,7 @@ const postUser = (username, first_name, last_name, email, priority, is_active) =
     });
 }
 
-const putUser = (url, username, first_name, last_name, email, priority, is_active) => {
+const putUser = ( url,username, first_name, last_name, email, priority, is_active) => {
     return apiInstance.put(url, {
         username: username, 
         first_name: first_name, 
