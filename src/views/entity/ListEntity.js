@@ -3,20 +3,17 @@ import { Row, Col, Breadcrumb, Card, Button } from 'react-bootstrap';
 import TableEntity from '../../components/Table/TableEntity';
 import CrudButton from '../../components/Button/CrudButton';
 import { getEntities } from '../../api/services/entities';
+import DeleteAlert from '../../components/Alert/DeleteAlert';
 
 const ListEntity = () => {
-    const [entities, setEntities] = useState([]);
-    const [error, setError] = useState(null);
-    const [search, setSearch] = useState("");
+    const [entities, setEntities] = useState([])
+    const [error, setError] = useState(null)
+    const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
+    const [alert, setAlert] = useState(null)
 
     useEffect( ()=> {
-        getEntities()
-        .then((response) => {
-            setEntities(response.data.results);
-        })
-        .catch(setError);
-        setLoading(false)
+        getAll(null)
     }, [])
 
     if (error) {
@@ -26,22 +23,44 @@ const ListEntity = () => {
 
     //valores ingresados
     const searcher = (e) => {
-        setSearch(e.target.value) //actualizar
-        //console.log(e.target)    
+        setSearch(e.target.value) 
         }
     //filtro
     let show = []
     if (!search) {
-        show = entities.sort()
+        show = entities
     } else {
         show = entities.filter( (item) => 
             item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
 
+    const addAlert = (message) => {
+        setAlert((alert) => [...alert, message]);
+    }
+    
+    const getAll = (message) => {
+        getEntities()
+        .then((response) => {
+            setEntities(response.data.results)
+            setAlert(message)
+        })
+        .catch((error) => {
+            setError(error)
+        })
+        .finally(() => {
+            setLoading(false)
+            setAlert(message)
+            setTimeout(() => {
+                setAlert(null)
+            }, 3000);
+        })
+    }
+
 return (
     <React.Fragment>
         <Row>
+        <DeleteAlert alert={alert}/>
             <Breadcrumb>
                 <Breadcrumb.Item href="./app/dashboard/default">
                     <i className="feather icon-home" />
@@ -70,7 +89,7 @@ return (
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableEntity list={show} loading={loading} />
+                        <TableEntity getAll={getAll} list={show} loading={loading} />
                     </Card.Body>
                     <Card.Footer >
                         <Row className="justify-content-md-center">

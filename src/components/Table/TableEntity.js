@@ -3,12 +3,10 @@ import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
 import ActiveButton from '../Button/ActiveButton';
 import CrudButton from '../Button/CrudButton';
-import { getEntity, isActive, putEntity, deleteEntity } from '../../api/services/entities';
-import DeleteAlert from '../Alert/DeleteAlert'
+import { getEntity, deleteEntity } from '../../api/services/entities';
 
-const TableEntity = ({ list, loading }) => {
+const TableEntity = ({getAll, list, loading }) => {
     const [entity, setEntity] = useState('');
-    const [array, setArray] = useState(list);
     const [error, setError] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
@@ -18,28 +16,16 @@ const TableEntity = ({ list, loading }) => {
     const [created, setCreated] = useState(null);
     const [modified, setModified] = useState(null);
     const [state,setState] = useState(null);
-    const [alert,setAlert] = useState(null);
 
     useEffect(() => {
-
     },[]);
+
     if (loading) {
         return (
             <Row className='justify-content-md-center'>
                 <Spinner animation='border' variant='primary' size='sm' />
             </Row>
         );    
-    }
-
-    const showAlert = (message, type) => {
-        setAlert({
-            message: message,
-            type: type
-        })
-        setTimeout(() => {
-            return window.location.reload();
-        }, 5000)
-
     }
     
     const showEntity = (key)=> {
@@ -63,23 +49,23 @@ const TableEntity = ({ list, loading }) => {
         setModalDelete(true)
     }
     const removeEntity = (key)=> {
-        deleteEntity(key).then((response) => {
-            console.log(response)
-            //setArray(array.filter(item => item.name != name)
-            setModalDelete(false)
-            showAlert('La entidad ha sido eliminada', 'success')
-            ///
-        })
-        .catch(setError);
-    };
-        if (error) {
-            console.log(error);
-            showAlert('Ha ocurrido un error', 'danger')
-        }
+        deleteEntity(key)
+            .then((response) => {
+                console.log(response)
+                getAll(`La entidad ${name} ha sido eliminada`)
+            })
+            .catch((error) => {
+                console.log(error)
+                setError(error)
+                getAll(`La entidad ${name} NO ha sido eliminada`)
+            })
+            .finally(() => {
+                setModalDelete(false)
+            })
+        };
 
     return (
             <React.Fragment>
-                <DeleteAlert alert={alert}/>
                 <Table responsive hover>
                     <thead>
                         <tr>
@@ -100,7 +86,7 @@ const TableEntity = ({ list, loading }) => {
                                     <th scope="row">{index+1}</th>
                                     <td>{entity.name}</td>
                                     <td>
-                                        <ActiveButton active={entity.active} id={url} onClick={() => setModalState(true)} />
+                                        <ActiveButton active={entity.active} id={entity.url} onClick={() => setModalState(true)} />
                                     </td>
                                     <td>{entity.created.slice(0,10)}</td>
                                     <td>{entity.modified.slice(0,10)}</td>

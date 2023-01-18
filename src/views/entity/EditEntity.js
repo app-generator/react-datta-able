@@ -6,15 +6,9 @@ const EditEntity = () => {
         <React.Fragment>          
             <Row>
                 <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default">
-                        <i className="feather icon-home" />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href="./tables">
-                        <i className="fas fa-network-wired" /> Entidades
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item active>
-                        <b>Editar Entidad</b>
-                    </Breadcrumb.Item>
+                    <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>
+                    <Breadcrumb.Item href="./tables"><i className="fas fa-network-wired" /> Entidades</Breadcrumb.Item>
+                    <Breadcrumb.Item active><b>Editar Entidad</b></Breadcrumb.Item>
                 </Breadcrumb>    
             </Row>
             <Row>
@@ -36,7 +30,6 @@ const EditEntity = () => {
                                         <Button variant="primary" href="/entity/tables">Cancelar</Button>
                                     </Form>
                                 </Col>
-                                
                             </Row>
                         </Card.Body>
                     </Card>

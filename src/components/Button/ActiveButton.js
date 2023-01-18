@@ -8,15 +8,14 @@ const ActiveButton = ({id, active, onClick}) => {
     const [error, setError] = useState(null);
     const [stateBool, setStateBool] = useState(null);
     
-    const print = () => {
-        console.log("hola onclick")
-    }
-    
     useEffect(() => {
-        setEntityId(id);
+        setEntityId(id.split('/')[(id.split('/')).length-2]);
         setState(active);
         setStateBool(active===1);
 },[]);
+    const print = () => {
+        console.log("hola onclick")
+    }
 
 //    console.log(entityId)
 //    console.log(state)
@@ -28,7 +27,7 @@ const ActiveButton = ({id, active, onClick}) => {
                 className="btn-icon btn-rounded" 
                 variant={stateBool ? 'outline-success' : 'outline-danger'} 
                 title={stateBool ? 'Activo' : 'Inactivo'}
-                onClick={onClick}>
+                onClick={print}>
                     <i className={stateBool ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
             </Button>
         </React.Fragment>
