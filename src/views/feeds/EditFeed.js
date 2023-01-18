@@ -57,12 +57,14 @@ const EditFeed = () => {
                             <Form>                                
                                 <Form.Group as={Col}>
                                     <Form.Label>Nombre</Form.Label>
-                                    <Form.Control type="text" defaultValue={feed.name} onChange={(e) => setName(e.target.value)} />
+                                    <Form.Control type="text"  defaultValue={feed.name} onChange={(e) => setName(e.target.value)} isInvalid={name === ''} isValid={name !== ''} />
+                                    {name ? '' : <div className="invalid-feedback">Ingrese un nombre</div>}
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
                                     <Form.Label>Descripcion</Form.Label>
-                                    <Form.Control as="textarea" rows={3} defaultValue={feed.description} onChange={(e) => setDescription(e.target.value)} />
+                                    <Form.Control as="textarea" rows={3} defaultValue={feed.description} onChange={(e) => setDescription(e.target.value)} isInvalid={description === ''} isValid={description !== ''} />
+                                    {description ? '' : <div className="invalid-feedback">Ingrese una descripcion</div>}
                                 </Form.Group>
 
                                 <Form.Group as={Col}>

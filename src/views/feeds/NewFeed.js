@@ -10,6 +10,24 @@ const NewFeed = () => {
     const [name, setName] = useState("");
     const [active, setActive] = useState(1);
     const [description, setDescription] = useState("");
+
+    const [error, setError] = useState(null);
+
+
+    const createFeed = (slug, name, description, active)=> {
+        postFeed(slug, name, description, active).then((response) => {
+            console.log(response);
+            window.history.back();
+        })
+        .catch((error) => {
+            setError(error);
+        })        
+    };
+
+    if (error) {
+        console.log(error);
+        return <p>Ups! Se produjo un error al crear el nuevo feed.</p>
+      }
    
     return (
         <React.Fragment>
@@ -36,12 +54,14 @@ const NewFeed = () => {
                             <Form>                                
                                 <Form.Group as={Col}>
                                     <Form.Label>Nombre</Form.Label>
-                                    <Form.Control type="text" placeholder="Nombre" onChange={(e) => setName(e.target.value)} />
+                                    <Form.Control type="text" placeholder="Nombre" onChange={(e) => setName(e.target.value)} isInvalid={name === ''} isValid={name !== ''} />
+                                    {name ? '' : <div className="invalid-feedback">Ingrese un nombre</div>}
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
                                     <Form.Label>Descripcion</Form.Label>
-                                    <Form.Control as="textarea" rows={3} placeholder="Descripcion" onChange={(e) => setDescription(e.target.value)} />
+                                    <Form.Control as="textarea" rows={3} placeholder="Descripcion" onChange={(e) => setDescription(e.target.value)} isInvalid={description === ''} isValid={description !== ''} />
+                                    {description ? '' : <div className="invalid-feedback">Ingrese una descripcion</div>}
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
@@ -49,7 +69,7 @@ const NewFeed = () => {
                                     <DropdownState state={active} setActive={setActive}></DropdownState>
                                 </Form.Group>                              
                                   
-                                <Button variant="success" onClick={()=> postFeed(slug, name, description, active)}>Guardar</Button>
+                                <Button variant="success" onClick={()=> createFeed(slug, name, description, active)}>Guardar</Button>
                                 <Button variant="info" href='/app/feeds'>Volver</Button>
                             </Form>
                         </Card.Body>
