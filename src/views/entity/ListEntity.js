@@ -3,7 +3,7 @@ import { Row, Col, Breadcrumb, Card, Button } from 'react-bootstrap';
 import TableEntity from '../../components/Table/TableEntity';
 import CrudButton from '../../components/Button/CrudButton';
 import { getEntities } from '../../api/services/entities';
-import DeleteAlert from '../../components/Alert/DeleteAlert';
+import DeleteAlert from '../../components/Alert/Alert';
 
 const ListEntity = () => {
     const [entities, setEntities] = useState([])
@@ -11,9 +11,19 @@ const ListEntity = () => {
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
     const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
 
     useEffect( ()=> {
-        getAll(null)
+        getEntities()
+        .then((response) => {
+            setEntities(response.data.results)
+        })
+        .catch((error) => {
+            setError(error)
+        })
+        .finally(() => {
+            setLoading(false)
+        })    
     }, [])
 
     if (error) {
@@ -35,32 +45,33 @@ const ListEntity = () => {
         )
     }
 
-    const addAlert = (message) => {
-        setAlert((alert) => [...alert, message]);
-    }
-    
-    const getAll = (message) => {
-        getEntities()
-        .then((response) => {
-            setEntities(response.data.results)
-            setAlert(message)
-        })
-        .catch((error) => {
-            setError(error)
-        })
-        .finally(() => {
-            setLoading(false)
-            setAlert(message)
-            setTimeout(() => {
-                setAlert(null)
-            }, 3000);
-        })
+    const callbackDelete = (name, stateAlert) => {
+        if(stateAlert) {
+            getEntities()
+            .then((response) => {
+                setEntities(response.data.results)
+            })
+            .catch((error) => {
+                setError(error)
+            })
+            .finally(() => {
+                setLoading(false)
+                setAlert({name:name, type:1})
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                }, 5000);
+            })
+        }
+        else {
+            setAlert({name:name, type:0})
+        }
     }
 
 return (
     <React.Fragment>
         <Row>
-        <DeleteAlert alert={alert}/>
+        <DeleteAlert alert={alert} stateAlert={stateAlert} />
             <Breadcrumb>
                 <Breadcrumb.Item href="./app/dashboard/default">
                     <i className="feather icon-home" />
@@ -89,7 +100,7 @@ return (
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableEntity getAll={getAll} list={show} loading={loading} />
+                        <TableEntity callbackDelete={callbackDelete} list={show} loading={loading} />
                     </Card.Body>
                     <Card.Footer >
                         <Row className="justify-content-md-center">

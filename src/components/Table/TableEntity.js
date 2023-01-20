@@ -4,8 +4,9 @@ import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner
 import ActiveButton from '../Button/ActiveButton';
 import CrudButton from '../Button/CrudButton';
 import { getEntity, deleteEntity } from '../../api/services/entities';
+import useToastContext from '../../views/entity/toast/useToastContext';
 
-const TableEntity = ({getAll, list, loading }) => {
+const TableEntity = ({callbackDelete, list, loading }) => {
     const [entity, setEntity] = useState('');
     const [error, setError] = useState(null);
     const [modalShow, setModalShow] = useState(false);
@@ -16,7 +17,7 @@ const TableEntity = ({getAll, list, loading }) => {
     const [created, setCreated] = useState(null);
     const [modified, setModified] = useState(null);
     const [state,setState] = useState(null);
-
+//
     useEffect(() => {
     },[]);
 
@@ -48,21 +49,23 @@ const TableEntity = ({getAll, list, loading }) => {
         setName(name);
         setModalDelete(true)
     }
+    
     const removeEntity = (key)=> {
         deleteEntity(key)
             .then((response) => {
                 console.log(response)
-                getAll(`La entidad ${name} ha sido eliminada`)
+                callbackDelete(name, true)
             })
             .catch((error) => {
                 console.log(error)
                 setError(error)
-                getAll(`La entidad ${name} NO ha sido eliminada`)
+                callbackDelete(name, false)
             })
             .finally(() => {
                 setModalDelete(false)
             })
         };
+
 
     return (
             <React.Fragment>
@@ -114,6 +117,7 @@ const TableEntity = ({getAll, list, loading }) => {
                                         </Col>
                                         <Col sm={12} lg={3}>                       
                                             <CrudButton type='edit' link='/entity/edit'/>
+
                                             <ActiveButton id={id} active={state} onClick={() => setModalState(true)} />
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>

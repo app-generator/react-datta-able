@@ -30,7 +30,7 @@ const CreateEntity = () => {
         .catch((error) => {
             setError(error)
             console.log(error)
-            window.location.href = "/entity/create"
+            //setAlert
         });    
     };
        

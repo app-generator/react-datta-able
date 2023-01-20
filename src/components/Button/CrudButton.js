@@ -15,7 +15,7 @@ const CrudButton = ({type, name, link, onClick}) => {
         read: 
         { 
             class: 'btn-icon btn-rounded',
-            variant: 'outline-secondary', 
+            variant: 'outline-primary', 
             title: 'Detalle',
             link: '#',
             icon: 'fa fa-eye mx-auto',

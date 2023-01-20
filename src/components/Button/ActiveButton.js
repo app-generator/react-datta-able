@@ -17,17 +17,13 @@ const ActiveButton = ({id, active, onClick}) => {
         console.log("hola onclick")
     }
 
-//    console.log(entityId)
-//    console.log(state)
-//    console.log(stateBool)
-
     return (
         <React.Fragment>
             <Button 
                 className="btn-icon btn-rounded" 
                 variant={stateBool ? 'outline-success' : 'outline-danger'} 
                 title={stateBool ? 'Activo' : 'Inactivo'}
-                onClick={print}>
+                onClick={onClick}>
                     <i className={stateBool ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
             </Button>
         </React.Fragment>
