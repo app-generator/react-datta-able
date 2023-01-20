@@ -8,23 +8,33 @@ const Alert = (props) => {
     const azul = '#04A9F5'
     const success = '#1DE9B6'
     const danger = '#ff0000'
+//className={props.alert.type===1 ? 'border border-success rounded' : 'border border-danger rounded'} 
 
+/*
+style={{
+            backgroundColor: `${props.alert.type===1 ? success : danger}`,
+            opacity: 0.3
+            }}
+*/
     return(
         props.alert && 
         <Toast style={{
             position: 'fixed',
+            top: '10%',
+            left: '40%',
             zIndex:9999,
-            color:'#000000',
-            }} className={props.alert.type===1 ? 'border border-success rounded' : 'border border-danger rounded'}  onClose={() => setShow(false)} show={show} delay={5000} autohide>
+            color:'#000000'
+            }} onClose={() => setShow(false)} show={show} delay={5000} autohide>
             <Toast.Header>
-                <h6 className="mr-auto"> Notificacion  </h6>
+                <h6 className="mr-auto"  style={{color:`${props.alert.type===1 ? verde : danger}`}}> 
+                    <i className= {props.alert.type===1 ? 'feather icon-check-circle mx-1' : 'feather icon-alert-triangle'} />
+                    Notificacion  
+                </h6>
                 <small>recien</small>
             </Toast.Header>
-            <Toast.Body style={{
-            backgroundColor: `${props.alert.type===1 ? success : danger}`
-            }}>
-                <i className='feather icon-info mx-1' />           
-                {props.alert.type===1 ? `La entidad ${props.alert.name} ha sido eliminada ` : `La entidad ${props.alert.name} NO ha sido eliminada `}
+            <Toast.Body>
+                <i className= 'feather icon-info mx-1' />           
+                {props.alert.name}
             </Toast.Body>
         </Toast>
     )

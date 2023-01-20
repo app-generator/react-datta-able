@@ -2,20 +2,12 @@ import React from 'react';
 import {Button} from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 
-const ActiveButton = ({id, active, onClick}) => {
-    const [entityId,setEntityId] = useState(null);
-    const [state,setState] = useState(null);
-    const [error, setError] = useState(null);
+const ActiveButton = ({ active, onClick}) => {
     const [stateBool, setStateBool] = useState(null);
     
     useEffect(() => {
-        setEntityId(id.split('/')[(id.split('/')).length-2]);
-        setState(active);
         setStateBool(active===1);
-},[]);
-    const print = () => {
-        console.log("hola onclick")
-    }
+},[active]);
 
     return (
         <React.Fragment>

@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
 import ActiveButton from '../Button/ActiveButton';
 import CrudButton from '../Button/CrudButton';
-import { getEntity, deleteEntity } from '../../api/services/entities';
-import useToastContext from '../../views/entity/toast/useToastContext';
+import { getEntity, deleteEntity, isActive } from '../../api/services/entities';
 
 const TableEntity = ({callbackDelete, list, loading }) => {
     const [entity, setEntity] = useState('');
@@ -17,8 +16,10 @@ const TableEntity = ({callbackDelete, list, loading }) => {
     const [created, setCreated] = useState(null);
     const [modified, setModified] = useState(null);
     const [state,setState] = useState(null);
+    const [active,setActive] = useState(null);
 //
     useEffect(() => {
+
     },[]);
 
     if (loading) {
@@ -54,19 +55,59 @@ const TableEntity = ({callbackDelete, list, loading }) => {
         deleteEntity(key)
             .then((response) => {
                 console.log(response)
-                callbackDelete(name, true)
+                callbackDelete(`La entidad ${name} ha sido eliminada`, true)
             })
             .catch((error) => {
                 console.log(error)
                 setError(error)
-                callbackDelete(name, false)
+                callbackDelete(`La entidad ${name} NO ha sido eliminada`, false)
             })
             .finally(() => {
                 setModalDelete(false)
             })
         };
+        
+    const pressActive = (name, active, key) => {
+        setId(key)
+        setName(name)
+        setActive(active===1)
+        setModalState(true)
+    }
 
-
+    const switchState = ()=> {
+        if (active){
+            isActive(id, 0)
+                .then((response) => {
+                    console.log(response)
+                    callbackDelete(`La entidad ${name} ha sido desactivada`, true)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    setError(error)
+                    callbackDelete(`La entidad ${name} NO ha sido desactivada`, false)
+                })
+                .finally(() => {
+                    setModalState(false)
+                })
+        } 
+        else {
+            isActive(id, 1)
+                .then((response) => {
+                    console.log(response)
+                    callbackDelete(`La entidad ${name} ha sido activada`, true)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    setError(error)
+                    callbackDelete(`La entidad ${name} NO ha sido activada`, false)
+                })
+                .finally(() => {
+                    setModalState(false)
+                })
+        }
+    };
+    
+    
     return (
             <React.Fragment>
                 <Table responsive hover>
@@ -89,7 +130,7 @@ const TableEntity = ({callbackDelete, list, loading }) => {
                                     <th scope="row">{index+1}</th>
                                     <td>{entity.name}</td>
                                     <td>
-                                        <ActiveButton active={entity.active} id={entity.url} onClick={() => setModalState(true)} />
+                                        <ActiveButton active={entity.active} onClick={() => pressActive(entity.name, entity.active, url)} />
                                     </td>
                                     <td>{entity.created.slice(0,10)}</td>
                                     <td>{entity.modified.slice(0,10)}</td>
@@ -117,8 +158,7 @@ const TableEntity = ({callbackDelete, list, loading }) => {
                                         </Col>
                                         <Col sm={12} lg={3}>                       
                                             <CrudButton type='edit' link='/entity/edit'/>
-
-                                            <ActiveButton id={id} active={state} onClick={() => setModalState(true)} />
+                                            <ActiveButton active={state} onClick={() => pressActive(entity.name, state, id)} />
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
                                     </Row>
@@ -185,13 +225,13 @@ const TableEntity = ({callbackDelete, list, loading }) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Estado de la entidad</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Desea activar/desactivar la entidad de Id {id}?</Modal.Body>
-                <Modal.Footer centered>
-                    <Button variant="outline-primary" onClick={() => setModalState(false)}>
-                        Activar/desactivar
+                <Modal.Body>{active ? `Desea desactivar la entidad ${name}?` : `Desea activar la entidad ${name}?`}?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant={active ? 'outline-danger' : 'outline-success'} onClick={() => switchState(id,active)}>
+                        {active ? 'Desactivar' : 'Activar'}
                     </Button>
 
-                    <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>
+                    <Button variant="outline-secondary" onClick={() => setModalState(false)}>
                         Cancelar
                     </Button>
                 </Modal.Footer>
