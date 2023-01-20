@@ -8,14 +8,7 @@ const Alert = (props) => {
     const azul = '#04A9F5'
     const success = '#1DE9B6'
     const danger = '#ff0000'
-//className={props.alert.type===1 ? 'border border-success rounded' : 'border border-danger rounded'} 
 
-/*
-style={{
-            backgroundColor: `${props.alert.type===1 ? success : danger}`,
-            opacity: 0.3
-            }}
-*/
     return(
         props.alert && 
         <Toast style={{

@@ -64,8 +64,11 @@ const CreateEntity = () => {
                                                 type="nombre" 
                                                 placeholder="Nombre" />
                                             {name ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
-                                        </Form.Group>    
-                                        <Button variant="primary" onClick={addEntity}>Guardar</Button>
+                                        </Form.Group>
+                                        {name === '' ? 
+                                            <><Button variant="primary" onClick={addEntity} disabled>Guardar</Button></> 
+                                            : 
+                                            <><Button variant="primary" onClick={addEntity} >Guardar</Button></>}
                                         <Button variant="primary" href="/entity/tables">Cancelar</Button>
                                     </Form>
                                 </Col>

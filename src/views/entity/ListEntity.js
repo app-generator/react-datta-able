@@ -3,7 +3,7 @@ import { Row, Col, Breadcrumb, Card, Button } from 'react-bootstrap';
 import TableEntity from '../../components/Table/TableEntity';
 import CrudButton from '../../components/Button/CrudButton';
 import { getEntities } from '../../api/services/entities';
-import DeleteAlert from '../../components/Alert/Alert';
+import Alert from '../../components/Alert/Alert';
 
 const ListEntity = () => {
     const [entities, setEntities] = useState([])
@@ -45,7 +45,7 @@ const ListEntity = () => {
         )
     }
 
-    const callbackDelete = (name, stateAlert) => {
+    const callbackBackend = (name, stateAlert) => {
         if(stateAlert) {
             getEntities()
             .then((response) => {
@@ -71,7 +71,7 @@ const ListEntity = () => {
 return (
     <React.Fragment>
         <Row>
-        <DeleteAlert alert={alert} stateAlert={stateAlert} />
+        <Alert alert={alert} stateAlert={stateAlert} />
             <Breadcrumb>
                 <Breadcrumb.Item href="./app/dashboard/default">
                     <i className="feather icon-home" />
@@ -100,7 +100,7 @@ return (
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableEntity callbackDelete={callbackDelete} list={show} loading={loading} />
+                        <TableEntity callbackDelete={callbackBackend} list={show} loading={loading} />
                     </Card.Body>
                     <Card.Footer >
                         <Row className="justify-content-md-center">

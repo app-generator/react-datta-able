@@ -70,43 +70,26 @@ const TableEntity = ({callbackDelete, list, loading }) => {
     const pressActive = (name, active, key) => {
         setId(key)
         setName(name)
-        setActive(active===1)
+        setActive(active)
         setModalState(true)
     }
 
     const switchState = ()=> {
-        if (active){
-            isActive(id, 0)
-                .then((response) => {
-                    console.log(response)
-                    callbackDelete(`La entidad ${name} ha sido desactivada`, true)
-                })
-                .catch((error) => {
-                    console.log(error)
-                    setError(error)
-                    callbackDelete(`La entidad ${name} NO ha sido desactivada`, false)
-                })
-                .finally(() => {
-                    setModalState(false)
-                })
-        } 
-        else {
-            isActive(id, 1)
-                .then((response) => {
-                    console.log(response)
-                    callbackDelete(`La entidad ${name} ha sido activada`, true)
-                })
-                .catch((error) => {
-                    console.log(error)
-                    setError(error)
-                    callbackDelete(`La entidad ${name} NO ha sido activada`, false)
-                })
-                .finally(() => {
-                    setModalState(false)
-                })
-        }
+        let message = +active ? `La entidad ${name} ha sido desactivada` : `La entidad ${name} ha sido activada`;
+        isActive(id, +!active)
+            .then((response) => {
+                console.log(response)
+                callbackDelete(message, true)
+            })
+            .catch((error) => {
+                console.log(error)
+                setError(error)
+                callbackDelete(message, false)
+            })
+            .finally(() => {
+                setModalState(false)
+            })
     };
-    
     
     return (
             <React.Fragment>
