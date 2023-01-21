@@ -3,10 +3,7 @@ import Toast from 'react-bootstrap/Toast';
 
 const Alert = (props) => {
     const [show, setShow] = useState(true);
-    const oscuro = '#3F4D67'
     const verde = '#198754'
-    const azul = '#04A9F5'
-    const success = '#1DE9B6'
     const danger = '#ff0000'
 
     return(
