@@ -24,13 +24,15 @@ const CreateEntity = () => {
         postEntity(name, slug, 1)
         .then((response) => { 
             console.log(response)
-            window.location.href = "/entity/tables"
             //setAlert
+            sessionStorage.setItem('Alerta', JSON.stringify({name:`La entidad ${name} ha sido creada`, type:1}));
+            window.location.href = "/entity/tables"
         })
         .catch((error) => {
             setError(error)
             console.log(error)
             //setAlert
+            sessionStorage.setItem('Alerta', JSON.stringify({name:`La entidad ${name} NO ha sido creada`, type:0}));
         });    
     };
        
@@ -39,7 +41,7 @@ const CreateEntity = () => {
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item href="./tables"><i className="fas fa-network-wired" /> Entidades</Breadcrumb.Item>
+                    <Breadcrumb.Item href="./tables"> Entidades</Breadcrumb.Item>
                     <Breadcrumb.Item active><b>Crear Entidad</b></Breadcrumb.Item>
                 </Breadcrumb>
             </Row>

@@ -4,6 +4,7 @@ import TableEntity from '../../components/Table/TableEntity';
 import CrudButton from '../../components/Button/CrudButton';
 import { getEntities } from '../../api/services/entities';
 import Alert from '../../components/Alert/Alert';
+import { Link } from 'react-router-dom';
 
 const ListEntity = () => {
     const [entities, setEntities] = useState([])
@@ -14,6 +15,16 @@ const ListEntity = () => {
     const [stateAlert, setStateAlert] = useState(null)
 
     useEffect( ()=> {
+        if(sessionStorage.getItem('Alerta')) {
+            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+            setAlert(storage)
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                    sessionStorage.clear()
+                }, 5000);
+        }
+
         getEntities()
         .then((response) => {
             setEntities(response.data.results)
@@ -23,9 +34,9 @@ const ListEntity = () => {
         })
         .finally(() => {
             setLoading(false)
-        })    
+        })
     }, [])
-
+    
     if (error) {
         console.log(error);
         return <p>Ups! Se produjo un error al buscar las entidades.</p>
@@ -73,12 +84,8 @@ return (
         <Row>
         <Alert alert={alert} stateAlert={stateAlert} />
             <Breadcrumb>
-                <Breadcrumb.Item href="./app/dashboard/default">
-                    <i className="feather icon-home" />
-                </Breadcrumb.Item>
-                <Breadcrumb.Item active>
-                    <b>Entidades</b>
-                </Breadcrumb.Item>
+                <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>
+                <Breadcrumb.Item active><b>Entidades</b></Breadcrumb.Item>
             </Breadcrumb>    
         </Row>
         <Row>
@@ -95,7 +102,9 @@ return (
                                 </div>
                             </Col> 
                             <Col sm={12} lg={3}>
-                                <CrudButton type='create' name='Entidad' link='/entity/create' />
+                                <Link to={{pathname:'/entity/create'}} >
+                                    <CrudButton type='create' name='Entidad' />
+                                </Link>
                             </Col> 
                         </Row>
                     </Card.Header>

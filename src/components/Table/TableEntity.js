@@ -80,6 +80,7 @@ const TableEntity = ({callback, list, loading }) => {
         isActive(id, +!active)
             .then((response) => {
                 console.log(response)
+                
                 callback(message, true)
             })
             .catch((error) => {
@@ -123,7 +124,6 @@ const TableEntity = ({callback, list, loading }) => {
                                         <Link to={{pathname:'/entity/edit', state: entity, callback: callback}} >
                                             <CrudButton type='edit'/>
                                         </Link>
-
                                         <CrudButton type='delete' onClick={() => Delete(url, entity.name)} />
                                     </td>
                                 </tr>
@@ -144,7 +144,9 @@ const TableEntity = ({callback, list, loading }) => {
                                             <span className="d-block m-t-5">Detalle de entidad</span>
                                         </Col>
                                         <Col sm={12} lg={3}>                       
-                                            <CrudButton type='edit' link='/entity/edit'/>
+                                            <Link to={{pathname:'/entity/edit', state: entity}} >
+                                                <CrudButton type='edit'/>
+                                            </Link>
                                             <ActiveButton active={state} onClick={() => pressActive(entity.name, state, id)} />
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
@@ -199,12 +201,8 @@ const TableEntity = ({callback, list, loading }) => {
                 </Modal.Header>
                 <Modal.Body>¿Desea eliminar {name}?</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="outline-danger" onClick={() => removeEntity(id)}>
-                        Eliminar
-                    </Button>
-                    <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>
-                        Cancelar
-                    </Button>
+                    <Button variant="outline-danger" onClick={() => removeEntity(id)}>Eliminar</Button>
+                    <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>Cancelar</Button>
                 </Modal.Footer>
             </Modal>
 
@@ -217,10 +215,7 @@ const TableEntity = ({callback, list, loading }) => {
                     <Button variant={active ? 'outline-danger' : 'outline-success'} onClick={() => switchState(id,active)}>
                         {active ? 'Desactivar' : 'Activar'}
                     </Button>
-
-                    <Button variant="outline-secondary" onClick={() => setModalState(false)}>
-                        Cancelar
-                    </Button>
+                    <Button variant="outline-secondary" onClick={() => setModalState(false)}>Cancelar</Button>
                 </Modal.Footer>
             </Modal>
         </React.Fragment> 
