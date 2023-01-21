@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from 'react-bootstrap';
 // type: {create, read, update, delete} 
-const CrudButton = ({type, name, link, onClick}) => {
+const CrudButton = ({type, name, onClick}) => {
 
     const button = {
         create: 
@@ -9,7 +9,6 @@ const CrudButton = ({type, name, link, onClick}) => {
             class: 'text-capitalize',
             variant: 'outline-primary', 
             title: `Agregar ${name}`,
-            link: `${link}`,
             icon: 'fa fa-plus',
             text: `Agregar ${name}`,
         },
@@ -18,7 +17,6 @@ const CrudButton = ({type, name, link, onClick}) => {
             class: 'btn-icon btn-rounded',
             variant: 'outline-primary', 
             title: 'Detalle',
-            link: '#',
             icon: 'fa fa-eye mx-auto',
             text: '',
         },
@@ -27,7 +25,6 @@ const CrudButton = ({type, name, link, onClick}) => {
             class: 'btn-icon btn-rounded',
             variant: 'outline-warning', 
             title: 'Editar',
-            link: `${link}`,
             icon: 'fa fa-edit',
             text: '',
         },
@@ -36,7 +33,6 @@ const CrudButton = ({type, name, link, onClick}) => {
             class: 'btn-icon btn-rounded',
             variant: 'outline-danger', 
             title: 'Eliminar',
-            link: '#',
             icon: 'fas fa-trash-alt',
             text: '',
         }
@@ -47,7 +43,6 @@ const CrudButton = ({type, name, link, onClick}) => {
                 className={button[type].class} 
                 variant={button[type].variant} 
                 title={button[type].title}
-                //href={button[type].link} 
                 onClick={onClick}>
                     <i className={button[type].icon} />
                 {button[type].text}
