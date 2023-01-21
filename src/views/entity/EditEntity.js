@@ -1,7 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Row, Col, Breadcrumb, Card, Form, Button } from 'react-bootstrap';
+import { putEntity } from '../../api/services/entities';
+
 
 const EditEntity = () => {
+    const entity = useLocation().state;
+    const [name, setName] = useState(entity.name);
+    const [error, setError] = useState(null);
+
+    console.log(entity);
+
+    const create = (e) => {
+        setName(e.target.value)   
+    };
+
+    const slugify = (str) => {
+        return str
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '_')
+      .replace(/^-+|-+$/g, '')
+    }
+
+    const editEntity = () => {
+        let slug = slugify(name);
+        let id = entity.url.split('/')[(entity.url.split('/')).length-2];
+        putEntity(id, name, slug, entity.active)
+        .then((response) => { 
+            console.log(response)
+            window.location.href = "/entity/tables"
+            //setAlert
+        })
+        .catch((error) => {
+            setError(error)
+            console.log(error)
+            //setAlert
+        });    
+    };
+
     return (
         <React.Fragment>          
             <Row>
@@ -24,9 +62,19 @@ const EditEntity = () => {
                                     <Form>
                                         <Form.Group controlId="exampleForm.ControlInput1">
                                             <Form.Label>Nombre</Form.Label>
-                                            <Form.Control type="text" placeholder="Ingrese nombre..." />
-                                        </Form.Group>    
-                                        <Button variant="primary">Guardar</Button>
+                                            <Form.Control 
+                                                value={name} 
+                                                onChange={create} 
+                                                isInvalid={name === ''}
+                                                isValid={name !== ''} 
+                                                type="nombre" 
+                                                placeholder="Nombre" />
+                                            {name ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
+                                        </Form.Group>
+                                        {name === '' ? 
+                                            <><Button variant="primary" onClick={editEntity} disabled>Guardar</Button></> 
+                                            : 
+                                            <><Button variant="primary" onClick={editEntity} >Guardar</Button></>}
                                         <Button variant="primary" href="/entity/tables">Cancelar</Button>
                                     </Form>
                                 </Col>

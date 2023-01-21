@@ -2,6 +2,7 @@ import React from 'react';
 import {Button} from 'react-bootstrap';
 // type: {create, read, update, delete} 
 const CrudButton = ({type, name, link, onClick}) => {
+
     const button = {
         create: 
         { 
@@ -46,7 +47,7 @@ const CrudButton = ({type, name, link, onClick}) => {
                 className={button[type].class} 
                 variant={button[type].variant} 
                 title={button[type].title}
-                href={button[type].link} 
+                //href={button[type].link} 
                 onClick={onClick}>
                     <i className={button[type].icon} />
                 {button[type].text}

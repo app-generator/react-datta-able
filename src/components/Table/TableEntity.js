@@ -4,8 +4,9 @@ import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner
 import ActiveButton from '../Button/ActiveButton';
 import CrudButton from '../Button/CrudButton';
 import { getEntity, deleteEntity, isActive } from '../../api/services/entities';
+import { Link } from 'react-router-dom';
 
-const TableEntity = ({callbackDelete, list, loading }) => {
+const TableEntity = ({callback, list, loading }) => {
     const [entity, setEntity] = useState('');
     const [error, setError] = useState(null);
     const [modalShow, setModalShow] = useState(false);
@@ -55,12 +56,12 @@ const TableEntity = ({callbackDelete, list, loading }) => {
         deleteEntity(key)
             .then((response) => {
                 console.log(response)
-                callbackDelete(`La entidad ${name} ha sido eliminada`, true)
+                callback(`La entidad ${name} ha sido eliminada`, true)
             })
             .catch((error) => {
                 console.log(error)
                 setError(error)
-                callbackDelete(`La entidad ${name} NO ha sido eliminada`, false)
+                callback(`La entidad ${name} NO ha sido eliminada`, false)
             })
             .finally(() => {
                 setModalDelete(false)
@@ -79,12 +80,12 @@ const TableEntity = ({callbackDelete, list, loading }) => {
         isActive(id, +!active)
             .then((response) => {
                 console.log(response)
-                callbackDelete(message, true)
+                callback(message, true)
             })
             .catch((error) => {
                 console.log(error)
                 setError(error)
-                callbackDelete(message, false)
+                callback(message, false)
             })
             .finally(() => {
                 setModalState(false)
@@ -119,7 +120,10 @@ const TableEntity = ({callbackDelete, list, loading }) => {
                                     <td>{entity.modified.slice(0,10)}</td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showEntity(url)} />
-                                        <CrudButton type='edit' link='/entity/edit'/>
+                                        <Link to={{pathname:'/entity/edit', state: entity, callback: callback}} >
+                                            <CrudButton type='edit'/>
+                                        </Link>
+
                                         <CrudButton type='delete' onClick={() => Delete(url, entity.name)} />
                                     </td>
                                 </tr>

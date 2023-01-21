@@ -100,7 +100,7 @@ return (
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableEntity callbackDelete={callbackBackend} list={show} loading={loading} />
+                        <TableEntity callback={callbackBackend} list={show} loading={loading} />
                     </Card.Body>
                     <Card.Footer >
                         <Row className="justify-content-md-center">
