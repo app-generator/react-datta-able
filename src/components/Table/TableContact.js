@@ -1,21 +1,26 @@
 import React from 'react';
 import { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import { getContact } from '../../api/services/contacts';
-import CrudButton from './CrudButton';
+import { getContact, deleteContact } from '../../api/services/contacts';
+import CrudButton from '../Button/CrudButton';
+import { Link } from 'react-router-dom';
 
-const TableContact = ({ list, loading}) => {
-    const [contact, setContact] = useState('');
-    const [error, setError] = useState(null);
-    const [modalShow, setModalShow] = useState(false);
-    const [modalDelete, setModalDelete] = useState(false);
-    const [id, setId] = useState(null);
+const TableContact = ({callback, list, loading }) => {
+    const [contact, setContact] = useState('')
+    const [error, setError] = useState(null)
+    const [modalShow, setModalShow] = useState(false)
+    const [modalDelete, setModalDelete] = useState(false)
+    const [id, setId] = useState(null)
 
-    const [created, setCreated] = useState(null);
-    const [modified, setModified] = useState(null);
-    const [type, setType] = useState(null);
-    const [role, setRole] = useState(null);
+    const [name, setName] = useState(null);
+    const [created, setCreated] = useState(null)
+    const [modified, setModified] = useState(null)
+    const [type, setType] = useState(null)
+    const [role, setRole] = useState(null)
 
+    useEffect(() => {
+
+    },[]);
 
     if (loading) {
         return (
@@ -24,6 +29,7 @@ const TableContact = ({ list, loading}) => {
             </Row>
         );    
     }
+
     const priority = {
         "url": "http://localhost:8000/api/administration/priority/6/",
         "color": "#00FF00",
@@ -37,24 +43,52 @@ const TableContact = ({ list, loading}) => {
         "solve_deadline": "2 00:00:00",
         "notification_amount": 3
     };
+
+    //Read Entity
     const showContact = (key)=> {
         setId(key)
         setContact('')
         getContact(key)
         .then((response) => {
             setContact(response.data)
-            setCreated(response.data.created.slice(0,10))
-            setModified(response.data.modified.slice(0,10))
+            let datetime = response.data.created.split('T')
+            setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
+            datetime = response.data.modified.split('T');
+            setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
             setRole(Upper(response.data.role))
             setType(Upper(response.data.type))
             setModalShow(true)
         })
         .catch(setError);
     };
-        if (error) {
-            console.log(error);
-            return <p>Ups! Se produjo un error al buscar el contacto.</p>
-        }
+
+    //Remove Contact
+    const Delete = (key, name) => {
+        setId(key);
+        setName(name);
+        setModalDelete(true)
+    }
+
+    const removeContact = (key)=> {
+        deleteContact(key)
+            .then((response) => {
+                console.log(response)
+                callback(`El ${type} del contacto ${name} ha sido eliminado`, true)
+            })
+            .catch((error) => {
+                console.log(error)
+                setError(error)
+                callback(`El ${type} del contacto ${name} NO ha sido eliminado`, false)
+            })
+            .finally(() => {
+                setModalDelete(false)
+            })
+    };
+
+    if (error) {
+        console.log(error);
+        return <p>Ups! Se produjo un error al buscar el contacto.</p>
+    }
 
     const Upper = (text) => {
         let first = text.charAt(0).toUpperCase();
@@ -76,18 +110,20 @@ const TableContact = ({ list, loading}) => {
                     </thead>
                     <tbody>
                         {list.map((contact, index) => {
-                            let id = contact.url.split('/')[(contact.url.split('/')).length-2];
+                            let url = contact.url.split('/')[(contact.url.split('/')).length-2];
                             return (
-                                <tr key={id}>
+                                <tr key={url}>
                                 <th scope="row">{index+1}</th>
                                 <td>{contact.name}</td>
                                 <td>{contact.username}</td>
                                 <td>{contact.created.slice(0, 10)}</td>
                                 <td>{contact.modified.slice(0, 10)}</td>
                                 <td>
-                                    <CrudButton type='read' onClick={() => showContact(id)} />
-                                    <CrudButton type='edit' link='/contact/edit'/>
-                                    <CrudButton type='delete' onClick={() => setModalDelete(true)} />
+                                    <CrudButton type='read' onClick={() => showContact(url)} />
+                                    <Link to={{pathname:'/contact/edit', state: contact}} >
+                                        <CrudButton type='edit'/>
+                                    </Link>
+                                    <CrudButton type='delete' onClick={() => Delete(url, contact.name)} />
                                 </td>
                             </tr>
                             );
@@ -107,7 +143,9 @@ const TableContact = ({ list, loading}) => {
                                             <span className="d-block m-t-5">Detalle de contacto</span>
                                         </Col>
                                         <Col sm={12} lg={2}>                       
-                                            <CrudButton type='edit' link='/contact/edit'/>
+                                            <Link to={{pathname:'/contact/edit', state: contact}} >
+                                                <CrudButton type='edit'/>
+                                            </Link>
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
                                     </Row>
@@ -182,14 +220,10 @@ const TableContact = ({ list, loading}) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Eliminar Contacto</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>¿Corfirma la eliminación del Id {id}?</Modal.Body>
+                <Modal.Body>¿Desea eliminar {name}?</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>
-                        Cancelar
-                    </Button>
-                    <Button variant="outline-danger" onClick={() => setModalDelete(false)}>
-                        Eliminar
-                    </Button>
+                    <Button variant="outline-danger" onClick={() => removeContact(id)}>Eliminar</Button>
+                    <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>Cancelar</Button>
                 </Modal.Footer>
             </Modal>
         </React.Fragment> 
