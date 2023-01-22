@@ -148,7 +148,7 @@ const EditContact = () => {
                                     <><Button variant="primary" onClick={editContact} >Guardar</Button></>
                                     : 
                                     <><Button variant="primary" disabled>Guardar</Button></> }
-                                    <Button variant="primary" href="/entity/tables">Cancelar</Button>
+                                    <Button variant="primary" href="/contact/tables">Cancelar</Button>
                                 </Form.Group>
                             </Form>
                         </Card.Body>

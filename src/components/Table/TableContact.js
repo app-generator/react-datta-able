@@ -72,12 +72,12 @@ const TableContact = ({callback, list, loading }) => {
         deleteContact(key)
             .then((response) => {
                 console.log(response)
-                callback(`El ${type} del contacto ${name} ha sido eliminado`, true)
+                callback(`El contacto ${name} ha sido eliminado`, true)
             })
             .catch((error) => {
                 console.log(error)
                 setError(error)
-                callback(`El ${type} del contacto ${name} NO ha sido eliminado`, false)
+                callback(`El contacto ${name} NO ha sido eliminado`, false)
             })
             .finally(() => {
                 setModalDelete(false)
@@ -151,6 +151,7 @@ const TableContact = ({callback, list, loading }) => {
                                 </Card.Header>
                                 <Card.Body>
                                     <Table responsive >
+                                    <tbody>
                                         <tr>
                                             <td>Id del sistema</td>
                                             <td>
@@ -206,7 +207,8 @@ const TableContact = ({callback, list, loading }) => {
                                                     <span className="badge ml-2" style={{background: `${priority.color}`}}>{priority.name}</span>
                                                 </Button>
                                             </td>
-                                        </tr>
+                                        </tr>                                    
+                                    </tbody>
                                     </Table>
                                 </Card.Body>
                             </Card>
