@@ -4,11 +4,11 @@ import { postContact } from '../../api/services/contacts';
 
 const CreateContact = () => {
     const [supportedName, setSupportedName] = useState('');
-    const [selectRol, setSelectRol] = useState(null);
+    const [selectRol, setSelectRol] = useState('');
     const [supportedPriority, setSupportedPriority] = useState(0);
     const [supportedContact, setSupportedContact] = useState('');
-    const [supportedKey, setSupportedKey] = useState(null);
-    const [selectType, setSelectType] = useState(null);
+    const [supportedKey, setSupportedKey] = useState('');
+    const [selectType, setSelectType] = useState('');
     const [error, setError] = useState(null);
 
     const editContact = () => {
