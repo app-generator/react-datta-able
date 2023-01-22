@@ -14,13 +14,6 @@ const EditContact = () => {
     const [selectType, setSelectType] = useState(contact.type);
     const [error, setError] = useState(null);
 
-    console.log(contact);
-    
-
-    const create = (e) => {
-        setSupportedName(e.target.value)   
-    };
-
     const editContact = () => {
         let id = contact.url.split('/')[(contact.url.split('/')).length-2];
         putContact (id, supportedName, supportedContact, supportedKey, selectType, selectRol, `http://localhost:8000/api/administration/priority/${supportedPriority}/`)
