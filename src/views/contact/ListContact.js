@@ -58,9 +58,9 @@ const ListContact = () => {
 
     const callbackBackend = (name, stateAlert) => {
         if(stateAlert) {
-            getEntities()
+            getContacts()
             .then((response) => {
-                setEntities(response.data.results)
+                setContacts(response.data.results)
             })
             .catch((error) => {
                 setError(error)
