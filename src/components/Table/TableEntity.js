@@ -159,39 +159,41 @@ const TableEntity = ({callback, list, loading }) => {
                                 </Card.Header>
                                 <Card.Body>
                                     <Table responsive >
-                                        <tr>
-                                            <td>Id del sistema</td>
-                                            <td>
-                                                <Form.Control plaintext readOnly defaultValue={id} />
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Nombre</td>
-                                            <td>
-                                                <Form.Control plaintext readOnly defaultValue={entity.name} />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Fecha de creación</td>
-                                            <td>
-                                                <Form.Control plaintext readOnly defaultValue={created} />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ultima actualización</td>
-                                            <td>
-                                                <Form.Control plaintext readOnly defaultValue={modified} />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Informacion Relacionada</td>
-                                            <td>
-                                                <Button size="sm" variant='light' className="text-capitalize">
-                                                    Network <Badge variant="light" className="ml-1">4</Badge>
-                                                </Button>
-                                            </td>
-                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <td>Id del sistema</td>
+                                                <td>
+                                                    <Form.Control plaintext readOnly defaultValue={id} />
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nombre</td>
+                                                <td>
+                                                    <Form.Control plaintext readOnly defaultValue={entity.name} />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fecha de creación</td>
+                                                <td>
+                                                    <Form.Control plaintext readOnly defaultValue={created} />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ultima actualización</td>
+                                                <td>
+                                                    <Form.Control plaintext readOnly defaultValue={modified} />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Informacion Relacionada</td>
+                                                <td>
+                                                    <Button size="sm" variant='light' className="text-capitalize">
+                                                        Network <Badge variant="light" className="ml-1">4</Badge>
+                                                    </Button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     </Table>
                                 </Card.Body>
                             </Card>
