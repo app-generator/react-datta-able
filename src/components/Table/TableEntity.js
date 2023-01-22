@@ -18,7 +18,7 @@ const TableEntity = ({callback, list, loading }) => {
     const [modified, setModified] = useState(null);
     const [state,setState] = useState(null);
     const [active,setActive] = useState(null);
-//
+
     useEffect(() => {
 
     },[]);
@@ -31,6 +31,7 @@ const TableEntity = ({callback, list, loading }) => {
         );    
     }
     
+    //Read Entity
     const showEntity = (key)=> {
         setId(key)
         setEntity('')
@@ -46,12 +47,14 @@ const TableEntity = ({callback, list, loading }) => {
         })
         .catch(setError);
     };
+
+    //Remove Entity
     const Delete = (key, name) => {
         setId(key);
         setName(name);
         setModalDelete(true)
     }
-    
+
     const removeEntity = (key)=> {
         deleteEntity(key)
             .then((response) => {
@@ -67,7 +70,8 @@ const TableEntity = ({callback, list, loading }) => {
                 setModalDelete(false)
             })
         };
-        
+    
+    //Update Entity
     const pressActive = (name, active, key) => {
         setId(key)
         setName(name)
@@ -78,18 +82,19 @@ const TableEntity = ({callback, list, loading }) => {
     const switchState = ()=> {
         let message = +active ? `La entidad ${name} ha sido desactivada` : `La entidad ${name} ha sido activada`;
         isActive(id, +!active)
-            .then((response) => {
-                console.log(response)
-                
-                callback(message, true)
-            })
-            .catch((error) => {
+        .then((response) => {
+            console.log(response)
+            
+            callback(message, true)
+        })
+        .catch((error) => {
                 console.log(error)
                 setError(error)
                 callback(message, false)
             })
             .finally(() => {
                 setModalState(false)
+                setModalShow(false)
             })
     };
     
