@@ -38,20 +38,19 @@ const CreateEntity = () => {
         postEntity(name, slug, 1)
         .then((response) => { 
             console.log(response)
-            //setAlert
             sessionStorage.setItem('Alerta', JSON.stringify({name:`La entidad ${name} ha sido creada`, type:1}));
             window.location.href = "/entity/tables"
         })
         .catch((error) => {
             setError(error)
             console.log(error)
-            //setAlert
             setAlert({name:`La entidad ${name} NO ha sido creada`, type:0})
         });    
     };
        
     return (
-        <React.Fragment>          
+        <React.Fragment>
+            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>
