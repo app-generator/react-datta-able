@@ -1,10 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card,Breadcrumb, Form, Button } from 'react-bootstrap';
 import { postEntity } from '../../api/services/entities';
 
 const CreateEntity = () => {
-    const [name, setName] = useState('');
-    const [error, setError] = useState(null);
+    const [name, setName] = useState('')
+    const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
+    const [error, setError] = useState(null)
+
+        useEffect( ()=> {
+        if(sessionStorage.getItem('Alerta')) {
+            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+            setAlert(storage)
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                    sessionStorage.clear()
+                }, 5000);
+        }
+    },[]);
 
     const create = (e) => {
         setName(e.target.value)   
@@ -32,7 +46,7 @@ const CreateEntity = () => {
             setError(error)
             console.log(error)
             //setAlert
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`La entidad ${name} NO ha sido creada`, type:0}));
+            setAlert({name:`La entidad ${name} NO ha sido creada`, type:0})
         });    
     };
        

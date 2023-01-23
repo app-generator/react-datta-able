@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Breadcrumb, Card, Form, Button } from 'react-bootstrap';
+import Alert from '../../components/Alert/Alert';
 import { putEntity } from '../../api/services/entities';
 
 
 const EditEntity = () => {
     const entity = useLocation().state;
     const [name, setName] = useState(entity.name);
+    const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
     const [error, setError] = useState(null);
 
-    console.log(entity);
-
+    useEffect( ()=> {
+        if(sessionStorage.getItem('Alerta')) {
+            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+            setAlert(storage)
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                    sessionStorage.clear()
+                }, 5000);
+        }
+    },[]);
+    
     const create = (e) => {
         setName(e.target.value)   
     };
@@ -37,13 +50,14 @@ const EditEntity = () => {
         .catch((error) => {
             setError(error)
             console.log(error)
+            setAlert({name:`La entidad ${name} NO ha sido editada`, type:0})
             //setAlert
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`La entidad ${name} NO ha sido editada`, type:0}));
         });    
     };
 
     return (
         <React.Fragment>          
+            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>
