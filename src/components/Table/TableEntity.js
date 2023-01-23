@@ -152,7 +152,7 @@ const TableEntity = ({callback, list, loading }) => {
                                             <Link to={{pathname:'/entity/edit', state: entity}} >
                                                 <CrudButton type='edit'/>
                                             </Link>
-                                            <ActiveButton active={state} onClick={() => pressActive(entity.name, state, id)} />
+                                            <ActiveButton active={state} />
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
                                     </Row>
