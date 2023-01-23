@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Breadcrumb, Card, Form, Button } from 'react-bootstrap';
+import Alert from '../../components/Alert/Alert';
 import { putContact } from '../../api/services/contacts';
 
 const EditContact = () => {
@@ -12,7 +13,21 @@ const EditContact = () => {
     const [supportedContact, setSupportedContact] = useState(contact.username);
     const [supportedKey, setSupportedKey] = useState(contact.public_key);
     const [selectType, setSelectType] = useState(contact.type);
+    const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
     const [error, setError] = useState(null);
+
+    useEffect( ()=> {
+        if(sessionStorage.getItem('Alerta')) {
+            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+            setAlert(storage)
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                    sessionStorage.clear()
+                }, 5000);
+        }
+    },[]);
 
     const editContact = () => {
         let id = contact.url.split('/')[(contact.url.split('/')).length-2];
@@ -27,12 +42,13 @@ const EditContact = () => {
             setError(error)
             console.log(error)
             //setAlert
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`El contacto ${supportedName} NO ha sido editado`, type:0}));
+            setAlert({name:`El contacto ${supportedName} NO ha sido editado`, type:0})
         });    
     };
 
     return (
-        <React.Fragment>          
+        <React.Fragment>
+            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>

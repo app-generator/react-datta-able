@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import { Row, Col, Card, Breadcrumb, Form, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Row, Col, Card,Breadcrumb, Form, Button } from 'react-bootstrap';
+import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
 
 const CreateContact = () => {
@@ -9,7 +10,21 @@ const CreateContact = () => {
     const [supportedContact, setSupportedContact] = useState('');
     const [supportedKey, setSupportedKey] = useState('');
     const [selectType, setSelectType] = useState('');
+    const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
     const [error, setError] = useState(null);
+
+    useEffect( ()=> {
+        if(sessionStorage.getItem('Alerta')) {
+            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+            setAlert(storage)
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                    sessionStorage.clear()
+                }, 5000);
+        }
+    },[]);
 
     const editContact = () => {
         postContact (supportedName, supportedContact, supportedKey, selectType, selectRol, `http://localhost:8000/api/administration/priority/${supportedPriority}/`)
@@ -23,12 +38,13 @@ const CreateContact = () => {
             setError(error)
             console.log(error)
             //setAlert
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`El contacto ${supportedName} NO ha sido creado`, type:0}));
+            setAlert({name:`El contacto ${supportedName} NO ha sido creado`, type:0})
         });    
     };
 
     return (
-        <React.Fragment>          
+        <React.Fragment>
+            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>
