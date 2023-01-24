@@ -5,11 +5,11 @@ import { postContact } from '../../api/services/contacts';
 
 const CreateContact = () => {
     const [supportedName, setSupportedName] = useState('');
-    const [selectRol, setSelectRol] = useState('');
+    const [selectRol, setSelectRol] = useState('0');
     const [supportedPriority, setSupportedPriority] = useState('0');
     const [supportedContact, setSupportedContact] = useState('');
     const [supportedKey, setSupportedKey] = useState('');
-    const [selectType, setSelectType] = useState('');
+    const [selectType, setSelectType] = useState('0');
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
     const [error, setError] = useState(null);
@@ -100,6 +100,13 @@ const CreateContact = () => {
     };
 
     const createContact = () => {
+        console.log(supportedName);
+        console.log(supportedContact);
+        console.log(supportedKey);
+        console.log(selectType);
+        console.log(selectRol);
+        console.log(supportedPriority);
+
         postContact (supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
             console.log(response)
@@ -158,14 +165,17 @@ const CreateContact = () => {
                                                 type="choice"
                                                 as="select"
                                                 value={selectRol}
+                                                isInvalid={selectRol === '0'}
+                                                isValid={selectRol !== '0'}
                                                 onChange={(event) =>  setSelectRol(event.target.value)}>
-                                                    <option value=''></option>
+                                                    <option value='0'>Seleccione</option>
                                                     <option value='technical'>Tecnico</option>
                                                     <option value='administrative'>Administrativo</option>
                                                     <option value='abuse'>Abuso</option>
                                                     <option value='notifications'>Notificaciones</option>
                                                     <option value='noc'>NOC</option>
                                             </Form.Control>
+                                            {selectRol ? '' : <div className="invalid-feedback">Seleccione</div>}
                                         </Form.Group>
                                     </Col>
                                     <Col>
@@ -180,9 +190,9 @@ const CreateContact = () => {
                                                 isValid={supportedPriority !== '0'}
                                                 onChange={(event) =>  setSupportedPriority(event.target.value)}>
                                                 <option value='0'>Seleccione</option>
-                                                {getPrioridades.results.map((prioridad) => {                
+                                                {getPrioridades.results.map((prioridad, index) => {                
                                                     return (
-                                                        <option value={prioridad.url}>{prioridad.name}</option>
+                                                        <option key={index} value={prioridad.url}>{prioridad.name}</option>
                                                     );
                                                 })}
                                             </Form.Control>
@@ -199,13 +209,16 @@ const CreateContact = () => {
                                                 type="choice"
                                                 as="select"
                                                 value={selectType}
+                                                isInvalid={selectType == '0'}
+                                                isValid={selectType !== '0'}
                                                 onChange={(event) =>  setSelectType(event.target.value)}>
-                                                    <option value=''></option>
+                                                    <option value='0'>Seleccione</option>
                                                     <option value='email'>Correo Electronico</option>
                                                     <option value='telegram'>Telegram</option>
                                                     <option value='phone'>Teléfono</option>
                                                     <option value='uri'>URI</option>
                                             </Form.Control>
+                                            {selectType ? '' : <div className="invalid-feedback">Seleccione</div>}
                                         </Form.Group>
                                     </Col>
                                     <Col>
@@ -229,7 +242,7 @@ const CreateContact = () => {
                                         placeholder="Llave pública GPG"
                                         value={supportedKey}
                                         onChange={(event) =>  setSupportedKey(event.target.value)} />
-                                {((supportedName !== '') && (supportedContact !== '') && (supportedPriority !== '' )) ? 
+                                {((supportedName !== '') && (selectRol !== '0') && (supportedPriority !== '0' ) && (selectType !== '0') && (supportedContact !== '')) ? 
                                     <><Button variant="primary" onClick={createContact} >Guardar</Button></>
                                     : 
                                     <><Button variant="primary" disabled>Guardar</Button></> }
