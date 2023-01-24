@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import ButtonState from './ButtonState';
 
 function ButtonView({feed}) {
   const [show, setShow] = useState(false);
