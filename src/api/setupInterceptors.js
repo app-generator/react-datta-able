@@ -10,8 +10,8 @@ const setup = (store) => {
     const { dispatch } = store;
 
     apiInstance.interceptors.request.use((request) => {
-        request.headers.Cookie = 'csrftoken=PiwFJyJ0A3fTtcK1mXXC8ybzeZTqHrj5UaVXPTiXyKEPzmiUluX6iHAcyWQMwqU9; sessionid=jjb434m059eiw9pxfdvrdcb1njxdlvdv; tabstyle=raw-tab';
-        request.headers.common['X-CSRFTOKEN'] = 'PiwFJyJ0A3fTtcK1mXXC8ybzeZTqHrj5UaVXPTiXyKEPzmiUluX6iHAcyWQMwqU9';
+        request.headers.Cookie = '';
+        request.headers.common['X-CSRFTOKEN'] = '';
     
         const state = store.getState();
         const token = state.account.token;
