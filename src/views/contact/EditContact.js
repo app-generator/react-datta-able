@@ -24,14 +24,16 @@ const EditContact = () => {
                 setTimeout(() => {
                     setAlert(null)
                     setStateAlert(null)
-                    sessionStorage.clear()
+                    sessionStorage.removeItem('Alerta')
                 }, 5000);
         }
     },[]);
 
+console.log(contact);
+
     const editContact = () => {
         let id = contact.url.split('/')[(contact.url.split('/')).length-2];
-        putContact (id, supportedName, supportedContact, supportedKey, selectType, selectRol, `http://localhost:8000/api/administration/priority/${supportedPriority}/`)
+        putContact (id, supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
             console.log(response)
             //setAlert
@@ -107,15 +109,15 @@ const EditContact = () => {
                                                 type="field"                                            
                                                 as="select"
                                                 value={supportedPriority}
-                                                isInvalid={supportedPriority == 0}
-                                                isValid={supportedPriority !== 0}
+                                                isInvalid={supportedPriority == ''}
+                                                isValid={supportedPriority !== ''}
                                                 onChange={(event) =>  setSupportedPriority(event.target.value)}>
-                                                    <option value='0'>Seleccione</option>
-                                                    <option value='1'>Critica</option>
-                                                    <option value='3'>Alta</option>
-                                                    <option value='2'>Media</option>
-                                                    <option value='6'>Baja</option>
-                                                    <option value='5'>Muy Baja</option>
+                                                    <option value=''>Seleccione</option>
+                                                    <option value='http://localhost:8000/api/administration/priority/1/'>Critica</option>
+                                                    <option value='http://localhost:8000/api/administration/priority/3/'>Alta</option>
+                                                    <option value='http://localhost:8000/api/administration/priority/2/'>Media</option>
+                                                    <option value='http://localhost:8000/api/administration/priority/6/'>Baja</option>
+                                                    <option value='http://localhost:8000/api/administration/priority/5/'>Muy Baja</option>
                                             </Form.Control>
                                                 {supportedPriority ? '' : <div className="invalid-feedback">Seleccione</div>}
                                         </Form.Group>
