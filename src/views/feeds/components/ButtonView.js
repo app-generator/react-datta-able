@@ -26,12 +26,6 @@ function ButtonView({feed}) {
                                         <span className="d-block m-t-5">Detalle de fuente de informacion</span>
                                     </Col>
                                     <Col sm={12} lg={4}>
-                                        <Link to={{pathname:"./feeds/edit", state: {feed}}} >
-                                            <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} >
-                                                <i className='fas fa-edit'/>                                                    
-                                            </Button>
-                                        </Link>    
-                                        <ButtonState feed={feed}></ButtonState>                           
                                         <CloseButton aria-label='Cerrar' onClick={handleClose} />
                                     </Col>
                                 </Row>
