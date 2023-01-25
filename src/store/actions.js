@@ -10,3 +10,4 @@ export const ACCOUNT_INITIALIZE = 'ACCOUNT_INITIALIZE';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const REFRESH_TOKEN = 'REFRESH_TOKEN';
+export const CSRF_TOKEN = 'CSRF_TOKEN';

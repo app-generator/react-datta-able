@@ -1,11 +1,12 @@
 // action - state management
-import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT, LOGIN_SUCCESS, LOGIN_FAIL, REFRESH_TOKEN } from './actions';
+import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT, LOGIN_SUCCESS, LOGIN_FAIL, REFRESH_TOKEN, CSRF_TOKEN } from './actions';
 
 export const initialState = {
     token: '',
     isLoggedIn: false,
     isInitialized: false,
-    user: null
+    user: null,
+    csrftoken: ''
 };
 
 //-----------------------|| ACCOUNT REDUCER ||-----------------------//
@@ -60,6 +61,13 @@ const accountReducer = (state = initialState, action) => {
             return {
                 ...state,
                 token: token
+            };
+        }
+        case CSRF_TOKEN: {
+            const { token } = action.payload;
+            return {
+                ...state,
+                csrftoken: token
             };
         }
         default: {

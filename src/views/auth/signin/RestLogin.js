@@ -8,6 +8,7 @@ import axios from 'axios';
 import useScriptRef from '../../../hooks/useScriptRef';
 import { API_SERVER } from './../../../config/constant';
 import { ACCOUNT_INITIALIZE } from './../../../store/actions';
+import { login } from '../../../api/services/auth';
 
 const RestLogin = ({ className, ...rest }) => {
     const dispatcher = useDispatch();
@@ -26,6 +27,20 @@ const RestLogin = ({ className, ...rest }) => {
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+
+                    login(values.email, values.password)
+                        .then((response) => {
+                            console.log('Se pudo loguear');
+                            dispatcher({
+                                type: ACCOUNT_INITIALIZE,
+                                payload: { isLoggedIn: true, user: response.data.user, token: response.data.token }
+                            });
+                        })
+                        .catch((error) => {
+                            console.log('No se pudo loguear');
+                        });
+
+                /*
                     try {
                         axios
                             .post(API_SERVER + 'login/', {
@@ -51,6 +66,7 @@ const RestLogin = ({ className, ...rest }) => {
                             })
                             .catch(function (error) {
                                 console.log(error);
+                                console.log(error.toJSON());
                                 setStatus({ success: false });
                                 setErrors({ submit: error.response.data.msg });
                                 setSubmitting(false);
@@ -63,6 +79,7 @@ const RestLogin = ({ className, ...rest }) => {
                             setSubmitting(false);
                         }
                     }
+                    */
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
