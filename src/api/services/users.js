@@ -1,15 +1,19 @@
 import { apiInstance } from "../custom";
+import { API_SERVER,COMPONENT_URL } from '../../config/constant';
 
-const getUsers = () => {
-    return apiInstance.get("user");
+const getUsers = (page="") => {//el parametro es para completar la url con el numero de pagina
+    
+    return apiInstance.get(COMPONENT_URL.user+page);
 }
 
-const getUser = (id) => { 
-    return apiInstance.get("user/"+id+"/");
+const getUser = (url) => { 
+    return apiInstance.get(url);
 }
 
 const postUser = (username, first_name, last_name, email, priority, is_active) => {
-    return apiInstance.post("user/", {
+    console.log(username)
+    console.log(first_name)
+    return apiInstance.post(COMPONENT_URL.user, {
         username: username, 
         first_name: first_name, 
         last_name: last_name, 
@@ -19,8 +23,8 @@ const postUser = (username, first_name, last_name, email, priority, is_active) =
     });
 }
 
-const putUser = (id, username, first_name, last_name, email, priority, is_active) => {
-    return apiInstance.put("user/"+id+"/", {
+const putUser = ( url,username, first_name, last_name, email, priority, is_active) => {
+    return apiInstance.put(url, {
         username: username, 
         first_name: first_name, 
         last_name: last_name, 
@@ -30,14 +34,14 @@ const putUser = (id, username, first_name, last_name, email, priority, is_active
     });
 }
 
-const isActive = (id, active) => {
-    return apiInstance.patch("user/"+id+"/", {
+const isActive = (url, active) => {
+    return apiInstance.patch(url, {
         is_active: active
     } );
 }
 
-const deleteUser = (id) => {
-    return apiInstance.delete("user/"+id+"/");
+const deleteUser = (url) => {
+    return apiInstance.delete(url);
 }
 
 export { getUsers, getUser, postUser, putUser, deleteUser, isActive };

@@ -132,6 +132,21 @@ const routes = [
                 component: lazy(() => import('./views/extra/SamplePage'))
             },
             {
+                exact: true,
+                path: '/list-user',
+                component: lazy(() => import('./views/user/listUser'))
+            },
+            {
+                exact: true,
+                path: '/add-user',
+                component: lazy(() => import('./views/user/addUser'))
+            },
+            {
+                exact: true,
+                path: "/edit-user",
+                component: lazy(() => import('./views/user/editUser'))
+            },
+            {
                 path: '*',
                 exact: true,
                 component: () => <Redirect to={BASE_URL} />
