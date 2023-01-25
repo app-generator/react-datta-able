@@ -31,6 +31,37 @@ const menuItems = {
             ]
         },
         {
+            id: 'constituency',
+            title: 'Constituencias',
+            type: 'group',
+            icon: 'fas fa-network-wired',
+            children: [
+                {
+                    id: 'entity',
+                    title: 'Entidades',
+                    type: 'item',
+                    url: '/entity/tables',
+                    icon: 'fas fa-network-wired',
+                    breadcrumbs: false
+                }
+            ]
+        }, 
+        {
+            id: 'NGEN',
+            title: 'NGEN',
+            type: 'group',
+            children: [
+                {
+                    id: 'tlp',
+                    title: 'Protocolo de Semaforo',
+                    type: 'item',
+                    url: '/app/tlp',
+                    icon: 'fas fa-globe',
+                    breadcrumbs: false
+                }              
+            ]
+        },
+        {
             id: 'ui-element',
             title: 'UI ELEMENT',
             type: 'group',
@@ -193,7 +224,29 @@ const menuItems = {
                     external: true
                 }
             ]
-        }        
+        },
+        {
+            id: 'usuarios',
+            title: 'usuarios',
+            type: 'group',
+            icon: 'icon-pages',
+            children: [
+                {
+                    id: 'usuarios',
+                    title: 'usuarios',
+                    type: 'item',
+                    url: '/list-user',
+                    classes: '',
+                    icon: 'fa fa-user',
+                    breadcrumbs: false,
+                    
+                    
+
+                   
+                },
+                
+            ]
+        }         
     ]
 };
 
