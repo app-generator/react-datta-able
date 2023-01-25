@@ -1,6 +1,21 @@
 const menuItems = {
     items: [
         {
+            id: 'navigation',
+            title: 'Navigation',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'dashboard',
+                    title: 'Dashboard',
+                    type: 'item',
+                    url: '/app/dashboard/default',
+                    icon: 'feather icon-home'
+                }
+            ]
+        },
+        {
             id: 'constituency',
             title: 'Constituencias',
             type: 'group',
@@ -17,18 +32,18 @@ const menuItems = {
             ]
         }, 
         {
-            id: 'navigation',
-            title: 'Navigation',
+            id: 'NGEN',
+            title: 'NGEN',
             type: 'group',
-            icon: 'icon-navigation',
             children: [
                 {
-                    id: 'dashboard',
-                    title: 'Dashboard',
+                    id: 'tlp',
+                    title: 'Protocolo de Semaforo',
                     type: 'item',
-                    url: '/app/dashboard/default',
-                    icon: 'feather icon-home'
-                }
+                    url: '/app/tlp',
+                    icon: 'fas fa-globe',
+                    breadcrumbs: false
+                }              
             ]
         },
         {
@@ -194,7 +209,29 @@ const menuItems = {
                     external: true
                 }
             ]
-        }        
+        },
+        {
+            id: 'usuarios',
+            title: 'usuarios',
+            type: 'group',
+            icon: 'icon-pages',
+            children: [
+                {
+                    id: 'usuarios',
+                    title: 'usuarios',
+                    type: 'item',
+                    url: '/list-user',
+                    classes: '',
+                    icon: 'fa fa-user',
+                    breadcrumbs: false,
+                    
+                    
+
+                   
+                },
+                
+            ]
+        }         
     ]
 };
 

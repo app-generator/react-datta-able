@@ -21,6 +21,7 @@ const DashDefault = () => {
         getUsers()
         .then((response) => {
             setUsers(response.data.results);
+           
             setError(null);
         })
         .catch(setError);
