@@ -64,6 +64,11 @@ const routes = [
         routes: [
             {
                 exact: true,
+                path: '/app/tlp',
+                component: lazy(() => import('./views/tlp/TLP'))
+            },
+            {
+                exact: true,
                 path: '/app/dashboard/default',
                 component: lazy(() => import('./views/dashboard/DashDefault'))
             },
