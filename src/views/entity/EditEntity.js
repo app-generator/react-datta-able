@@ -19,7 +19,7 @@ const EditEntity = () => {
                 setTimeout(() => {
                     setAlert(null)
                     setStateAlert(null)
-                    sessionStorage.clear()
+                    sessionStorage.removeItem('Alerta')
                 }, 5000);
         }
     },[]);
