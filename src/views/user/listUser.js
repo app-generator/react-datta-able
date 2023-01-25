@@ -18,6 +18,7 @@ function App() {
   const [jumpPage, setjumpPage] = useState(false)
   const [pages, setPages] = useState()
   const [cantPages, setcantPages] = useState([])
+  const [error,setError]= useState()
 
 
   
@@ -81,7 +82,10 @@ function App() {
       .then((response) => {
           setPages(arrayWithPages(response.data.count,response.data.results.length))
           
-      })
+      }).catch((error)=>{
+        setError(error)
+    })
+    
         
 
     const fetchPosts = async () => {
@@ -92,7 +96,10 @@ function App() {
           setPosts(response.data.results)
           console.log(response.data.results)
           
-      })
+      }).catch((error)=>{
+        setError(error)
+    })
+ 
     }
 
     fetchPosts()

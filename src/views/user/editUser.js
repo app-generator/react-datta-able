@@ -9,9 +9,11 @@ import { useLocation } from "react-router-dom";
 const EditUser = () => {    
     const location = useLocation();
     const user = location.state.post;
+    
       
     const[username,setUsername]=useState(false)
     const[priority,setPriority]=useState(false)
+    const[error,setError]=useState()
     const[body,setBody]=useState({ 
         url:user.url,
         username: user.username, 
@@ -35,9 +37,11 @@ const EditUser = () => {
             console.log(event.target.value)
             setBody({...body,
                     [event.target.name] : "http://localhost:8000/api/administration/priority/"+event.target.value+"/"}//hay que pegarle a la api de prioridad
-                    )  
+                    ).then((response) => {
+                        console.log(response) 
+                      })
 
-            console.log(body)
+            
         }else{
             console.log("no ingresa")
         }
@@ -116,7 +120,8 @@ const EditUser = () => {
 
                                 <Form.Group controlId="formGridAddress1">
                                         <Form.Label>Nombre de usuario</Form.Label>
-                                        <Form.Control  value={body.username} name="username" onChange={validateUsername}/>
+                                        <Form.Control  value={body.username} name="username" onChange={validateUsername}  isInvalid={body.username === ''}
+                                                isValid={body.username !== ''}/>
                                 </Form.Group>
 
                                 <Form.Group controlId="formGridAddress1">
@@ -136,7 +141,8 @@ const EditUser = () => {
                                 
                                 <Form.Group controlId="exampleForm.ControlSelect1">
                                         <Form.Label>Prioridad</Form.Label>
-                                        <Form.Control as="select" name="priority"  onChange={validatePriority}>
+                                        <Form.Control as="select" name="priority"  onChange={validatePriority} isInvalid={body.priority === "-1"}
+                                                isValid={body.priority !== "-1"}>
                                             <option value="-1">Seleccione una prioridad</option>
                                             <option value="1"> Critico </option>
                                             <option value="2"> Alta </option>

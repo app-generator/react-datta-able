@@ -13,7 +13,10 @@ function Posts({posts}) {
   const [error, setError] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const [showUser, setShowUser] = useState({});
-
+  const [showState,setShowState] =useState(false);
+  const [dataState,setDataState] =useState({});
+  const titulo={true:"Esta seguro de que desea inabilitar el usuario", false:"Esta seguro de que desea volver a habilitar el usuario"}
+  const bottonModalstate={true:"Inhabilitar", false:"Activar"}
 
   const handleClose = () => setShow(false);
 
@@ -21,9 +24,12 @@ function Posts({posts}) {
     deleteUser(deleteUrl).then((response) => {//esto tengo que cambiarlo porque no es nada bueno a futuro
       console.log(response);      
       setShow(false)
-    }).catch(setError);
+    }).catch((error)=>{
+        setError(error)
+    })
+    .finally(window.location.reload())
 
-    return window.location.reload();
+
   }
 
   const handleShow = (username, url) => {
@@ -33,28 +39,36 @@ function Posts({posts}) {
     setShow(true)
    
   }
-  const showModalUser = (url, username, first_name, last_name, email, priority, is_active) => {
-    putUser(url, username, first_name, last_name, email, priority, is_active).then((response) => {
-      console.log(response); 
-      setShowUser(response.data)
-      setModalShow(true)
+  const showModalUser = (post) => {
 
-    })
+    setShowUser(post)
+    setModalShow(true)
    
-  } 
+  }
 
-  const changeState = (url,active )=> {
-      active = ! active
-        isActive(url, active).then((response) => {
+
+  const showModalChangeState = (url,active )=> {
+      setDataState({url:url, state: active})
+      setShowState(true)
+    }
+    const changeState=()=>{
+        console.log("entrooo")
+        
+        isActive(dataState.url,! dataState.state).then((response) => {
             console.log(response) 
           })
-        return window.location.reload();
+          .catch((error)=>{
+              setError(error)
+          })
+          .finally(window.location.reload())
     }
     
-   
-  
-  
-  
+    const handleCloseState = () => {
+
+        
+        setShowState(false)
+       
+      }
 
   return (
 
@@ -127,7 +141,7 @@ function Posts({posts}) {
                                             className="btn-icon btn-rounded" 
                                             variant={post.is_active ? 'outline-success' : 'outline-danger'} 
                                             title={post.is_active ? 'Activo' : 'Inactivo'}
-                                            onClick={()=> changeState(post.url, post.is_active)}>
+                                            onClick={()=> showModalChangeState(post.url, post.is_active)}>
                                            <i className={post.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
                                         </Button>
                                         </td>
@@ -138,8 +152,8 @@ function Posts({posts}) {
                                         <td>
 
                                         
-                                            <Button className="btn-icon " variant="outline-primary" 
-                                            onClick={() => showModalUser(post.url, post.username, post.first_name, post.last_name, post.email, post.priority, post.is_active)}>
+                                            <Button className="btn-icon btn-rounded" variant="outline-primary" 
+                                            onClick={() => showModalUser(post)}>
                                                 <i className='fas fa-eye ' title="Detalle" />
                                             </Button>
                                         
@@ -147,12 +161,12 @@ function Posts({posts}) {
                                         
                                         
                                         <Link to={{pathname:"./edit-user/", state: {post}}} >
-                                            <Button className="btn-icon " variant="outline-warning" >
+                                            <Button className="btn-icon btn-rounded" variant="outline-warning" >
                                                 <i className='far fa-edit' title="Editar" />
                                             </Button>
                                         </Link>
 
-                                            <Button className="btn-icon " variant="outline-danger" onClick={()=>handleShow(post.username,post.url)}>
+                                            <Button className="btn-icon btn-rounded" variant="outline-danger" onClick={()=>handleShow(post.username,post.url)}>
                                                 <i className='fas fa-trash-alt' title="Eliminar" />
                                             </Button>
                                         </td>
@@ -251,6 +265,22 @@ function Posts({posts}) {
                 </Row>
             </Modal.Body>            
         </Modal>
+        <Modal show={showState} onHide={()=>handleCloseState()}>
+        <Modal.Header closeButton>
+          <Modal.Title >Cambio de estado</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{titulo[dataState.state]}</Modal.Body>
+        <Modal.Footer>
+        <Button variant={dataState.state ? 'danger' : 'success'} 
+                                            title={dataState.state ? 'Activo' : 'Inactivo'} onClick={()=>changeState()}>
+                  {bottonModalstate[dataState.state]}
+          </Button>
+          <Button variant="secondary" onClick={()=>handleCloseState()}>
+            Cerrar
+          </Button>
+          
+        </Modal.Footer>
+      </Modal>
 
                                     </tr>
                               )
