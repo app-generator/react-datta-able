@@ -99,6 +99,33 @@ const CreateContact = () => {
         ]
     };
 
+    const role = [
+        {
+            value : '0',
+            name : 'Seleccione'
+        },
+        {
+            value : 'technical',
+            name : 'Tecnico'
+        },
+        {
+            value : 'administrative',
+            name : 'Administrativo'
+        },
+        {
+            value : 'abuse',
+            name : 'Abuso'
+        },
+        {
+            value : 'notifications',
+            name : 'Notificaciones'
+        },
+        {
+            value : 'noc',
+            name : 'NOC'
+        },
+    ]
+
     const createContact = () => {
         console.log(supportedName);
         console.log(supportedContact);
@@ -168,12 +195,11 @@ const CreateContact = () => {
                                                 isInvalid={selectRol === '0'}
                                                 isValid={selectRol !== '0'}
                                                 onChange={(event) =>  setSelectRol(event.target.value)}>
-                                                    <option value='0'>Seleccione</option>
-                                                    <option value='technical'>Tecnico</option>
-                                                    <option value='administrative'>Administrativo</option>
-                                                    <option value='abuse'>Abuso</option>
-                                                    <option value='notifications'>Notificaciones</option>
-                                                    <option value='noc'>NOC</option>
+                                                {role.map((rol, index) => {                
+                                                    return (
+                                                        <option key={index} value={rol.value}>{rol.name}</option>
+                                                    );
+                                                })}
                                             </Form.Control>
                                             {selectRol ? '' : <div className="invalid-feedback">Seleccione</div>}
                                         </Form.Group>
