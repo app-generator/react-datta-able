@@ -11,8 +11,8 @@ function ButtonDelete({feed}) {
 
   const [error, setError] = useState(null);
 
-  const removeFeed = (id)=> {
-    deleteFeed(id).then((response) => {
+  const removeFeed = (url)=> {
+    deleteFeed(url).then((response) => {
       console.log(response);      
       handleClose();
     })
@@ -43,7 +43,7 @@ function ButtonDelete({feed}) {
             <Button variant="outline-secondary" onClick={handleClose}> 
               Cancelar
             </Button>
-            <Button variant="outline-danger" onClick={()=> removeFeed(feed.url.split("/")[6])}>
+            <Button variant="outline-danger" onClick={()=> removeFeed(feed.url)}>
               Eliminar
             </Button>
           </Modal.Footer>

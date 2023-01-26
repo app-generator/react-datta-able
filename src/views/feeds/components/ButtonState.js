@@ -13,8 +13,8 @@ function ButtonState({feed}) {
     const className = ['fas fa-ban mx-1', 'fas fa-check mx-1'];
     const [error, setError] = useState(null);
 
-    const changeState = (id, state)=> {
-        putActivationStatus(id, +!state).then((response) => {
+    const changeState = (url, state)=> {
+        putActivationStatus(url, +!state).then((response) => {
             console.log(response);      
             handleClose();
         })
@@ -45,7 +45,7 @@ function ButtonState({feed}) {
                     <Button variant="outline-secondary" onClick={handleClose}> 
                         Cancelar
                     </Button>
-                    <Button variant="outline-warning" onClick={()=> changeState(feed.url.split("/")[6], feed.active)}>
+                    <Button variant="outline-warning" onClick={()=> changeState(feed.url, feed.active)}>
                         Modiifcar
                     </Button>
                 </Modal.Footer>

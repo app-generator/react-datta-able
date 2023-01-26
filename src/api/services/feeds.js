@@ -1,11 +1,12 @@
 import { apiInstance } from "../custom";
+import { COMPONENT_URL } from '../../config/constant';
 
 const getFeeds = () => {
-    return apiInstance.get("administration/feed/");
+    return apiInstance.get(COMPONENT_URL.feed);
 }
 
 const postFeed = (slug, name, description, active) => {
-    return apiInstance.post("administration/feed/", {
+    return apiInstance.post(COMPONENT_URL.feed, {
         slug: slug, 
         name: name, 
         description: description,
@@ -14,8 +15,8 @@ const postFeed = (slug, name, description, active) => {
 }
 
 
-const putFeed = (id, slug, name, description, active) => {
-    return apiInstance.put("administration/feed/"+id+"/", {
+const putFeed = (url, slug, name, description, active) => {
+    return apiInstance.put(url, {
         slug: slug, 
         name: name, 
         description: description,
@@ -24,15 +25,15 @@ const putFeed = (id, slug, name, description, active) => {
 }
 
 
-const putActivationStatus= (id, state) => {
-    return apiInstance.patch("administration/feed/"+id+"/", {
+const putActivationStatus= (url, state) => {
+    return apiInstance.patch(url, {
         active: state
     } );
 }
 
 
-const deleteFeed = (id) => {
-    return apiInstance.delete("administration/feed/"+id+"/");
+const deleteFeed = (url) => {
+    return apiInstance.delete(url);
 }
 
 export { getFeeds, postFeed, putFeed, putActivationStatus, deleteFeed };

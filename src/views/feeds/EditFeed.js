@@ -16,8 +16,8 @@ const EditFeed = () => {
 
     const [error, setError] = useState(null);
 
-    const changeFeed = (id, slug, name, description, active)=> {
-        putFeed(id, slug, name, description, active).then((response) => {
+    const changeFeed = (url, slug, name, description, active)=> {
+        putFeed(url, slug, name, description, active).then((response) => {
             console.log(response);
             window.history.back();
         })
@@ -73,7 +73,7 @@ const EditFeed = () => {
                                 </Form.Group>
                               
                                   
-                                <Button variant="success" onClick={()=> changeFeed(feed.url.split("/")[6], slug, name, description, active)}>Guardar</Button>
+                                <Button variant="success" onClick={()=> changeFeed(feed.url, slug, name, description, active)}>Guardar</Button>
                                 <Button variant="info" href='/app/feeds'>Volver</Button>
                             </Form>
                         </Card.Body>
