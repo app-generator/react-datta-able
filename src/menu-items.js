@@ -1,7 +1,38 @@
 const menuItems = {
     items: [
         {
-             id: 'NGEN',
+            id: 'navigation',
+            title: 'Navigation',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'dashboard',
+                    title: 'Dashboard',
+                    type: 'item',
+                    url: '/app/dashboard/default',
+                    icon: 'feather icon-home'
+                }
+            ]
+        },
+        {
+            id: 'constituency',
+            title: 'Constituencias',
+            type: 'group',
+            icon: 'fas fa-network-wired',
+            children: [
+                {
+                    id: 'entity',
+                    title: 'Entidades',
+                    type: 'item',
+                    url: '/entity/tables',
+                    icon: 'fas fa-network-wired',
+                    breadcrumbs: false
+                }
+            ]
+        }, 
+        {
+            id: 'NGEN',
             title: 'NGEN',
             type: 'group',
             children: [

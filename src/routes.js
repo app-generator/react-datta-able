@@ -125,11 +125,25 @@ const routes = [
                 path: '/maps/google-map',
                 component: lazy(() => import('./views/maps/GoogleMaps'))
             },
-
             {
                 exact: true,
                 path: '/sample-page',
                 component: lazy(() => import('./views/extra/SamplePage'))
+            },
+            {
+                exact: true,
+                path: '/entity/tables',
+                component: lazy(() => import('./views/entity/ListEntity'))
+            },
+            {
+                exact: true,
+                path: '/entity/create',
+                component: lazy(() => import('./views/entity/CreateEntity'))
+            },
+            {
+                exact: true,
+                path: '/entity/edit',
+                component: lazy(() => import('./views/entity/EditEntity'))
             },
             {
                 exact: true,
