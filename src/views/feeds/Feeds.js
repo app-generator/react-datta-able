@@ -6,6 +6,7 @@ import { useState , useEffect } from "react";
 import ButtonView from './components/ButtonView';
 import ButtonDelete from './components/ButtonDelete';
 import ButtonState from './components/ButtonState';
+import Alert from '../../components/Alert/Alert';
 
 
 const ListFeeds = () => {
@@ -13,8 +14,20 @@ const ListFeeds = () => {
     const [feeds, setFeeds] = useState([]);
     const [error, setError] = useState(null);
     const [search, setSearch] = useState("");
+
+    const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
     
     useEffect(() => {
+        if(sessionStorage.getItem('Alerta')) {
+            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+            setAlert(storage)
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                    sessionStorage.clear()
+                }, 5000);
+        }
         getFeeds()
         .then((response) => {
             setFeeds(response.data.results);
@@ -48,6 +61,7 @@ const ListFeeds = () => {
 
     return (
         <React.Fragment>
+            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href='/app/dhasboard/default'>

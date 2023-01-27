@@ -17,7 +17,7 @@ const NewFeed = () => {
     const createFeed = (slug, name, description, active)=> {
         postFeed(slug, name, description, active).then((response) => {
             console.log(response);
-            window.history.back();
+            window.location.href = '/app/feeds';
         })
         .catch((error) => {
             setError(error);
