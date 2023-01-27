@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 import { getUsers, getUser, postUser, putUser, isActive, deleteUser } from "../../api/services/users";
-import { validateEmail,validateFieldText} from './validators';
+import { validateEmail,validateFieldText,validateUsername} from './validators';
 
 
 const AddUser = () => {
@@ -22,6 +22,9 @@ const AddUser = () => {
 
         if(body.username === ""){
             formErrors.push("username","Por favor Ingresar ingresar un nombre")
+        }
+        if(!validateUsername(body.username)){
+            formErrors.push("username","ingrese un nombre de usuario valido")
         }
         if(body.priority == "-1"){
             formErrors.push("priority","Por favor elija una prioridad")
@@ -148,19 +151,20 @@ const AddUser = () => {
 
                                 <Form.Group controlId="formGridAddress1">
                                         <Form.Label>Nombre de usuario</Form.Label>
-                                        <Form.Control placeholder="Ingrese el nombre del usuario" maxlength="255" value ={body.username} name="username" isInvalid={body.username === ''}
+                                        <Form.Control placeholder="Ingrese el nombre del usuario" maxlength="150" value ={body.username} name="username" isInvalid={body.username === ''|| !validateUsername(body.username)}
                                                 isValid={body.username !== ''} onChange={(e)=>FieldUsername(e)}/>
-                                         {body.username ? '' : <div className="invalid-feedback">   Ingrese un nombre de usuario</div>}
+                                         {body.username  ? '' : <div className="invalid-feedback">   Ingrese un nombre de usuario</div>}
+                                         {validateUsername(body.username)  ? "" : <div className="invalid-feedback"> Solo se permiten letras, numeros y los cateacteres especiales '@', '.' , '+', '-', '_' </div>}
                                 </Form.Group>
 
                                 <Form.Group controlId="formGridAddress1">
                                         <Form.Label>Nombre/s</Form.Label>
-                                        <Form.Control placeholder="Ingrese el nombre/s" maxlength="255" name="first_name"onChange={(e)=>fieldFullName(e)} isInvalid={body.first_name !== "" && !validateFieldText(body.first_name)}/>
+                                        <Form.Control placeholder="Ingrese el nombre/s" maxlength="150" name="first_name"onChange={(e)=>fieldFullName(e)} isInvalid={body.first_name !== "" && !validateFieldText(body.first_name)}/>
                                         {validateFieldText(body.first_name) ? "" : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
                                 </Form.Group>
                                 <Form.Group controlId="formGridAddress1">
                                         <Form.Label>Apellido</Form.Label>
-                                        <Form.Control placeholder="Ingrese el apellido" maxlength="255" name="last_name" onChange={(e)=>fieldFullName(e)} isInvalid={body.last_name !== "" && !validateFieldText(body.last_name)}/>
+                                        <Form.Control placeholder="Ingrese el apellido" maxlength="150" name="last_name" onChange={(e)=>fieldFullName(e)} isInvalid={body.last_name !== "" && !validateFieldText(body.last_name)}/>
                                         {validateFieldText(body.last_name) ? ""  : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
                                         
                                 </Form.Group>
@@ -168,7 +172,7 @@ const AddUser = () => {
 
                                 <Form.Group controlId="formGridEmail">
                                         <Form.Label>Email</Form.Label>
-                                        <Form.Control  placeholder="Ingrese el Email" maxlength="255"  name="email" onChange={(e)=>fieldEmail(e)} isInvalid={body.email !== "" && !validateEmail(body.email)}/>
+                                        <Form.Control  placeholder="Ingrese el Email" maxlength="254"  name="email" onChange={(e)=>fieldEmail(e)} isInvalid={body.email !== "" && !validateEmail(body.email)}/>
                                         {validateEmail(body.email) ? ""  : <div className="invalid-feedback">   Ingrese un email valido</div>}
                                 </Form.Group>
                                 
