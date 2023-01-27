@@ -33,13 +33,14 @@ const ListFeeds = () => {
             setFeeds(response.data.results);
             setError(null);
         })
-        .catch(setError);
+        .catch((error)=>{
+            if (error) {      
+                setAlert({name:`Ups! Se produjo un error al buscar las fuentes de informacion.`, type:0})
+            }
+        })
     }, []);
     
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar las fuentes de informacion.</p>
-    }
+    
 
 
     //valores ingresados
