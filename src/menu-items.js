@@ -1,6 +1,21 @@
 const menuItems = {
     items: [
         {
+            id: 'NGEN',
+            title: 'NGEN',
+            type: 'group',
+            children: [
+                {
+                    id: 'feeds',
+                    title: 'Fuentes de Informacion',
+                    type: 'item',
+                    url: '/app/feeds',
+                    icon: 'fas fa-globe',
+                    breadcrumbs: false
+                }              
+            ]
+        },
+        {
             id: 'navigation',
             title: 'Navigation',
             type: 'group',
