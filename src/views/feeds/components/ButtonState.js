@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { putActivationStatus } from '../../../api/services/feeds';
 
-function ButtonState({feed}) {    
+function ButtonState({feed, callback}) {    
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -14,22 +14,22 @@ function ButtonState({feed}) {
     const [error, setError] = useState(null);
 
     const changeState = (url, state)=> {
+        let message = state ? `La fuente de informacion ${feed.name} ha sido desactivada` : `La fuente de informacion ${feed.name} ha sido activada`;
         putActivationStatus(url, +!state).then((response) => {
-            console.log(response);      
-            handleClose();
+            console.log(response);
+            callback(message, true)
         })
         .catch((error) => {
             setError(error);
-        })
+            if(error){
+              callback(message, false)
+            }
+          })
         .finally(()=>{
-            window.location.reload();
+            handleClose();
         })
     };
-
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar el protocolo de semaforo.</p>
-    }
+    
 
     return(
         <>
@@ -40,13 +40,13 @@ function ButtonState({feed}) {
                 <Modal.Header closeButton>
                     <Modal.Title>Modificar el estado {title[feed.active]} </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>¿Corfirma la modificacion del estado?</Modal.Body>
+                <Modal.Body>{feed.active ? `Desea desactivar fuente de informacion ${feed.name}?` : `Desea activar fuente de informacion ${feed.name}?`}?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-secondary" onClick={handleClose}> 
                         Cancelar
                     </Button>
-                    <Button variant="outline-warning" onClick={()=> changeState(feed.url, feed.active)}>
-                        Modiifcar
+                    <Button variant={feed.active ? 'outline-danger' : 'outline-success'} onClick={()=> changeState(feed.url, feed.active)}>
+                        {feed.active ? 'Desactivar' : 'Activar'}
                     </Button>
                 </Modal.Footer>
             </Modal>

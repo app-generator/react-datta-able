@@ -46,7 +46,7 @@ function ButtonView({feed}) {
                                     <tr>
                                         <td>Estado</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={feed.active === 1 ? "Activo" : "Inactivo"} />
+                                            <Form.Control plaintext readOnly defaultValue={feed.active ? "Activo" : "Inactivo"} />
                                         </td>
                                     </tr>
                                     <tr>
