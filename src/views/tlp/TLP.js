@@ -85,9 +85,9 @@ const ListTLP = () => {
                                         <tr key={i}>
                                             <th scope="row">{i+1}</th>
                                             <td><p class="p-3 mb-2 bg-dark rounded" style={{color: item.color}}><b>{item.information}</b></p></td>
-                                            <td><Form.Control style={{resize:"none", backgroundColor:"transparent", border:"none"}} as="textarea" rows={3} readOnly value={item.description} /></td>
-                                            <td><Form.Control style={{resize:"none", backgroundColor:"transparent", border:"none"}} as="textarea" rows={3} readOnly value={item.when} /></td>
-                                            <td><Form.Control style={{resize:"none", backgroundColor:"transparent", border:"none"}} as="textarea" rows={3} readOnly value={item.why} /></td> 
+                                            <td><Form.Control style={{resize:"none", backgroundColor:"transparent", border:"none", boxShadow: "none"}} as="textarea" rows={3} readOnly value={item.description} /></td>
+                                            <td><Form.Control style={{resize:"none", backgroundColor:"transparent", border:"none", boxShadow: "none"}} as="textarea" rows={3} readOnly value={item.when} /></td>
+                                            <td><Form.Control style={{resize:"none", backgroundColor:"transparent", border:"none", boxShadow: "none"}} as="textarea" rows={3} readOnly value={item.why} /></td> 
                                         </tr>
                                      ))}
                                 </tbody>
