@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { deleteFeed } from '../../../api/services/feeds';
 
-function ButtonDelete({feed}) {
+function ButtonDelete({feed, callback}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -13,21 +13,19 @@ function ButtonDelete({feed}) {
 
   const removeFeed = (url)=> {
     deleteFeed(url).then((response) => {
-      console.log(response);      
-      handleClose();
+      console.log(response);
+      callback(`La fuente de informacion ${feed.name} ha sido eliminada`, true)
     })
     .catch((error) => {
       setError(error);
+      if(error){
+        callback(`La fuente de información ${feed.name} NO ha sido eliminada`, false)
+      }
     })
    .finally(()=>{
-      window.location.reload();
+      handleClose();
     })
   };
-
-  if (error) {
-    console.log(error);
-    return <p>Ups! Se produjo un error al borrar el feed {feed.name}.</p>
-  }
 
   return (
     <>

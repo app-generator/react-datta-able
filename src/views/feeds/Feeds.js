@@ -40,6 +40,28 @@ const ListFeeds = () => {
         })
     }, []);
     
+    const callbackBackend = (name, stateAlert) => {
+        if(stateAlert) {
+            getFeeds()
+            .then((response) => {
+                setFeeds(response.data.results)
+                setError(null);
+            })
+            .catch((error) => {
+                setError(error)
+            })
+            .finally(() => {
+                setAlert({name:name, type:1})
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                }, 5000);
+            })
+        }
+        else {
+            setAlert({name:name, type:0})
+        }
+    }
     
 
 
@@ -118,7 +140,7 @@ const ListFeeds = () => {
                                             <th scope="row">{i+1}</th>
                                             <td>{feed.name}</td>
                                             <td>
-                                                <ButtonState feed={feed}></ButtonState>
+                                                <ButtonState feed={feed} callback={callbackBackend}></ButtonState>
                                             </td>
                                             <td>{feed.description}</td>
                                             <td>
@@ -128,7 +150,7 @@ const ListFeeds = () => {
                                                         <i className='fas fa-edit'/>                                                    
                                                     </Button>
                                                 </Link>    
-                                                <ButtonDelete feed={feed}></ButtonDelete>
+                                                <ButtonDelete feed={feed} callback={callbackBackend}></ButtonDelete>
                                             </td>
                                         </tr>
                                     ))}
