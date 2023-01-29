@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Button, Breadcrumb } from 'react-bootstrap';
+import { Row, Col, Card, Table, Button, Breadcrumb, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getFeeds } from '../../api/services/feeds';
 import ButtonView from './components/ButtonView';
@@ -13,7 +13,7 @@ const ListFeeds = () => {
     const [feeds, setFeeds] = useState([]);
     const [error, setError] = useState(null);
     const [search, setSearch] = useState("");
-
+    const [loading, setLoading] = useState(true)
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
     
@@ -36,6 +36,9 @@ const ListFeeds = () => {
             if (error) {      
                 setAlert({name:`Ups! Se produjo un error al buscar las fuentes de informacion.`, type:0})
             }
+        })
+        .finally(() => {
+            setLoading(false)
         })
     }, []);
     
@@ -75,6 +78,14 @@ const ListFeeds = () => {
         list = feeds.filter( (item) => 
             item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
+    }
+
+    if (loading) {
+        return (
+            <Row className='justify-content-md-center'>
+                <Spinner animation='border' variant='primary' size='sm' />
+            </Row>
+        );    
     }
     
     return (

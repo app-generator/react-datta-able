@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Breadcrumb, Form } from 'react-bootstrap';
+import { Row, Col, Card, Table, Breadcrumb, Form, Spinner } from 'react-bootstrap';
 import { getTLP } from '../../api/services/tlp';
 import Alert from '../../components/Alert/Alert';
 
 const ListTLP = () => {
 
     const [tlp, setTLP] = useState([]);
-    const [error, setError] = useState(null);
-    
+    const [error, setError] = useState(null);    
     const [search, setSearch] = useState("");
-
+    const [loading, setLoading] = useState(true)
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
 
@@ -30,6 +29,9 @@ const ListTLP = () => {
                 setAlert({name:`Ups! Se produjo un error al buscar el protocolo de semaforo`, type:0})
             }
         })
+        .finally(() => {
+            setLoading(false)
+        })
     }, []);
 
     //valores ingresados
@@ -45,6 +47,14 @@ const ListTLP = () => {
         list = tlp.filter( (item) => 
             item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
+    }
+
+    if (loading) {
+        return (
+            <Row className='justify-content-md-center'>
+                <Spinner animation='border' variant='primary' size='sm' />
+            </Row>
+        );    
     }
 
     return (
