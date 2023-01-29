@@ -55,11 +55,8 @@ const ListTLP = () => {
                     <Breadcrumb.Item href='/app/dhasboard/default'>
                         <i className="fas fa-home" />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#'>
-                        Protocolo de Semaforo
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#' active>
-                        Listado 
+                    <Breadcrumb.Item active>
+                        <b>Protocolo de Semaforo</b>
                     </Breadcrumb.Item>
                 </Breadcrumb>    
             </Row>

@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table, Button, Breadcrumb } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getFeeds } from '../../api/services/feeds';
-import { useState , useEffect } from "react";
 import ButtonView from './components/ButtonView';
 import ButtonDelete from './components/ButtonDelete';
 import ButtonState from './components/ButtonState';
@@ -90,11 +89,8 @@ const ListFeeds = () => {
                     <Breadcrumb.Item href='/app/dhasboard/default'>
                         <i className="fas fa-home" />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#'>
-                        Fuentes de Informacion
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#' active>
-                        Listado 
+                    <Breadcrumb.Item active>
+                        <b>Fuentes de Informacion</b> 
                     </Breadcrumb.Item>
                 </Breadcrumb>    
             </Row>
