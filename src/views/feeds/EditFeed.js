@@ -8,11 +8,11 @@ import Alert from '../../components/Alert/Alert';
 const EditFeed = () => {
     const location = useLocation();
     const feed = location.state.feed;
-
-    const[slug, setSlug] = useState (feed.slug);
+ 
+    const[slug, setSlug] = useState (feed.slug);    
     const [name, setName] = useState(feed.name);
     const [active, setActive] = useState(feed.active);
-    const [description, setDescription] = useState(feed.description);
+    const [description, setDescription] = useState(feed.description);  
 
     const [error, setError] = useState(null);
 
@@ -31,9 +31,8 @@ const EditFeed = () => {
         }
     },[]);
     
-
-    const changeFeed = (url, slug, name, description, active)=> {
-        putFeed(url, slug, name, description, active).then((response) => {
+    const changeFeed = ()=> {
+        putFeed(feed.url, slug, name, description, active).then((response) => {
             console.log(response);
             sessionStorage.setItem('Alerta', JSON.stringify({name:`La fuente de informacion ${name} ha sido editada`, type:1}));
             window.location.href = '/app/feeds';
@@ -44,10 +43,7 @@ const EditFeed = () => {
                 setAlert({name:`La fuente de informacion ${name} NO ha sido editada`, type:0})
             }
         })        
-    };
-
-    
-    
+    };    
    
     return (
         <React.Fragment>
@@ -60,8 +56,8 @@ const EditFeed = () => {
                     <Breadcrumb.Item href='/app/feeds'>
                         Fuentes de Informacion
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#' active>
-                        Modificar 
+                    <Breadcrumb.Item active>
+                        <b>Editar fuente de informacion</b> 
                     </Breadcrumb.Item>
                 </Breadcrumb>    
             </Row>
@@ -88,11 +84,15 @@ const EditFeed = () => {
                                 <Form.Group as={Col}>
                                     <Form.Label>Estado</Form.Label>
                                     <DropdownState state={feed.active} setActive={setActive}></DropdownState>
-                                </Form.Group>
-                              
+                                </Form.Group>                             
                                   
-                                <Button variant="success" onClick={()=> changeFeed(feed.url, slug, name, description, active)}>Guardar</Button>
-                                <Button variant="info" href='/app/feeds'>Volver</Button>
+                                { name === '' || description === '' ?
+                                    <Button variant="primary" disabled>Guardar</Button>
+                                    :
+                                    <Button variant="primary" onClick={changeFeed}>Guardar</Button>
+                                }
+                                
+                                <Button variant="info" href='/app/feeds'>Cancelar</Button>
                             </Form>
                         </Card.Body>
                     </Card>

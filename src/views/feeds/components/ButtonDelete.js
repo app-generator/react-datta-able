@@ -11,8 +11,8 @@ function ButtonDelete({feed, callback}) {
 
   const [error, setError] = useState(null);
 
-  const removeFeed = (url)=> {
-    deleteFeed(url).then((response) => {
+  const removeFeed = ()=> {
+    deleteFeed(feed.url).then((response) => {
       console.log(response);
       callback(`La fuente de informacion ${feed.name} ha sido eliminada`, true)
     })
@@ -32,18 +32,18 @@ function ButtonDelete({feed, callback}) {
         <Button title='Eliminar' className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
             <i className='fas fa-trash-alt'/>
         </Button> 
-        <Modal show={show} onHide={handleClose} >
+        <Modal show={show} onHide={handleClose} centered >
           <Modal.Header closeButton>
             <Modal.Title>Eliminar {feed.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>¿Corfirma la eliminación?</Modal.Body>
           <Modal.Footer>
-            <Button variant="outline-secondary" onClick={handleClose}> 
-              Cancelar
-            </Button>
-            <Button variant="outline-danger" onClick={()=> removeFeed(feed.url)}>
+            <Button variant="outline-danger" onClick={removeFeed}>
               Eliminar
             </Button>
+            <Button variant="outline-secondary" onClick={handleClose}> 
+              Cancelar
+            </Button>            
           </Modal.Footer>
         </Modal>
     </>

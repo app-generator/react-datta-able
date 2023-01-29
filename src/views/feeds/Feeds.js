@@ -62,8 +62,6 @@ const ListFeeds = () => {
         }
     }
     
-
-
     //valores ingresados
     const searcher = (e) => {
         setSearch(e.target.value) //actualizar
@@ -78,9 +76,7 @@ const ListFeeds = () => {
             item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
-
     
-
     return (
         <React.Fragment>
             <Alert alert={alert} stateAlert={stateAlert} />

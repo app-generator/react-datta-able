@@ -29,7 +29,7 @@ const NewFeed = () => {
     },[]);
 
 
-    const createFeed = (slug, name, description, active)=> {
+    const createFeed = ()=> {
         postFeed(slug, name, description, active).then((response) => {
             console.log(response);
             sessionStorage.setItem('Alerta', JSON.stringify({name:`La fuente de informacion ${name} ha sido creada`, type:1}));
@@ -55,7 +55,7 @@ const NewFeed = () => {
                         Fuentes de Informacion
                     </Breadcrumb.Item>
                     <Breadcrumb.Item href='#' active>
-                        Nueva 
+                        <b>Crear fuente de informacion</b> 
                     </Breadcrumb.Item>
                 </Breadcrumb>    
             </Row>
@@ -83,9 +83,14 @@ const NewFeed = () => {
                                     <Form.Label>Estado Inicial</Form.Label>
                                     <DropdownState state={active} setActive={setActive}></DropdownState>
                                 </Form.Group>                              
-                                  
-                                <Button variant="success" onClick={()=> createFeed(slug, name, description, active)}>Guardar</Button>
-                                <Button variant="info" href='/app/feeds'>Volver</Button>
+
+                                { name === '' || description === '' ?
+                                    <Button variant="primary" disabled>Guardar</Button>
+                                    :
+                                    <Button variant="primary" onClick={createFeed}>Guardar</Button>
+                                }  
+
+                                <Button variant="info" href='/app/feeds'>Cancelar</Button>
                             </Form>
                         </Card.Body>
                     </Card>
