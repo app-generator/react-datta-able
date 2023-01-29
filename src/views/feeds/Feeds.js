@@ -5,6 +5,7 @@ import { getFeeds } from '../../api/services/feeds';
 import ButtonView from './components/ButtonView';
 import ButtonDelete from './components/ButtonDelete';
 import ButtonState from './components/ButtonState';
+import CrudButton from '../../components/Button/CrudButton';
 import Alert from '../../components/Alert/Alert';
 
 
@@ -117,11 +118,10 @@ const ListFeeds = () => {
                                     </React.Fragment>                                 
                                 </Col> 
                                 <Col sm={12} lg={3}>
-                                    <React.Fragment>
-                                        <Button className="text-capitalize" variant='outline-primary' title='Agregar Fuente de Informacion' href="./feeds/new">
-                                            <i className='fa fa-plus' />
-                                            Agregar Fuente de Informacion
-                                        </Button>
+                                    <React.Fragment>                                        
+                                        <Link to={{pathname:'./feeds/new'}} >
+                                            <CrudButton type='create' name='Fuente de Informacion' />
+                                        </Link>
                                     </React.Fragment>                           
                                 </Col>  
                             </Row>                                                                           
@@ -148,10 +148,8 @@ const ListFeeds = () => {
                                             <td>{feed.description}</td>
                                             <td>
                                                 <ButtonView feed={feed}></ButtonView>
-                                                <Link to={{pathname:"./feeds/edit", state: {feed}}} >
-                                                    <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} >
-                                                        <i className='fas fa-edit'/>                                                    
-                                                    </Button>
+                                                <Link to={{pathname:"./feeds/edit", state:{feed}}} >
+                                                    <CrudButton type="edit" />                                                    
                                                 </Link>    
                                                 <ButtonDelete feed={feed} callback={callbackBackend}></ButtonDelete>
                                             </td>

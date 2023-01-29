@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
+import CrudButton from '../../../components/Button/CrudButton';
 
 function ButtonView({feed}) {
   const [show, setShow] = useState(false);
@@ -9,9 +10,7 @@ function ButtonView({feed}) {
 
   return (
     <>
-        <Button title='Ver' className="btn-icon btn-rounded" variant={'outline-primary'} onClick={handleShow} >
-            <i className='fas fa-eye'/>
-        </Button>
+        <CrudButton type='read' onClick={handleShow} />
         <Modal size='lg' show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>            
             <Modal.Body>
                 <Row>    

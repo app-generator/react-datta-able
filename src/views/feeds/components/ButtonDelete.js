@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { deleteFeed } from '../../../api/services/feeds';
+import CrudButton from '../../../components/Button/CrudButton';
 
 function ButtonDelete({feed, callback}) {
   const [show, setShow] = useState(false);
@@ -29,9 +30,7 @@ function ButtonDelete({feed, callback}) {
 
   return (
     <>
-        <Button title='Eliminar' className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-            <i className='fas fa-trash-alt'/>
-        </Button> 
+        <CrudButton type='delete' onClick={handleShow} />
         <Modal show={show} onHide={handleClose} centered >
           <Modal.Header closeButton>
             <Modal.Title>Eliminar {feed.name}</Modal.Title>
