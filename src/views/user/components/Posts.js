@@ -4,9 +4,9 @@ import {
   Button,
    Card, Table , Modal, Row,Col, Breadcrumb,Form, Badge,CloseButton
 } from 'react-bootstrap';
-import { deleteUser,putUser, isActive } from "../../../api/services/users";
+import { deleteUser,getUsers, isActive } from "../../../api/services/users";
 
-function Posts({posts}) {
+function Posts({posts, callback}) {
   const [show, setShow] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState("");
   const [deleteUrl, setDeleteUrl] = useState("");
@@ -21,13 +21,18 @@ function Posts({posts}) {
   const handleClose = () => setShow(false);
 
   const handleDelete = () => {
-    deleteUser(deleteUrl).then((response) => {//esto tengo que cambiarlo porque no es nada bueno a futuro
-      console.log(response);      
-      setShow(false)
-    }).catch((error)=>{
-        setError(error)
+    deleteUser(deleteUrl).then((response) => {
+        console.log(response)
+        callback(`El usuario ${deleteUsername} ha sido eliminado`, true)
     })
-    .finally(window.location.reload())
+    .catch((error) => {
+        console.log(error)
+        setError(error)
+        callback(`El usuario ${deleteUsername} NO ha sido eliminado`, false)
+    })
+    .finally(() => {
+        setShow(false)
+    })
 
 
   }
@@ -45,22 +50,32 @@ function Posts({posts}) {
     setModalShow(true)
    
   }
+  
 
 
-  const showModalChangeState = (url,active )=> {
-      setDataState({url:url, state: active})
+  const showModalChangeState = (url, username, active )=> {
+      setDataState({url:url, username:username, state: active})
       setShowState(true)
     }
     const changeState=()=>{
-        console.log("entrooo")
         
-        isActive(dataState.url,! dataState.state).then((response) => {
-            console.log(response) 
-          })
-          .catch((error)=>{
-              setError(error)
-          })
-          .finally(window.location.reload())
+        console.log(dataState.state)
+        let message = +dataState.state ? `El usuario ${dataState.username} ha sido desactivado` : `El usuario ${dataState.username} ha sido activado`;
+        isActive(dataState.url, !dataState.state)
+        .then((response) => {
+            console.log(response)
+            
+            callback(message, true)
+        })
+        .catch((error) => {
+                console.log(error)
+                setError(error)
+                callback(message, false)
+            })
+            .finally(() => {
+                setShowState(false)
+                setModalShow(false)
+            })
     }
     
     const handleCloseState = () => {
@@ -141,13 +156,13 @@ function Posts({posts}) {
                                             className="btn-icon btn-rounded" 
                                             variant={post.is_active ? 'outline-success' : 'outline-danger'} 
                                             title={post.is_active ? 'Activo' : 'Inactivo'}
-                                            onClick={()=> showModalChangeState(post.url, post.is_active)}>
+                                            onClick={()=> showModalChangeState(post.url,post.username, post.is_active)}>
                                            <i className={post.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
                                         </Button>
                                         </td>
-                                        <td>12/09/2022</td>
+                                        <td>{post.last_login ? post.last_login.slice(0,10) : ""}</td>
                                         
-                                        <td>11/08/2021</td>
+                                        <td>{post.date_joined ? post.date_joined.slice(0,10) : ""}</td>
                                         <td>11/09/2022</td>
                                         <td>
 

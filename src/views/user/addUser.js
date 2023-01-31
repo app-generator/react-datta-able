@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 import { getUsers, getUser, postUser, putUser, isActive, deleteUser } from "../../api/services/users";
 import { validateEmail,validateFieldText,validateUsername} from './validators';
+import Alert from '../../components/Alert/Alert';
 
 
 const AddUser = () => {
@@ -16,42 +17,51 @@ const AddUser = () => {
     const[error,setError]=useState()
     const[body,setBody]=useState(formEmpty)
     const[activate,setActivate]=useState(true)
+    const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
+
+    useEffect( ()=> {
+        if(sessionStorage.getItem('Alerta')) {
+            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+            setAlert(storage)
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                    sessionStorage.removeItem('Alerta')
+                }, 5000);
+        }
+    },[]);
+
 
     const activateBooton = ()=>{
         const formErrors = []
 
         if(body.username === ""){
-            formErrors.push("username","Por favor Ingresar ingresar un nombre")
+            formErrors.push("username: Por favor Ingresar ingresar un nombre")
         }
         if(!validateUsername(body.username)){
-            formErrors.push("username","ingrese un nombre de usuario valido")
+            formErrors.push("username: ingrese un nombre de usuario valido")
         }
         if(body.priority == "-1"){
-            formErrors.push("priority","Por favor elija una prioridad")
+            formErrors.push("priority: Por favor elija una prioridad")
         }
         if(body.first_name !== ""){
             if(!validateFieldText(body.first_name)){
-                formErrors.push("first_name","solo se permiten letras para el nombre")
+                formErrors.push("first_name: solo se permiten letras para el nombre")
             }
         }
         if (body.last_name !== ""){
             if(!validateFieldText(body.last_name)){
-                formErrors.push("last_name","solo se permiten letras para el apellido")
+                formErrors.push("last_name: solo se permiten letras para el apellido")
             }
         }
         if (body.email !== ""){
             if(!validateEmail(body.email)){
-                formErrors.push("email","El email no es valido")
+                formErrors.push("email: El email no es valido")
             }
         }
         
-        if (formErrors.length == 0){
-            return true
-
-        }else{
-            return false
-        }
-        
+        return (formErrors.length == 0)
 
     }
 
@@ -59,11 +69,12 @@ const AddUser = () => {
     const FieldUsername=(event)=>{
         
       
-       
+        if(!(/ /).test(event.target.value)){
             setBody({...body,
             [event.target.name] : event.target.value}
             )  
         //activateBooton()
+        }
         
           
         
@@ -113,13 +124,25 @@ const AddUser = () => {
 
     const createUser=(e)=>{
         
-        e.preventDefault()
-        postUser(body.username,body.first_name,body.last_name,body.email,body.priority)
+        //e.preventDefault()
+        /*postUser(body.username,body.first_name,body.last_name,body.email,body.priority)
              .catch((error)=>{
                 setError(error)
                 console.log(error)
-            })
+            })*/
             //.finally(window.location.reload()) 
+
+            postUser(body.username,body.first_name,body.last_name,body.email,body.priority)
+            .then((response) => { 
+                console.log(response)
+                sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.first_name} ha sido creada`, type:1}));
+                window.location.href = "/list-user"
+            })
+            .catch((error) => {
+                setError(error)
+                console.log(error)
+                setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
+            });  
 
 
        
@@ -130,6 +153,7 @@ const AddUser = () => {
 
     return (
         <>
+        <Alert alert={alert} stateAlert={stateAlert} />
           <Card>
           <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default">
@@ -150,30 +174,49 @@ const AddUser = () => {
                             <Form >
 
                                 <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Nombre de usuario</Form.Label>
-                                        <Form.Control placeholder="Ingrese el nombre del usuario" maxlength="150" value ={body.username} name="username" isInvalid={body.username === ''|| !validateUsername(body.username)}
-                                                isValid={body.username !== ''} onChange={(e)=>FieldUsername(e)}/>
-                                         {body.username  ? '' : <div className="invalid-feedback">   Ingrese un nombre de usuario</div>}
-                                         {validateUsername(body.username)  ? "" : <div className="invalid-feedback"> Solo se permiten letras, numeros y los cateacteres especiales '@', '.' , '+', '-', '_' </div>}
+                                    <Form.Label>Nombre de usuario</Form.Label>
+                                    <Form.Control 
+                                        placeholder="Ingrese el nombre del usuario" 
+                                        maxlength="150" 
+                                        value ={body.username} 
+                                        name="username" 
+                                        isInvalid={body.username === ''|| !validateUsername(body.username)}
+                                        isValid={body.username !== ''} onChange={(e)=>FieldUsername(e)}/>
+                                        {body.username  ? '' : <div className="invalid-feedback">   Ingrese un nombre de usuario</div>}
+                                    {validateUsername(body.username)  ? "" : <div className="invalid-feedback"> Solo se permiten letras, numeros y los cateacteres especiales '@', '.' , '+', '-', '_' </div>}
                                 </Form.Group>
 
                                 <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Nombre/s</Form.Label>
-                                        <Form.Control placeholder="Ingrese el nombre/s" maxlength="150" name="first_name"onChange={(e)=>fieldFullName(e)} isInvalid={body.first_name !== "" && !validateFieldText(body.first_name)}/>
-                                        {validateFieldText(body.first_name) ? "" : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
+                                    <Form.Label>Nombre/s</Form.Label>
+                                    <Form.Control 
+                                        placeholder="Ingrese el nombre/s" 
+                                        maxlength="150" 
+                                        name="first_name"
+                                        onChange={(e)=>fieldFullName(e)} 
+                                        isInvalid={body.first_name !== "" && !validateFieldText(body.first_name)}/>
+                                    {validateFieldText(body.first_name) ? "" : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
                                 </Form.Group>
+
                                 <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Apellido</Form.Label>
-                                        <Form.Control placeholder="Ingrese el apellido" maxlength="150" name="last_name" onChange={(e)=>fieldFullName(e)} isInvalid={body.last_name !== "" && !validateFieldText(body.last_name)}/>
-                                        {validateFieldText(body.last_name) ? ""  : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
-                                        
+                                    <Form.Label>Apellido</Form.Label>
+                                    <Form.Control 
+                                        placeholder="Ingrese el apellido" 
+                                        maxlength="150" 
+                                        name="last_name" 
+                                        onChange={(e)=>fieldFullName(e)} 
+                                        isInvalid={body.last_name !== "" && !validateFieldText(body.last_name)}/>
+                                    {validateFieldText(body.last_name) ? ""  : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
                                 </Form.Group>
                                 
 
                                 <Form.Group controlId="formGridEmail">
-                                        <Form.Label>Email</Form.Label>
-                                        <Form.Control  placeholder="Ingrese el Email" maxlength="254"  name="email" onChange={(e)=>fieldEmail(e)} isInvalid={body.email !== "" && !validateEmail(body.email)}/>
-                                        {validateEmail(body.email) ? ""  : <div className="invalid-feedback">   Ingrese un email valido</div>}
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control  
+                                        placeholder="Ingrese el Email" 
+                                        maxlength="254"  name="email" 
+                                        onChange={(e)=>fieldEmail(e)} 
+                                        isInvalid={body.email !== "" && !validateEmail(body.email)}/>
+                                    {validateEmail(body.email) ? ""  : <div className="invalid-feedback">   Ingrese un email valido</div>}
                                 </Form.Group>
                                 
                                 <Form.Group controlId="exampleForm.ControlSelect1">

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown,
   Badge, Breadcrumb,  Table } from 'react-bootstrap';
 import Pagination from './Pagination'
-
+import Alert from '../../components/Alert/Alert';
 import Posts from './components/Posts'
 import { getUsers} from "../../api/services/users";
 
@@ -19,6 +19,31 @@ function App() {
   const [pages, setPages] = useState()
   const [cantPages, setcantPages] = useState([])
   const [error,setError]= useState()
+  const [stateAlert, setStateAlert] = useState(null)
+  const [alert, setAlert] = useState(null)
+
+  const callbackBackend = (name, stateAlert) => {
+    if(stateAlert) {
+        getUsers()
+        .then((response) => {
+            setPosts(response.data.results)
+        })
+        .catch((error) => {
+            setError(error)
+        })
+        .finally(() => {
+            setLoading(false)
+            setAlert({name:name, type:1})
+            setTimeout(() => {
+                setAlert(null)
+                setStateAlert(null)
+            }, 5000);
+        })
+    }
+    else {
+        setAlert({name:name, type:0})
+    }
+  }
 
 
   
@@ -50,6 +75,17 @@ function App() {
   
 
   useEffect(() => {
+    if(sessionStorage.getItem('Alerta')) {
+      const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+      setAlert(storage)
+          setTimeout(() => {
+              setAlert(null)
+              setStateAlert(null)
+              sessionStorage.clear()
+          }, 5000);
+  }
+
+  
 
     function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
 
@@ -78,13 +114,6 @@ function App() {
       
     }
 
-    getUsers()
-      .then((response) => {
-          setPages(arrayWithPages(response.data.count,response.data.results.length))
-          
-      }).catch((error)=>{
-        setError(error)
-    })
     
         
 
@@ -95,6 +124,7 @@ function App() {
       .then((response) => {
           setPosts(response.data.results)
           console.log(response.data.results)
+          setPages(arrayWithPages(response.data.count,response.data.results.length))
           
       }).catch((error)=>{
         setError(error)
@@ -112,14 +142,14 @@ function App() {
   CambioDepagina(cantPages[currentPage-1])
   const currentPosts = posts// lo que se muestra
   const howManyPages = pages//la cantidad de paginas del paginado 
+  console.log("cant "+howManyPages)
   
   
   return (
     <div className="container mt-5">
-      <Posts posts={currentPosts}/> 
+      <Alert alert={alert} stateAlert={stateAlert} />
+      <Posts posts={currentPosts}callback ={callbackBackend}/> 
       <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
-
-     
     </div>
     
   );

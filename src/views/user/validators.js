@@ -9,11 +9,9 @@ const validateFieldText = (text) =>{
 }
 
 const validateUsername = (text) =>{
-    if(text){
+    
         return (/^[A-Za-z0-9@.+_' ]+$/g).test(text)
-    }else{
-        return true
-    }
+  
    
 }
 
