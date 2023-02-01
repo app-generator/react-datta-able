@@ -5,6 +5,7 @@ const Alert = (props) => {
     const [show, setShow] = useState(true);
     const verde = '#198754'
     const danger = '#ff0000'
+    console.log("debe mostra")
 
     return(
         props.alert && 
