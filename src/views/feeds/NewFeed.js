@@ -3,6 +3,7 @@ import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 import DropdownState from './components/DropdownState';
 import { postFeed } from '../../api/services/feeds';
 import Alert from '../../components/Alert/Alert';
+import { validateName, validateDescription } from './components/ValidatorFeed';
 
 const NewFeed = () => {
 
@@ -69,14 +70,14 @@ const NewFeed = () => {
                             <Form>                                
                                 <Form.Group as={Col}>
                                     <Form.Label>Nombre</Form.Label>
-                                    <Form.Control type="text" placeholder="Nombre" onChange={(e) => setName(e.target.value)} isInvalid={name === ''} isValid={name !== ''} />
-                                    {name ? '' : <div className="invalid-feedback">Ingrese un nombre</div>}
+                                    <Form.Control type="text" placeholder="Nombre" onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)}/>
+                                    {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre valido</div>}
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
                                     <Form.Label>Descripcion</Form.Label>
-                                    <Form.Control as="textarea" rows={3} placeholder="Descripcion" onChange={(e) => setDescription(e.target.value)} isInvalid={description === ''} isValid={description !== ''} />
-                                    {description ? '' : <div className="invalid-feedback">Ingrese una descripcion</div>}
+                                    <Form.Control as="textarea" rows={3} placeholder="Descripcion" onChange={(e) => setDescription(e.target.value)}  isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
+                                    {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion valida</div>}
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
@@ -84,11 +85,11 @@ const NewFeed = () => {
                                     <DropdownState state={active} setActive={setActive}></DropdownState>
                                 </Form.Group>                              
 
-                                { name === '' || description === '' ?
-                                    <Button variant="primary" disabled>Guardar</Button>
-                                    :
-                                    <Button variant="primary" onClick={createFeed}>Guardar</Button>
-                                }  
+                                { validateName(name) && validateDescription(description) ?
+                                    <Button variant="primary" onClick={createFeed}>Guardar</Button>                                    
+                                    : 
+                                    <Button variant="primary" disabled>Guardar</Button>                                    
+                                }                                 
 
                                 <Button variant="info" href='/app/feeds'>Cancelar</Button>
                             </Form>

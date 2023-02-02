@@ -4,6 +4,7 @@ import DropdownState from './components/DropdownState';
 import { useLocation } from "react-router-dom";
 import { putFeed } from '../../api/services/feeds';
 import Alert from '../../components/Alert/Alert';
+import { validateName, validateDescription } from './components/ValidatorFeed';
 
 const EditFeed = () => {
     const location = useLocation();
@@ -71,8 +72,8 @@ const EditFeed = () => {
                             <Form>                                
                                 <Form.Group as={Col}>
                                     <Form.Label>Nombre</Form.Label>
-                                    <Form.Control type="text"  defaultValue={feed.name} onChange={(e) => setName(e.target.value)} isInvalid={name === ''} isValid={name !== ''} />
-                                    {name ? '' : <div className="invalid-feedback">Ingrese un nombre</div>}
+                                    <Form.Control type="text"  defaultValue={feed.name} onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)} />
+                                    {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre valido</div>}
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
@@ -86,10 +87,11 @@ const EditFeed = () => {
                                     <DropdownState state={feed.active} setActive={setActive}></DropdownState>
                                 </Form.Group>                             
                                   
-                                { name === '' || description === '' ?
-                                    <Button variant="primary" disabled>Guardar</Button>
-                                    :
+                                { validateName(name) ?
                                     <Button variant="primary" onClick={changeFeed}>Guardar</Button>
+                                    :
+                                    <Button variant="primary" disabled>Guardar</Button>
+                                    
                                 }
                                 
                                 <Button variant="info" href='/app/feeds'>Cancelar</Button>
