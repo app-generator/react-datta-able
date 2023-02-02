@@ -1,117 +1,107 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 import { putUser} from "../../api/services/users";
-import { validateEmail,validateFieldText,validateUsername} from './validators';
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
+import {formUser} from './formUser'
 
 
 
 const EditUser = () => {    
     const location = useLocation();
     const user = location.state.post;
-    
-      
-    
     const[error,setError]=useState()
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
     const[body,setBody]=useState(user)
-    
-
-    const activateBooton = ()=>{
-        const formErrors = []
-
-        if(body.username === ""){
-            formErrors.push("username: Por favor Ingresar ingresar un nombre")
+    const [listPriorities, setListPriorities] = useState({})
+    const [priorities, setPriorities] = useState([
+        {
+            "url": "http://localhost:8000/api/administration/priority/1/",
+            "color": "#FFFFFF",
+            "created": "2019-03-22T16:24:33Z",
+            "modified": "2022-05-27T20:03:30.447000Z",
+            "name": "Critical",
+            "severity": 1,
+            "attend_time": "00:00:00",
+            "solve_time": "01:00:00",
+            "attend_deadline": "00:01:00",
+            "solve_deadline": "2 00:00:00",
+            "notification_amount": 3
+        },
+        {
+            "url": "http://localhost:8000/api/administration/priority/3/",
+            "color": "#FFFFFF",
+            "created": "2019-03-22T16:24:33Z",
+            "modified": "2022-04-09T00:26:44.802000Z",
+            "name": "High",
+            "severity": 2,
+            "attend_time": "00:10:00",
+            "solve_time": "04:00:00",
+            "attend_deadline": "03:00:00",
+            "solve_deadline": "2 00:00:00",
+            "notification_amount": 3
+        },
+        {
+            "url": "http://localhost:8000/api/administration/priority/2/",
+            "color": "#FFFFFF",
+            "created": "2019-03-22T16:24:33Z",
+            "modified": "2022-04-09T00:26:25.310000Z",
+            "name": "Medium",
+            "severity": 3,
+            "attend_time": "01:00:00",
+            "solve_time": "08:00:00",
+            "attend_deadline": "07:00:00",
+            "solve_deadline": "2 00:00:00",
+            "notification_amount": 3
+        },
+        {
+            "url": "http://localhost:8000/api/administration/priority/6/",
+            "color": "#FFFFFF",
+            "created": "2019-03-22T16:24:33Z",
+            "modified": "2022-04-09T00:33:40.089000Z",
+            "name": "Low",
+            "severity": 4,
+            "attend_time": "04:00:00",
+            "solve_time": "2 00:00:00",
+            "attend_deadline": "1 00:00:00",
+            "solve_deadline": "2 00:00:00",
+            "notification_amount": 3
+        },
+        {
+            "url": "http://localhost:8000/api/administration/priority/5/",
+            "color": "#FFFFFF",
+            "created": "2019-03-22T16:24:33Z",
+            "modified": "2022-04-09T00:19:17.743000Z",
+            "name": "Very Low",
+            "severity": 5,
+            "attend_time": "1 00:00:00",
+            "solve_time": "7 00:00:00",
+            "attend_deadline": "1 00:00:00",
+            "solve_deadline": "2 00:00:00",
+            "notification_amount": 3
         }
-        if(!validateUsername(body.username)){
-            formErrors.push("username: ingrese un nombre de usuario valido")
-        }
-        if(body.priority == "-1"){
-            formErrors.push("priority: Por favor elija una prioridad")
-        }
-        if(body.first_name !== ""){
-            if(!validateFieldText(body.first_name)){
-                formErrors.push("first_name: solo se permiten letras para el nombre")
-            }
-        }
-        if (body.last_name !== ""){
-            if(!validateFieldText(body.last_name)){
-                formErrors.push("last_name: solo se permiten letras para el apellido")
-            }
-        }
-        if (body.email !== ""){
-            if(!validateEmail(body.email)){
-                formErrors.push("email: El email no es valido")
-            }
-        }
+    ])
+    useEffect( ()=> {
         
-        return (formErrors.length == 0)
+        var dic = new Object()
 
-    }
-
-
-    const FieldUsername=(event)=>{
-        
-      
-        if(!(/ /).test(event.target.value)){
-            setBody({...body,
-            [event.target.name] : event.target.value}
-            )  
-        //activateBooton()
-        }
-        
-          
-        
-    }
-    const fieldFullName=(event)=>{
-
-        console.log(user)
-        
-        console.log(body)
-            setBody({...body,
-                [event.target.name] : event.target.value}
-                )  
-          //      activateBooton()
-          
-        
-    }
-    const fieldEmail=(event)=>{
-        
-        setBody({...body,
-        [event.target.name] : event.target.value}
-        )  
-        //activateBooton()
-    
-          
-        
-    }
-    const fieldPriority=(event)=>{
-
-        if (event.target.value !== "-1"){
+        priorities.forEach(priority => {
             
-
-
-            console.log(event.target.value)
-            setBody({...body,
-                    [event.target.name] : "http://localhost:8000/api/administration/priority/"+event.target.value+"/"}//hay que pegarle a la api de prioridad
-                    )
-
-            
-        }else{
-            console.log("no ingresa")
-            setBody({...body,
-                [event.target.name] : event.target.value}//hay que pegarle a la api de prioridad
-                )
-        }
-        //activateBooton()
-    }
+            dic[priority.name]=priority.url
+        });
+        priorities.forEach(priority => {
+            if (priority.url == body.priority)
+                setBody({...body,
+                    ["priority"] : priority.name})
+        });
+        
+        setListPriorities(dic)
+    },[]);
     
     const editUser=(e)=>{
         
-
-            putUser(body.url,body.username,body.first_name,body.last_name,body.email,body.priority)
+            putUser(body.url,body.username,body.first_name,body.last_name,body.email,listPriorities[body.priority])
             .then((response) => { 
                 console.log(response)
                 sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido modificado`, type:1}));
@@ -121,15 +111,12 @@ const EditUser = () => {
                 setError(error)
                 console.log(error)
                 setAlert({name:`El usuario ${body.username} NO puede ser creado verifica que no exista`, type:0})
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                }, 5000);
             });  
-
-
-       
-    
     }
-
-
-
     return (
         <>
           <Card>
@@ -152,82 +139,8 @@ const EditUser = () => {
                         </Card.Header>
                         <Card.Body>
                         <Form>
-                        <Form.Group controlId="formGridAddress1">
-                                    <Form.Label>Nombre de usuario</Form.Label>
-                                    <Form.Control 
-                                        placeholder="Ingrese el nombre del usuario" 
-                                        maxlength="150" 
-                                        value ={body.username} 
-                                        name="username" 
-                                        isInvalid={body.username === ''|| !validateUsername(body.username)}
-                                        isValid={body.username !== ''} onChange={(e)=>FieldUsername(e)}/>
-                                        {body.username  ? '' : <div className="invalid-feedback">   Ingrese un nombre de usuario</div>}
-                                    {validateUsername(body.username)  ? "" : <div className="invalid-feedback"> Solo se permiten letras, numeros y los cateacteres especiales '@', '.' , '+', '-', '_' </div>}
-                                </Form.Group>
-
-                                <Form.Group controlId="formGridAddress1">
-                                    <Form.Label>Nombre/s</Form.Label>
-                                    <Form.Control 
-                                        placeholder="Ingrese el nombre/s" 
-                                        maxlength="150" 
-                                        value ={body.first_name}
-                                        name="first_name"
-                                        onChange={(e)=>fieldFullName(e)} 
-                                        isInvalid={body.first_name !== "" && !validateFieldText(body.first_name)}/>
-                                    {validateFieldText(body.first_name) ? "" : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
-                                </Form.Group>
-
-                                <Form.Group controlId="formGridAddress1">
-                                    <Form.Label>Apellido</Form.Label>
-                                    
-                                    <Form.Control 
-                                        placeholder="Ingrese el apellido" 
-                                        maxlength="150" 
-                                        value ={body.last_name}
-                                        name="last_name" 
-                                        onChange={(e)=>fieldFullName(e)} 
-                                        isInvalid={body.last_name !== "" && !validateFieldText(body.last_name)}/>
-                                    {validateFieldText(body.last_name) ? ""  : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
-                                </Form.Group>
+                                {formUser(body, setBody, listPriorities, editUser)}
                                 
-
-                                <Form.Group controlId="formGridEmail">
-                                    <Form.Label>Email</Form.Label>
-                                    <Form.Control  
-                                        placeholder="Ingrese el Email" 
-                                        maxlength="254"  
-                                        value ={body.email}
-                                        name="email" 
-                                        onChange={(e)=>fieldEmail(e)} 
-                                        isInvalid={body.email !== "" && !validateEmail(body.email)}/>
-                                    {validateEmail(body.email) ? ""  : <div className="invalid-feedback">   Ingrese un email valido</div>}
-                                </Form.Group>
-                                
-                                <Form.Group controlId="exampleForm.ControlSelect1">
-                                        <Form.Label>Prioridad</Form.Label>
-                                        <Form.Control 
-                                                as="select" 
-                                                name="priority" 
-                                                value={body.priority}
-                                                onChange={(e)=>fieldPriority(e)} 
-                                                isInvalid={body.priority === "-1"}
-                                                isValid={body.priority !== "-1"}>
-                                         
-                                            <option value="-1">Seleccione una prioridad</option>
-                                            <option value="1"> Critico </option>
-                                            <option value="2"> Alta </option>
-                                            <option value="3"> Media </option>
-                                            <option value="4"> Baja </option>
-                                            <option value="5"> Muy Baja </option>
-                                        </Form.Control>
-                                        {(body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
-                                </Form.Group>
-                                {(activateBooton()) ? 
-                                    <><Button variant="primary" onClick={editUser} >Guardar</Button></>
-                                    : 
-                                    <><Button variant="primary" disabled>Guardar</Button></> }
-                                    <Button variant="primary" href="/list-user">Cancelar</Button>
-
                             </Form>
                         </Card.Body>
                     </Card>
@@ -235,5 +148,4 @@ const EditUser = () => {
         </>
     )
 }
-
 export default EditUser

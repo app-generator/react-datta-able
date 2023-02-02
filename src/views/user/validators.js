@@ -9,10 +9,7 @@ const validateFieldText = (text) =>{
 }
 
 const validateUsername = (text) =>{
-    
-        return (/^[A-Za-z0-9@.+_' ]+$/g).test(text)
-  
-   
+    return (/^[A-Za-z0-9@.+_' ]+$/g).test(text)
 }
 
 export {validateEmail, validateFieldText, validateUsername};
