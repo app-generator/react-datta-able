@@ -1,18 +1,17 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Row, Col, Button, Alert } from 'react-bootstrap';
 
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import axios from 'axios';
 import useScriptRef from '../../../hooks/useScriptRef';
-import { API_SERVER } from './../../../config/constant';
-import { ACCOUNT_INITIALIZE } from './../../../store/actions';
+import { LOGIN_SUCCESS } from './../../../store/actions';
 import { login } from '../../../api/services/auth';
+import { store } from './../../../store';
 
 const RestLogin = ({ className, ...rest }) => {
-    const dispatcher = useDispatch();
     const scriptedRef = useScriptRef();
+
+    const { dispatch } = store;
 
     return (
         <React.Fragment>
@@ -31,9 +30,9 @@ const RestLogin = ({ className, ...rest }) => {
                     login(values.email, values.password)
                         .then((response) => {
                             console.log('Se pudo loguear');
-                            dispatcher({
-                                type: ACCOUNT_INITIALIZE,
-                                payload: { isLoggedIn: true, user: response.data.user, token: response.data.token }
+                            dispatch({
+                                type: LOGIN_SUCCESS,
+                                payload: { user: response.data.user, token: response.data.token }
                             });
                         })
                         .catch((error) => {

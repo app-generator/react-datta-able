@@ -1,28 +1,17 @@
 // action - state management
-import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT, LOGIN_SUCCESS, LOGIN_FAIL, REFRESH_TOKEN, CSRF_TOKEN } from './actions';
+import { ACCOUNT_INITIALIZE, LOGIN, LOGOUT, LOGIN_SUCCESS, LOGIN_FAIL, REFRESH_TOKEN } from './actions';
 
 export const initialState = {
     token: '',
     isLoggedIn: false,
     isInitialized: false,
-    user: null,
-    csrftoken: ''
+    user: null
 };
 
 //-----------------------|| ACCOUNT REDUCER ||-----------------------//
 
 const accountReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ACCOUNT_INITIALIZE: {
-            const { isLoggedIn, user, token } = action.payload;
-            return {
-                ...state,
-                isLoggedIn,
-                isInitialized: true,
-                token,
-                user
-            };
-        }
         case LOGIN: {
             const { user } = action.payload;
             return {
@@ -45,7 +34,7 @@ const accountReducer = (state = initialState, action) => {
                 ...state,
                 isLoggedIn: true,
                 user: user,
-                token: token,
+                token: token
             };
         }
         case LOGIN_FAIL: {
@@ -61,13 +50,6 @@ const accountReducer = (state = initialState, action) => {
             return {
                 ...state,
                 token: token
-            };
-        }
-        case CSRF_TOKEN: {
-            const { token } = action.payload;
-            return {
-                ...state,
-                csrftoken: token
             };
         }
         default: {

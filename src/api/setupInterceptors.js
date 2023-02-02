@@ -8,6 +8,9 @@ const setup = (store) => {
 
     const { dispatch } = store;
 
+    // console.log("Estado del token: "+store.getState().account.token);
+    // console.log("Estado del user: "+store.getState().account.user);
+
     apiInstance.interceptors.request.use((request) => {
         //request.headers.Cookie = '';
         //request.headers.common['X-CSRFTOKEN'] = '';
@@ -17,7 +20,7 @@ const setup = (store) => {
 
         const state = store.getState();
         const token = state.account.token;
-    
+
         if (token) {
             request.headers.Authorization = `${token}`;
         }
