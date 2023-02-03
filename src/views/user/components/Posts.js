@@ -2,11 +2,12 @@ import React,{ useState} from 'react'
 import {Link} from 'react-router-dom'
 import {
   Button,
-   Card, Table , Modal, Row,Col, Breadcrumb,Form, Badge,CloseButton
+   Card, Table , Modal, Row,Col, Breadcrumb,Form, Badge,CloseButton, Spinner
 } from 'react-bootstrap';
 import { deleteUser,getUsers, isActive } from "../../../api/services/users";
 
-function Posts({posts, callback}) {
+
+function Posts({posts, callback, loading}) {
   const [show, setShow] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState("");
   const [deleteUrl, setDeleteUrl] = useState("");
@@ -17,6 +18,14 @@ function Posts({posts, callback}) {
   const [dataState,setDataState] =useState({});
   const titulo={true:"Esta seguro de que desea inabilitar el usuario", false:"Esta seguro de que desea volver a habilitar el usuario"}
   const bottonModalstate={true:"Inhabilitar", false:"Activar"}
+
+  if (loading) {
+    return (
+        <Row className='justify-content-md-center'>
+            <Spinner animation='border' variant='primary' size='sm' />
+        </Row>
+    );    
+}
 
   const handleClose = () => setShow(false);
 
@@ -91,39 +100,7 @@ function Posts({posts, callback}) {
     
 
       <Card>
-      <Card.Header>
-      <Row>
-      <Breadcrumb>
-                <Breadcrumb.Item href="./app/dashboard/default">
-                    <i className="feather icon-home" />
-                </Breadcrumb.Item>
-                <Breadcrumb.Item active>
-                    <b>Usuarios</b>
-                </Breadcrumb.Item>
-            </Breadcrumb>    
-        </Row>
-                            <Row>
-                                <Col sm={12} lg={9}>
-                                <div id="main-search" className='open'>
-                                     <div className="input-group">
-                                        <input type="text" id="m-search" className="form-control" placeholder="Buscar usuario . . ." />
-                                            <span className="search-btn btn btn-primary" onClick="">
-                                                    <i className="feather icon-search " />
-                                            </span> 
-                                    </div>
-                                </div>
-
-                           
-                                </Col> 
-                                <Col sm={12} lg={3}>
-                                <Button className="text-capitalize" variant='outline-primary' title='Agregar Usuario' href="/add-user">
-                                    <i className='fa fa-plus' />
-                                        Agregar usuario
-                                </Button>
-                            
-                                </Col> 
-                            </Row>                                 
-                        </Card.Header>
+     
     <Card.Body>
     <ul className="list-group my-4">
        <Table responsive hover>
@@ -304,6 +281,7 @@ function Posts({posts, callback}) {
                         </Table>
                       </ul>
                 </Card.Body>
+            
                   
      </Card>
   </div>

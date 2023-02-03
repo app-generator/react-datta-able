@@ -4,6 +4,7 @@ import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, 
 import Pagination from './Pagination'
 import Alert from '../../components/Alert/Alert';
 import Posts from './components/Posts'
+
 import { getUsers} from "../../api/services/users";
 
 
@@ -13,7 +14,7 @@ import { getUsers} from "../../api/services/users";
 
 function App() {
   const [posts, setPosts] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [jumpPage, setjumpPage] = useState(false)
   const [pages, setPages] = useState()
@@ -128,17 +129,16 @@ function App() {
           
       }).catch((error)=>{
         setError(error)
-    })
+    }).finally(() => {
+      setLoading(false)
+  })
  
     }
 
     fetchPosts()
   }, [])
 
-  if (loading && posts.length === 0 ) {
-    return <h2>Cargando...</h2>
-  }
-  
+ 
   CambioDepagina(cantPages[currentPage-1])
   const currentPosts = posts// lo que se muestra
   const howManyPages = pages//la cantidad de paginas del paginado 
@@ -148,8 +148,43 @@ function App() {
   return (
     <div className="container mt-5">
       <Alert alert={alert} stateAlert={stateAlert} />
-      <Posts posts={currentPosts}callback ={callbackBackend}/> 
-      <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+      <Card>
+      <Card.Header>
+      <Row>
+      <Breadcrumb>
+                <Breadcrumb.Item href="./app/dashboard/default">
+                    <i className="feather icon-home" />
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active>
+                    <b>Usuarios</b>
+                </Breadcrumb.Item>
+            </Breadcrumb>    
+        </Row>
+                            <Row>
+                                <Col sm={12} lg={9}>
+                                <div id="main-search" className='open'>
+                                     <div className="input-group">
+                                        <input type="text" id="m-search" className="form-control" placeholder="Buscar usuario . . ." />
+                                            <span className="search-btn btn btn-primary" onClick="">
+                                                    <i className="feather icon-search " />
+                                            </span> 
+                                    </div>
+                                </div>
+
+                           
+                                </Col> 
+                                <Col sm={12} lg={3}>
+                                <Button className="text-capitalize" variant='outline-primary' title='Agregar Usuario' href="/add-user">
+                                    <i className='fa fa-plus' />
+                                        Agregar usuario
+                                </Button>
+                            
+                                </Col> 
+                            </Row>                                 
+                        </Card.Header>
+                        <Posts posts={currentPosts} callback ={callbackBackend} loading={loading} /> 
+                        <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+      </Card>
     </div>
     
   );
