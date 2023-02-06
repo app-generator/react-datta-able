@@ -73,13 +73,13 @@ const EditFeed = () => {
                                 <Form.Group as={Col}>
                                     <Form.Label>Nombre</Form.Label>
                                     <Form.Control type="text"  defaultValue={feed.name} onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)} />
-                                    {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre valido</div>}
+                                    {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
                                     <Form.Label>Descripcion</Form.Label>
-                                    <Form.Control as="textarea" rows={3} defaultValue={feed.description} onChange={(e) => setDescription(e.target.value)} isInvalid={description === ''} isValid={description !== ''} />
-                                    {description ? '' : <div className="invalid-feedback">Ingrese una descripcion</div>}
+                                    <Form.Control as="textarea" rows={3} defaultValue={feed.description} onChange={(e) => setDescription(e.target.value)} isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
+                                    {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
                                 </Form.Group>
 
                                 <Form.Group as={Col}>
@@ -87,7 +87,7 @@ const EditFeed = () => {
                                     <DropdownState state={feed.active} setActive={setActive}></DropdownState>
                                 </Form.Group>                             
                                   
-                                { validateName(name) ?
+                                { validateName(name) && validateDescription(description) ?
                                     <Button variant="primary" onClick={changeFeed}>Guardar</Button>
                                     :
                                     <Button variant="primary" disabled>Guardar</Button>
