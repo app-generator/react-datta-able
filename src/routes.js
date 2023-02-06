@@ -64,6 +64,26 @@ const routes = [
         routes: [
             {
                 exact: true,
+                path: '/app/feeds',
+                component: lazy(() => import('./views/feeds/Feeds'))
+            },
+            {
+                exact: true,
+                path: '/app/feeds/new',
+                component: lazy(() => import('./views/feeds/NewFeed'))
+            },
+            {
+                exact: true,
+                path: '/app/feeds/edit',
+                component: lazy(() => import('./views/feeds/EditFeed'))
+            },            
+            {
+                exact: true,
+                path: '/app/tlp',
+                component: lazy(() => import('./views/tlp/TLP'))
+            },
+            {
+                exact: true,
                 path: '/app/dashboard/default',
                 component: lazy(() => import('./views/dashboard/DashDefault'))
             },
@@ -120,7 +140,6 @@ const routes = [
                 path: '/maps/google-map',
                 component: lazy(() => import('./views/maps/GoogleMaps'))
             },
-
             {
                 exact: true,
                 path: '/sample-page',
@@ -156,23 +175,23 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/entity/show',
-                component: lazy(() => import('./views/entity/ShowEntity'))
-            },
-            {
-                exact: true,
                 path: '/entity/edit',
                 component: lazy(() => import('./views/entity/EditEntity'))
             },
             {
                 exact: true,
-                path: '/entity/museos',
-                component: lazy(() => import('./views/entity/museos'))
+                path: '/list-user',
+                component: lazy(() => import('./views/user/listUser'))
             },
             {
                 exact: true,
-                path: '/entity/datos',
-                component: lazy(() => import('./views/entity/traerDatos'))
+                path: '/add-user',
+                component: lazy(() => import('./views/user/addUser'))
+            },
+            {
+                exact: true,
+                path: "/edit-user",
+                component: lazy(() => import('./views/user/editUser'))
             },
             {
                 path: '*',

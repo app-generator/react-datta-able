@@ -1,50 +1,20 @@
 const menuItems = {
     items: [
         {
-            id: 'constituency',
-            title: 'Constituencias',
-            type: /*item*/ 'group',
-            icon: 'fas fa-network-wired',
+            id: 'NGEN',
+            title: 'NGEN',
+            type: 'group',
             children: [
                 {
-                    id: 'entity',
-                    title: 'Entidades',
-                    type: 'collapse',
-                    /*url: '/entity/tables',*/
-                    icon: 'fas fa-network-wired',
-                    children: [
-                        {
-                            id: 'tables',
-                            title: 'Lista de entidades',
-                            type: 'item',
-                            url: '/entity/tables',
-                            breadcrumbs: true
-                        },
-                        {
-                            id: 'create',
-                            title: 'Agregar Entidad',
-                            type: 'item',
-                            url: '/entity/create',
-                            breadcrumbs: true
-                        },
-                        {
-                            id: 'serv',
-                            title: 'Museos',
-                            type: 'item',
-                            url: '/entity/museos',
-                            breadcrumbs: true
-                        },
-                        {
-                            id: 'fetch',
-                            title: 'Traer Datos',
-                            type: 'item',
-                            url: '/entity/datos',
-                            breadcrumbs: true
-                        }
-                    ]
-                }
+                    id: 'feeds',
+                    title: 'Fuentes de Informacion',
+                    type: 'item',
+                    url: '/app/feeds',
+                    icon: 'fas fa-globe',
+                    breadcrumbs: false
+                }              
             ]
-        }, 
+        },
         {
             id: 'navigation',
             title: 'Navigation',
@@ -58,6 +28,37 @@ const menuItems = {
                     url: '/app/dashboard/default',
                     icon: 'feather icon-home'
                 }
+            ]
+        },
+        {
+            id: 'constituency',
+            title: 'Constituencias',
+            type: 'group',
+            icon: 'fas fa-network-wired',
+            children: [
+                {
+                    id: 'entity',
+                    title: 'Entidades',
+                    type: 'item',
+                    url: '/entity/tables',
+                    icon: 'fas fa-network-wired',
+                    breadcrumbs: false
+                }
+            ]
+        }, 
+        {
+            id: 'NGEN',
+            title: 'NGEN',
+            type: 'group',
+            children: [
+                {
+                    id: 'tlp',
+                    title: 'Protocolo de Semaforo',
+                    type: 'item',
+                    url: '/app/tlp',
+                    icon: 'fas fa-globe',
+                    breadcrumbs: false
+                }              
             ]
         },
         {
@@ -261,7 +262,29 @@ const menuItems = {
                     external: true
                 }
             ]
-        }        
+        },
+        {
+            id: 'usuarios',
+            title: 'usuarios',
+            type: 'group',
+            icon: 'icon-pages',
+            children: [
+                {
+                    id: 'usuarios',
+                    title: 'usuarios',
+                    type: 'item',
+                    url: '/list-user',
+                    classes: '',
+                    icon: 'fa fa-user',
+                    breadcrumbs: false,
+                    
+                    
+
+                   
+                },
+                
+            ]
+        }         
     ]
 };
 
