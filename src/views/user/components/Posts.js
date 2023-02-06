@@ -2,7 +2,7 @@ import React,{ useState} from 'react'
 import {Link} from 'react-router-dom'
 import {
   Button,
-   Card, Table , Modal, Row,Col, Breadcrumb,Form, Badge,CloseButton, Spinner
+   Card, Table , Modal, Row,Col, Form, Badge,CloseButton, Spinner
 } from 'react-bootstrap';
 import { deleteUser,getUsers, isActive } from "../../../api/services/users";
 
@@ -215,20 +215,20 @@ function Posts({posts, callback, loading}) {
                                     <tr>
                                         <td>Nombre</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={showUser.first_name} />
+                                            <Form.Control plaintext readOnly defaultValue={showUser.first_name } />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Ultimo inicio de cesion</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={showUser.last_login} />
+                                            <Form.Control plaintext readOnly defaultValue={showUser.last_login ? showUser.last_login.slice(0,10) : ""} />
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td>Creado el</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={showUser.date_joined} />
+                                            <Form.Control plaintext readOnly defaultValue={showUser.date_joined ? showUser.date_joined.slice(0,10) : ""} />
                                         </td>
                                     </tr>
                                     <tr>

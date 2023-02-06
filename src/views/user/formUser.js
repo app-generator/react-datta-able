@@ -1,5 +1,5 @@
 import React from 'react'
-import { validateEmail,validateFieldText,validateUsername} from './validators';
+import { validateEmail,validateFieldText,validateUsername,validateSpaces} from './validators';
 import { Form, Button } from 'react-bootstrap';
 
 const formUser= (body, setBody, priorities, callApi) =>{
@@ -37,25 +37,25 @@ const formUser= (body, setBody, priorities, callApi) =>{
 
     const FieldUsername=(event)=>{
         
-        if(!(/ /).test(event.target.value)){
+        if(validateSpaces(event.target.value)){
             setBody({...body,
-            [event.target.name] : event.target.value}
+                [event.target.name] : event.target.value}
             )  
         }        
     }
     
     const fieldFullName=(event)=>{
         
-            setBody({...body,
-                [event.target.name] : event.target.value}
-                )      
+        setBody({...body,
+            [event.target.name] : event.target.value}
+        )      
     }
     
     
     const fieldEmail=(event)=>{
         
         setBody({...body,
-        [event.target.name] : event.target.value}
+            [event.target.name] : event.target.value}
         )     
     }
     
@@ -63,8 +63,8 @@ const formUser= (body, setBody, priorities, callApi) =>{
     const fieldPriority=(event)=>{
     
         setBody({...body,
-                [event.target.name] : event.target.value}//hay que pegarle a la api de prioridad
-                )
+            [event.target.name] : event.target.value}//hay que pegarle a la api de prioridad
+        )
     }
   return (
       <Form>
@@ -89,7 +89,8 @@ const formUser= (body, setBody, priorities, callApi) =>{
                 name="first_name"
                 value ={body.first_name} 
                 onChange={(e)=>fieldFullName(e)} 
-                isInvalid={body.first_name !== "" && !validateFieldText(body.first_name)}/>
+                isInvalid={body.first_name !== "" && !validateFieldText(body.first_name)}
+                isValid={body.first_name == "" || validateFieldText(body.first_name)}/>
             {validateFieldText(body.first_name) ? "" : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
         </Form.Group>
 
@@ -101,7 +102,8 @@ const formUser= (body, setBody, priorities, callApi) =>{
                 value ={body.last_name}
                 name="last_name" 
                 onChange={(e)=>fieldFullName(e)} 
-                isInvalid={body.last_name !== "" && !validateFieldText(body.last_name)}/>
+                isInvalid={body.last_name !== "" && !validateFieldText(body.last_name)}
+                isValid={body.last_name == "" || validateFieldText(body.last_name)}/>
             {validateFieldText(body.last_name) ? ""  : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
         </Form.Group>
         
@@ -114,7 +116,8 @@ const formUser= (body, setBody, priorities, callApi) =>{
                 value ={body.email}
                 name="email" 
                 onChange={(e)=>fieldEmail(e)} 
-                isInvalid={body.email !== "" && !validateEmail(body.email)}/>
+                isInvalid={body.email !== "" && !validateEmail(body.email)}
+                isValid={body.email == "" || validateEmail(body.email)}/>
             {validateEmail(body.email) ? ""  : <div className="invalid-feedback">   Ingrese un email valido</div>}
         </Form.Group>
         

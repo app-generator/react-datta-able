@@ -23,6 +23,8 @@ function App() {
   const [stateAlert, setStateAlert] = useState(null)
   const [alert, setAlert] = useState(null)
 
+  
+
   const callbackBackend = (name, stateAlert) => {
     if(stateAlert) {
         getUsers()
@@ -137,6 +139,10 @@ function App() {
 
     fetchPosts()
   }, [])
+  if (error) {
+    console.log(error);
+    return <p>Ups! Se produjo un error al buscar los usuarios</p>
+}
 
  
   CambioDepagina(cantPages[currentPage-1])

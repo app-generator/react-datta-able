@@ -12,4 +12,10 @@ const validateUsername = (text) =>{
     return (/^[A-Za-z0-9@.+_' ]+$/g).test(text)
 }
 
-export {validateEmail, validateFieldText, validateUsername};
+
+const  validateSpaces= (text) => {
+  return ( !(/ /).test(text))
+}
+
+
+export {validateEmail, validateFieldText, validateUsername, validateSpaces};
