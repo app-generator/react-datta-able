@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Row, Col, Breadcrumb, Card, Form, Button } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putEntity } from '../../api/services/entities';
-
+import { validateAlphanumeric } from '../user/validators';
 
 const EditEntity = () => {
     const entity = useLocation().state;
@@ -37,13 +37,13 @@ const EditEntity = () => {
       .replace(/^-+|-+$/g, '')
     }
 
+    //Update
     const editEntity = () => {
-        let slug = slugify(name);
+        let slug = slugify(name); //backend
         let id = entity.url.split('/')[(entity.url.split('/')).length-2];
         putEntity(id, name, slug, entity.active)
         .then((response) => { 
             console.log(response)
-            //setAlert
             sessionStorage.setItem('Alerta', JSON.stringify({name:`La entidad ${name} ha sido editada`, type:1}));
             window.location.href = "/entity/tables"
         })
@@ -51,7 +51,6 @@ const EditEntity = () => {
             setError(error)
             console.log(error)
             setAlert({name:`La entidad ${name} NO ha sido editada`, type:0})
-            //setAlert
         });    
     };
 
@@ -60,9 +59,9 @@ const EditEntity = () => {
             <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item href="./tables"> Entidades</Breadcrumb.Item>
-                    <Breadcrumb.Item active><b>Editar Entidad</b></Breadcrumb.Item>
+                    <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
+                    <Breadcrumb.Item active>Entidades</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Editar Entidad</Breadcrumb.Item>
                 </Breadcrumb>    
             </Row>
             <Row>
@@ -75,20 +74,22 @@ const EditEntity = () => {
                         <Card.Body>
                             <Row>
                                 <Col sm={12} >
-                                    <Form>
+                                    <Form>                                       
                                         <Form.Group controlId="exampleForm.ControlInput1">
                                             <Form.Label>Nombre</Form.Label>
                                             <Form.Control 
                                                 value={name} 
                                                 onChange={create} 
-                                                isInvalid={name === ''}
-                                                isValid={name !== ''} 
+                                                isInvalid={name === '' || !validateAlphanumeric(name)}
+                                                isValid={name !== '' && validateAlphanumeric(name)}
                                                 type="nombre" 
-                                                placeholder="Nombre" />
-                                            {name ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
+                                                placeholder="Nombre" 
+                                                maxLength="255"/>
+                                            {name!=='' ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
+                                            {!name || validateAlphanumeric(name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
                                         </Form.Group>
-                                        {name === '' ? 
-                                            <><Button variant="primary" onClick={editEntity} disabled>Guardar</Button></> 
+                                        {name === '' || !validateAlphanumeric(name) ? 
+                                            <><Button variant="primary" disabled>Guardar</Button></> 
                                             : 
                                             <><Button variant="primary" onClick={editEntity} >Guardar</Button></>}
                                         <Button variant="primary" href="/entity/tables">Cancelar</Button>

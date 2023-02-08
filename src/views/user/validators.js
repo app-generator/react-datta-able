@@ -8,4 +8,8 @@ const validateFieldText = (text) =>{
     return (/^[A-Za-zÁÉÍÓÚáéíóúñÑ' ]+$/g).test(text)
 }
 
-export {validateEmail, validateFieldText};
+const validateAlphanumeric = (text) =>{
+    return (/^[A-Za-zÁÉÍÓÚáéíóúñÑ'0-9 ]+$/g).test(text)
+}
+
+export {validateEmail, validateFieldText, validateAlphanumeric};

@@ -16,6 +16,23 @@ const menuItems = {
             ]
         },
         {
+            id: 'usuarios',
+            title: 'usuarios',
+            type: 'group',
+            icon: 'icon-pages',
+            children: [
+                {
+                    id: 'usuarios',
+                    title: 'usuarios',
+                    type: 'item',
+                    url: '/list-user',
+                    classes: '',
+                    icon: 'fa fa-user',
+                    breadcrumbs: false,
+                },
+            ]
+        },
+        {
             id: 'constituency',
             title: 'Constituencias',
             type: 'group',
@@ -209,29 +226,7 @@ const menuItems = {
                     external: true
                 }
             ]
-        },
-        {
-            id: 'usuarios',
-            title: 'usuarios',
-            type: 'group',
-            icon: 'icon-pages',
-            children: [
-                {
-                    id: 'usuarios',
-                    title: 'usuarios',
-                    type: 'item',
-                    url: '/list-user',
-                    classes: '',
-                    icon: 'fa fa-user',
-                    breadcrumbs: false,
-                    
-                    
-
-                   
-                },
-                
-            ]
-        }         
+        }
     ]
 };
 
