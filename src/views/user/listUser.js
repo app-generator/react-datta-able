@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown,
-  Badge, Breadcrumb,  Table } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
+import {Link} from 'react-router-dom'
 import Pagination from './Pagination'
 import Alert from '../../components/Alert/Alert';
-import Posts from './components/Posts'
+import TableUsers from './components/tableUsers'
+import Navigation from './commonComponents/navigation'
+import CrudButton from '../../components/Button/CrudButton';
 
 import { getUsers} from "../../api/services/users";
 
@@ -149,6 +151,7 @@ function App() {
   const currentPosts = posts// lo que se muestra
   const howManyPages = pages//la cantidad de paginas del paginado 
   console.log("cant "+howManyPages)
+  const name = "Usuarios"
   
   
   return (
@@ -157,14 +160,7 @@ function App() {
       <Card>
       <Card.Header>
       <Row>
-      <Breadcrumb>
-                <Breadcrumb.Item href="./app/dashboard/default">
-                    <i className="feather icon-home" />
-                </Breadcrumb.Item>
-                <Breadcrumb.Item active>
-                    <b>Usuarios</b>
-                </Breadcrumb.Item>
-            </Breadcrumb>    
+          <Navigation actualPosition={name}/>
         </Row>
                             <Row>
                                 <Col sm={12} lg={9}>
@@ -180,15 +176,14 @@ function App() {
                            
                                 </Col> 
                                 <Col sm={12} lg={3}>
-                                <Button className="text-capitalize" variant='outline-primary' title='Agregar Usuario' href="/add-user">
-                                    <i className='fa fa-plus' />
-                                        Agregar usuario
-                                </Button>
+                                <Link to={{pathname:'/add-user'}} >
+                                    <CrudButton type='create' name='Usuario' />
+                                </Link>
                             
                                 </Col> 
                             </Row>                                 
                         </Card.Header>
-                        <Posts posts={currentPosts} callback ={callbackBackend} loading={loading} /> 
+                        <TableUsers posts={currentPosts} callback ={callbackBackend} loading={loading} /> 
                         <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
       </Card>
     </div>

@@ -1,13 +1,12 @@
 import React,{ useState} from 'react'
 import {Link} from 'react-router-dom'
 import {
-  Button,
-   Card, Table , Modal, Row,Col, Form, Badge,CloseButton, Spinner
+  Button,Card, Table , Modal, Row,Col, Form, Badge,CloseButton, Spinner
 } from 'react-bootstrap';
-import { deleteUser,getUsers, isActive } from "../../../api/services/users";
+import { deleteUser, isActive } from "../../../api/services/users";
 
 
-function Posts({posts, callback, loading}) {
+function TableUsers({posts, callback, loading}) {
   const [show, setShow] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState("");
   const [deleteUrl, setDeleteUrl] = useState("");
@@ -289,4 +288,4 @@ function Posts({posts, callback, loading}) {
   )
 }
 
-export default Posts
+export default TableUsers

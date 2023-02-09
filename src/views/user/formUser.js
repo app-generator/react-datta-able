@@ -121,7 +121,7 @@ const formUser= (body, setBody, priorities, callApi) =>{
             {validateEmail(body.email) ? ""  : <div className="invalid-feedback">   Ingrese un email valido</div>}
         </Form.Group>
         
-        <Form.Group controlId="exampleForm.ControlSelect1">
+        {/*<Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>Prioridad</Form.Label>
                 <Form.Control  
                     type="choice"
@@ -137,7 +137,7 @@ const formUser= (body, setBody, priorities, callApi) =>{
                     
                 </Form.Control>
                 {(body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
-        </Form.Group>
+                </Form.Group>*/}
         {(activateBooton(body)) ? 
                                     <><Button variant="primary" onClick={callApi} >Guardar</Button></>
                                     : 

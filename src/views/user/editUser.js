@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { Card, Form, Button, Breadcrumb } from 'react-bootstrap';
+import { Card, Form, Breadcrumb } from 'react-bootstrap';
 import { putUser} from "../../api/services/users";
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
