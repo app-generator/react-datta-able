@@ -7,7 +7,7 @@ const validateLengthText = (text, maxlength) =>{
 }
 
 const isEmpty = (text) =>{
-    return (text === '')
+    return (text.trim().length === 0)
 }
 
 export{validateFormatText, validateLengthText, isEmpty}
