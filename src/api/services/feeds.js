@@ -1,8 +1,8 @@
 import { apiInstance } from "../custom";
 import { COMPONENT_URL } from '../../config/constant';
 
-const getFeeds = () => {
-    return apiInstance.get(COMPONENT_URL.feed);
+const getFeeds = (currentPage) => {
+    return apiInstance.get(COMPONENT_URL.feed + currentPage);
 }
 
 const postFeed = (slug, name, description, active) => {

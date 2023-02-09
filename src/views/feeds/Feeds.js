@@ -7,7 +7,7 @@ import ButtonDelete from './components/ButtonDelete';
 import ButtonState from './components/ButtonState';
 import CrudButton from '../../components/Button/CrudButton';
 import Alert from '../../components/Alert/Alert';
-
+import Pagination from '../user/Pagination';
 
 const ListFeeds = () => {
     
@@ -17,6 +17,26 @@ const ListFeeds = () => {
     const [loading, setLoading] = useState(true)
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [jumpPage, setjumpPage] = useState(false)
+    const [pages, setPages] = useState(0)
+    const [arrayPages, setArrayPages] = useState([])
+
+
+    function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
+        console.log('funcion arrayWithPages')
+        console.log(numberOfItems);
+        console.log(numberOfElementsOnAPage);
+        const numberOfPages= Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage 
+        console.log(numberOfPages)        
+        const arrayLinks=[]
+        for (var i = 1; i <= numberOfPages; i++) {
+            arrayLinks.push(i)
+        }
+        setArrayPages(arrayLinks)
+        return numberOfPages
+    }
     
     useEffect(() => {
         if(sessionStorage.getItem('Alerta')) {
@@ -28,10 +48,12 @@ const ListFeeds = () => {
                     sessionStorage.clear()
                 }, 5000);
         }
-        getFeeds()
+        setCurrentPage(currentPage)
+        getFeeds(currentPage)
         .then((response) => {
-            setFeeds(response.data.results);
-            setError(null);
+            setPages(arrayWithPages(response.data.count,response.data.results.length))
+            setFeeds(response.data.results)
+            setError(null)
         })
         .catch((error)=>{
             if (error) {      
@@ -41,7 +63,7 @@ const ListFeeds = () => {
         .finally(() => {
             setLoading(false)
         })
-    }, []);
+    }, [pages]);
     
     const callbackBackend = (name, stateAlert) => {
         if(stateAlert) {
@@ -88,6 +110,29 @@ const ListFeeds = () => {
             </Row>
         );    
     }
+
+    function changePage(page){
+        console.log('funcion cambio de pagina')
+        if (jumpPage){
+            console.log('CambioDepagina if jumpPage')
+            console.log(page)
+            setLoading(true)
+            setjumpPage(false)
+
+            const fetchFeeds = async () => {
+            console.log('funcion fetchFeeds')
+            getFeeds(page).then((response) => {
+                setFeeds(response.data.results)
+            })
+            setLoading(false)
+            }
+            fetchFeeds();
+        }
+    }
+
+    console.log('array ' + arrayPages)
+    changePage(arrayPages[currentPage-1])
+    //const currentFeeds = feeds// lo que se muestra
     
     return (
         <React.Fragment>
@@ -158,6 +203,13 @@ const ListFeeds = () => {
                                 </tbody>
                             </Table>
                         </Card.Body>
+                        <Card.Footer >
+                            <Row className="justify-content-md-center">
+                                <Col md="auto"> 
+                                    <Pagination pages={pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+                                </Col>
+                            </Row>
+                        </Card.Footer>
                     </Card>
                 </Col>
             </Row>            
