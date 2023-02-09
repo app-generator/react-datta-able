@@ -24,21 +24,33 @@ const ListFeeds = () => {
     const [arrayPages, setArrayPages] = useState([])
 
 
-    function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
-        console.log('funcion arrayWithPages')
-        console.log(numberOfItems);
-        console.log(numberOfElementsOnAPage);
-        const numberOfPages= Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage 
-        console.log(numberOfPages)        
-        const arrayLinks=[]
+    function arrayWithPages(numberOfItems) {
+        const numberOfPages = Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage        
+        const arrayNumberOfPages=[]
         for (var i = 1; i <= numberOfPages; i++) {
-            arrayLinks.push(i)
+            arrayNumberOfPages.push(i)
         }
-        setArrayPages(arrayLinks)
+        setArrayPages(arrayNumberOfPages)
         return numberOfPages
     }
+
+    function changePage(page){
+        if (jumpPage){
+            setLoading(true)
+            setjumpPage(false)
+
+            const fetchFeeds = async () => {            
+            getFeeds(page).then((response) => {
+                setFeeds(response.data.results)
+            })
+            setLoading(false)
+            }
+
+            fetchFeeds();
+        }
+    }
     
-    useEffect(() => {
+    useEffect(() => {        
         if(sessionStorage.getItem('Alerta')) {
             const storage = JSON.parse(sessionStorage.getItem('Alerta'));
             setAlert(storage)
@@ -48,10 +60,10 @@ const ListFeeds = () => {
                     sessionStorage.clear()
                 }, 5000);
         }
-        setCurrentPage(currentPage)
+        setCurrentPage(currentPage)        
         getFeeds(currentPage)
         .then((response) => {
-            setPages(arrayWithPages(response.data.count,response.data.results.length))
+            setPages(arrayWithPages(response.data.count))
             setFeeds(response.data.results)
             setError(null)
         })
@@ -67,21 +79,17 @@ const ListFeeds = () => {
     
     const callbackBackend = (name, stateAlert) => {
         if(stateAlert) {
-            getFeeds()
-            .then((response) => {
-                setFeeds(response.data.results)
-                setError(null);
-            })
-            .catch((error) => {
-                setError(error)
-            })
-            .finally(() => {
-                setAlert({name:name, type:1})
+            setLoading(true)
+            if(list.length === 1) {
+                setCurrentPage(currentPage-1) 
+                setArrayPages(arrayPages.slice(0, -1))
+            }           
+            setPages(0)
+            setAlert({name:name, type:1})
                 setTimeout(() => {
                     setAlert(null)
                     setStateAlert(null)
                 }, 5000);
-            })
         }
         else {
             setAlert({name:name, type:0})
@@ -110,29 +118,8 @@ const ListFeeds = () => {
             </Row>
         );    
     }
-
-    function changePage(page){
-        console.log('funcion cambio de pagina')
-        if (jumpPage){
-            console.log('CambioDepagina if jumpPage')
-            console.log(page)
-            setLoading(true)
-            setjumpPage(false)
-
-            const fetchFeeds = async () => {
-            console.log('funcion fetchFeeds')
-            getFeeds(page).then((response) => {
-                setFeeds(response.data.results)
-            })
-            setLoading(false)
-            }
-            fetchFeeds();
-        }
-    }
-
-    console.log('array ' + arrayPages)
+    
     changePage(arrayPages[currentPage-1])
-    //const currentFeeds = feeds// lo que se muestra
     
     return (
         <React.Fragment>

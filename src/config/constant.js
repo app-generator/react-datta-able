@@ -2,7 +2,7 @@ export const BASENAME = ''; // don't add '/' at end off BASENAME
 export const BASE_URL = '/app/dashboard/default';
 export const BASE_TITLE = ' | ngen ';
 export const API_SERVER = 'http://localhost:8000/api/';
-export const PAGE = '?page='
+export const PAGE = '?page=';
 
 export const CONFIG = {
     layout: 'vertical', // disable on free version
@@ -26,11 +26,11 @@ export const CONFIG = {
     configBlock: true, // disable on free version
     layout6Background: 'linear-gradient(to right, #A445B2 0%, #D41872 52%, #FF0066 100%)', // disable on free version
     layout6BackSize: '' // disable on free version
-
 };
+
 export const COMPONENT_URL={ 
 tlp: API_SERVER+"administration/tlp/",
-feed: API_SERVER+"administration/feed/"+PAGE,
+feed: API_SERVER+"administration/feed/",
 priority: API_SERVER+"administration/priority/",
 state: API_SERVER+"state/",
 edge: API_SERVER+"edge/",
