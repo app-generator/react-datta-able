@@ -209,7 +209,7 @@ const TableEntity = ({callback, list, loading }) => {
             
             <ModalConfirm type='delete' component='Entidad' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeEntity(id)}/>
 
-            <ModalConfirm type='edit' component='Entidad' name={name} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(id,active)}/>
+            <ModalConfirm type='editState' component='Entidad' name={name} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(id,active)}/>
 
         </React.Fragment> 
   );
