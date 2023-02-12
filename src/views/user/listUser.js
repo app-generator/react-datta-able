@@ -5,6 +5,7 @@ import Pagination from './Pagination'
 import Alert from '../../components/Alert/Alert';
 import TableUsers from './components/tableUsers'
 import Navigation from './commonComponents/navigation'
+import Search from './commonComponents/search'
 import CrudButton from '../../components/Button/CrudButton';
 
 import { getUsers} from "../../api/services/users";
@@ -122,7 +123,7 @@ function App() {
     
         
 
-    const fetchPosts = async () => {
+    const fetchUsers = async () => {
       setLoading(true)
 
       getUsers()
@@ -139,7 +140,7 @@ function App() {
  
     }
 
-    fetchPosts()
+    fetchUsers()
   }, [])
   if (error) {
     console.log(error);
@@ -152,7 +153,12 @@ function App() {
   const howManyPages = pages//la cantidad de paginas del paginado 
   console.log("cant "+howManyPages)
   const name = "Usuarios"
+
   
+  const acction = () => {
+    console.log("llamada backend")
+  }
+
   
   return (
     <div className="container mt-5">
@@ -163,18 +169,8 @@ function App() {
           <Navigation actualPosition={name}/>
         </Row>
                             <Row>
-                                <Col sm={12} lg={9}>
-                                <div id="main-search" className='open'>
-                                     <div className="input-group">
-                                        <input type="text" id="m-search" className="form-control" placeholder="Buscar usuario . . ." />
-                                            <span className="search-btn btn btn-primary" onClick="">
-                                                    <i className="feather icon-search " />
-                                            </span> 
-                                    </div>
-                                </div>
+                                <Search type="usuario" action={acction} />
 
-                           
-                                </Col> 
                                 <Col sm={12} lg={3}>
                                 <Link to={{pathname:'/add-user'}} >
                                     <CrudButton type='create' name='Usuario' />

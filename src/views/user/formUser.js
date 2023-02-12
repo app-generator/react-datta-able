@@ -1,9 +1,19 @@
 import React from 'react'
 import { validateEmail,validateFieldText,validateUsername,validateSpaces} from './validators';
-import { Form, Button } from 'react-bootstrap';
 
-const formUser= (body, setBody, priorities, callApi) =>{
-    const translateWord = {"Critical":"Critoco", "High":"Alto", "Medium": "Medio", "Low": "Bajo", "Very Low": "Muy bajo"}
+import {
+    Button, Row, Form, Spinner, 
+  } from 'react-bootstrap';
+
+const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
+
+    if (loading) {
+        return (
+            <Row className='justify-content-md-center'>
+                <Spinner animation='border' variant='primary' size='sm' />
+            </Row>
+        );    
+    }
 
     const activateBooton = (body)=>{
         const formErrors = []
@@ -13,7 +23,7 @@ const formUser= (body, setBody, priorities, callApi) =>{
         if(!validateUsername(body.username)){
             formErrors.push("username: ingrese un nombre de usuario valido")
         }
-        if(body.priority == "-1"){
+        if(body.priority === "-1"){
             formErrors.push("priority: Por favor elija una prioridad")
         }
         if(body.first_name !== ""){
@@ -32,11 +42,10 @@ const formUser= (body, setBody, priorities, callApi) =>{
             }
         }
         console.log(formErrors)  
-        return (formErrors.length == 0)
+        return (formErrors.length === 0)
     }
 
-    const FieldUsername=(event)=>{
-        
+    const FieldUsername=(event)=>{    
         if(validateSpaces(event.target.value)){
             setBody({...body,
                 [event.target.name] : event.target.value}
@@ -44,16 +53,13 @@ const formUser= (body, setBody, priorities, callApi) =>{
         }        
     }
     
-    const fieldFullName=(event)=>{
-        
+    const fieldFullName=(event)=>{ 
         setBody({...body,
             [event.target.name] : event.target.value}
         )      
     }
     
-    
-    const fieldEmail=(event)=>{
-        
+    const fieldEmail=(event)=>{ 
         setBody({...body,
             [event.target.name] : event.target.value}
         )     
@@ -61,9 +67,8 @@ const formUser= (body, setBody, priorities, callApi) =>{
     
     
     const fieldPriority=(event)=>{
-    
         setBody({...body,
-            [event.target.name] : event.target.value}//hay que pegarle a la api de prioridad
+            [event.target.name] : event.target.value}
         )
     }
   return (
@@ -90,7 +95,7 @@ const formUser= (body, setBody, priorities, callApi) =>{
                 value ={body.first_name} 
                 onChange={(e)=>fieldFullName(e)} 
                 isInvalid={body.first_name !== "" && !validateFieldText(body.first_name)}
-                isValid={body.first_name == "" || validateFieldText(body.first_name)}/>
+                isValid={body.first_name === "" || validateFieldText(body.first_name)}/>
             {validateFieldText(body.first_name) ? "" : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
         </Form.Group>
 
@@ -103,7 +108,7 @@ const formUser= (body, setBody, priorities, callApi) =>{
                 name="last_name" 
                 onChange={(e)=>fieldFullName(e)} 
                 isInvalid={body.last_name !== "" && !validateFieldText(body.last_name)}
-                isValid={body.last_name == "" || validateFieldText(body.last_name)}/>
+                isValid={body.last_name === "" || validateFieldText(body.last_name)}/>
             {validateFieldText(body.last_name) ? ""  : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
         </Form.Group>
         
@@ -117,11 +122,10 @@ const formUser= (body, setBody, priorities, callApi) =>{
                 name="email" 
                 onChange={(e)=>fieldEmail(e)} 
                 isInvalid={body.email !== "" && !validateEmail(body.email)}
-                isValid={body.email == "" || validateEmail(body.email)}/>
+                isValid={body.email === "" || validateEmail(body.email)}/>
             {validateEmail(body.email) ? ""  : <div className="invalid-feedback">   Ingrese un email valido</div>}
         </Form.Group>
-        
-        {/*<Form.Group controlId="exampleForm.ControlSelect1">
+        <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>Prioridad</Form.Label>
                 <Form.Control  
                     type="choice"
@@ -131,15 +135,15 @@ const formUser= (body, setBody, priorities, callApi) =>{
                     onChange={(e)=>fieldPriority(e)} isInvalid={body.priority === "-1"}
                     isValid={body.priority !== "-1"}>
                     <option value="-1">Seleccione una prioridad</option>
-                    {Object.keys(priorities).map((priority, index) => {
-                        return(<option value={priority}> {translateWord[priority]} </option>)
+                    {priorities.map((priority, index) => {
+                        return(<option value={priority.url}> {priority.name} </option>)
                     })}
                     
                 </Form.Control>
                 {(body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
-                </Form.Group>*/}
+                </Form.Group>
         {(activateBooton(body)) ? 
-                                    <><Button variant="primary" onClick={callApi} >Guardar</Button></>
+                                    <><Button variant="primary" onClick={createUser} >Guardar</Button></>
                                     : 
                                     <><Button variant="primary" disabled>Guardar</Button></> }
                                     <Button variant="primary" href="/list-user">Cancelar</Button>
@@ -147,4 +151,4 @@ const formUser= (body, setBody, priorities, callApi) =>{
     </Form>
   )
 }
-export {formUser}
+export default FormUser

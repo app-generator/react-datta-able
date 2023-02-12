@@ -3,7 +3,7 @@ import { Card, Form } from 'react-bootstrap';
 import { postUser } from "../../api/services/users";
 import { getPriorities } from "../../api/services/priorities";
 import Alert from '../../components/Alert/Alert';
-import {formUser} from './formUser'
+import FormUser from './formUser'
 import Navigation from './commonComponents/navigation'
 
 
@@ -19,23 +19,24 @@ const AddUser = () => {
     const[body,setBody]=useState(formEmpty)
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
-    const [listPriorities, setListPriorities] = useState({})
     const [priorities, setPriorities] = useState()
+    const [loading, setLoading] = useState(true)
 
     useEffect( ()=> {
        
           
+
         const fetchPosts = async () => {
+            setLoading(true)
             getPriorities().then((response) => { 
                 setPriorities(response.data.results)
-                
-                
-                
             })
             .catch((error) => {
                 setError(error)
                 
-            });
+            }).finally(() => {
+                setLoading(false)
+            })
         }
             
         fetchPosts()
@@ -49,26 +50,12 @@ const AddUser = () => {
                     sessionStorage.removeItem('Alerta')
                 }, 5000);
         }
-        const listPrioritiesAux=[]
-        /*priorities.forEach(priority => {
-            listPrioritiesAux.push(priority["name"])
-            
-        });
-        var dic = new Object()
-
-        priorities.forEach(priority => {
-            
-            dic[priority.name]=priority.url
-        });
-        
-        setListPriorities(dic)*/
     },[]);
-    console.log("prioridades------------")
-    console.log(priorities)
+    
 
     const createUser=(e)=>{
-       
-        postUser(body.username,body.first_name,body.last_name,body.email, listPriorities[body.priority])
+        
+        postUser(body.username,body.first_name,body.last_name,body.email, body.priority)
         .then((response) => { 
             console.log(response)
             sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
@@ -96,7 +83,7 @@ const AddUser = () => {
                         </Card.Header>
                         <Card.Body>
                             <Form >
-                                {formUser(body, setBody, listPriorities, createUser)}
+                                <FormUser body={body} setBody={setBody} priorities={priorities} createUser={createUser} loading={loading}/>
                             </Form>
                         </Card.Body>
                     </Card>
