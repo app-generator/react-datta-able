@@ -64,6 +64,11 @@ const routes = [
         routes: [
             {
                 exact: true,
+                path: '/app/tlp',
+                component: lazy(() => import('./views/tlp/TLP'))
+            },
+            {
+                exact: true,
                 path: '/app/dashboard/default',
                 component: lazy(() => import('./views/dashboard/DashDefault'))
             },
@@ -120,7 +125,6 @@ const routes = [
                 path: '/maps/google-map',
                 component: lazy(() => import('./views/maps/GoogleMaps'))
             },
-
             {
                 exact: true,
                 path: '/sample-page',
@@ -140,6 +144,36 @@ const routes = [
                 exact: true,
                 path: '/contact/edit',
                 component: lazy(() => import('./views/contact/EditContact'))
+            },
+            {
+                exact: true,
+                path: '/entity/tables',
+                component: lazy(() => import('./views/entity/ListEntity'))
+            },
+            {
+                exact: true,
+                path: '/entity/create',
+                component: lazy(() => import('./views/entity/CreateEntity'))
+            },
+            {
+                exact: true,
+                path: '/entity/edit',
+                component: lazy(() => import('./views/entity/EditEntity'))
+            },
+            {
+                exact: true,
+                path: '/list-user',
+                component: lazy(() => import('./views/user/listUser'))
+            },
+            {
+                exact: true,
+                path: '/add-user',
+                component: lazy(() => import('./views/user/addUser'))
+            },
+            {
+                exact: true,
+                path: "/edit-user",
+                component: lazy(() => import('./views/user/editUser'))
             },
             {
                 path: '*',
