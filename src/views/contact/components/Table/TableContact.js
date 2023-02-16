@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import { getContact, deleteContact } from '../../../../api/services/contacts';
 import CrudButton from '../../../../components/Button/CrudButton';
+import { getContact, deleteContact } from '../../../../api/services/contacts';
 import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../../components/Modal/ModalConfirm';
 
@@ -17,6 +17,8 @@ const TableContact = ({callback, list, loading }) => {
     const [modified, setModified] = useState(null)
     const [type, setType] = useState(null)
     const [role, setRole] = useState(null)
+
+    const [lastItem, setLastItem] = useState(null);
 
     useEffect(() => {
 
@@ -136,6 +138,7 @@ const TableContact = ({callback, list, loading }) => {
 
     //Remove Contact
     const Delete = (key, name) => {
+        setLastItem(list.length === 1)
         setId(key);
         setName(name);
         setModalDelete(true)
@@ -145,12 +148,12 @@ const TableContact = ({callback, list, loading }) => {
         deleteContact(key)
             .then((response) => {
                 console.log(response)
-                callback(`El contacto ${name} ha sido eliminado`, true)
+                callback(`El contacto ${name} ha sido eliminado`, true, lastItem)
             })
             .catch((error) => {
                 console.log(error)
                 setError(error)
-                callback(`El contacto ${name} NO ha sido eliminado`, false)
+                callback(`El contacto ${name} NO ha sido eliminado`, false, false) //error si no se puede eliminar el ultimo
             })
             .finally(() => {
                 setModalDelete(false)

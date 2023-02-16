@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Breadcrumb, Card, Button } from 'react-bootstrap';
-import TableContact from '../../components/Table/TableContact';
+import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
+import TableContact from './components/Table/TableContact';
 import CrudButton from '../../components/Button/CrudButton';
+import Pagination from "../../components/Pagination/Pagination"; 
 import { getContacts } from '../../api/services/contacts';
-import Alert from '../../components/Alert/Alert';
+import Alert from "../../components/Alert/Alert";
 import { Link } from 'react-router-dom';
 
 const ListContact = () => {
@@ -13,7 +14,12 @@ const ListContact = () => {
     const [loading, setLoading] = useState(true)
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
-    
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [jumpPage, setjumpPage] = useState(false)
+    const [pages, setPages] = useState(0)
+    const [arrayPages, setArrayPages] = useState([])
+
     useEffect( ()=> {
         if(sessionStorage.getItem('Alerta')) {
             const storage = JSON.parse(sessionStorage.getItem('Alerta'));
@@ -24,9 +30,12 @@ const ListContact = () => {
                     sessionStorage.removeItem('Alerta')
                 }, 5000);
         }
+        setCurrentPage(currentPage )//?
 
-        getContacts()
+        getContacts('?page='+currentPage)
             .then((response) => {
+                //Pagination
+                setPages(arrayWithPages(response.data.count,response.data.results.length))                 
                 setContacts(response.data.results);
             })
             .catch((error) => {
@@ -35,7 +44,24 @@ const ListContact = () => {
             .finally(() => {
                 setLoading(false)
             })
-    }, [])
+    }, [pages])
+
+    //Pagination
+    function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
+        console.log('funcion arrayWithPages')
+
+        console.log(numberOfItems);
+        console.log(numberOfElementsOnAPage);
+        const numberOfPages= Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage 
+        console.log(numberOfPages)
+        const complementUrl ="?page="
+        const arrayLinks=[]
+        for (var i = 1; i <= numberOfPages; i++) {
+            arrayLinks.push(complementUrl+i)
+        }
+        setArrayPages(arrayLinks)
+        return numberOfPages
+    }
 
     if (error) {
         console.log(error);
@@ -56,28 +82,54 @@ const ListContact = () => {
         )
     }
 
-    const callbackBackend = (name, stateAlert) => {
+    const callbackBackend = (name, stateAlert, lastItem) => {
         if(stateAlert) {
-            getContacts()
-            .then((response) => {
-                setContacts(response.data.results)
-            })
-            .catch((error) => {
-                setError(error)
-            })
-            .finally(() => {
-                setLoading(false)
-                setAlert({name:name, type:1})
+            setLoading(true)
+            if(lastItem) {
+                console.log('if lastItem')
+                setCurrentPage(currentPage-1) //ir a la pagina anterior, no se queda en azul la current page
+                setArrayPages(arrayPages.slice(0, -1)) 
+                //CambioDepagina(arrayPages[currentPage-1])
+            }
+            else {
+                console.log('else lastItem')
+            }
+            setPages(0)//
+            setAlert({name:name, type:1})
                 setTimeout(() => {
                     setAlert(null)
                     setStateAlert(null)
                 }, 5000);
-            })
         }
         else {
             setAlert({name:name, type:0})
         }
     }
+
+    //Pagination
+    function CambioDepagina(page){
+        console.log('funcion cambio de pagina')
+        if (jumpPage){
+            console.log('CambioDepagina if jumpPage')
+            console.log(page)
+            setLoading(true)
+            setjumpPage(false)
+
+            const fetchPosts = async () => {
+            console.log('funcion fetchPosts')
+            getContacts(page).then((response) => {
+                setContacts(response.data.results)
+            })
+            setLoading(false)
+            }
+            fetchPosts();
+        }
+    }
+
+    console.log('array ' + arrayPages)
+    CambioDepagina(arrayPages[currentPage-1])
+    const currentPosts = contacts// lo que se muestra
+    
     
     return (
     <React.Fragment>
@@ -109,12 +161,12 @@ const ListContact = () => {
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableContact callback={callbackBackend} list={show} loading={loading} />
+                        <TableContact callback={callbackBackend} list={currentPosts} loading={loading} />
                     </Card.Body>
                     <Card.Footer>
                         <Row className="justify-content-md-center">
                             <Col md="auto"> 
-                                <Button> Paginacion </Button>
+                               <Pagination pages={pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
                             </Col>
                         </Row>
                     </Card.Footer>
@@ -123,4 +175,4 @@ const ListContact = () => {
         </Row>
     </React.Fragment>
 )}
-export default ListContact
+export default ListContact;
