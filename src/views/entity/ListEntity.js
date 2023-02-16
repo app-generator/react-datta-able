@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Breadcrumb, Card, Button } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
-import CrudButton from '../../components/Button/CrudButton';
-import Pagination from '../user/Pagination';
-import TableEntity from './components/Table/TableEntity';
+import Alert from '../../components/Alert/Alert'; 
+import CrudButton from '../../components/Button/CrudButton'; 
+import Pagination from '../../components/Pagination/Pagination'; 
+import TableEntity from './components/Table/TableEntity'; 
 import { getEntities } from '../../api/services/entities';
 import { Link } from 'react-router-dom';
 
@@ -179,4 +179,4 @@ return (
         </Row>
     </React.Fragment>
 )}
-export default ListEntity
+export default ListEntity; 
