@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Col, Row, Form} from 'react-bootstrap';
-import { validateAlphanumeric } from '../../../../components/Validator/validators'; 
+import { validateEmail, validateAlphanumeric, validateSpace } from '../../../../components/Validator/validators'; 
 
 const FormContact = (props) => { 
     // props: name, setName, role, setRole, priority, setPriority, type, setType, contact, setContact, key, setKey, ifConfirm
@@ -135,17 +135,17 @@ const FormContact = (props) => {
                     <Col sm={12} lg={6}>
                         <Form.Group controlId="Form.Contact.Name">
                             <Form.Label>Nombre</Form.Label>
-                            <Form.Control
-                                name="name"
-                                type="string"
-                                placeholder="Nombre"
+                            <Form.Control 
+                                type="nombre" 
+                                placeholder="Nombre" 
+                                maxlength="100"
                                 value={props.name} 
                                 onChange={(e) => props.setName(e.target.value)} 
-                                isInvalid={props.name === '' || !validateAlphanumeric(props.name)}
-                                isValid={props.name !== '' && validateAlphanumeric(props.name)}
-                                maxlength="100"/>
-                        {props.name!=='' ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
-                        {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
+                                isInvalid={!validateAlphanumeric(props.name) || !validateSpace(props.name)}
+                                isValid={validateAlphanumeric(props.name) && validateSpace(props.name)}
+                                />
+                            {validateSpace(props.name) ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
+                            {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
                         </Form.Group>
                     </Col>
                     <Col>
@@ -214,15 +214,17 @@ const FormContact = (props) => {
                     <Col>
                         <Form.Group controlId="Form.Contact.Username">
                             <Form.Label>Contacto</Form.Label>
+
                             <Form.Control
                                 name="username"
                                 type="string"
                                 placeholder="Contacto"
                                 value={props.contact}
-                                isInvalid={props.contact === ''}
-                                isValid={props.contact !== ''}
+                                isInvalid={!validateSpace(props.contact) || !validateEmail(props.contact)}
+                                isValid={validateSpace(props.contact) && validateEmail(props.contact)}
                                 onChange={(e) =>  props.setContact(e.target.value)} />
-                            {props.contact ? '' : <div className="invalid-feedback">Ingrese informacion de contacto</div>}                                    
+                            {validateSpace(props.contact) ? '' : <div className="invalid-feedback">Ingrese informacion de contacto</div>}
+                            {!props.contact || validateEmail(props.contact) ? "" : <div className="invalid-feedback">Ingrese un email valido</div>}
                         </Form.Group>
                     </Col>
                 </Row>
@@ -232,10 +234,11 @@ const FormContact = (props) => {
                         placeholder="Llave pública GPG"
                         value={props.key}
                         onChange={(e) =>  props.setKey(e.target.value)} />
-                {((props.name !== '') && (props.role !== '0') && (props.priority !== '0' ) && (props.type !== '0') && (props.contact !== '')) ? 
-                    <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>
+                {(!validateSpace(props.name) || !validateAlphanumeric(props.name) || !validateSpace(props.contact) || (props.role == '0') || (props.priority == '0' ) || (props.type == '0')) ? 
+                    <><Button variant="primary" disabled>Guardar</Button></> 
                     : 
-                    <><Button variant="primary" disabled>Guardar</Button></> }
+                    <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>
+                }
                     <Button variant="primary" href="/contact/tables">Cancelar</Button>
                 </Form.Group>
             </Form>
