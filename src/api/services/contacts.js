@@ -1,8 +1,6 @@
 import { apiInstance } from "../custom";
 
-const getContacts = () => {
-    return apiInstance.get("contact/");
-}
+const getContacts = (page="") => {return apiInstance.get("contact/"+page);}
 
 const getContact = (id) => { 
     return apiInstance.get("contact/"+id+"/");
