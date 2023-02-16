@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card,Breadcrumb, Form, Button } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
+import FormContact from './components/Form/FormContact';
 
 const CreateContact = () => {
     const [supportedName, setSupportedName] = useState('');
@@ -167,114 +168,7 @@ const CreateContact = () => {
                             <span className="d-block m-t-5">Agregar Contacto</span>
                         </Card.Header>
                         <Card.Body>
-                            <Form>
-                                <Row>
-                                    <Col sm={12} lg={6}>
-                                        <Form.Group controlId="Form.Contact.Name">
-                                            <Form.Label>Nombre</Form.Label>
-                                            <Form.Control
-                                                name="name"
-                                                type="string"
-                                                placeholder="Nombre"
-                                                value={supportedName}
-                                                isInvalid={supportedName === ''}
-                                                isValid={supportedName !== ''}
-                                                onChange={(event) =>  setSupportedName(event.target.value)}>
-                                            </Form.Control>
-                                            {supportedName ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group controlId="Form.Contact.Rol">
-                                            <Form.Label>Rol</Form.Label>
-                                            <Form.Control
-                                                name="role"
-                                                type="choice"
-                                                as="select"
-                                                value={selectRol}
-                                                isInvalid={selectRol === '0'}
-                                                isValid={selectRol !== '0'}
-                                                onChange={(event) =>  setSelectRol(event.target.value)}>
-                                                {role.map((rol, index) => {                
-                                                    return (
-                                                        <option key={index} value={rol.value}>{rol.name}</option>
-                                                    );
-                                                })}
-                                            </Form.Control>
-                                            {selectRol ? '' : <div className="invalid-feedback">Seleccione</div>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group controlId="Form.Contact.Priority" >
-                                            <Form.Label>Prioridad</Form.Label>
-                                            <Form.Control
-                                                name="priority"
-                                                type="field"                                            
-                                                as="select"
-                                                value={supportedPriority}
-                                                isInvalid={supportedPriority == '0'}
-                                                isValid={supportedPriority !== '0'}
-                                                onChange={(event) =>  setSupportedPriority(event.target.value)}>
-                                                <option value='0'>Seleccione</option>
-                                                {getPrioridades.results.map((prioridad, index) => {                
-                                                    return (
-                                                        <option key={index} value={prioridad.url}>{prioridad.name}</option>
-                                                    );
-                                                })}
-                                            </Form.Control>
-                                            {supportedPriority ? '' : <div className="invalid-feedback">Seleccione</div>}
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col lg={3}>
-                                        <Form.Group controlId="Form.Contact.Type">
-                                            <Form.Label>Tipo</Form.Label>
-                                            <Form.Control
-                                                name="type"
-                                                type="choice"
-                                                as="select"
-                                                value={selectType}
-                                                isInvalid={selectType == '0'}
-                                                isValid={selectType !== '0'}
-                                                onChange={(event) =>  setSelectType(event.target.value)}>
-                                                    <option value='0'>Seleccione</option>
-                                                    <option value='email'>Correo Electronico</option>
-                                                    <option value='telegram'>Telegram</option>
-                                                    <option value='phone'>Teléfono</option>
-                                                    <option value='uri'>URI</option>
-                                            </Form.Control>
-                                            {selectType ? '' : <div className="invalid-feedback">Seleccione</div>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group controlId="Form.Contact.Username">
-                                            <Form.Label>Contacto</Form.Label>
-                                            <Form.Control
-                                                name="username"
-                                                type="string"
-                                                placeholder="Contacto"
-                                                value={supportedContact}
-                                                isInvalid={supportedContact === ''}
-                                                isValid={supportedContact !== ''}
-                                                onChange={(event) =>  setSupportedContact(event.target.value)} />
-                                            {supportedContact ? '' : <div className="invalid-feedback">Ingrese informacion de contacto</div>}                                    
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Form.Group>
-                                    <Form.Control 
-                                        type="string"
-                                        placeholder="Llave pública GPG"
-                                        value={supportedKey}
-                                        onChange={(event) =>  setSupportedKey(event.target.value)} />
-                                {((supportedName !== '') && (selectRol !== '0') && (supportedPriority !== '0' ) && (selectType !== '0') && (supportedContact !== '')) ? 
-                                    <><Button variant="primary" onClick={createContact} >Guardar</Button></>
-                                    : 
-                                    <><Button variant="primary" disabled>Guardar</Button></> }
-                                    <Button variant="primary" href="/contact/tables">Cancelar</Button>
-                                </Form.Group>
-                            </Form>
+                             <FormContact name={supportedName} setName= {setSupportedName} role={selectRol} setRole={setSelectRol} priority={supportedPriority} setPriority={setSupportedPriority} type={selectType} setType={setSelectType} contact={supportedContact} setContact={setSupportedContact} key={supportedKey} setKey={setSupportedKey} ifConfirm={createContact} />
                         </Card.Body>
                     </Card>
                 </Col>

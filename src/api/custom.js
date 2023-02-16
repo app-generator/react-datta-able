@@ -6,8 +6,8 @@ const apiInstance = axios.create({
 });
 
 apiInstance.interceptors.request.use((request) => {
-    request.headers.Cookie = 'csrftoken=kOx7OwT23E6EhurCWcc5lQBqou7DEL2tJWKA6NYmX7OezecBqB1wIsUyVQRweFmG; sessionid=6uzabdc1p7e4ql2w2olzkzg6fuzmjkty';
-    request.headers.common['X-CSRFTOKEN'] = 'kOx7OwT23E6EhurCWcc5lQBqou7DEL2tJWKA6NYmX7OezecBqB1wIsUyVQRweFmG';
+    request.headers.Cookie = 'csrftoken=QJAmyTfG6G3YlIkS3mwft8fhlvRhE3Z5GO1zHdYrTjQ31VsDqDxP0Y3wdat8azyx; sessionid=l6vhmyw2lg0klcx60l4358z2jolcuhrb';
+    request.headers.common['X-CSRFTOKEN'] = 'QJAmyTfG6G3YlIkS3mwft8fhlvRhE3Z5GO1zHdYrTjQ31VsDqDxP0Y3wdat8azyx';
     return request;
 });
 
