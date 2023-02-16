@@ -1,21 +1,5 @@
 const menuItems = {
-    items: [
-        {
-            id: 'constituency',
-            title: 'Constituencias',
-            type: 'group',
-            icon: 'fas fa-network-wired',
-            children: [
-                {
-                    id: 'contacts',
-                    title: 'Contactos',
-                    type: 'item',
-                    url: '/contact/tables',
-                    icon: 'feather icon-sidebar',
-                    breadcrumbs: false
-                }
-            ]
-        }, 
+    items: [ 
         {
             id: 'navigation',
             title: 'Navigation',
@@ -60,6 +44,14 @@ const menuItems = {
                     type: 'item',
                     url: '/entity/tables',
                     icon: 'fas fa-network-wired',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'contacts',
+                    title: 'Contactos',
+                    type: 'item',
+                    url: '/contact/tables',
+                    icon: 'feather icon-sidebar',
                     breadcrumbs: false
                 }
             ]
