@@ -1,32 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Toast from 'react-bootstrap/Toast';
 
-const Alert = (props) => {
-    const [show, setShow] = useState(true);
-    const verde = '#198754'
-    const danger = '#ff0000'
+import { store } from '../../store';
+import { CLEAR_MESSAGE } from '../../store/actions';
 
-    return(
-        props.alert && 
-        <Toast style={{
-            position: 'fixed',
-            top: '10%',
-            left: '40%',
-            zIndex:9999,
-            color:'#000000'
-            }} onClose={() => setShow(false)} show={show} delay={5000} autohide>
-            <Toast.Header>
-                <h6 className="mr-auto"  style={{color:`${props.alert.type===1 ? verde : danger}`}}> 
-                    <i className= {props.alert.type===1 ? 'feather icon-check-circle mx-1' : 'feather icon-alert-triangle'} />
-                    Notificacion  
-                </h6>
-                <small>recien</small>
-            </Toast.Header>
-            <Toast.Body>
-                <i className= 'feather icon-info mx-1' />           
-                {props.alert.name}
-            </Toast.Body>
-        </Toast>
-    )
+const Alert = () => {
+    const [show, setShow] = useState(false);
+    const [text, setText] = useState('');
+    const [type, setType] = useState('');
+    const [color, setColor] = useState('');
+
+   
+    const textMessage = store.getState().message.text;
+    const typeAlert = store.getState().message.typeMessage;
+ 
+    useEffect(() => {
+        
+        if (textMessage  !== '') {
+            setText(textMessage);
+            setType(typeAlert);
+            setShow(true); 
+            switch (typeAlert) {
+                case "error":   
+                    setColor('#ff0000');
+                    break;
+                case "success": 
+                    setColor('#198754');
+                    break;
+            }
+        }
+ 
+    });
+
+    const resetAlert = () => {
+                
+        const { dispatch } = store;
+
+        dispatch({
+            type: CLEAR_MESSAGE
+        });
+
+        setShow(false);
+
+    }
+  
+    return( 
+
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'initial'}}> 
+            <Toast style={{ position: 'fixed', zIndex:9999, backgroundColor: '#DEEDDD'}} onClose={() => resetAlert()} show={show} delay={4000} autohide >
+                <Toast.Header>   
+                    <h6 className="mr-auto mt-2" style={{color:`${color}`, fontWeight: 'bold'}}> 
+                        <i className={type==='success' ? 'feather icon-check-circle mx-1' : 'feather icon-alert-triangle mx-1'}  />
+                        {type}  
+                    </h6>
+                </Toast.Header>
+                <Toast.Body className="mr-auto" style={{color:'#000000', backgroundColor: '#DEEDDD', opacity: '1'}}>          
+                    {text}
+                </Toast.Body>
+            </Toast>
+        </div>      
+
+    );
+ 
 }
+
 export default Alert;
