@@ -65,7 +65,14 @@ const EditContact = () => {
                             <span className="d-block m-t-5">Editar Contacto</span>
                         </Card.Header>
                         <Card.Body>
-                             <FormContact name={supportedName} setName= {setSupportedName} role={selectRol} setRole={setSelectRol} priority={supportedPriority} setPriority={setSupportedPriority} type={selectType} setType={setSelectType} contact={supportedContact} setContact={setSupportedContact} key={supportedKey} setKey={setSupportedKey} ifConfirm={editContact} />
+                        <FormContact 
+                                name={supportedName} setName= {setSupportedName} 
+                                role={selectRol} setRole={setSelectRol} 
+                                priority={supportedPriority} setPriority={setSupportedPriority} 
+                                type={selectType} setType={setSelectType} 
+                                contact={supportedContact} setContact={setSupportedContact} 
+                                key={supportedKey} setKey={setSupportedKey} 
+                                ifConfirm={editContact} />
                         </Card.Body>
                     </Card>
                 </Col>

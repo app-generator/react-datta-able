@@ -3,6 +3,8 @@ import { Row, Col, Card,Breadcrumb, Form, Button } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
 import FormContact from './components/Form/FormContact';
+import FormContactPriority from './components/Form/FormContactPriority';
+import { Link } from 'react-router-dom';
 
 const CreateContact = () => {
     const [supportedName, setSupportedName] = useState('');
@@ -27,105 +29,8 @@ const CreateContact = () => {
         }
     },[]);
 
-    const getPrioridades = {
-        "count": 5,
-        "next": null,
-        "previous": null,
-        "results": [
-            {
-                "url": "http://localhost:8000/api/administration/priority/1/",
-                "color": "#FFFFFF",
-                "created": "2019-03-22T16:24:33Z",
-                "modified": "2022-05-27T20:03:30.447000Z",
-                "name": "Critical",
-                "severity": 1,
-                "attend_time": "00:00:00",
-                "solve_time": "01:00:00",
-                "attend_deadline": "00:01:00",
-                "solve_deadline": "2 00:00:00",
-                "notification_amount": 3
-            },
-            {
-                "url": "http://localhost:8000/api/administration/priority/3/",
-                "color": "#FFFFFF",
-                "created": "2019-03-22T16:24:33Z",
-                "modified": "2022-04-09T00:26:44.802000Z",
-                "name": "High",
-                "severity": 2,
-                "attend_time": "00:10:00",
-                "solve_time": "04:00:00",
-                "attend_deadline": "03:00:00",
-                "solve_deadline": "2 00:00:00",
-                "notification_amount": 3
-            },
-            {
-                "url": "http://localhost:8000/api/administration/priority/2/",
-                "color": "#FFFFFF",
-                "created": "2019-03-22T16:24:33Z",
-                "modified": "2022-04-09T00:26:25.310000Z",
-                "name": "Medium",
-                "severity": 3,
-                "attend_time": "01:00:00",
-                "solve_time": "08:00:00",
-                "attend_deadline": "07:00:00",
-                "solve_deadline": "2 00:00:00",
-                "notification_amount": 3
-            },
-            {
-                "url": "http://localhost:8000/api/administration/priority/6/",
-                "color": "#FFFFFF",
-                "created": "2019-03-22T16:24:33Z",
-                "modified": "2022-04-09T00:33:40.089000Z",
-                "name": "Low",
-                "severity": 4,
-                "attend_time": "04:00:00",
-                "solve_time": "2 00:00:00",
-                "attend_deadline": "1 00:00:00",
-                "solve_deadline": "2 00:00:00",
-                "notification_amount": 3
-            },
-            {
-                "url": "http://localhost:8000/api/administration/priority/5/",
-                "color": "#FFFFFF",
-                "created": "2019-03-22T16:24:33Z",
-                "modified": "2022-04-09T00:19:17.743000Z",
-                "name": "Very Low",
-                "severity": 5,
-                "attend_time": "1 00:00:00",
-                "solve_time": "7 00:00:00",
-                "attend_deadline": "1 00:00:00",
-                "solve_deadline": "2 00:00:00",
-                "notification_amount": 3
-            }
-        ]
-    };
-
-    const role = [
-        {
-            value : '0',
-            name : 'Seleccione'
-        },
-        {
-            value : 'technical',
-            name : 'Tecnico'
-        },
-        {
-            value : 'administrative',
-            name : 'Administrativo'
-        },
-        {
-            value : 'abuse',
-            name : 'Abuso'
-        },
-        {
-            value : 'notifications',
-            name : 'Notificaciones'
-        },
-        {
-            value : 'noc',
-            name : 'NOC'
-        },
-    ]
+    //    const el = document.getElementsByName('Form.Contact.Username__username')
+    //if(el) {console.log(el)}
 
     const createContact = () => {
         console.log(supportedName);
@@ -134,6 +39,7 @@ const CreateContact = () => {
         console.log(selectType);
         console.log(selectRol);
         console.log(supportedPriority);
+
 
         postContact (supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
@@ -168,8 +74,16 @@ const CreateContact = () => {
                             <span className="d-block m-t-5">Agregar Contacto</span>
                         </Card.Header>
                         <Card.Body>
-                             <FormContact name={supportedName} setName= {setSupportedName} role={selectRol} setRole={setSelectRol} priority={supportedPriority} setPriority={setSupportedPriority} type={selectType} setType={setSelectType} contact={supportedContact} setContact={setSupportedContact} key={supportedKey} setKey={setSupportedKey} ifConfirm={createContact} />
+                             <FormContact 
+                                name={supportedName} setName= {setSupportedName} 
+                                role={selectRol} setRole={setSelectRol} 
+                                priority={supportedPriority} setPriority={setSupportedPriority} 
+                                type={selectType} setType={setSelectType} 
+                                contact={supportedContact} setContact={setSupportedContact} 
+                                key={supportedKey} setKey={setSupportedKey} 
+                                ifConfirm={createContact} />                          
                         </Card.Body>
+
                     </Card>
                 </Col>
             </Row>

@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Button, Col, Row, Form} from 'react-bootstrap';
-import { validateEmail, validateAlphanumeric, validateSpace } from '../../../../components/Validator/validators'; 
+import { Link, useLocation } from 'react-router-dom';
+import { validateSpace, validateEmail, validateAlphanumeric, validateNumbers, validateURL  } from '../../../../components/Validator/validators'; 
+import FormContactPriority from './FormContactPriority';
 
 const FormContact = (props) => { 
     // props: name, setName, role, setRole, priority, setPriority, type, setType, contact, setContact, key, setKey, ifConfirm
+    const [validContact, setValidContact] = useState(false) 
+    
     const roleOptions = [
         {
             value : '0',
@@ -127,7 +131,6 @@ const FormContact = (props) => {
         ]
     };
 
-
     return (
         <React.Fragment>
             <Form>
@@ -211,35 +214,29 @@ const FormContact = (props) => {
                             {props.type ? '' : <div className="invalid-feedback">Seleccione el tipo de contacto</div>}
                         </Form.Group>
                     </Col>
-                    <Col>
-                        <Form.Group controlId="Form.Contact.Username">
-                            <Form.Label>Contacto</Form.Label>
-
-                            <Form.Control
-                                name="username"
-                                type="string"
-                                placeholder="Contacto"
-                                value={props.contact}
-                                isInvalid={!validateSpace(props.contact) || !validateEmail(props.contact)}
-                                isValid={validateSpace(props.contact) && validateEmail(props.contact)}
-                                onChange={(e) =>  props.setContact(e.target.value)} />
-                            {validateSpace(props.contact) ? '' : <div className="invalid-feedback">Ingrese informacion de contacto</div>}
-                            {!props.contact || validateEmail(props.contact) ? "" : <div className="invalid-feedback">Ingrese un email valido</div>}
-                        </Form.Group>
+                    <Col lg={9}>
+                        <FormContactPriority selectedType={props.type} 
+                            contact={props.contact} setContact={props.setContact}
+                            setValidContact={setValidContact} />                   
                     </Col>
                 </Row>
                 <Form.Group controlId="Form.Contact.Key">
+                    <Form.Label>Clave publica</Form.Label>
                     <Form.Control 
                         type="string"
                         placeholder="Llave pública GPG"
                         value={props.key}
                         onChange={(e) =>  props.setKey(e.target.value)} />
-                {(!validateSpace(props.name) || !validateAlphanumeric(props.name) || !validateSpace(props.contact) || (props.role == '0') || (props.priority == '0' ) || (props.type == '0')) ? 
-                    <><Button variant="primary" disabled>Guardar</Button></> 
-                    : 
-                    <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>
-                }
-                    <Button variant="primary" href="/contact/tables">Cancelar</Button>
+                </Form.Group>
+                <Form.Group>
+                    {(!validateSpace(props.name) || !validateAlphanumeric(props.name) 
+                    || (props.role == '0') || (props.priority == '0' ) || (props.type == '0')
+                    || !validateSpace(props.contact) || (!validContact)) ? 
+                        <><Button variant="primary" disabled>Guardar</Button></> 
+                        : 
+                        <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>
+                    }
+                        <Button variant="primary" href="/contact/tables">Cancelar</Button>
                 </Form.Group>
             </Form>
         </React.Fragment>

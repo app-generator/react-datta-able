@@ -194,7 +194,7 @@ const TableEntity = ({callback, list, loading }) => {
                                                 <td>Informacion Relacionada</td>
                                                 <td>
                                                     <Button size="sm" variant='light' className="text-capitalize">
-                                                        Network <Badge variant="light" className="ml-1">4</Badge>
+                                                        Redes <Badge variant="light" className="ml-1">4</Badge>
                                                     </Button>
                                                 </td>
                                             </tr>
