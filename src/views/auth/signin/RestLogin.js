@@ -4,7 +4,7 @@ import { Row, Col, Button, Alert } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import useScriptRef from '../../../hooks/useScriptRef';
-import { LOGIN_SUCCESS } from './../../../store/actions';
+import { LOGIN } from './../../../store/actions';
 import { login } from '../../../api/services/auth';
 import { store } from './../../../store';
 
@@ -31,7 +31,7 @@ const RestLogin = ({ className, ...rest }) => {
                         .then((response) => {
                             console.log('Se pudo loguear');
                             dispatch({
-                                type: LOGIN_SUCCESS,
+                                type: LOGIN,
                                 payload: { user: response.data.user, token: response.data.token }
                             });
                         })

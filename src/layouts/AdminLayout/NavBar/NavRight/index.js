@@ -8,6 +8,8 @@ import axios from 'axios';
 import ChatList from './ChatList';
 import { API_SERVER } from '../../../../config/constant';
 import { LOGOUT } from './../../../../store/actions';
+import { logout } from '../../../../api/services/auth';
+import { store } from './../../../../store';
 
 import avatar1 from '../../../../assets/images/user/avatar-1.jpg';
 import avatar2 from '../../../../assets/images/user/avatar-2.jpg';
@@ -20,7 +22,24 @@ const NavRight = () => {
 
     const [listOpen, setListOpen] = useState(false);
 
+    const { dispatch } = store;
+    const state = store.getState();
+    const user = JSON.stringify(state.account.user);
+
+    console.log(user);
+
     const handleLogout = () => {
+
+        logout(user).then((response) => {
+            console.log('Se pudo desloguear');
+            dispatch({
+                type: LOGOUT,
+            });
+        })
+        .catch((error) => {
+            console.log('No se pudo desloguear');
+        });
+        /*
         axios
             .post(API_SERVER + 'logout/', {}, { headers: { Authorization: `${account.token}` } })
             .then(function (response) {
@@ -33,7 +52,8 @@ const NavRight = () => {
             })
             .catch(function (error) {
                 console.log('error - ', error);
-            });
+            });*/
+        
     };
 
     return (

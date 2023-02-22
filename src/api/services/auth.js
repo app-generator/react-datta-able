@@ -32,4 +32,11 @@ const refreshToken = () => {
     });
 }
 
-export { registerUser, getJWT, login, refreshToken };
+const logout = (user) => {
+    console.log("usuario recibido "+user);
+    return apiInstance.post("logout/", {
+        user: user
+    });
+}
+
+export { registerUser, getJWT, login, refreshToken, logout };

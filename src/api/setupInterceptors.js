@@ -2,19 +2,14 @@ import Cookies from 'js-cookie';
 
 import apiInstance from './api';
 import { refreshToken } from './services/auth';
-import { REFRESH_TOKEN, LOGOUT } from '../store/actions';
+import { REFRESH_TOKEN, LOGOUT, SET_MESSAGE } from '../store/actions';
 
 const setup = (store) => {
 
     const { dispatch } = store;
 
-    // console.log("Estado del token: "+store.getState().account.token);
-    // console.log("Estado del user: "+store.getState().account.user);
-
     apiInstance.interceptors.request.use((request) => {
-        //request.headers.Cookie = '';
-        //request.headers.common['X-CSRFTOKEN'] = '';
-
+   
         const cookies = Cookies.get();
         request.headers.common['X-CSRFTOKEN'] = cookies.csrftoken;
 
@@ -24,7 +19,9 @@ const setup = (store) => {
         if (token) {
             request.headers.Authorization = `${token}`;
         }
+
         return request;
+
     });
     
     apiInstance.interceptors.response.use((response) => {
