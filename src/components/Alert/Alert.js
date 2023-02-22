@@ -8,9 +8,8 @@ const Alert = () => {
     const [show, setShow] = useState(false);
     const [text, setText] = useState('');
     const [type, setType] = useState('');
-    const [color, setColor] = useState('');
-
-   
+    const [backgroundColor, setBackgroundColor] = useState('');
+ 
     const textMessage = store.getState().message.text;
     const typeAlert = store.getState().message.typeMessage;
  
@@ -22,14 +21,13 @@ const Alert = () => {
             setShow(true); 
             switch (typeAlert) {
                 case "error":   
-                    setColor('#ff0000');
+                    setBackgroundColor('red')
                     break;
                 case "success": 
-                    setColor('#198754');
+                    setBackgroundColor('green');
                     break;
             }
         }
- 
     });
 
     const resetAlert = () => {
@@ -46,17 +44,14 @@ const Alert = () => {
   
     return( 
 
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'initial'}}> 
-            <Toast style={{ position: 'fixed', zIndex:9999, backgroundColor: '#DEEDDD'}} onClose={() => resetAlert()} show={show} delay={4000} autohide >
+        <div className="mt-2" style={{ display: 'flex', justifyContent: 'center', alignContent:'center'}}> 
+            <Toast style={{ position: 'fixed', zIndex:9999 , backgroundColor:`${backgroundColor}`}} onClose={() => resetAlert()} show={show} delay={5000} autohide >
                 <Toast.Header>   
-                    <h6 className="mr-auto mt-2" style={{color:`${color}`, fontWeight: 'bold'}}> 
-                        <i className={type==='success' ? 'feather icon-check-circle mx-1' : 'feather icon-alert-triangle mx-1'}  />
-                        {type}  
+                    <h6 className="mr-auto mt-2" > 
+                        <i className={type==='success' ? 'feather icon-check-circle mx-1' : 'feather icon-alert-triangle mx-1'} />
+                        {text}  
                     </h6>
                 </Toast.Header>
-                <Toast.Body className="mr-auto" style={{color:'#000000', backgroundColor: '#DEEDDD', opacity: '1'}}>          
-                    {text}
-                </Toast.Body>
             </Toast>
         </div>      
 

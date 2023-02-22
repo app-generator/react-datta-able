@@ -8,6 +8,7 @@ import useWindowSize from '../../hooks/useWindowSize';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import { ConfigContext } from '../../contexts/ConfigContext';
 import * as actionType from '../../store/actions';
+import Alert from '../../components/Alert/Alert';
 
 const AdminLayout = ({ children }) => {
     const windowSize = useWindowSize();
@@ -45,7 +46,9 @@ const AdminLayout = ({ children }) => {
 
     let mainContainer = (
         <React.Fragment>
-            <NavBar />
+            
+            <Alert/>
+            <NavBar /> 
             <div className="pcoded-main-container">
                 <div className={mainClass.join(' ')}>
                     <div className="pcoded-content">
