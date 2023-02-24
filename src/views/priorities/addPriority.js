@@ -1,65 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown,Breadcrumb } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Row, Card } from 'react-bootstrap';
+import FormPriority from './components/formPriority'
+import Navigation from '../../components/navigation/navigation'
+import { postPriority} from "../../api/services/priorities";
+import Alert from '../../components/Alert/Alert';
+
 
 
 const AddPriority = () => {
+    const formEmpty={ 
+        name: "", 
+        color: "", 
+        severity:"",
+        dayAttendDeadline:"",
+        hourAttendDeadline:"",
+        daySolveDeadline: "",
+        hourSolveDeadline: ""
+        }
+    const [body,setBody]=useState(formEmpty)
+    const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
+    const [error,setError]=useState()
+
+
+    const createPriority=()=>{
+        "severity es primary key"
+        "nombre se puede repetir pero es requerido"
+        "color es requerido , ¿se puede repetir?"
+        const attendDeadline = (body.dayAttendDeadline ? body.dayAttendDeadline+" ":"")+body.hourAttendDeadline
+        console.log(attendDeadline)
+
+        const solveDeadline = (body.daySolveDeadline ? body.daySolveDeadline+" ":"")+body.hourSolveDeadline
+        console.log(solveDeadline)
+
+        postPriority(body.name,body.color,body.severity,attendDeadline, solveDeadline)
+        .then((response) => { 
+            console.log(response)
+            sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
+            window.location.href = "/list-Priorities"
+        }).catch((error) => {
+            setError(error)
+            console.log(error)
+            setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
+            setTimeout(() => {
+                setAlert(null)
+                setStateAlert(null)
+            }, 3000);
+        }); 
+
+    }
+
     return (
         <>
           <Card>
-          <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default">
-                        <i className="feather icon-home" />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href="./list-Priorities">
-                        <i className="fas fa-network-wired" /> Prioridad
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item active>
-                        <b>Agregar Prioridad</b>
-                    </Breadcrumb.Item>
-                </Breadcrumb>    
+            <Row>
+                <Alert alert={alert} stateAlert={stateAlert} />
+                <Navigation actualPosition="Agregar Prioridad" path="./list-Priorities" index ="Prioridades"/>
             </Row>
-                        <Card.Header>
-                            <Card.Title as="h5">Form Grid</Card.Title>
-                        </Card.Header>
-                        <Card.Body>
-                            <Form>
-                            <th></th>
-                                    
-
-                                <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Impacto</Form.Label>
-                                        <Form.Control placeholder="1234 Main St" />
-                                </Form.Group>
-
-                                <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Urgencia</Form.Label>
-                                        <Form.Control placeholder="1234 Main St" />
-                                </Form.Group>
-                                <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Tiempo de respuesta</Form.Label>
-                                        <Form.Control placeholder="1234 Main St" />
-                                </Form.Group>
-                                <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Unresponse time (?</Form.Label>
-                                        <Form.Control placeholder="1234 Main St" />
-                                </Form.Group>
-                                <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Tiempo de resolucion</Form.Label>
-                                        <Form.Control placeholder="1234 Main St" />
-                                </Form.Group>
-                                <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Tiempo sin resolver</Form.Label>
-                                        <Form.Control placeholder="1234 Main St" />
-                                </Form.Group>
-
-                          
-
-                                <Button variant="primary">Cargar Usuario</Button>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-            
+                <Card.Header>
+                    <Card.Title as="h5">Agregar Prioridad</Card.Title>
+                </Card.Header>
+                <FormPriority body={body} setBody={setBody} createPriority={createPriority} />
+          </Card>  
         </>
     )
 }

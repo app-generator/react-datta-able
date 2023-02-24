@@ -1,204 +1,137 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom'
-
-
 import {
-    Button,CloseButton,
-     Card, Table , Modal,Row, Col,Breadcrumb, Form, Badge
+     Card,Row
 } from 'react-bootstrap';
-import axios from "axios";
+import Pagination from '../../components/Pagination/Pagination'
+import Alert from '../../components/Alert/Alert';
 
-const ListContacts = () => {
+import Navigation from '../../components/navigation/navigation'
+import Search from '../../components/search/search'
+import CrudButton from '../../components/Button/CrudButton';
+import { getPriorities} from "../../api/services/priorities";
+import TablePriorities from './components/tablePriorities';
 
+const ListPriorities = () => {
+  const [priorities, setPriorities] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [jumpPage, setjumpPage] = useState(false)
+  const [pages, setPages] = useState()
+  const [cantPages, setcantPages] = useState([])
+  const [error,setError]= useState()
+  const [stateAlert, setStateAlert] = useState(null)
+  const [alert, setAlert] = useState(null)
 
-    const [show, setShow] = useState(false);
+  useEffect(() => {
+    if(sessionStorage.getItem('Alerta')) {
+      const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+      setAlert(storage)
+          setTimeout(() => {
+              setAlert(null)
+              setStateAlert(null)
+              sessionStorage.clear()
+          }, 5000);
+    }
+    const arrayWithPages = (numberOfItems,numberOfElementsOnAPage) => {
+        const numberOfPages= Math.ceil(numberOfItems / numberOfElementsOnAPage)
+        const complementUrl ="?page="
+        const arrayLinks=[]
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+        for (var i = 1; i <= numberOfPages; i++) {    
+          arrayLinks.push(complementUrl+i)
+        }
 
+        setcantPages(arrayLinks)
+        return numberOfPages
+    }
 
-  const [users, setUsers] = useState([]);
+    const fetchPriorities = async () => {
+      setLoading(true)
+      getPriorities().then((response) => {
+          setPriorities(response.data.results)
+          console.log(response.data.results)
+          setPages(arrayWithPages(response.data.count,response.data.results.length)) 
+      }).catch((error)=>{
+         setError(error)
+      }).finally(() => {
+         setLoading(false)
+      })
+    }
 
+    fetchPriorities()
+  }, [])
+  function CambioDepagina(url){
+   
+
+    if (jumpPage){
+      setjumpPage(false)
+      console.log(url)
+
+      const fetchPosts = async () => {
+        console.log(url)
+        setLoading(true)
+        getPriorities(url).then((response) => {
+          setPriorities(response.data.results)
+          console.log(response.data.results)
+          
+      })
+
+        setLoading(false)
+        
+      }
+      fetchPosts()
+  
+    }
+  }
+
+  const callbackBackend = (name, stateAlert) => {
+    if(stateAlert) {
+        getPriorities()
+        .then((response) => {
+            setPriorities(response.data.results)
+        })
+        .catch((error) => {
+            setError(error)
+        })
+        .finally(() => {
+            setLoading(false)
+            setAlert({name:name, type:1})
+            setTimeout(() => {
+                setAlert(null)
+                setStateAlert(null)
+            }, 5000);
+        })
+    }
+    else {
+        setAlert({name:name, type:0})
+    }
+  }
+  const action = () => {
+    console.log("llamada backend")
+  }
+  CambioDepagina(cantPages[currentPage-1])
 
   return (
     <div>
     
-
+    <Alert alert={alert} stateAlert={stateAlert} />
       <Card>
-      <Card.Header>
-      <Row>
-            <Breadcrumb>
-                <Breadcrumb.Item href="./app/dashboard/default">
-                    <i className="feather icon-home" />
-                </Breadcrumb.Item>
-                <Breadcrumb.Item active>
-                    <b>Prioridades</b>
-                </Breadcrumb.Item>
-            </Breadcrumb>    
-        </Row>
-                            <Row>
-                                <Col sm={12} lg={9}>
-                                <div id="main-search" className='open'>
-                                     <div className="input-group">
-                                        <input type="text" id="m-search" className="form-control" placeholder="Buscar prioridad . . ." />
-                                            <span className="search-btn btn btn-primary" onClick="">
-                                                    <i className="feather icon-search " />
-                                            </span> 
-                                    </div>
-                                </div>
-
-                           
-                                </Col> 
-                                <Col sm={12} lg={3}>
-                                <Button className="text-capitalize" variant='outline-primary' title='Agregar Usuario' href="/add-Priority">
-                                    <i className='fa fa-plus' />
-                                        Agregar prioridad
-                                </Button>
-                            
-                                </Col> 
-                            </Row>                                 
-                        </Card.Header>
-                        
-
-
-                        <Card.Body>
-                            <Table responsive hover>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        
-                                        <th>Nombre</th>
-                                        <th>Activo</th>
-                                        <th>Tiempo de respuesta</th>
-                                        <th>Unresponse time (?</th>
-                                        <th>Tiempo de resolucion </th>
-                                        <th>Tiempo sin resolver</th>
-                                        <th>Creado</th>
-                                        <th>Actualizado</th>
-                                        <th>Opciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        
-                                        <td>Indefinido</td>
-                                        <td>
-                                            <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
-                                                <i className='feather icon-check-circle'/>
-                                            </Button>
-
-
-                                        </td>
-                                        <td className="text-center" >1</td>
-                                        <td className="text-center">10080</td>
-                                        <td className="text-center">1</td>
-                                        <td className="text-center">10080</td>
-                                        <td className="text-center">11/08/2021</td>
-                                        <td className="text-center">11/09/2022</td>
-                                        
-                                        <td>
-                                        <Link to="/add-Priority" >
-                                            <Button className="btn-icon btn-rounded " variant="outline-warning">
-                                                <i className='far fa-edit' title="Editar" />
-                                            </Button>
-                                        </Link>
-
-                                        
-                                            <Button className="btn-icon btn-rounded " variant="outline-danger" onClick={handleShow}>
-                                                <i className='fas fa-trash-alt' title="Eliminar" />
-                                            </Button>
-                                      
- 
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Indefinido</td>
-                                        <td>
-                                            <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
-                                                <i className='feather icon-check-circle'/>
-                                            </Button>
-
-
-                                        </td>
-                                        <td className="text-center">1</td>
-                                        <td className="text-center">10080</td>
-                                        <td className="text-center">1</td>
-                                        <td className="text-center">10080</td>
-                                        <td className="text-center">11/08/2021</td>
-                                        <td className="text-center">11/09/2022</td>
-                                        
-                                        <td>
-                                        <Link to="/add-user" >
-                                            <Button className="btn-icon btn-rounded " variant="outline-warning">
-                                                <i className='far fa-edit' title="Editar" />
-                                            </Button>
-                                        </Link>
-
-                                        
-                                            <Button className="btn-icon btn-rounded " variant="outline-danger" onClick={handleShow}>
-                                                <i className='fas fa-trash-alt' title="Eliminar" />
-                                            </Button>
-                                      
- 
-                                        </td>
-                                    </tr><tr>
-                                        <th scope="row">3</th>
-                                        <td>Alto</td>
-                                        <td>
-                                            <Button className="btn-icon btn-rounded" variant='outline-success' title='Activo'>
-                                                <i className='feather icon-check-circle'/>
-                                            </Button>
-
-
-                                        </td>
-                                        <td className="text-center">1</td>
-                                        <td className="text-center">10080</td>
-                                        <td className="text-center"> 1</td>
-                                        <td className="text-center">10080</td>
-                                        <td className="text-center">11/08/2021</td>
-                                        <td className="text-center">11/09/2022</td>
-                                        
-                                        <td>
-                                        <Link to="/add-user" >
-                                            <Button className="btn-icon btn-rounded " variant="outline-warning">
-                                                <i className='far fa-edit' title="Editar" />
-                                            </Button>
-                                        </Link>
-
-                                        
-                                            <Button className="btn-icon btn-rounded " variant="outline-danger" onClick={handleShow}>
-                                                <i className='fas fa-trash-alt' title="Eliminar" />
-                                            </Button>
-                                      
- 
-                                        </td>
-                                    </tr>
-                      
-                                    
-                                </tbody>
-                               
-                            </Table>
-                            
-                        </Card.Body>
-                        <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Eliminar usuario</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>¿Estas seguro que quiere eliminar este usuario?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cerrar
-          </Button>
-          <Button variant="danger" onClick={handleClose}>
-            Eliminar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-                    </Card>
-                    
+        <Card.Header>
+          <Row>
+            <Navigation actualPosition="Prioridades"/>
+          </Row>
+          <Row>
+            <Search type="Prioridad" action={action} />
+            <Link to={"/add-Priority"} >
+                <CrudButton type='create' name='Prioridad' /> 
+            </Link>
+          </Row>                                 
+        </Card.Header>
+        <TablePriorities Priorities={priorities} callback ={callbackBackend} loading={loading} /> 
+        <Pagination pages = {pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+      </Card>            
     </div>
   );
 }
-export default ListContacts
+export default ListPriorities

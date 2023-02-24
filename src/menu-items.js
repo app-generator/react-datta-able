@@ -198,43 +198,25 @@ const menuItems = {
             ]
         },
         {
-            id: 'priorities',
-            title: 'Priorities',
+            id: 'Prioridades',
+            title: 'Prioridades',
             type: 'group',
             icon: 'icon-pages',
             children: [{
-                id: 'Priorities',
-                title: 'Priorities',
+                id: 'Prioridades',
+                title: 'Prioridades',
                 type: 'item',
                 url: '/list-Priorities',
                 classes: '',
-                icon: '',
+                icon: 'fa fa-exclamation-triangle',
                 breadcrumbs: false
 
             }
-
                 
             ]
         },
-        {
-            id: 'priorities2',
-            title: 'Priorities2',
-            type: 'group',
-            icon: 'icon-pages',
-            children: [{
-                id: 'Priorities2',
-                title: 'Priorities2',
-                type: 'item',
-                url: '/list-Priorities2',
-                classes: '',
-                icon: '',
-                breadcrumbs: false
-
-            }
-
-                
-            ]
-        },
+        
+       
         {
             id: 'resources',
             title: 'Resources',

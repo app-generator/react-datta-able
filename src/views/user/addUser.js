@@ -3,8 +3,8 @@ import { Card, Form } from 'react-bootstrap';
 import { postUser } from "../../api/services/users";
 import { getPriorities } from "../../api/services/priorities";
 import Alert from '../../components/Alert/Alert';
-import FormUser from './formUser'
-import Navigation from './commonComponents/navigation'
+import FormUser from './components/formUser'
+import Navigation from '../../components/navigation/navigation'
 
 
 const AddUser = () => {    
@@ -13,19 +13,17 @@ const AddUser = () => {
         first_name: "", 
         last_name: "", 
         email: "", 
-        priority: '-1' }
+        priority: '-1',
+        password: ""}
 
-    const[error,setError]=useState()
-    const[body,setBody]=useState(formEmpty)
+    const [error,setError]=useState()
+    const [body,setBody]=useState(formEmpty)
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
     const [priorities, setPriorities] = useState()
     const [loading, setLoading] = useState(true)
 
     useEffect( ()=> {
-       
-          
-
         const fetchPosts = async () => {
             setLoading(true)
             getPriorities().then((response) => { 
@@ -37,10 +35,8 @@ const AddUser = () => {
             }).finally(() => {
                 setLoading(false)
             })
-        }
-            
+        }  
         fetchPosts()
-
         if(sessionStorage.getItem('Alerta')) {
             const storage = JSON.parse(sessionStorage.getItem('Alerta'));
             setAlert(storage)
@@ -51,8 +47,6 @@ const AddUser = () => {
                 }, 5000);
         }
     },[]);
-    
-
     const createUser=(e)=>{
         
         postUser(body.username,body.first_name,body.last_name,body.email, body.priority)
@@ -71,7 +65,6 @@ const AddUser = () => {
             }, 3000);
         });  
     }
-
     return (
         <>
         <Alert alert={alert} stateAlert={stateAlert} />
@@ -83,7 +76,7 @@ const AddUser = () => {
                         </Card.Header>
                         <Card.Body>
                             <Form >
-                                <FormUser body={body} setBody={setBody} priorities={priorities} createUser={createUser} loading={loading}/>
+                                <FormUser body={body} setBody={setBody} priorities={priorities} createUser={createUser} loading={loading} />
                             </Form>
                         </Card.Body>
                     </Card>

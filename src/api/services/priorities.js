@@ -10,37 +10,29 @@ const getPriority = (url) => {
     return apiInstance.get(url);
 }
 
-const postPriority = (username, first_name, last_name, email, priority, is_active) => {
-
-    console.log(first_name)
+const postPriority = (name, color, severity, attend_deadline, solve_deadline) => {
+    
     return apiInstance.post(COMPONENT_URL.priority, {
-        username: username, 
-        first_name: first_name, 
-        last_name: last_name, 
-        email: email, 
-        priority: priority,
-        is_active: is_active
+        name: name, 
+        color: color, 
+        severity: severity, 
+        attend_deadline: attend_deadline, 
+        solve_deadline: solve_deadline
     });
 }
 
-const putPriority = ( url,username, first_name, last_name, email, priority, is_active) => {
+const putPriority = ( url, name, color, severity, attend_deadline, solve_deadline) => {
     return apiInstance.put(url, {
-        username: username, 
-        first_name: first_name, 
-        last_name: last_name, 
-        email: email, 
-        priority: priority,
-        is_active: is_active
+        name: name, 
+        color: color, 
+        severity: severity, 
+        attend_deadline: attend_deadline, 
+        solve_deadline: solve_deadline
+        
     });
-}
-
-const isActive = (url, active) => {
-    return apiInstance.patch(url, {
-        is_active: active
-    } );
 }
 
 const deletePriority = (url) => {
     return apiInstance.delete(url);
 }
-export {getPriorities}
+export {getPriorities, postPriority, deletePriority, putPriority}

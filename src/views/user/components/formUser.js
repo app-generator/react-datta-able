@@ -1,9 +1,6 @@
 import React from 'react'
-import { validateEmail,validateFieldText,validateUsername,validateSpaces} from './validators';
-
-import {
-    Button, Row, Form, Spinner, 
-  } from 'react-bootstrap';
+import { validateEmail,validateFieldText,validateUsername,validateSpaces} from '../../../components/validators/validators';
+import { Button, Row, Form, Spinner} from 'react-bootstrap';
 
 const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
 
@@ -14,59 +11,46 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
             </Row>
         );    
     }
-
     const activateBooton = (body)=>{
-        const formErrors = []
-        if(body.username === ""){
-            formErrors.push("username: Por favor Ingresar ingresar un nombre")
-        }
         if(!validateUsername(body.username)){
-            formErrors.push("username: ingrese un nombre de usuario valido")
+            return false
         }
         if(body.priority === "-1"){
-            formErrors.push("priority: Por favor elija una prioridad")
+            return false
         }
         if(body.first_name !== ""){
             if(!validateFieldText(body.first_name)){
-                formErrors.push("first_name: solo se permiten letras para el nombre")
+                return false
             }
         }
         if (body.last_name !== ""){
             if(!validateFieldText(body.last_name)){
-                formErrors.push("last_name: solo se permiten letras para el apellido")
+                return false
             }
         }
         if (body.email !== ""){
             if(!validateEmail(body.email)){
-                formErrors.push("email: El email no es valido")
+                return false
             }
         }
-        console.log(formErrors)  
-        return (formErrors.length === 0)
+        return true
     }
 
     const FieldUsername=(event)=>{    
         if(validateSpaces(event.target.value)){
             setBody({...body,
                 [event.target.name] : event.target.value}
-            )  
+            )
         }        
     }
     
-    const fieldFullName=(event)=>{ 
+    const completeField=(event)=>{ 
         setBody({...body,
             [event.target.name] : event.target.value}
-        )      
+        )       
     }
-    
-    const fieldEmail=(event)=>{ 
-        setBody({...body,
-            [event.target.name] : event.target.value}
-        )     
-    }
-    
-    
-    const fieldPriority=(event)=>{
+
+    const fieldPassword=(event)=>{
         setBody({...body,
             [event.target.name] : event.target.value}
         )
@@ -81,8 +65,8 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                 value ={body.username} 
                 name="username" 
                 isInvalid={body.username === ''|| !validateUsername(body.username)}
-                isValid={body.username !== ''} onChange={(e)=>FieldUsername(e)}/>
-                {body.username  ? '' : <div className="invalid-feedback">   Ingrese un nombre de usuario</div>}
+                isValid={body.username !== ''} 
+                onChange={(e)=>FieldUsername(e)}/>
             {validateUsername(body.username)  ? "" : <div className="invalid-feedback"> Solo se permiten letras, numeros y los cateacteres especiales '@', '.' , '+', '-', '_' </div>}
         </Form.Group>
 
@@ -93,7 +77,7 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                 maxlength="150" 
                 name="first_name"
                 value ={body.first_name} 
-                onChange={(e)=>fieldFullName(e)} 
+                onChange={(e)=>completeField(e)} 
                 isInvalid={body.first_name !== "" && !validateFieldText(body.first_name)}
                 isValid={body.first_name === "" || validateFieldText(body.first_name)}/>
             {validateFieldText(body.first_name) ? "" : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
@@ -106,13 +90,12 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                 maxlength="150" 
                 value ={body.last_name}
                 name="last_name" 
-                onChange={(e)=>fieldFullName(e)} 
+                onChange={(e)=>completeField(e)} 
                 isInvalid={body.last_name !== "" && !validateFieldText(body.last_name)}
                 isValid={body.last_name === "" || validateFieldText(body.last_name)}/>
             {validateFieldText(body.last_name) ? ""  : <div className="invalid-feedback">   Ingrese caracteres validos</div>}
         </Form.Group>
         
-
         <Form.Group controlId="formGridEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control  
@@ -120,11 +103,21 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                 maxlength="254"  
                 value ={body.email}
                 name="email" 
-                onChange={(e)=>fieldEmail(e)} 
+                onChange={(e)=>completeField(e)} 
                 isInvalid={body.email !== "" && !validateEmail(body.email)}
                 isValid={body.email === "" || validateEmail(body.email)}/>
             {validateEmail(body.email) ? ""  : <div className="invalid-feedback">   Ingrese un email valido</div>}
         </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Contraseña</Form.Label>
+            <Form.Control 
+                type="password" 
+                placeholder="ingrese una Contraseña"
+                name="password"
+                onChange={(e)=>fieldPassword(e)}  />
+        </Form.Group>
+        
         <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>Prioridad</Form.Label>
                 <Form.Control  
@@ -132,7 +125,7 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                     as="select" 
                     name="priority" 
                     value ={body.priority} 
-                    onChange={(e)=>fieldPriority(e)} isInvalid={body.priority === "-1"}
+                    onChange={(e)=>completeField(e)} isInvalid={body.priority === "-1"}
                     isValid={body.priority !== "-1"}>
                     <option value="-1">Seleccione una prioridad</option>
                     {priorities.map((priority, index) => {

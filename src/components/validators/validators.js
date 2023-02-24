@@ -17,5 +17,13 @@ const  validateSpaces= (text) => {
   return ( !(/ /).test(text))
 }
 
+const validateTime = (time) => {
+  return (/^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/g).test(time)
+}
 
-export {validateEmail, validateFieldText, validateUsername, validateSpaces};
+const validateNumber = (number) => {
+  return (/^[0-9]+$/g).test(number)
+}
+
+
+export {validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber};

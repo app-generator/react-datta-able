@@ -4,13 +4,13 @@ import { putUser} from "../../api/services/users";
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import { getPriorities } from "../../api/services/priorities";
-import FormUser from './formUser'
+import FormUser from './components/formUser'
 
 
 
 const EditUser = () => {    
     const location = useLocation();
-    const user = location.state.post;
+    const user = location.state.user;
     const[error,setError]=useState()
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)

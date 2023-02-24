@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import {Link} from 'react-router-dom'
-import Pagination from './Pagination'
+import Pagination from '../../components/Pagination/Pagination'
 import Alert from '../../components/Alert/Alert';
 import TableUsers from './components/tableUsers'
-import Navigation from './commonComponents/navigation'
-import Search from './commonComponents/search'
+import Navigation from '../../components/navigation/navigation'
+import Search from '../../components/search/search'
 import CrudButton from '../../components/Button/CrudButton';
-
 import { getUsers} from "../../api/services/users";
 
-
-
-
-
-
-function App() {
+function ListUser() {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
@@ -155,7 +149,7 @@ function App() {
   const name = "Usuarios"
 
   
-  const acction = () => {
+  const action = () => {
     console.log("llamada backend")
   }
 
@@ -169,7 +163,7 @@ function App() {
           <Navigation actualPosition={name}/>
         </Row>
                             <Row>
-                                <Search type="usuario" action={acction} />
+                                <Search type="usuario" action={action} />
 
                                 <Col sm={12} lg={3}>
                                 <Link to={{pathname:'/add-user'}} >
@@ -179,7 +173,7 @@ function App() {
                                 </Col> 
                             </Row>                                 
                         </Card.Header>
-                        <TableUsers posts={currentPosts} callback ={callbackBackend} loading={loading} /> 
+                        <TableUsers users={currentPosts} callback ={callbackBackend} loading={loading} /> 
                         <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
       </Card>
     </div>
@@ -187,4 +181,4 @@ function App() {
   );
 }
 
-export default App;
+export default ListUser;

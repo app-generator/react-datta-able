@@ -4,9 +4,11 @@ import {
   Button,Card, Table , Modal, Row,Col, Form, Badge,CloseButton, Spinner
 } from 'react-bootstrap';
 import { deleteUser, isActive } from "../../../api/services/users";
+import CrudButton from '../../../components/Button/CrudButton';
+import ActiveButton from '../../../components/Button/ActiveButton';
 
 
-function TableUsers({posts, callback, loading}) {
+function TableUsers({users, callback, loading}) {
   const [show, setShow] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState("");
   const [deleteUrl, setDeleteUrl] = useState("");
@@ -24,8 +26,7 @@ function TableUsers({posts, callback, loading}) {
             <Spinner animation='border' variant='primary' size='sm' />
         </Row>
     );    
-}
-
+    }
   const handleClose = () => setShow(false);
 
   const handleDelete = () => {
@@ -41,8 +42,6 @@ function TableUsers({posts, callback, loading}) {
     .finally(() => {
         setShow(false)
     })
-
-
   }
 
   const handleShow = (username, url) => {
@@ -52,16 +51,16 @@ function TableUsers({posts, callback, loading}) {
     setShow(true)
    
   }
+
   const showModalUser = (post) => {
 
     setShowUser(post)
     setModalShow(true)
    
   }
-  
-
 
   const showModalChangeState = (url, username, active )=> {
+      console.log(active)
       setDataState({url:url, username:username, state: active})
       setShowState(true)
     }
@@ -87,79 +86,55 @@ function TableUsers({posts, callback, loading}) {
     }
     
     const handleCloseState = () => {
-
-        
-        setShowState(false)
-       
+        setShowState(false) 
       }
 
   return (
-
     <div>
-    
-
       <Card>
      
-    <Card.Body>
-    <ul className="list-group my-4">
-       <Table responsive hover>
-       <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nombre de usuario</th>
-                                        <th>Nombre</th>
-                                        <th>Email</th>
-                                        <th>Estado</th>
-                                        <th>Ultimo login</th>
-                                        <th>Creado</th>
-                                        <th>Actualizado</th>
-                                        <th>Opciones</th>
-                                    </tr>
+        <Card.Body>
+            <ul className="list-group my-4">
+                <Table responsive hover>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre de usuario</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Estado</th>
+                            <th>Ultimo login</th>
+                            <th>Creado</th>
+                            <th>Actualizado</th>
+                            <th>Opciones</th>
+                        </tr>
                     </thead>
                     <tbody>
-                       {posts.map((post, index) => {
+                       {users.map((user, index) => {
                         return (
-                
-                  
-                    
                                     <tr>
                                         <th >{index + 1 }</th>
-                                        <td>{post.username}</td>
-                                        <td>{post.first_name}</td>
-                                        <td>{post.email}</td>
+                                        <td>{user.username}</td>
+                                        <td>{user.first_name}</td>
+                                        <td>{user.email}</td>
                                         <td>
-                                        <Button 
-                                            className="btn-icon btn-rounded" 
-                                            variant={post.is_active ? 'outline-success' : 'outline-danger'} 
-                                            title={post.is_active ? 'Activo' : 'Inactivo'}
-                                            onClick={()=> showModalChangeState(post.url,post.username, post.is_active)}>
-                                           <i className={post.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
-                                        </Button>
-                                        </td>
-                                        <td>{post.last_login ? post.last_login.slice(0,10) : ""}</td>
+                
                                         
-                                        <td>{post.date_joined ? post.date_joined.slice(0,10) : ""}</td>
+                                        <ActiveButton active={+user.is_active} onClick={() => showModalChangeState(user.url,user.username, user.is_active)} />
+                                        </td>
+                                        <td>{user.last_login ? user.last_login.slice(0,10) : ""}</td>
+                                        
+                                        <td>{user.date_joined ? user.date_joined.slice(0,10) : ""}</td>
                                         <td>11/09/2022</td>
                                         <td>
-
-                                        
-                                            <Button className="btn-icon btn-rounded" variant="outline-primary" 
-                                            onClick={() => showModalUser(post)}>
-                                                <i className='fas fa-eye ' title="Detalle" />
-                                            </Button>
-                                        
-
-                                        
-                                        
-                                        <Link to={{pathname:"./edit-user/", state: {post}}} >
-                                            <Button className="btn-icon btn-rounded" variant="outline-warning" >
-                                                <i className='far fa-edit' title="Editar" />
-                                            </Button>
+                                        <CrudButton  type='read' onClick={() => showModalUser(user) }/>
+                                
+                                        <Link to={{pathname:"./edit-user/", state: {user}}} >
+                                            <CrudButton  type='edit' />
                                         </Link>
-
-                                            <Button className="btn-icon btn-rounded" variant="outline-danger" onClick={()=>handleShow(post.username,post.url)}>
-                                                <i className='fas fa-trash-alt' title="Eliminar" />
-                                            </Button>
+                                        
+                                        <CrudButton  type='delete' onClick={()=>handleShow(user.username,user.url)} />
+                                            
                                         </td>
                                         <Modal show={show} onHide={handleClose}>
                                               <Modal.Header closeButton>
@@ -195,7 +170,7 @@ function TableUsers({posts, callback, loading}) {
                                             variant={showUser.is_active ? 'outline-success' : 'outline-danger'} 
                                             title={showUser.is_active ? 'Activo' : 'Inactivo'}
                                             onClick="">
-                                           <i className={post.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
+                                           <i className={user.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
                                         </Button>
 
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
