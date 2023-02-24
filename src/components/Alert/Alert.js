@@ -44,8 +44,8 @@ const Alert = () => {
   
     return( 
 
-        <div className="mt-2" style={{ display: 'flex', justifyContent: 'center', alignContent:'center'}}> 
-            <Toast style={{ position: 'fixed', zIndex:9999 , backgroundColor:`${backgroundColor}`}} onClose={() => resetAlert()} show={show} delay={5000} autohide >
+        <div className="mt-2" style={{ display: 'flex', justifyContent: 'center', alignContent:'center'  }}> 
+            <Toast style={{ position: 'fixed', zIndex:99999 , backgroundColor:`${backgroundColor}`}} onClose={() => resetAlert()} show={show} delay={5000} autohide >
                 <Toast.Header>   
                     <h6 className="mr-auto mt-2" > 
                         <i className={type==='success' ? 'feather icon-check-circle mx-1' : 'feather icon-alert-triangle mx-1'} />
@@ -53,7 +53,7 @@ const Alert = () => {
                     </h6>
                 </Toast.Header>
             </Toast>
-        </div>      
+       </div>      
 
     );
  

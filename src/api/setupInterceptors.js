@@ -31,7 +31,8 @@ const setup = (store) => {
     
             const originalConfig = error.config;
     
-            if (error.response.status === 403 && !originalConfig._retry) {
+            // falta redefinir status esperado en caso de que falle el access token
+            if (error.response.status === 555 && !originalConfig._retry) {
                 originalConfig._retry = true;   
     
                 refreshToken()
