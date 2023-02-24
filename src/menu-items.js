@@ -198,6 +198,26 @@ const menuItems = {
             ]
         },
         {
+            id: 'Prioridades',
+            title: 'Prioridades',
+            type: 'group',
+            icon: 'icon-pages',
+            children: [{
+                id: 'Prioridades',
+                title: 'Prioridades',
+                type: 'item',
+                url: '/list-Priorities',
+                classes: '',
+                icon: 'fa fa-exclamation-triangle',
+                breadcrumbs: false
+
+            }
+                
+            ]
+        },
+        
+       
+        {
             id: 'resources',
             title: 'Resources',
             type: 'group',

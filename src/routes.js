@@ -147,6 +147,22 @@ const routes = [
             },
             {
                 exact: true,
+
+                path: '/list-Priorities',
+                component: lazy(() => import('./views/priorities/listPriorities'))
+            },
+            {
+                exact: true,
+                path: '/add-Priority',
+                component: lazy(() => import('./views/priorities/addPriority'))
+            },
+            {
+                exact: true,
+                path: '/edit-Priority',
+                component: lazy(() => import('./views/priorities/editPriority'))
+            },
+            {
+                exact: true,
                 path: '/entity/tables',
                 component: lazy(() => import('./views/entity/ListEntity'))
             },

@@ -1,12 +1,14 @@
 import React,{ useState} from 'react'
 import {Link} from 'react-router-dom'
 import {
-  Button,
-   Card, Table , Modal, Row,Col, Breadcrumb,Form, Badge,CloseButton
+  Button,Card, Table , Modal, Row,Col, Form, Badge,CloseButton, Spinner
 } from 'react-bootstrap';
-import { deleteUser,putUser, isActive } from "../../../api/services/users";
+import { deleteUser, isActive } from "../../../api/services/users";
+import CrudButton from '../../../components/Button/CrudButton';
+import ActiveButton from '../../../components/Button/ActiveButton';
 
-function Posts({posts}) {
+
+function TableUsers({users, callback, loading}) {
   const [show, setShow] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState("");
   const [deleteUrl, setDeleteUrl] = useState("");
@@ -18,18 +20,28 @@ function Posts({posts}) {
   const titulo={true:"Esta seguro de que desea inabilitar el usuario", false:"Esta seguro de que desea volver a habilitar el usuario"}
   const bottonModalstate={true:"Inhabilitar", false:"Activar"}
 
+  if (loading) {
+    return (
+        <Row className='justify-content-md-center'>
+            <Spinner animation='border' variant='primary' size='sm' />
+        </Row>
+    );    
+    }
   const handleClose = () => setShow(false);
 
   const handleDelete = () => {
-    deleteUser(deleteUrl).then((response) => {//esto tengo que cambiarlo porque no es nada bueno a futuro
-      console.log(response);      
-      setShow(false)
-    }).catch((error)=>{
-        setError(error)
+    deleteUser(deleteUrl).then((response) => {
+        console.log(response)
+        callback(`El usuario ${deleteUsername} ha sido eliminado`, true)
     })
-    .finally(window.location.reload())
-
-
+    .catch((error) => {
+        console.log(error)
+        setError(error)
+        callback(`El usuario ${deleteUsername} NO ha sido eliminado`, false)
+    })
+    .finally(() => {
+        setShow(false)
+    })
   }
 
   const handleShow = (username, url) => {
@@ -39,6 +51,7 @@ function Posts({posts}) {
     setShow(true)
    
   }
+
   const showModalUser = (post) => {
 
     setShowUser(post)
@@ -46,129 +59,82 @@ function Posts({posts}) {
    
   }
 
-
-  const showModalChangeState = (url,active )=> {
-      setDataState({url:url, state: active})
+  const showModalChangeState = (url, username, active )=> {
+      console.log(active)
+      setDataState({url:url, username:username, state: active})
       setShowState(true)
     }
     const changeState=()=>{
-        console.log("entrooo")
         
-        isActive(dataState.url,! dataState.state).then((response) => {
-            console.log(response) 
-          })
-          .catch((error)=>{
-              setError(error)
-          })
-          .finally(window.location.reload())
+        console.log(dataState.state)
+        let message = +dataState.state ? `El usuario ${dataState.username} ha sido desactivado` : `El usuario ${dataState.username} ha sido activado`;
+        isActive(dataState.url, !dataState.state)
+        .then((response) => {
+            console.log(response)
+            
+            callback(message, true)
+        })
+        .catch((error) => {
+                console.log(error)
+                setError(error)
+                callback(message, false)
+            })
+            .finally(() => {
+                setShowState(false)
+                setModalShow(false)
+            })
     }
     
     const handleCloseState = () => {
-
-        
-        setShowState(false)
-       
+        setShowState(false) 
       }
 
   return (
-
     <div>
-    
-
       <Card>
-      <Card.Header>
-      <Row>
-      <Breadcrumb>
-                <Breadcrumb.Item href="./app/dashboard/default">
-                    <i className="feather icon-home" />
-                </Breadcrumb.Item>
-                <Breadcrumb.Item active>
-                    <b>Usuarios</b>
-                </Breadcrumb.Item>
-            </Breadcrumb>    
-        </Row>
-                            <Row>
-                                <Col sm={12} lg={9}>
-                                <div id="main-search" className='open'>
-                                     <div className="input-group">
-                                        <input type="text" id="m-search" className="form-control" placeholder="Buscar usuario . . ." />
-                                            <span className="search-btn btn btn-primary" onClick="">
-                                                    <i className="feather icon-search " />
-                                            </span> 
-                                    </div>
-                                </div>
-
-                           
-                                </Col> 
-                                <Col sm={12} lg={3}>
-                                <Button className="text-capitalize" variant='outline-primary' title='Agregar Usuario' href="/add-user">
-                                    <i className='fa fa-plus' />
-                                        Agregar usuario
-                                </Button>
-                            
-                                </Col> 
-                            </Row>                                 
-                        </Card.Header>
-    <Card.Body>
-    <ul className="list-group my-4">
-       <Table responsive hover>
-       <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nombre de usuario</th>
-                                        <th>Nombre</th>
-                                        <th>Email</th>
-                                        <th>Estado</th>
-                                        <th>Ultimo login</th>
-                                        <th>Creado</th>
-                                        <th>Actualizado</th>
-                                        <th>Opciones</th>
-                                    </tr>
+     
+        <Card.Body>
+            <ul className="list-group my-4">
+                <Table responsive hover>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre de usuario</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Estado</th>
+                            <th>Ultimo login</th>
+                            <th>Creado</th>
+                            <th>Actualizado</th>
+                            <th>Opciones</th>
+                        </tr>
                     </thead>
                     <tbody>
-                       {posts.map((post, index) => {
+                       {users.map((user, index) => {
                         return (
-                
-                  
-                    
                                     <tr>
                                         <th >{index + 1 }</th>
-                                        <td>{post.username}</td>
-                                        <td>{post.first_name}</td>
-                                        <td>{post.email}</td>
+                                        <td>{user.username}</td>
+                                        <td>{user.first_name}</td>
+                                        <td>{user.email}</td>
                                         <td>
-                                        <Button 
-                                            className="btn-icon btn-rounded" 
-                                            variant={post.is_active ? 'outline-success' : 'outline-danger'} 
-                                            title={post.is_active ? 'Activo' : 'Inactivo'}
-                                            onClick={()=> showModalChangeState(post.url, post.is_active)}>
-                                           <i className={post.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
-                                        </Button>
-                                        </td>
-                                        <td>12/09/2022</td>
+                
                                         
-                                        <td>11/08/2021</td>
+                                        <ActiveButton active={+user.is_active} onClick={() => showModalChangeState(user.url,user.username, user.is_active)} />
+                                        </td>
+                                        <td>{user.last_login ? user.last_login.slice(0,10) : ""}</td>
+                                        
+                                        <td>{user.date_joined ? user.date_joined.slice(0,10) : ""}</td>
                                         <td>11/09/2022</td>
                                         <td>
-
-                                        
-                                            <Button className="btn-icon btn-rounded" variant="outline-primary" 
-                                            onClick={() => showModalUser(post)}>
-                                                <i className='fas fa-eye ' title="Detalle" />
-                                            </Button>
-                                        
-
-                                        
-                                        
-                                        <Link to={{pathname:"./edit-user/", state: {post}}} >
-                                            <Button className="btn-icon btn-rounded" variant="outline-warning" >
-                                                <i className='far fa-edit' title="Editar" />
-                                            </Button>
+                                        <CrudButton  type='read' onClick={() => showModalUser(user) }/>
+                                
+                                        <Link to={{pathname:"./edit-user/", state: {user}}} >
+                                            <CrudButton  type='edit' />
                                         </Link>
-
-                                            <Button className="btn-icon btn-rounded" variant="outline-danger" onClick={()=>handleShow(post.username,post.url)}>
-                                                <i className='fas fa-trash-alt' title="Eliminar" />
-                                            </Button>
+                                        
+                                        <CrudButton  type='delete' onClick={()=>handleShow(user.username,user.url)} />
+                                            
                                         </td>
                                         <Modal show={show} onHide={handleClose}>
                                               <Modal.Header closeButton>
@@ -204,7 +170,7 @@ function Posts({posts}) {
                                             variant={showUser.is_active ? 'outline-success' : 'outline-danger'} 
                                             title={showUser.is_active ? 'Activo' : 'Inactivo'}
                                             onClick="">
-                                           <i className={post.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
+                                           <i className={user.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
                                         </Button>
 
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
@@ -223,20 +189,20 @@ function Posts({posts}) {
                                     <tr>
                                         <td>Nombre</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={showUser.first_name} />
+                                            <Form.Control plaintext readOnly defaultValue={showUser.first_name } />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Ultimo inicio de cesion</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={showUser.last_login} />
+                                            <Form.Control plaintext readOnly defaultValue={showUser.last_login ? showUser.last_login.slice(0,10) : ""} />
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td>Creado el</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={showUser.date_joined} />
+                                            <Form.Control plaintext readOnly defaultValue={showUser.date_joined ? showUser.date_joined.slice(0,10) : ""} />
                                         </td>
                                     </tr>
                                     <tr>
@@ -289,6 +255,7 @@ function Posts({posts}) {
                         </Table>
                       </ul>
                 </Card.Body>
+            
                   
      </Card>
   </div>
@@ -296,4 +263,4 @@ function Posts({posts}) {
   )
 }
 
-export default Posts
+export default TableUsers
