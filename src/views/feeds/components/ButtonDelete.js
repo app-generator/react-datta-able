@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { deleteFeed } from '../../../api/services/feeds';
+import CrudButton from '../../../components/Button/CrudButton';
 
-function ButtonDelete({feed}) {
+function ButtonDelete({feed, callback}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -11,41 +12,37 @@ function ButtonDelete({feed}) {
 
   const [error, setError] = useState(null);
 
-  const removeFeed = (id)=> {
-    deleteFeed(id).then((response) => {
-      console.log(response);      
-      handleClose();
+  const removeFeed = ()=> {
+    deleteFeed(feed.url).then((response) => {
+      console.log(response);
+      callback(`La fuente de informacion ${feed.name} ha sido eliminada`, true)
     })
     .catch((error) => {
       setError(error);
+      if(error){
+        callback(`La fuente de información ${feed.name} NO ha sido eliminada`, false)
+      }
     })
    .finally(()=>{
-      window.location.reload();
+      handleClose();
     })
   };
 
-  if (error) {
-    console.log(error);
-    return <p>Ups! Se produjo un error al borrar el feed {feed.name}.</p>
-  }
-
   return (
     <>
-        <Button title='Eliminar' className="btn-icon btn-rounded" variant={'outline-danger'} onClick={handleShow} >
-            <i className='fas fa-trash-alt'/>
-        </Button> 
-        <Modal show={show} onHide={handleClose} >
+        <CrudButton type='delete' onClick={handleShow} />
+        <Modal show={show} onHide={handleClose} centered >
           <Modal.Header closeButton>
             <Modal.Title>Eliminar {feed.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>¿Corfirma la eliminación?</Modal.Body>
           <Modal.Footer>
-            <Button variant="outline-secondary" onClick={handleClose}> 
-              Cancelar
-            </Button>
-            <Button variant="outline-danger" onClick={()=> removeFeed(feed.url.split("/")[6])}>
+            <Button variant="outline-danger" onClick={removeFeed}>
               Eliminar
             </Button>
+            <Button variant="outline-secondary" onClick={handleClose}> 
+              Cancelar
+            </Button>            
           </Modal.Footer>
         </Modal>
     </>
