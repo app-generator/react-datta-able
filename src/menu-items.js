@@ -1,5 +1,5 @@
 const menuItems = {
-    items: [
+    items: [ 
         {
             id: 'NGEN',
             title: 'NGEN',
@@ -31,6 +31,23 @@ const menuItems = {
             ]
         },
         {
+            id: 'usuarios',
+            title: 'usuarios',
+            type: 'group',
+            icon: 'icon-pages',
+            children: [
+                {
+                    id: 'usuarios',
+                    title: 'usuarios',
+                    type: 'item',
+                    url: '/list-user',
+                    classes: '',
+                    icon: 'fa fa-user',
+                    breadcrumbs: false,
+                },
+            ]
+        },
+        {
             id: 'constituency',
             title: 'Constituencias',
             type: 'group',
@@ -42,6 +59,14 @@ const menuItems = {
                     type: 'item',
                     url: '/entity/tables',
                     icon: 'fas fa-network-wired',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'contacts',
+                    title: 'Contactos',
+                    type: 'item',
+                    url: '/contact/tables',
+                    icon: 'feather icon-sidebar',
                     breadcrumbs: false
                 }
             ]
@@ -244,29 +269,7 @@ const menuItems = {
                     external: true
                 }
             ]
-        },
-        {
-            id: 'usuarios',
-            title: 'usuarios',
-            type: 'group',
-            icon: 'icon-pages',
-            children: [
-                {
-                    id: 'usuarios',
-                    title: 'usuarios',
-                    type: 'item',
-                    url: '/list-user',
-                    classes: '',
-                    icon: 'fa fa-user',
-                    breadcrumbs: false,
-                    
-                    
-
-                   
-                },
-                
-            ]
-        }         
+        }
     ]
 };
 

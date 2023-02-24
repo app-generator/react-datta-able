@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Card, Form, Button,Col } from 'react-bootstrap'
-import { validateFieldText, validateNumber} from '../../../components/validators/validators';
+import { validateFieldText, validateNumber} from '../../../components/Validator/validators';
 
 const FormPriority = ({body, setBody, createPriority}) => {
 
