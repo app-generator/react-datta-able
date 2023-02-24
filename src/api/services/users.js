@@ -11,7 +11,7 @@ const getUser = (url) => {
 }
 
 const postUser = (username, first_name, last_name, email, priority, is_active) => {
-    console.log(username)
+
     console.log(first_name)
     return apiInstance.post(COMPONENT_URL.user, {
         username: username, 
