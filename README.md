@@ -182,4 +182,4 @@ The API server will start using the `PORT` specified in `.env` file (default 500
 <br />
 
 ---
-[React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able) - Provided by [CodedThemes](https://codedthemes.com/) and **AppSeed [App Generator](https://appseed.us/app-generator)**.
+[React Node JS Datta Able](https://appseed.us/product/react-node-js-datta-able) - Provided by [CodedThemes](https://bit.ly/37fF9RT) and **AppSeed [App Generator](https://appseed.us/app-generator)**.
