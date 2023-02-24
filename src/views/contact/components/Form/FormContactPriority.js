@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import {Col, Form} from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { validateSpace, validateEmail, validateAlphanumeric, validateNumbers, validateURL } from '../../../../components/Validator/validators'; 
 
 const FormContactPriority = (props) => { 
@@ -61,6 +60,7 @@ if(username){
                         name = "Form.Contact.Username__username"
                         placeholder = {username.placeholder}
                         value = {props.contact}
+                        maxlength="255"
                         onChange = {(e) =>  {props.setContact(e.target.value)}} 
                         isInvalid = {username.isInvalid}
                         isValid = {username.isValid}
@@ -86,40 +86,4 @@ if(username){
 };
             
 export default FormContactPriority;
-
-{/*
-<Form.Group controlId="Form.Contact.Username">
-    <Form.Label>Contacto</Form.Label>
-        <Form.Control
-            name="username"
-            type="string"
-            placeholder="Contacto"
-            value={props.contact}
-            isInvalid={!validateSpace(props.contact) || !validateEmail(props.contact)}
-            isValid={validateSpace(props.contact) && validateEmail(props.contact)}
-            onChange={(e) =>  props.setContact(e.target.value)} />
-        {validateSpace(props.contact) ? '' : <div className="invalid-feedback">Ingrese informacion de contacto</div>}
-        {!props.contact || validateEmail(props.contact) ? "" : <div className="invalid-feedback">Ingrese un email valido</div>}
-</Form.Group>
-
-{typeOptions.find(element => {
-                        if(element === props.type)
-                console.log(element)
-                console.log(props.type)
-                return (
-                    <Form.Group controlId="Form.Contact.Username">
-                    <Form.Label>Contacto</Form.Label>
-                    <Form.Control 
-                        name = "username"
-                        placeholder = {typeValue[props.type].placeholder}
-                        value = {props.contact}
-                        isInvalid = {typeValue[props.type].isInvalid}
-                        isValid = {typeValue[props.type].isValid}
-                        onChange = {(e) =>  props.setContact(e.target.value)} />
-                    {!props.contact || `${typeValue[props.type].condition}` ? "" : <div className="invalid-feedback"> {typeValue[props.selectedType].messageDanger} </div>}
-                </Form.Group>
-                    )
-            })}
-
-*/}
-                    
+                   

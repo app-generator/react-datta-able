@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Row, Col, Breadcrumb, Card, Form, Button } from 'react-bootstrap';
+import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putContact } from '../../api/services/contacts';
 import FormContact from './components/Form/FormContact';
@@ -52,10 +52,10 @@ const EditContact = () => {
             <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item href="./tables"> Contactos</Breadcrumb.Item>
-                    <Breadcrumb.Item active><b>Editar Contacto</b></Breadcrumb.Item>
-                </Breadcrumb>    
+                    <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
+                    <Breadcrumb.Item active>Contactos</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Editar Contacto</Breadcrumb.Item>
+                </Breadcrumb> 
             </Row>
             <Row>
                 <Col sm={12}>

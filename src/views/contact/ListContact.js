@@ -130,20 +130,20 @@ const ListContact = () => {
     CambioDepagina(arrayPages[currentPage-1])
     const currentPosts = contacts// lo que se muestra
     
-    
     return (
     <React.Fragment>
         <Row>
             <Alert alert={alert} stateAlert={stateAlert} />
             <Breadcrumb>
-                <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>
-                <Breadcrumb.Item active><b>Contactos</b></Breadcrumb.Item>
-            </Breadcrumb>    
+                <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
+                <Breadcrumb.Item active>Contactos</Breadcrumb.Item>
+                <Breadcrumb.Item href='#' active>Listado</Breadcrumb.Item>
+            </Breadcrumb>
         </Row>
         <Row>
             <Col>
                 <Card>
-                    <Card.Header>                      
+                    <Card.Header>
                         <Row>
                             <Col sm={12} lg={9}>
                                 <div className="input-group">

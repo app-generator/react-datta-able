@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card,Breadcrumb, Form, Button } from 'react-bootstrap';
+import { Row, Col, Card,Breadcrumb } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
 import FormContact from './components/Form/FormContact';
-import FormContactPriority from './components/Form/FormContactPriority';
-import { Link } from 'react-router-dom';
 
 const CreateContact = () => {
     const [supportedName, setSupportedName] = useState('');
@@ -28,9 +26,6 @@ const CreateContact = () => {
                 }, 5000);
         }
     },[]);
-
-    //    const el = document.getElementsByName('Form.Contact.Username__username')
-    //if(el) {console.log(el)}
 
     const createContact = () => {
         console.log(supportedName);
@@ -61,13 +56,13 @@ const CreateContact = () => {
             <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default"><i className="feather icon-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item href="./tables"> Contactos</Breadcrumb.Item>
-                    <Breadcrumb.Item active><b>Crear Contacto</b></Breadcrumb.Item>
-                </Breadcrumb>    
+                    <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
+                    <Breadcrumb.Item active>Contactos</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Crear Contacto</Breadcrumb.Item>
+                </Breadcrumb>
             </Row>
             <Row>
-                <Col sm={12}>                   
+                <Col sm={12}>
                     <Card>
                         <Card.Header>
                             <Card.Title as="h5">Contactos</Card.Title>

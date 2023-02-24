@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import {Button, Col, Row, Form} from 'react-bootstrap';
-import { Link, useLocation } from 'react-router-dom';
-import { validateSpace, validateEmail, validateAlphanumeric, validateNumbers, validateURL  } from '../../../../components/Validator/validators'; 
+import { validateSpace, validateAlphanumeric  } from '../../../../components/Validator/validators'; 
 import FormContactPriority from './FormContactPriority';
 
 const FormContact = (props) => { 
     // props: name, setName, role, setRole, priority, setPriority, type, setType, contact, setContact, key, setKey, ifConfirm
     const [validContact, setValidContact] = useState(false) 
-    
+
     const roleOptions = [
         {
             value : '0',
@@ -194,7 +193,7 @@ const FormContact = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={3}>
+                    <Col lg={4}>
                         <Form.Group controlId="Form.Contact.Type">
                             <Form.Label>Tipo</Form.Label>
                             <Form.Control
@@ -214,7 +213,7 @@ const FormContact = (props) => {
                             {props.type ? '' : <div className="invalid-feedback">Seleccione el tipo de contacto</div>}
                         </Form.Group>
                     </Col>
-                    <Col lg={9}>
+                    <Col lg={8}>
                         <FormContactPriority selectedType={props.type} 
                             contact={props.contact} setContact={props.setContact}
                             setValidContact={setValidContact} />                   
@@ -226,6 +225,7 @@ const FormContact = (props) => {
                         type="string"
                         placeholder="Llave pública GPG"
                         value={props.key}
+                        maxlength="4000"
                         onChange={(e) =>  props.setKey(e.target.value)} />
                 </Form.Group>
                 <Form.Group>

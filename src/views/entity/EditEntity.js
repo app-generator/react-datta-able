@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Row, Col, Breadcrumb, Card, Form, Button } from 'react-bootstrap';
+import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putEntity } from '../../api/services/entities';
 import FormEntity from './components/Form/FormEntity';
