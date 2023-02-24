@@ -1,8 +1,8 @@
 import { apiInstance } from "../custom";
+import { API_SERVER,COMPONENT_URL } from '../../config/constant';
 
-const getEntities = () => {
-    return apiInstance.get("entity/");
-}
+const getEntities = (page="") => {return apiInstance.get("entity/"+page);}
+//const getEntities = (page="") => {return apiInstance.get(COMPONENT_URL.entity+page);}
 
 const getEntity = (id) => { 
     return apiInstance.get("entity/"+id+"/");

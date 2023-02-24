@@ -64,6 +64,21 @@ const routes = [
         routes: [
             {
                 exact: true,
+                path: '/app/feeds',
+                component: lazy(() => import('./views/feeds/Feeds'))
+            },
+            {
+                exact: true,
+                path: '/app/feeds/new',
+                component: lazy(() => import('./views/feeds/NewFeed'))
+            },
+            {
+                exact: true,
+                path: '/app/feeds/edit',
+                component: lazy(() => import('./views/feeds/EditFeed'))
+            },            
+            {
+                exact: true,
                 path: '/app/tlp',
                 component: lazy(() => import('./views/tlp/TLP'))
             },
@@ -129,6 +144,36 @@ const routes = [
                 exact: true,
                 path: '/sample-page',
                 component: lazy(() => import('./views/extra/SamplePage'))
+            },
+            {
+                exact: true,
+                path: '/contact/tables',
+                component: lazy(() => import('./views/contact/ListContact'))
+            },
+            {
+                exact: true,
+                path: '/contact/create',
+                component: lazy(() => import('./views/contact/CreateContact'))
+            },
+            {
+                exact: true,
+                path: '/contact/edit',
+                component: lazy(() => import('./views/contact/EditContact'))
+            },
+            {
+                exact: true,
+                path: '/list-Priorities',
+                component: lazy(() => import('./views/priorities/listPriorities'))
+            },
+            {
+                exact: true,
+                path: '/add-Priority',
+                component: lazy(() => import('./views/priorities/addPriority'))
+            },
+            {
+                exact: true,
+                path: '/edit-Priority',
+                component: lazy(() => import('./views/priorities/editPriority'))
             },
             {
                 exact: true,

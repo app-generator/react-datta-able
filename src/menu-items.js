@@ -1,5 +1,20 @@
 const menuItems = {
-    items: [
+    items: [ 
+        {
+            id: 'NGEN',
+            title: 'NGEN',
+            type: 'group',
+            children: [
+                {
+                    id: 'feeds',
+                    title: 'Fuentes de Informacion',
+                    type: 'item',
+                    url: '/app/feeds',
+                    icon: 'fas fa-globe',
+                    breadcrumbs: false
+                }              
+            ]
+        },
         {
             id: 'navigation',
             title: 'Navigation',
@@ -16,6 +31,23 @@ const menuItems = {
             ]
         },
         {
+            id: 'usuarios',
+            title: 'usuarios',
+            type: 'group',
+            icon: 'icon-pages',
+            children: [
+                {
+                    id: 'usuarios',
+                    title: 'usuarios',
+                    type: 'item',
+                    url: '/list-user',
+                    classes: '',
+                    icon: 'fa fa-user',
+                    breadcrumbs: false,
+                },
+            ]
+        },
+        {
             id: 'constituency',
             title: 'Constituencias',
             type: 'group',
@@ -27,6 +59,14 @@ const menuItems = {
                     type: 'item',
                     url: '/entity/tables',
                     icon: 'fas fa-network-wired',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'contacts',
+                    title: 'Contactos',
+                    type: 'item',
+                    url: '/contact/tables',
+                    icon: 'feather icon-sidebar',
                     breadcrumbs: false
                 }
             ]
@@ -183,6 +223,26 @@ const menuItems = {
             ]
         },
         {
+            id: 'Prioridades',
+            title: 'Prioridades',
+            type: 'group',
+            icon: 'icon-pages',
+            children: [{
+                id: 'Prioridades',
+                title: 'Prioridades',
+                type: 'item',
+                url: '/list-Priorities',
+                classes: '',
+                icon: 'fa fa-exclamation-triangle',
+                breadcrumbs: false
+
+            }
+                
+            ]
+        },
+        
+       
+        {
             id: 'resources',
             title: 'Resources',
             type: 'group',
@@ -209,29 +269,7 @@ const menuItems = {
                     external: true
                 }
             ]
-        },
-        {
-            id: 'usuarios',
-            title: 'usuarios',
-            type: 'group',
-            icon: 'icon-pages',
-            children: [
-                {
-                    id: 'usuarios',
-                    title: 'usuarios',
-                    type: 'item',
-                    url: '/list-user',
-                    classes: '',
-                    icon: 'fa fa-user',
-                    breadcrumbs: false,
-                    
-                    
-
-                   
-                },
-                
-            ]
-        }         
+        }
     ]
 };
 

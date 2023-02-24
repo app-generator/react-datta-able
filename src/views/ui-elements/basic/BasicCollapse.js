@@ -115,7 +115,7 @@ const BasicCollapse = () => {
                         </Col>
                     </Row>
                 </Col>
-                <Col sm={12} className="accordion">
+                    <Col sm={12} className="accordion">
                     <h5>Accordion Example</h5>
                     <hr />
                     <Card className="mt-2">

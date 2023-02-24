@@ -1,105 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Form, Button, Breadcrumb } from 'react-bootstrap';
+import React, { useState, useEffect} from 'react';
+import { Card, Form, Breadcrumb } from 'react-bootstrap';
 import { putUser} from "../../api/services/users";
-
 import { useLocation } from "react-router-dom";
+import Alert from '../../components/Alert/Alert';
+import { getPriorities } from "../../api/services/priorities";
+import FormUser from './components/formUser'
 
 
 
 const EditUser = () => {    
     const location = useLocation();
-    const user = location.state.post;
-    
-      
-    const[username,setUsername]=useState(false)
-    const[priority,setPriority]=useState(false)
+    const user = location.state.user;
     const[error,setError]=useState()
-    const[body,setBody]=useState({ 
-        url:user.url,
-        username: user.username, 
-    first_name: user.first_name, 
-    last_name: user.last_name, 
-    email: user.email, 
-    priority: user.priority})
-    
-
-    const validateUsername=(event)=>{
+    const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
+    const[body,setBody]=useState(user)
+    const [loading, setLoading] = useState(true)
+    const [priorities, setPriorities] = useState()
+    useEffect( ()=> {
         
-        setBody({...body,
-        [event.target.name] : event.target.value}
-        )  
-        
-    }
-    const validatePriority=(event)=>{
-
-        if (event.target.value !== "-1"){
-
-            console.log(event.target.value)
-            setBody({...body,
-                    [event.target.name] : "http://localhost:8000/api/administration/priority/"+event.target.value+"/"}//hay que pegarle a la api de prioridad
-                    ).then((response) => {
-                        console.log(response) 
-                      })
-
+        const fetchPosts = async () => {
+            setLoading(true)
+            getPriorities().then((response) => { 
+                setPriorities(response.data.results)
+            })
+            .catch((error) => {
+                setError(error)
+                
+            }).finally(() => {
+                setLoading(false)
+            })
             
-        }else{
-            console.log("no ingresa")
         }
+         
+        fetchPosts()
     
+        
+    },[]);
+    console.log(body)
     
+    const editUser=(e)=>{
+        
+            putUser(body.url,body.username,body.first_name,body.last_name,body.email,body.priority)
+            .then((response) => { 
+                console.log(response)
+                sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido modificado`, type:1}));
+                window.location.href = "/list-user"
+            })
+            .catch((error) => {
+                setError(error)
+                console.log(error)
+                setAlert({name:`El usuario ${body.username} NO puede ser creado verifica que no exista`, type:0})
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                }, 5000);
+            });  
     }
-    
-    const validateFirstName=(event)=>{
-        
-        setBody({...body,
-        [event.target.name] : event.target.value}
-        )  
-          
-        
-    }
-    const validateLastName=(event)=>{
-        
-        setBody({...body,
-        [event.target.name] : event.target.value}
-        )  
-          
-        
-    }
-    const validateEmail=(event)=>{
-        
-        setBody({...body,
-        [event.target.name] : event.target.value}
-        )  
-          
-        
-    }
-    
-    
-
-    const enviar=(e)=>{
-        
-        e.preventDefault()
-       
-    
-        if((body.username !== "") && (body.priority !== "" )){
-            console.log(body.username,body.first_name,body.last_name,body.email,body.priority)
-             putUser(body.url, body.username,body.first_name,body.last_name,body.email,body.priority)
-             console.log('Los datos han sido validados correctamente')
-         }else{
-             console.log(' no dejes ningún campo vacio')
-         } 
-
-       
-    
-    }
-
-
-
     return (
         <>
           <Card>
          
-
+          <Alert alert={alert} stateAlert={stateAlert} />
           <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default">
                         <i className="feather icon-home" />
@@ -116,46 +78,9 @@ const EditUser = () => {
                             <Card.Title as="h5">Editar Usuario</Card.Title>
                         </Card.Header>
                         <Card.Body>
-                            <Form onSubmit={e=>enviar(e)}>
-
-                                <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Nombre de usuario</Form.Label>
-                                        <Form.Control  value={body.username} name="username" onChange={validateUsername}  isInvalid={body.username === ''}
-                                                isValid={body.username !== ''}/>
-                                </Form.Group>
-
-                                <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Nombre/s</Form.Label>
-                                        <Form.Control placeholder="Ingrese el nombre/s" value={body.first_name} name="first_name"onChange={validateFirstName}/>
-                                </Form.Group>
-                                <Form.Group controlId="formGridAddress1">
-                                        <Form.Label>Apellido</Form.Label>
-                                        <Form.Control placeholder="Ingrese el apellido" name="last_name" value={body.last_name} onChange={validateLastName}/>
-                                </Form.Group>
+                        <Form>
+                        <FormUser body={body} setBody={setBody} priorities={priorities} createUser={editUser} loading={loading}/>
                                 
-
-                                <Form.Group controlId="formGridEmail">
-                                        <Form.Label>Email</Form.Label>
-                                        <Form.Control type="email" placeholder="Ingrese el Email" name= "email" value={body.email} onChange={validateEmail}/>
-                                </Form.Group>
-                                
-                                <Form.Group controlId="exampleForm.ControlSelect1">
-                                        <Form.Label>Prioridad</Form.Label>
-                                        <Form.Control as="select" name="priority"  onChange={validatePriority} isInvalid={body.priority === "-1"}
-                                                isValid={body.priority !== "-1"}>
-                                            <option value="-1">Seleccione una prioridad</option>
-                                            <option value="1"> Critico </option>
-                                            <option value="2"> Alta </option>
-                                            <option value="3"> Media </option>
-                                            <option value="4"> Baja </option>
-                                            <option value="5"> Muy Baja </option>
-                                        </Form.Control>
-                                    </Form.Group>
-                            
-                          
-
-                                <Button type="submit" variant="primary">Cargar Usuario</Button>
-
                             </Form>
                         </Card.Body>
                     </Card>
@@ -163,5 +88,4 @@ const EditUser = () => {
         </>
     )
 }
-
 export default EditUser
