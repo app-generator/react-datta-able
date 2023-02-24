@@ -1,4 +1,4 @@
-import { apiInstance } from "../custom";
+import { apiInstance } from "../api";
 import { COMPONENT_URL } from '../../config/constant';
 
 const getTLP = () => {
