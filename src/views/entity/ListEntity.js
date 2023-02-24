@@ -28,6 +28,8 @@ const ListEntity = () => {
         getEntities()
         .then((response) => {
             setEntities(response.data.results)
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaa")
+                console.log(response.data.results)
         })
         .catch((error) => {
             setError(error)
@@ -60,7 +62,9 @@ const ListEntity = () => {
         if(stateAlert) {
             getEntities()
             .then((response) => {
+                console.log(response.data.results)
                 setEntities(response.data.results)
+                
             })
             .catch((error) => {
                 setError(error)

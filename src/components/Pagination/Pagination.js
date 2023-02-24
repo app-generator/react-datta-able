@@ -61,7 +61,6 @@ function Pagination({ pages , setCurrentPage , setjumpPage}) {
     setArrOfCurrButtons(tempNumberOfPages)
     setCurrentPage(currentButton)
     setjumpPage(jump)
-
   }, [currentButton, pages])
 
   //Set number of pages

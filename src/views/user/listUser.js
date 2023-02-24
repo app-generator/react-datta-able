@@ -1,24 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown,
-  Badge, Breadcrumb,  Table } from 'react-bootstrap';
-import Pagination from './Pagination'
-
-import Posts from './components/Posts'
+import { Row, Col, Card } from 'react-bootstrap';
+import {Link} from 'react-router-dom'
+import Pagination from '../../components/Pagination/Pagination'
+import Alert from '../../components/Alert/Alert';
+import TableUsers from './components/tableUsers'
+import Navigation from '../../components/navigation/navigation'
+import Search from '../../components/search/search'
+import CrudButton from '../../components/Button/CrudButton';
 import { getUsers} from "../../api/services/users";
 
-
-
-
-
-
-function App() {
+function ListUser() {
   const [posts, setPosts] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [jumpPage, setjumpPage] = useState(false)
   const [pages, setPages] = useState()
   const [cantPages, setcantPages] = useState([])
   const [error,setError]= useState()
+  const [stateAlert, setStateAlert] = useState(null)
+  const [alert, setAlert] = useState(null)
+
+  
+
+  const callbackBackend = (name, stateAlert) => {
+    if(stateAlert) {
+        getUsers()
+        .then((response) => {
+            setPosts(response.data.results)
+        })
+        .catch((error) => {
+            setError(error)
+        })
+        .finally(() => {
+            setLoading(false)
+            setAlert({name:name, type:1})
+            setTimeout(() => {
+                setAlert(null)
+                setStateAlert(null)
+            }, 5000);
+        })
+    }
+    else {
+        setAlert({name:name, type:0})
+    }
+  }
 
 
   
@@ -50,6 +75,17 @@ function App() {
   
 
   useEffect(() => {
+    if(sessionStorage.getItem('Alerta')) {
+      const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+      setAlert(storage)
+          setTimeout(() => {
+              setAlert(null)
+              setStateAlert(null)
+              sessionStorage.clear()
+          }, 5000);
+  }
+
+  
 
     function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
 
@@ -78,51 +114,71 @@ function App() {
       
     }
 
-    getUsers()
-      .then((response) => {
-          setPages(arrayWithPages(response.data.count,response.data.results.length))
-          
-      }).catch((error)=>{
-        setError(error)
-    })
     
         
 
-    const fetchPosts = async () => {
+    const fetchUsers = async () => {
       setLoading(true)
 
       getUsers()
       .then((response) => {
           setPosts(response.data.results)
           console.log(response.data.results)
+          setPages(arrayWithPages(response.data.count,response.data.results.length))
           
       }).catch((error)=>{
         setError(error)
-    })
+    }).finally(() => {
+      setLoading(false)
+  })
  
     }
 
-    fetchPosts()
+    fetchUsers()
   }, [])
+  if (error) {
+    console.log(error);
+    return <p>Ups! Se produjo un error al buscar los usuarios</p>
+}
 
-  if (loading && posts.length === 0 ) {
-    return <h2>Cargando...</h2>
-  }
-  
+ 
   CambioDepagina(cantPages[currentPage-1])
   const currentPosts = posts// lo que se muestra
   const howManyPages = pages//la cantidad de paginas del paginado 
+  console.log("cant "+howManyPages)
+  const name = "Usuarios"
+
   
+  const action = () => {
+    console.log("llamada backend")
+  }
+
   
   return (
     <div className="container mt-5">
-      <Posts posts={currentPosts}/> 
-      <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+      <Alert alert={alert} stateAlert={stateAlert} />
+      <Card>
+      <Card.Header>
+      <Row>
+          <Navigation actualPosition={name}/>
+        </Row>
+                            <Row>
+                                <Search type="usuario" action={action} />
 
-     
+                                <Col sm={12} lg={3}>
+                                <Link to={{pathname:'/add-user'}} >
+                                    <CrudButton type='create' name='Usuario' />
+                                </Link>
+                            
+                                </Col> 
+                            </Row>                                 
+                        </Card.Header>
+                        <TableUsers users={currentPosts} callback ={callbackBackend} loading={loading} /> 
+                        <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+      </Card>
     </div>
     
   );
 }
 
-export default App;
+export default ListUser;
