@@ -7,7 +7,7 @@ import ButtonDelete from './components/ButtonDelete';
 import ButtonState from './components/ButtonState';
 import CrudButton from '../../components/Button/CrudButton';
 import Alert from '../../components/Alert/Alert';
-import Pagination from '../user/Pagination';
+import Pagination from '../../components/Pagination/Pagination';
 
 const ListFeeds = () => {
     
