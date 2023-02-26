@@ -1,17 +1,17 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Row, Col, Button, Alert } from 'react-bootstrap';
 
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import axios from 'axios';
 import useScriptRef from '../../../hooks/useScriptRef';
-import { API_SERVER } from './../../../config/constant';
-import { ACCOUNT_INITIALIZE } from './../../../store/actions';
+import { LOGIN } from './../../../store/actions';
+import { login } from '../../../api/services/auth';
+import { store } from './../../../store';
 
 const RestLogin = ({ className, ...rest }) => {
-    const dispatcher = useDispatch();
     const scriptedRef = useScriptRef();
+
+    const { dispatch } = store;
 
     return (
         <React.Fragment>
@@ -26,6 +26,20 @@ const RestLogin = ({ className, ...rest }) => {
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+
+                    login(values.email, values.password)
+                        .then((response) => {
+                            console.log('Se pudo loguear');
+                            dispatch({
+                                type: LOGIN,
+                                payload: { user: response.data.user, token: response.data.token }
+                            });
+                        })
+                        .catch((error) => {
+                            console.log('No se pudo loguear');
+                        });
+
+                /*
                     try {
                         axios
                             .post(API_SERVER + 'login/', {
@@ -51,6 +65,7 @@ const RestLogin = ({ className, ...rest }) => {
                             })
                             .catch(function (error) {
                                 console.log(error);
+                                console.log(error.toJSON());
                                 setStatus({ success: false });
                                 setErrors({ submit: error.response.data.msg });
                                 setSubmitting(false);
@@ -63,6 +78,7 @@ const RestLogin = ({ className, ...rest }) => {
                             setSubmitting(false);
                         }
                     }
+                    */
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (

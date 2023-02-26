@@ -1,4 +1,4 @@
-import { apiInstance } from "../api";
+import  apiInstance  from "../api";
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 
 const getFeeds = (currentPage) => {

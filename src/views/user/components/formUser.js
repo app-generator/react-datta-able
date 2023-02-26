@@ -1,5 +1,5 @@
 import React from 'react'
-import { validateEmail,validateFieldText,validateUsername,validateSpaces} from '../../../components/validators/validators';
+import { validateEmail,validateFieldText,validateUsername,validateSpaces} from '../../../components/Validator/validators';
 import { Button, Row, Form, Spinner} from 'react-bootstrap';
 
 const FormUser= ({body, setBody, priorities, createUser, loading}) =>{

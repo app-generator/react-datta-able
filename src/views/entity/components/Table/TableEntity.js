@@ -1,10 +1,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import ActiveButton from '../Button/ActiveButton';
-import CrudButton from '../Button/CrudButton';
-import { getEntity, deleteEntity, isActive } from '../../api/services/entities';
+import ActiveButton from '../../../../components/Button/ActiveButton';
+import CrudButton from '../../../../components/Button/CrudButton';
+import { getEntity, deleteEntity, isActive } from '../../../../api/services/entities';
 import { Link } from 'react-router-dom';
+import ModalConfirm from '../../../../components/Modal/ModalConfirm';
 
 const TableEntity = ({callback, list, loading }) => {
     const [entity, setEntity] = useState('');
@@ -14,6 +15,7 @@ const TableEntity = ({callback, list, loading }) => {
     const [modalState, setModalState] = useState(false);
     const [id, setId] = useState(null);
     const [name, setName] = useState(null);
+    const [lastItem, setLastItem] = useState(null);
     const [created, setCreated] = useState(null);
     const [modified, setModified] = useState(null);
     const [state,setState] = useState(null);
@@ -50,21 +52,24 @@ const TableEntity = ({callback, list, loading }) => {
 
     //Remove Entity
     const Delete = (key, name) => {
-        setId(key);
-        setName(name);
+        setLastItem(list.length === 1)
+        setId(key)
+        setName(name)
         setModalDelete(true)
     }
-
+    
     const removeEntity = (key)=> {
+        console.log('Elimna ultimo elemento? '+ lastItem)
         deleteEntity(key)
             .then((response) => {
-                console.log(response)
-                callback(`La entidad ${name} ha sido eliminada`, true)
+                console.log(response);
+                ////////////////////
+                callback(`La entidad ${name} ha sido eliminada`, true, lastItem)
             })
             .catch((error) => {
                 console.log(error)
                 setError(error)
-                callback(`La entidad ${name} NO ha sido eliminada`, false)
+                callback(`La entidad ${name} NO ha sido eliminada`, false, false)
             })
             .finally(() => {
                 setModalDelete(false)
@@ -85,7 +90,7 @@ const TableEntity = ({callback, list, loading }) => {
         .then((response) => {
             console.log(response)
             
-            callback(message, true)
+            callback(message, true, false)
         })
         .catch((error) => {
                 console.log(error)
@@ -189,7 +194,7 @@ const TableEntity = ({callback, list, loading }) => {
                                                 <td>Informacion Relacionada</td>
                                                 <td>
                                                     <Button size="sm" variant='light' className="text-capitalize">
-                                                        Network <Badge variant="light" className="ml-1">4</Badge>
+                                                        Redes <Badge variant="light" className="ml-1">4</Badge>
                                                     </Button>
                                                 </td>
                                             </tr>
@@ -201,30 +206,11 @@ const TableEntity = ({callback, list, loading }) => {
                     </Row>
                 </Modal.Body>
             </Modal>
+            
+            <ModalConfirm type='delete' component='Entidad' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeEntity(id)}/>
 
-            <Modal show={modalDelete} onHide={() => setModalDelete(false)} aria-labelledby="contained-modal-title-vcenter" centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Eliminar Entidad</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>¿Desea eliminar {name}?</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="outline-danger" onClick={() => removeEntity(id)}>Eliminar</Button>
-                    <Button variant="outline-secondary" onClick={() => setModalDelete(false)}>Cancelar</Button>
-                </Modal.Footer>
-            </Modal>
+            <ModalConfirm type='editState' component='Entidad' name={name} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(id,active)}/>
 
-            <Modal show={modalState} onHide={() => setModalState(false)} aria-labelledby="contained-modal-title-vcenter" centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Estado de la entidad</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>{active ? `Desea desactivar la entidad ${name}?` : `Desea activar la entidad ${name}?`}?</Modal.Body>
-                <Modal.Footer>
-                    <Button variant={active ? 'outline-danger' : 'outline-success'} onClick={() => switchState(id,active)}>
-                        {active ? 'Desactivar' : 'Activar'}
-                    </Button>
-                    <Button variant="outline-secondary" onClick={() => setModalState(false)}>Cancelar</Button>
-                </Modal.Footer>
-            </Modal>
         </React.Fragment> 
   );
 };

@@ -13,6 +13,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store, persister } from './store';
 
+import setupInterceptors from './api/setupInterceptors';
+
 ReactDOM.render(
     <Provider store={store}>
         <ConfigProvider>
@@ -23,5 +25,7 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
+
+setupInterceptors(store);
 
 reportWebVitals();
