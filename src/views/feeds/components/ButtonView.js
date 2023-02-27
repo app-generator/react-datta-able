@@ -55,6 +55,15 @@ function ButtonView({feed}) {
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Informacion Relacionada</td>
+                                        <td>
+                                            <Button size="sm" variant='light' className="text-capitalize">
+                                                Incidentes
+                                                <Badge variant="light" className="ml-1">24256</Badge>
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Fecha de creación</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={feed.created.slice(0,10)} />
@@ -64,15 +73,6 @@ function ButtonView({feed}) {
                                         <td>Ultima actualización</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={feed.modified.slice(0,10)} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Informacion Relacionada</td>
-                                        <td>
-                                            <Button size="sm" variant='light' className="text-capitalize">
-                                                Incidentes
-                                                <Badge variant="light" className="ml-1">24256</Badge>
-                                            </Button>
                                         </td>
                                     </tr>
                                 </Table>
