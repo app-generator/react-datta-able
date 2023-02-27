@@ -1,4 +1,4 @@
-import { apiInstance } from "../custom";
+import apiInstance from "../api";
 import { API_SERVER,COMPONENT_URL } from '../../config/constant';
 
 const getUsers = (page="") => {//el parametro es para completar la url con el numero de pagina

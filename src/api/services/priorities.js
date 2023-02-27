@@ -1,4 +1,4 @@
-import { apiInstance } from "../custom";
+import apiInstance from "../api";
 import { API_SERVER,COMPONENT_URL } from '../../config/constant';
 
 const getPriorities = (page="") => {//el parametro es para completar la url con el numero de pagina
@@ -35,4 +35,4 @@ const putPriority = ( url, name, color, severity, attend_deadline, solve_deadlin
 const deletePriority = (url) => {
     return apiInstance.delete(url);
 }
-export {getPriorities, postPriority, deletePriority, putPriority}
+export {getPriorities, getPriority, postPriority, deletePriority, putPriority}

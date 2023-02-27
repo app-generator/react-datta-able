@@ -12,8 +12,6 @@ const ListEntity = () => {
     const [error, setError] = useState(null)
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
 
     const [currentPage, setCurrentPage] = useState(1)
     const [jumpPage, setjumpPage] = useState(false)
@@ -22,17 +20,8 @@ const ListEntity = () => {
   
     useEffect( ()=> {
         console.log('useEffect')
-
-        if(sessionStorage.getItem('Alerta')) {
-            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
-            setAlert(storage)
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                    sessionStorage.clear()
-                }, 5000);
-        }
         setCurrentPage(currentPage )//?
+
         console.log('CURRENT '+currentPage)
         getEntities('?page='+currentPage) //error al borrar el ultimo elemento de la pagina
             .then((response) => {
@@ -85,29 +74,19 @@ const ListEntity = () => {
         )
     }
 
-    const callbackBackend = (name, stateAlert, lastItem) => {
+    const callbackBackend = (lastItem) => {
         console.log('funcion callbackBackend')
-        if(stateAlert) {
-            setLoading(true)
-            if(lastItem) {
-                console.log('if lastItem')
-                setCurrentPage(currentPage-1) //ir a la pagina anterior, no se queda en azul la current page
-                setArrayPages(arrayPages.slice(0, -1)) 
-                //CambioDepagina(arrayPages[currentPage-1])
-            }
-            else {
-                console.log('else lastItem')
-            }
-            setPages(0)//
-            setAlert({name:name, type:1})
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                }, 5000);
+        setLoading(true)
+        if(lastItem) {
+            console.log('if lastItem')
+            setCurrentPage(currentPage-1) //ir a la pagina anterior, no se queda en azul la current page
+            setArrayPages(arrayPages.slice(0, -1)) 
+            //CambioDepagina(arrayPages[currentPage-1])
         }
         else {
-            setAlert({name:name, type:0})
+            console.log('else lastItem')
         }
+        setPages(0)//
     }
 
     //Pagination
@@ -137,7 +116,6 @@ const ListEntity = () => {
 return (
     <React.Fragment>
         <Row>
-        <Alert alert={alert} stateAlert={stateAlert} />
             <Breadcrumb>
                 <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
                 <Breadcrumb.Item active>Entidades</Breadcrumb.Item>
@@ -175,8 +153,10 @@ return (
                         </Row>
                     </Card.Footer>
                 </Card>
+                <Alert/>
             </Col>
         </Row>
     </React.Fragment>
 )}
+
 export default ListEntity; 
