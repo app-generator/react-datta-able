@@ -1,26 +1,38 @@
-import React from 'react';
-import { Row, Col, Card, Table, Breadcrumb, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Row, Col, Card, Table, Breadcrumb, Form, Spinner } from 'react-bootstrap';
 import { getTLP } from '../../api/services/tlp';
-import { useState , useEffect } from "react";
+import Alert from '../../components/Alert/Alert';
 
 const ListTLP = () => {
 
     const [tlp, setTLP] = useState([]);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(null);    
     const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(true)
+    const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
+
+    const textareaStyle = {
+        resize:"none", 
+        backgroundColor:"transparent", 
+        border:"none", 
+        boxShadow: "none"
+    }
 
     useEffect(() => {
         getTLP().then((response) => {
             setTLP(response.data.results);
             setError(null);
         })
-        .catch(setError);
+        .catch((error)=>{
+            if (error) {      
+                setAlert({name:`Ups! Se produjo un error al buscar el protocolo de semaforo`, type:0})
+            }
+        })
+        .finally(() => {
+            setLoading(false)
+        })
     }, []);
-    
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar el protocolo de semaforo.</p>
-    }
 
     //valores ingresados
     const searcher = (e) => {
@@ -37,18 +49,24 @@ const ListTLP = () => {
         )
     }
 
+    if (loading) {
+        return (
+            <Row className='justify-content-md-center'>
+                <Spinner animation='border' variant='primary' size='sm' />
+            </Row>
+        );    
+    }
+
     return (
         <React.Fragment>
+            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href='/app/dhasboard/default'>
                         <i className="fas fa-home" />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#'>
-                        Protocolo de Semaforo
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#' active>
-                        Listado 
+                    <Breadcrumb.Item active>
+                        <b>Protocolo de Semaforo</b>
                     </Breadcrumb.Item>
                 </Breadcrumb>    
             </Row>
@@ -85,9 +103,9 @@ const ListTLP = () => {
                                         <tr key={i}>
                                             <th scope="row">{i+1}</th>
                                             <td><p class="p-3 mb-2 bg-dark rounded" style={{color: item.color}}><b>{item.information}</b></p></td>
-                                            <td><Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly value={item.description} /></td>
-                                            <td><Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly value={item.when} /></td>                                            
-                                            <td><Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly value={item.why} /></td> 
+                                            <td><Form.Control style={textareaStyle} as="textarea" rows={3} readOnly value={item.description} /></td>
+                                            <td><Form.Control style={textareaStyle} as="textarea" rows={3} readOnly value={item.when} /></td>
+                                            <td><Form.Control style={textareaStyle} as="textarea" rows={3} readOnly value={item.why} /></td> 
                                         </tr>
                                      ))}
                                 </tbody>

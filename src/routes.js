@@ -147,7 +147,21 @@ const routes = [
             },
             {
                 exact: true,
-
+                path: '/contact/tables',
+                component: lazy(() => import('./views/contact/ListContact'))
+            },
+            {
+                exact: true,
+                path: '/contact/create',
+                component: lazy(() => import('./views/contact/CreateContact'))
+            },
+            {
+                exact: true,
+                path: '/contact/edit',
+                component: lazy(() => import('./views/contact/EditContact'))
+            },
+            {
+                exact: true,
                 path: '/list-Priorities',
                 component: lazy(() => import('./views/priorities/listPriorities'))
             },

@@ -1,38 +1,93 @@
-import { apiInstance } from "../custom";
-import { API_SERVER,COMPONENT_URL } from '../../config/constant';
+import apiInstance from "../api";
+import setAlert from '../../utils/setAlert';
+import { COMPONENT_URL } from '../../config/constant';
 
 const getEntities = (page="") => {
     return apiInstance.get(COMPONENT_URL.entity+page);
 }
 
-const getEntity = (id) => { 
-    return apiInstance.get("entity/"+id+"/");
+const getEntity = (url) => { 
+    return apiInstance.get(url);
 }
 
 const postEntity = (name, slug, active) => {
-    return apiInstance.post("entity/", {
-        name: name, //*
-        slug: slug, //*
-        active: active //*
+    return apiInstance.post(COMPONENT_URL.entity, {
+        name: name, 
+        slug: slug, 
+        active: active 
+    }, 
+    {
+        validateStatus: function (status) {
+            switch(status) {
+                case 201:
+                    setAlert(`La entidad ${name} se ha creado correctamente`, "success");
+                    break;
+                case 400: 
+                    setAlert("La entidad no se ha creado (Bad Request)", "error");
+                    break;
+            }
+            return status;
+        }
     });
 }
 
-const putEntity = (id, name, slug, active) => {
-    return apiInstance.put("entity/"+id+"/", {
-        name: name, //*
-        slug: slug, //*
-        active: active //*
+const putEntity = (url, name, slug, active) => {
+    return apiInstance.put(url,
+    {
+        name: name, 
+        slug: slug, 
+        active: active 
+    }, 
+    {
+        validateStatus: function (status) {
+            switch(status) {
+                case 200:
+                    setAlert(`La entidad ${name} se pudo editar correctamente`, "success");
+                    break;
+                case 404: 
+                    setAlert(`La entidad ${name} no se pudo editar`, "error");
+                    break;
+            }
+            return status;
+        }
     });
 }
 
-const deleteEntity = (id) => {
-    return apiInstance.delete("entity/"+id+"/");
+const deleteEntity = (url) => { 
+    return apiInstance.delete(url,  
+    {
+        validateStatus: function (status) {
+            switch(status) {
+                case 204:
+                    setAlert("La entidad se ha eliminado correctamente", "success");
+                    break;
+                case 404: 
+                    setAlert("La entidad no se ha eliminado", "error");
+                    break;
+            }
+            return status;
+        }
+    });
 }
 
-const isActive = (id, active) => { //?
-    return apiInstance.patch("entity/"+id+"/", {
+const isActive = (url, active) => { 
+    return apiInstance.patch(url, 
+    {
         active: active
-    } );
+    }, 
+    {
+        validateStatus: function (status) {
+            switch(status) {
+                case 200:
+                    setAlert(active===1 ? "La entidad se ha activado correctamente" : "La entidad se ha desactivado correctamente", "success");
+                    break;
+                case 404: 
+                    setAlert(active===1 ? "La entidad no se ha activado" : "La entidad no se ha desactivado", "error");
+                    break;
+            }
+            return status;
+        }
+    }); 
 }
 
 export { getEntities, getEntity, postEntity, putEntity, deleteEntity, isActive };

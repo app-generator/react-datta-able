@@ -1,7 +1,8 @@
-import { apiInstance } from "../custom";
+import  apiInstance  from "../api";
+import { COMPONENT_URL } from '../../config/constant';
 
 const getTLP = () => {
-    return apiInstance.get("administration/tlp");
+    return apiInstance.get(COMPONENT_URL.tlp);
 }
 
 

@@ -1,52 +1,46 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import ActiveButton from '../../../components/Button/ActiveButton';
 import Modal from 'react-bootstrap/Modal';
 import { putActivationStatus } from '../../../api/services/feeds';
 
-function ButtonState({feed}) {    
+function ButtonState({feed, callback}) {    
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    const title = ["Inactivo", "Activo"];
-    const variant = ['outline-danger', 'outline-success'];
-    const className = ['fas fa-ban mx-1', 'fas fa-check mx-1'];
     const [error, setError] = useState(null);
 
-    const changeState = (id, state)=> {
-        putActivationStatus(id, +!state).then((response) => {
-            console.log(response);      
-            handleClose();
+    const changeState = ()=> {
+        let message = feed.active ? `La fuente de informacion ${feed.name} ha sido desactivada` : `La fuente de informacion ${feed.name} ha sido activada`;
+        putActivationStatus(feed.url, +!feed.active).then((response) => {
+            console.log(response);
+            callback(message, true)
         })
         .catch((error) => {
             setError(error);
-        })
+            if(error){
+              callback(message, false)
+            }
+          })
         .finally(()=>{
-            window.location.reload();
+            handleClose();
         })
     };
-
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar el protocolo de semaforo.</p>
-    }
-
+    
     return(
-        <>
-            <Button title={title[feed.active]} className="btn-icon btn-rounded" variant={variant[feed.active]} onClick={handleShow} >
-                <i className={className[feed.active]}/>
-            </Button>
-            <Modal show={show} onHide={handleClose} >
+        <>           
+            <ActiveButton active={feed.active} onClick={handleShow} />
+            <Modal show={show} onHide={handleClose} centered >
                 <Modal.Header closeButton>
-                    <Modal.Title>Modificar el estado {title[feed.active]} </Modal.Title>
+                    <Modal.Title>Modificar el estado {feed.active ? "Activo": "Inactivo"} </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>¿Corfirma la modificacion del estado?</Modal.Body>
-                <Modal.Footer>
+                <Modal.Body>{feed.active ? `Desea desactivar fuente de informacion ${feed.name}?` : `Desea activar fuente de informacion ${feed.name}?`}?</Modal.Body>
+                <Modal.Footer>                    
+                    <Button variant={feed.active ? 'outline-danger' : 'outline-success'} onClick={changeState}>
+                        {feed.active ? 'Desactivar' : 'Activar'}
+                    </Button>
                     <Button variant="outline-secondary" onClick={handleClose}> 
                         Cancelar
-                    </Button>
-                    <Button variant="outline-warning" onClick={()=> changeState(feed.url.split("/")[6], feed.active)}>
-                        Modiifcar
                     </Button>
                 </Modal.Footer>
             </Modal>

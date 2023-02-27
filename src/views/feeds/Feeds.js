@@ -1,34 +1,101 @@
-import React from 'react';
-import { Row, Col, Card, Table, Button, Breadcrumb } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Row, Col, Card, Table, Button, Breadcrumb, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getFeeds } from '../../api/services/feeds';
-import { useState , useEffect } from "react";
 import ButtonView from './components/ButtonView';
 import ButtonDelete from './components/ButtonDelete';
 import ButtonState from './components/ButtonState';
-
+import CrudButton from '../../components/Button/CrudButton';
+import Alert from '../../components/Alert/Alert';
+import Pagination from '../../components/Pagination/Pagination';
 
 const ListFeeds = () => {
     
     const [feeds, setFeeds] = useState([]);
     const [error, setError] = useState(null);
     const [search, setSearch] = useState("");
-    
-    useEffect(() => {
-        getFeeds()
-        .then((response) => {
-            setFeeds(response.data.results);
-            setError(null);
-        })
-        .catch(setError);
-    }, []);
-    
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar las fuentes de informacion.</p>
+    const [loading, setLoading] = useState(true)
+    const [alert, setAlert] = useState(null)
+    const [stateAlert, setStateAlert] = useState(null)
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [jumpPage, setjumpPage] = useState(false)
+    const [pages, setPages] = useState(0)
+    const [arrayPages, setArrayPages] = useState([])
+
+
+    function arrayWithPages(numberOfItems) {
+        const numberOfPages = Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage        
+        const arrayNumberOfPages=[]
+        for (var i = 1; i <= numberOfPages; i++) {
+            arrayNumberOfPages.push(i)
+        }
+        setArrayPages(arrayNumberOfPages)
+        return numberOfPages
     }
 
+    function changePage(page){
+        if (jumpPage){
+            setLoading(true)
+            setjumpPage(false)
 
+            const fetchFeeds = async () => {            
+            getFeeds(page).then((response) => {
+                setFeeds(response.data.results)
+            })
+            setLoading(false)
+            }
+
+            fetchFeeds();
+        }
+    }
+    
+    useEffect(() => {        
+        if(sessionStorage.getItem('Alerta')) {
+            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
+            setAlert(storage)
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                    sessionStorage.clear()
+                }, 5000);
+        }
+        setCurrentPage(currentPage)        
+        getFeeds(currentPage)
+        .then((response) => {
+            setPages(arrayWithPages(response.data.count))
+            setFeeds(response.data.results)
+            setError(null)
+        })
+        .catch((error)=>{
+            if (error) {      
+                setAlert({name:`Ups! Se produjo un error al buscar las fuentes de informacion.`, type:0})
+            }
+        })
+        .finally(() => {
+            setLoading(false)
+        })
+    }, [pages]);
+    
+    const callbackBackend = (name, stateAlert) => {
+        if(stateAlert) {
+            setLoading(true)
+            if(list.length === 1) {
+                setCurrentPage(currentPage-1) 
+                setArrayPages(arrayPages.slice(0, -1))
+            }           
+            setPages(0)
+            setAlert({name:name, type:1})
+                setTimeout(() => {
+                    setAlert(null)
+                    setStateAlert(null)
+                }, 5000);
+        }
+        else {
+            setAlert({name:name, type:0})
+        }
+    }
+    
     //valores ingresados
     const searcher = (e) => {
         setSearch(e.target.value) //actualizar
@@ -44,20 +111,26 @@ const ListFeeds = () => {
         )
     }
 
+    if (loading) {
+        return (
+            <Row className='justify-content-md-center'>
+                <Spinner animation='border' variant='primary' size='sm' />
+            </Row>
+        );    
+    }
     
-
+    changePage(arrayPages[currentPage-1])
+    
     return (
         <React.Fragment>
+            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href='/app/dhasboard/default'>
                         <i className="fas fa-home" />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#'>
-                        Fuentes de Informacion
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#' active>
-                        Listado 
+                    <Breadcrumb.Item active>
+                        <b>Fuentes de Informacion</b> 
                     </Breadcrumb.Item>
                 </Breadcrumb>    
             </Row>
@@ -77,11 +150,10 @@ const ListFeeds = () => {
                                     </React.Fragment>                                 
                                 </Col> 
                                 <Col sm={12} lg={3}>
-                                    <React.Fragment>
-                                        <Button className="text-capitalize" variant='outline-primary' title='Agregar Fuente de Informacion' href="./feeds/new">
-                                            <i className='fa fa-plus' />
-                                            Agregar Fuente de Informacion
-                                        </Button>
+                                    <React.Fragment>                                        
+                                        <Link to={{pathname:'./feeds/new'}} >
+                                            <CrudButton type='create' name='Fuente de Informacion' />
+                                        </Link>
                                     </React.Fragment>                           
                                 </Col>  
                             </Row>                                                                           
@@ -103,23 +175,28 @@ const ListFeeds = () => {
                                             <th scope="row">{i+1}</th>
                                             <td>{feed.name}</td>
                                             <td>
-                                                <ButtonState feed={feed}></ButtonState>
+                                                <ButtonState feed={feed} callback={callbackBackend}></ButtonState>
                                             </td>
                                             <td>{feed.description}</td>
                                             <td>
                                                 <ButtonView feed={feed}></ButtonView>
-                                                <Link to={{pathname:"./feeds/edit", state: {feed}}} >
-                                                    <Button title='Editar' className="btn-icon btn-rounded" variant={'outline-warning'} >
-                                                        <i className='fas fa-edit'/>                                                    
-                                                    </Button>
+                                                <Link to={{pathname:"./feeds/edit", state:{feed}}} >
+                                                    <CrudButton type="edit" />                                                    
                                                 </Link>    
-                                                <ButtonDelete feed={feed}></ButtonDelete>
+                                                <ButtonDelete feed={feed} callback={callbackBackend}></ButtonDelete>
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </Table>
                         </Card.Body>
+                        <Card.Footer >
+                            <Row className="justify-content-md-center">
+                                <Col md="auto"> 
+                                    <Pagination pages={pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+                                </Col>
+                            </Row>
+                        </Card.Footer>
                     </Card>
                 </Col>
             </Row>            

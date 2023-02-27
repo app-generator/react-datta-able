@@ -1,10 +1,17 @@
 const menuItems = {
-    items: [
+    items: [ 
         {
-            id: 'NGEN',
-            title: 'NGEN',
+            id: 'principal',
+            title: 'Principal',
             type: 'group',
             children: [
+                {
+                    id: 'dashboard',
+                    title: 'Métricas',
+                    type: 'item',
+                    url: '/app/dashboard/default',
+                    icon: 'feather icon-home'
+                },
                 {
                     id: 'feeds',
                     title: 'Fuentes de Informacion',
@@ -13,21 +20,6 @@ const menuItems = {
                     icon: 'fas fa-globe',
                     breadcrumbs: false
                 }              
-            ]
-        },
-        {
-            id: 'navigation',
-            title: 'Navigation',
-            type: 'group',
-            icon: 'icon-navigation',
-            children: [
-                {
-                    id: 'dashboard',
-                    title: 'Dashboard',
-                    type: 'item',
-                    url: '/app/dashboard/default',
-                    icon: 'feather icon-home'
-                }
             ]
         },
         {
@@ -43,24 +35,60 @@ const menuItems = {
                     url: '/entity/tables',
                     icon: 'fas fa-network-wired',
                     breadcrumbs: false
+                },
+                {
+                    id: 'contacts',
+                    title: 'Contactos',
+                    type: 'item',
+                    url: '/contact/tables',
+                    icon: 'feather icon-sidebar',
+                    breadcrumbs: false
                 }
             ]
         }, 
         {
-            id: 'NGEN',
-            title: 'NGEN',
+            id: 'config',
+            title: 'Configuración',
             type: 'group',
+            icon: 'icon-pages',
             children: [
                 {
-                    id: 'tlp',
-                    title: 'Protocolo de Semaforo',
+                    id: 'platform',
+                    title: 'Plataforma',
+                    type: 'collapse',
+                    icon: 'feather icon-box',
+                    children: [
+                        {
+                            id: 'tlp',
+                            title: 'TLP',
+                            type: 'item',
+                            url: '/app/tlp',
+                            icon: 'fas fa-globe',
+                            breadcrumbs: false
+                        },          
+                        {
+                            id: 'priority',
+                            title: 'Prioridades',
+                            type: 'item',
+                            url: '/list-Priorities',
+                            classes: '',
+                            icon: 'fa fa-exclamation-triangle',
+                            breadcrumbs: false
+            
+                        }
+                    ]
+                },
+                {
+                    id: 'users',
+                    title: 'Usuarios',
                     type: 'item',
-                    url: '/app/tlp',
-                    icon: 'fas fa-globe',
-                    breadcrumbs: false
-                }              
+                    url: '/list-user',
+                    classes: '',
+                    icon: 'fa fa-user',
+                    breadcrumbs: false,
+                }
             ]
-        },
+        },  
         {
             id: 'ui-element',
             title: 'UI ELEMENT',
@@ -198,26 +226,6 @@ const menuItems = {
             ]
         },
         {
-            id: 'Prioridades',
-            title: 'Prioridades',
-            type: 'group',
-            icon: 'icon-pages',
-            children: [{
-                id: 'Prioridades',
-                title: 'Prioridades',
-                type: 'item',
-                url: '/list-Priorities',
-                classes: '',
-                icon: 'fa fa-exclamation-triangle',
-                breadcrumbs: false
-
-            }
-                
-            ]
-        },
-        
-       
-        {
             id: 'resources',
             title: 'Resources',
             type: 'group',
@@ -244,29 +252,7 @@ const menuItems = {
                     external: true
                 }
             ]
-        },
-        {
-            id: 'usuarios',
-            title: 'usuarios',
-            type: 'group',
-            icon: 'icon-pages',
-            children: [
-                {
-                    id: 'usuarios',
-                    title: 'usuarios',
-                    type: 'item',
-                    url: '/list-user',
-                    classes: '',
-                    icon: 'fa fa-user',
-                    breadcrumbs: false,
-                    
-                    
-
-                   
-                },
-                
-            ]
-        }         
+        }
     ]
 };
 
