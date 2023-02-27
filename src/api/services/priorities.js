@@ -1,5 +1,5 @@
-import apiInstance from "../api";
-import { API_SERVER,COMPONENT_URL } from '../../config/constant';
+import  apiInstance  from "../api";
+import { COMPONENT_URL } from '../../config/constant';
 
 const getPriorities = (page="") => {//el parametro es para completar la url con el numero de pagina
     
