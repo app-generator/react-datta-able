@@ -164,7 +164,6 @@ const ListFeeds = () => {
                                     <tr>
                                         <th>#</th>
                                         <th>Nombre</th>
-                                        <th>Descripcion</th>
                                         <th>Activo</th>
                                         <th>Casos Asociados</th>                                                                                  
                                         <th>Acciones</th>
@@ -175,7 +174,6 @@ const ListFeeds = () => {
                                         <tr key={i}>
                                             <th scope="row">{i+1}</th>
                                             <td>{feed.name}</td>
-                                            <td>{feed.description}</td>
                                             <td>
                                                 <ButtonState feed={feed} callback={callbackBackend}></ButtonState>
                                             </td>
