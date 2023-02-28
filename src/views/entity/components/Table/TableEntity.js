@@ -109,8 +109,7 @@ const TableEntity = ({callback, list, loading }) => {
                             <th>#</th>
                             <th>Nombre</th>
                             <th>Activo</th>
-                            <th>Creado</th>
-                            <th>Modificado</th>
+                            <th>Redes Asociadas</th>
                             <th>Accion</th>
                         </tr>
                     </thead>
@@ -124,8 +123,7 @@ const TableEntity = ({callback, list, loading }) => {
                                     <td>
                                         <ActiveButton active={entity.active} onClick={() => pressActive(entity.name, entity.active, entity.url)} />
                                     </td>
-                                    <td>{entity.created.slice(0,10)}</td>
-                                    <td>{entity.modified.slice(0,10)}</td>
+                                    <td>5</td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showEntity(entity.url)} />
                                         <Link to={{pathname:'/entity/edit', state: entity, callback: callback}} >

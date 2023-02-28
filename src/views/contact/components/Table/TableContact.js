@@ -89,9 +89,9 @@ const TableContact = ({callback, list, loading }) => {
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
+                            <th>Rol</th>
                             <th>Contacto</th>
-                            <th>Creado</th>
-                            <th>Modificado</th>
+                            <th>Prioridad</th>
                             <th>Accion</th>
                         </tr>
                     </thead>
@@ -101,9 +101,9 @@ const TableContact = ({callback, list, loading }) => {
                                 <tr key={contact.url}>
                                 <th scope="row">{index+1}</th>
                                 <td>{contact.name}</td>
+                                <td>{contact.role}</td>
                                 <td>{contact.username}</td>
-                                <td>{contact.created.slice(0, 10)}</td>
-                                <td>{contact.modified.slice(0, 10)}</td>
+                                <td><PriorityButton url={contact.priority}/></td>
                                 <td>
                                     <CrudButton type='read' onClick={() => showContact(contact.url)} />
                                     <Link to={{pathname:'/contact/edit', state: contact}} >
@@ -163,18 +163,6 @@ const TableContact = ({callback, list, loading }) => {
                                                 <Form.Control plaintext readOnly defaultValue={contact.username} />
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>Fecha de creación</td>
-                                            <td>
-                                                <Form.Control plaintext readOnly defaultValue={created} />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ultima actualización</td>
-                                            <td>
-                                                <Form.Control plaintext readOnly defaultValue={modified} />
-                                            </td>
-                                        </tr>
                                         {contact.public_key ? 
                                             <tr>
                                                 <td>Llave pública</td>
@@ -192,10 +180,24 @@ const TableContact = ({callback, list, loading }) => {
                                                     Redes
                                                 <Badge variant="light" className="ml-2">4</Badge>
                                                 </Button>
-                                                
+                                                <Button size="sm" variant='light' className="text-capitalize">
+                                                    Prioridad&nbsp;
                                                 <PriorityButton url={contact.priority}/>
+                                                </Button>
                                             </td>
                                         </tr> 
+                                        <tr>
+                                            <td>Fecha de creación</td>
+                                            <td>
+                                                <Form.Control plaintext readOnly defaultValue={created} />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ultima actualización</td>
+                                            <td>
+                                                <Form.Control plaintext readOnly defaultValue={modified} />
+                                            </td>
+                                        </tr>
                                     </tbody>
                                     </Table>
                                 </Card.Body>
