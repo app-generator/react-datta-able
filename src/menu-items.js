@@ -37,6 +37,14 @@ const menuItems = {
                     breadcrumbs: false
                 },
                 {
+                    id: 'networks',
+                    title: 'Redes',
+                    type: 'item',
+                    url: '/network/tables',
+                    icon: 'feather icon-sidebar',
+                    breadcrumbs: false
+                },
+                {
                     id: 'contacts',
                     title: 'Contactos',
                     type: 'item',
