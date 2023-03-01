@@ -7,6 +7,7 @@ import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/navigation/navigation'
 import Search from '../../components/search/search'
 import CrudButton from '../../components/Button/CrudButton';
+import TableStates from './components/tableStates'
 
 const ListState = () => {
     const [loading, setLoading] = useState(true)
@@ -64,13 +65,14 @@ const ListState = () => {
               <Search type="Estado" action={action} />
 
               <Col sm={12} lg={3}>
-              <Link to={{pathname:'/add-user'}} >
-                  <CrudButton type='create' name='estado' />
-              </Link>
+                <Link to={{pathname:'/add-state'}} >
+                    <CrudButton type='create' name='estado' />
+                </Link>
           
               </Col> 
           </Row>                                 
           </Card.Header>
+          <TableStates states={states}  /> 
       </Card>
   </div>)
 }
