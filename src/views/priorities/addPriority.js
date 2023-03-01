@@ -52,11 +52,10 @@ const AddPriority = () => {
 
     return (
         <>
-          <Card>
-            <Row>
-                <Alert alert={alert} stateAlert={stateAlert} />
-                <Navigation actualPosition="Agregar Prioridad" path="./list-Priorities" index ="Prioridades"/>
-            </Row>
+            <Alert alert={alert} stateAlert={stateAlert} />
+            <Navigation actualPosition="Agregar Prioridad" path="./list-Priorities" index ="Prioridades"/>
+        
+            <Card>
                 <Card.Header>
                     <Card.Title as="h5">Agregar Prioridad</Card.Title>
                 </Card.Header>

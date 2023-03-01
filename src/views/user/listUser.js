@@ -155,26 +155,24 @@ function ListUser() {
 
   
   return (
-    <div className="container mt-5">
+    <div >
       <Alert alert={alert} stateAlert={stateAlert} />
+      <Navigation actualPosition={name}/>
       <Card>
-      <Card.Header>
-      <Row>
-          <Navigation actualPosition={name}/>
-        </Row>
-                            <Row>
-                                <Search type="usuario" action={action} />
+        <Card.Header>
+          <Row>
+              <Search type="usuario" action={action} />
 
-                                <Col sm={12} lg={3}>
-                                <Link to={{pathname:'/add-user'}} >
-                                    <CrudButton type='create' name='Usuario' />
-                                </Link>
-                            
-                                </Col> 
-                            </Row>                                 
-                        </Card.Header>
-                        <TableUsers users={currentPosts} callback ={callbackBackend} loading={loading} /> 
-                        <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+              <Col sm={12} lg={3}>
+              <Link to={{pathname:'/add-user'}} >
+                  <CrudButton type='create' name='Usuario' />
+              </Link>
+          
+              </Col> 
+          </Row>                                 
+          </Card.Header>
+          <TableUsers users={currentPosts} callback ={callbackBackend} loading={loading} /> 
+          <Pagination pages = {howManyPages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
       </Card>
     </div>
     

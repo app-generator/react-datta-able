@@ -43,7 +43,7 @@ const FormPriority = ({body, setBody, createPriority}) => {
       </Form.Group>
 
       <Form.Group controlId="formGridAddress1">
-              <Form.Label>Gravedad</Form.Label>
+              <Form.Label>Severidad</Form.Label>
               <Form.Control 
                placeholder="Ingrese el valor de gravedad" 
                maxlength="150" 

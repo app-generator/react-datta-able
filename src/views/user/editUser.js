@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import { getPriorities } from "../../api/services/priorities";
 import FormUser from './components/formUser'
+import Navigation from '../../components/navigation/navigation'
 
 
 
@@ -58,33 +59,21 @@ const EditUser = () => {
             });  
     }
     return (
-        <>
-          <Card>
-         
-          <Alert alert={alert} stateAlert={stateAlert} />
-          <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default">
-                        <i className="feather icon-home" />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/list-user">
-                        <i className="fas fa-network-wired" /> Usuarios
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item active>
-                        <b>Editar usuario</b>
-                    </Breadcrumb.Item>
-                </Breadcrumb>  
-          
-                        <Card.Header>
-                            <Card.Title as="h5">Editar Usuario</Card.Title>
-                        </Card.Header>
-                        <Card.Body>
-                        <Form>
-                        <FormUser body={body} setBody={setBody} priorities={priorities} createUser={editUser} loading={loading}/>
-                                
-                            </Form>
-                        </Card.Body>
-                    </Card>
+        <> 
+            <Alert alert={alert} stateAlert={stateAlert} />
+            <Navigation actualPosition="Editar Usuario" path="/list-user" index ="Usuarios"/> 
+            <Card>
             
+                <Card.Header>
+                    <Card.Title as="h5">Editar Usuario</Card.Title>
+                </Card.Header>
+                <Card.Body>
+                <Form>
+                <FormUser body={body} setBody={setBody} priorities={priorities} createUser={editUser} loading={loading}/>
+                        
+                    </Form>
+                </Card.Body>
+            </Card>
         </>
     )
 }

@@ -1,17 +1,21 @@
 import React,{ useState} from 'react'
 import {
-    Button,Card, Table , Modal, Row, Spinner
-  } from 'react-bootstrap';
-  import {Link} from 'react-router-dom'
-  import { deletePriority } from "../../../api/services/priorities";
-  import CrudButton from '../../../components/Button/CrudButton';
+  Button,Card, Table , Modal, Row,Col, Form, CloseButton, Spinner
+} from 'react-bootstrap';
+import {Link} from 'react-router-dom'
+import { deletePriority } from "../../../api/services/priorities";
+import CrudButton from '../../../components/Button/CrudButton';
+import ModalConfirm from '../../../components/Modal/ModalConfirm';
+
 
 const TablePriorities = ({Priorities, callback, loading}) => {
-    const [show, setShow] = useState(false);
+    const [remove, setRemove] = useState(false);
     const [deleteName, setDeleteName] = useState("");
     const [deleteUrl, setDeleteUrl] = useState("");
     const [error, setError] = useState(null);
-
+    const [priority, setPriority] = useState({});
+    const [modalShow, setModalShow] = useState(false);
+   
     if (loading) {
         return (
             <Row className='justify-content-md-center'>
@@ -19,28 +23,32 @@ const TablePriorities = ({Priorities, callback, loading}) => {
             </Row>
         );    
     }
-    const handleClose = () => setShow(false);
+  
     const handleShow = (name, url) => {
 
         setDeleteName(name)
         setDeleteUrl(url) 
-        setShow(true)
+        setRemove(true)
        
       }
 
     const handleDelete = () => {
         deletePriority(deleteUrl).then((response) => {
-            console.log(response)
             callback(`El usuario ${deleteName} ha sido eliminado`, true)
         })
         .catch((error) => {
-            console.log(error)
             setError(error)
             callback(`El usuario ${deleteName} NO ha sido eliminado`, false)
         })
         .finally(() => {
-            setShow(false)
+            setRemove(false)
         })
+      }
+      const showModalPriority = (priority) => {
+
+        setPriority(priority)
+        setModalShow(true)
+       
       }
   return (
    <div>
@@ -53,11 +61,7 @@ const TablePriorities = ({Priorities, callback, loading}) => {
                             <th>#</th>
                             <th>Nombre</th>
                             <th>Fecha limite de respuesta</th>
-                
                             <th>Fecha limite de resolucion </th>
-                    
-                            <th>Creado</th>
-                            <th>Actualizado</th>
                             <th>Opciones</th>
                         </tr>
                    </thead>
@@ -69,9 +73,9 @@ const TablePriorities = ({Priorities, callback, loading}) => {
                                 <td>{priority.name}</td>
                                 <td>{priority.attend_deadline}</td>
                                 <td>{priority.solve_deadline}</td>
-                                <td>{priority.created.slice(0,10)}</td>
-                                <td>{priority.modified.slice(0,10)}</td>
+                                
                                 <td>
+                                <CrudButton  type='read' onClick={() => {showModalPriority(priority)}} />
                                 
                                 <Link to={{pathname:"./edit-Priority", state: {priority}}} >
                                     <CrudButton  type='edit' />
@@ -82,27 +86,57 @@ const TablePriorities = ({Priorities, callback, loading}) => {
                                     </tr>
                               )
                             })}
-                             <Modal show={show} onHide={handleClose}>
-                                              <Modal.Header closeButton>
-                                                <Modal.Title>Eliminar usuario</Modal.Title>
-                                              </Modal.Header>
-                                              <Modal.Body>¿Estas seguro que quiere eliminar el usuario {deleteName} </Modal.Body>
-                                              <Modal.Footer>
-                                                <Button variant="secondary" onClick={()=>handleClose()}>
-                                                  Cerrar
-                                                </Button>
-                                                <Button variant="danger" onClick={()=>handleDelete()}>
-                                                  Eliminar
-                                                </Button>
-                                              </Modal.Footer>
-                                            </Modal>
-                            
+          <Modal size='lg' show={modalShow} onHide={() => setModalShow(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
+            <Modal.Body>
+                <Row>    
+                    <Col>                 
+                        <Card>
+                            <Card.Header> 
+                                <Row>
+                                    <Col>
+                                        <Card.Title as="h5">Prioridad</Card.Title>
+                                        <span className="d-block m-t-5">Detalle de Prioridad</span>
+                                    </Col>
+                                    <Col sm={12} lg={4}>                       
+                                    <Link to={{pathname:"./edit-Priority", state: {priority}}} >
+                                        <CrudButton  type='edit' />
+                                    </Link>
+                                        <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
+                                    </Col>
+                                </Row>         
+                            </Card.Header>
+                            <Card.Body>
+                                <Table responsive > 
+                                    <tr>
+                                        <td>Severidad</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={priority.severity} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Creado el</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={priority.created ? priority.created.slice(0,10) : ""} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ultima Actulizacion</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={priority.modified ? priority.modified.slice(0,10) : ""} />
+                                        </td>
+                                    </tr>
+                                </Table>
+                            </Card.Body>
+                        </Card>
+                    </Col> 
+                </Row>
+            </Modal.Body>            
+        </Modal>
+        <ModalConfirm type='delete' component='Prioridad' name={deleteName} showModal={remove} onHide={() => setRemove(false)} ifConfirm={() => handleDelete(deleteUrl)}/>    
                             </tbody>
                         </Table>
                       </ul>
-                </Card.Body>
-            
-                  
+                </Card.Body>  
      </Card>
   </div>
                         )
