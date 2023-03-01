@@ -157,7 +157,14 @@ function TableUsers({users, callback, loading}) {
                                             <Form.Control plaintext readOnly defaultValue={user.last_login ? user.last_login.slice(0,10) : ""} />
                                         </td>
                                     </tr>
-
+                                    <tr>
+                                        <td>Informacion Relacionada</td>
+                                        <td>
+                                            <Button size="sm" variant='light' className="text-capitalize">
+                                            Casos asignados <Badge variant="light" className="ml-1"></Badge>
+                                            </Button>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>Creado el</td>
                                         <td>
@@ -168,14 +175,6 @@ function TableUsers({users, callback, loading}) {
                                         <td>Ultima Actulizacion</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue="" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Informacion Relacionada</td>
-                                        <td>
-                                            <Button size="sm" variant='light' className="text-capitalize">
-                                            Casos asignados <Badge variant="light" className="ml-1"></Badge>
-                                            </Button>
                                         </td>
                                     </tr>
                                 </Table>
