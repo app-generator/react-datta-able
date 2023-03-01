@@ -67,7 +67,18 @@ const FormPriority = ({body, setBody, createPriority}) => {
               onChange={(e)=>completeField(e)}/>
                {body.color !== "" ? ""  : <div className="invalid-feedback">Ingrese un color </div>}
       </Form.Group>
-
+        {/*<Form.Group controlId="formGridAddress1">
+              <Form.Label>Tiempo de respuesta</Form.Label>
+              <Form.Control 
+               placeholder="Ingrese la cantidad de horas " 
+               maxlength="150" 
+               value ={body.attend_deadline} 
+               name="attend_deadline"
+               isInvalid={!validateNumber(body.attend_deadline)}
+               isValid={body.attend_deadline == ""}
+               onChange={(e)=>completeField(e)}/>
+               {body.attend_deadline == "" ? ""  : <div className="invalid-feedback">   Ingrese el numero de gravedad </div>}
+    </Form.Group>*/}
       <Form.Label>Fecha limite de respuesta</Form.Label>
       <Row>
       <Col>
@@ -97,6 +108,7 @@ const FormPriority = ({body, setBody, createPriority}) => {
       </Form.Group>
       </Col>
       </Row>
+
       <Form.Label>Fecha limite de resolucion </Form.Label>
       <Row>
       <Col>
