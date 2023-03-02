@@ -75,26 +75,7 @@ const ListFeeds = () => {
         .finally(() => {
             setLoading(false)
         })
-    }, [pages]);
-    
-    const callbackBackend = (name, stateAlert) => {
-        if(stateAlert) {
-            setLoading(true)
-            if(list.length === 1) {
-                setCurrentPage(currentPage-1) 
-                setArrayPages(arrayPages.slice(0, -1))
-            }           
-            setPages(0)
-            setAlert({name:name, type:1})
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                }, 5000);
-        }
-        else {
-            setAlert({name:name, type:0})
-        }
-    }
+    }, [pages]);  
     
     //valores ingresados
     const searcher = (e) => {
@@ -175,7 +156,7 @@ const ListFeeds = () => {
                                             <th scope="row">{i+1}</th>
                                             <td>{feed.name}</td>
                                             <td>
-                                                <ButtonState feed={feed} callback={callbackBackend}></ButtonState>
+                                                <ButtonState feed={feed}></ButtonState>
                                             </td>
                                             <td>24256</td>
                                             <td>
@@ -183,7 +164,7 @@ const ListFeeds = () => {
                                                 <Link to={{pathname:"./feeds/edit", state:{feed}}} >
                                                     <CrudButton type="edit" />                                                    
                                                 </Link>    
-                                                <ButtonDelete feed={feed} callback={callbackBackend}></ButtonDelete>
+                                                <ButtonDelete feed={feed}></ButtonDelete>
                                             </td>
                                         </tr>
                                     ))}

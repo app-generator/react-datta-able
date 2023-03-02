@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { deleteFeed } from '../../../api/services/feeds';
 import CrudButton from '../../../components/Button/CrudButton';
 
-function ButtonDelete({feed, callback}) {
+function ButtonDelete({feed}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -13,15 +13,12 @@ function ButtonDelete({feed, callback}) {
   const [error, setError] = useState(null);
 
   const removeFeed = ()=> {
-    deleteFeed(feed.url).then((response) => {
+    deleteFeed(feed.url, feed.name).then((response) => {
       console.log(response);
-      callback(`La fuente de informacion ${feed.name} ha sido eliminada`, true)
+      window.location.href = '/app/feeds';
     })
     .catch((error) => {
       setError(error);
-      if(error){
-        callback(`La fuente de información ${feed.name} NO ha sido eliminada`, false)
-      }
     })
    .finally(()=>{
       handleClose();

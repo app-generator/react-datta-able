@@ -4,23 +4,19 @@ import ActiveButton from '../../../components/Button/ActiveButton';
 import Modal from 'react-bootstrap/Modal';
 import { putActivationStatus } from '../../../api/services/feeds';
 
-function ButtonState({feed, callback}) {    
+function ButtonState({feed}) {    
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [error, setError] = useState(null);
 
-    const changeState = ()=> {
-        let message = feed.active ? `La fuente de informacion ${feed.name} ha sido desactivada` : `La fuente de informacion ${feed.name} ha sido activada`;
-        putActivationStatus(feed.url, +!feed.active).then((response) => {
+    const changeState = ()=> {        
+        putActivationStatus(feed.url, +!feed.active, feed.name).then((response) => {
             console.log(response);
-            callback(message, true)
+            window.location.href = '/app/feeds';
         })
         .catch((error) => {
-            setError(error);
-            if(error){
-              callback(message, false)
-            }
+            setError(error);           
           })
         .finally(()=>{
             handleClose();
