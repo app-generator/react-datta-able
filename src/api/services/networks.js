@@ -75,6 +75,9 @@ const deleteNetwork = (url) => {
                 case 404: 
                     setAlert("La red no se ha eliminado", "error");
                     break;
+                case 500: 
+                    setAlert("No se elimino", "error");
+                    break;
             }
             return status;
         }
