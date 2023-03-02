@@ -6,9 +6,11 @@ import {
 import { deleteUser, isActive } from "../../../api/services/users";
 import CrudButton from '../../../components/Button/CrudButton';
 import ActiveButton from '../../../components/Button/ActiveButton';
+import ModalConfirm from '../../../components/Modal/ModalConfirm';
 
 
 function TableUsers({users, callback, loading}) {
+  const [remove, setRemove] = useState(false);
   const [show, setShow] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState("");
   const [deleteUrl, setDeleteUrl] = useState("");
@@ -27,7 +29,6 @@ function TableUsers({users, callback, loading}) {
         </Row>
     );    
     }
-  const handleClose = () => setShow(false);
 
   const handleDelete = () => {
     deleteUser(deleteUrl).then((response) => {
@@ -40,7 +41,7 @@ function TableUsers({users, callback, loading}) {
         callback(`El usuario ${deleteUsername} NO ha sido eliminado`, false)
     })
     .finally(() => {
-        setShow(false)
+        setRemove(false)
     })
   }
 
@@ -48,13 +49,13 @@ function TableUsers({users, callback, loading}) {
 
     setDeleteUsername(username)
     setDeleteUrl(url) 
-    setShow(true)
+    setRemove(true)
    
   }
 
-  const showModalUser = (post) => {
+  const showModalUser = (user) => {
 
-    setShowUser(post)
+    setShowUser(user)
     setModalShow(true)
    
   }
@@ -136,21 +137,8 @@ function TableUsers({users, callback, loading}) {
                                         <CrudButton  type='delete' onClick={()=>handleShow(user.username,user.url)} />
                                             
                                         </td>
-                                        <Modal show={show} onHide={handleClose}>
-                                              <Modal.Header closeButton>
-                                                <Modal.Title>Eliminar usuario</Modal.Title>
-                                              </Modal.Header>
-                                              <Modal.Body>¿Estas seguro que quiere eliminar el usuario {deleteUsername} </Modal.Body>
-                                              <Modal.Footer>
-                                                <Button variant="secondary" onClick={()=>handleClose()}>
-                                                  Cerrar
-                                                </Button>
-                                                <Button variant="danger" onClick={()=>handleDelete()}>
-                                                  Eliminar
-                                                </Button>
-                                              </Modal.Footer>
-                                            </Modal>
-                                            <Modal size='lg' show={modalShow} onHide={() => setModalShow(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
+                            
+        <Modal size='lg' show={modalShow} onHide={() => setModalShow(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
             <Modal.Body>
                 <Row>    
                     <Col>                 
@@ -231,36 +219,18 @@ function TableUsers({users, callback, loading}) {
                 </Row>
             </Modal.Body>            
         </Modal>
-        <Modal show={showState} onHide={()=>handleCloseState()}>
-        <Modal.Header closeButton>
-          <Modal.Title >Cambio de estado</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{titulo[dataState.state]}</Modal.Body>
-        <Modal.Footer>
-        <Button variant={dataState.state ? 'danger' : 'success'} 
-                                            title={dataState.state ? 'Activo' : 'Inactivo'} onClick={()=>changeState()}>
-                  {bottonModalstate[dataState.state]}
-          </Button>
-          <Button variant="secondary" onClick={()=>handleCloseState()}>
-            Cerrar
-          </Button>
-          
-        </Modal.Footer>
-      </Modal>
 
                                     </tr>
                               )
                             })}
+            <ModalConfirm type='delete' component='Usuario' name={deleteUsername} showModal={remove} onHide={() => setRemove(false)} ifConfirm={() => handleDelete(deleteUrl)}/>    
+            <ModalConfirm type='editState' component='Usuario' name={dataState.username} state={dataState.state} showModal={showState} onHide={() => setShowState(false)} ifConfirm={() => changeState(showUser.url, showUser.state)}/>
                             </tbody>
                         </Table>
                       </ul>
-                </Card.Body>
-            
-                  
+                </Card.Body>          
      </Card>
-  </div>
-    
+  </div>   
   )
 }
-
 export default TableUsers
