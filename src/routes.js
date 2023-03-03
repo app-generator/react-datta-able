@@ -76,6 +76,11 @@ const routes = [
                 exact: true,
                 path: '/app/feeds/edit',
                 component: lazy(() => import('./views/feeds/EditFeed'))
+            },
+            {
+                exact: true,
+                path: '/app/taxonomy',
+                component: lazy(() => import('./views/taxonomy/Taxonomy'))
             },            
             {
                 exact: true,
