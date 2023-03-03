@@ -6,6 +6,10 @@ const getNetworks = (page="") => {
     return apiInstance.get(COMPONENT_URL.network+page);
 }
 
+const getAllNetworks = () => {
+    return apiInstance.get(COMPONENT_URL.network);
+}
+
 const getNetwork = (url) => { 
     return apiInstance.get(url);
 }
@@ -43,8 +47,8 @@ const putNetwork = (url, children, cidr, domain, active, type, parent, network_e
         children: children,
         cidr: cidr, //*
         domain: domain,
-        active: active,
-        type: type,
+        active: active, //*
+        type: type, //*
         parent, parent,
         network_entity: network_entity,
         contacts: contacts //*
@@ -76,7 +80,7 @@ const deleteNetwork = (url) => {
                     setAlert("La red no se ha eliminado", "error");
                     break;
                 case 500: 
-                    setAlert("No se elimino", "error");
+                    setAlert("No se elimino.", "error");
                     break;
             }
             return status;
@@ -104,4 +108,4 @@ const isActive = (url, active) => {
     }); 
 }
 
-export { getNetworks, getNetwork, postNetwork, putNetwork, deleteNetwork, isActive };
+export { getNetworks, getAllNetworks, getNetwork, postNetwork, putNetwork, deleteNetwork, isActive };

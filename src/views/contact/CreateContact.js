@@ -14,13 +14,6 @@ const CreateContact = () => {
     const [error, setError] = useState(null);
 
     const createContact = () => {
-        console.log(supportedName);
-        console.log(supportedContact);
-        console.log(supportedKey);
-        console.log(selectType);
-        console.log(selectRol);
-        console.log(supportedPriority);
-
 
         postContact (supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
@@ -56,7 +49,7 @@ const CreateContact = () => {
                                 priority={supportedPriority} setPriority={setSupportedPriority} 
                                 type={selectType} setType={setSelectType} 
                                 contact={supportedContact} setContact={setSupportedContact} 
-                                key={supportedKey} setKey={setSupportedKey} 
+                                keypgp={supportedKey} setKey={setSupportedKey} 
                                 ifConfirm={createContact} />                          
                         </Card.Body>
                     </Card>

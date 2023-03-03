@@ -4,17 +4,15 @@ import CrudButton from '../../../../components/Button/CrudButton';
 import { Link } from 'react-router-dom';
 
 const ModalDetailNetwork = (props) => {
-    const [contacts, setContacts] = useState([''])
-    const [children, setChildren] = useState([''])
-
+    
     useEffect(()=>{
-    setChildren(props.network.children)
-    setContacts(props.network.contacts)
 
-    },[props.network])
+    },[])
 
-console.log(typeof contacts)
-
+    const formatDate = (datetime, set) => {
+        datetime = datetime.split('T')
+        set(datetime[0] + ' ' + datetime[1].slice(0,8))
+    }
 
     return (
         <React.Fragment>
@@ -40,6 +38,16 @@ console.log(typeof contacts)
                                 <Card.Body>
                                     <Table responsive >
                                     <tbody>
+                                        {props.network.cidr ? 
+                                            <tr>
+                                                <td>CIDR</td>
+                                                <td>
+                                                    <Form.Control plaintext readOnly defaultValue={props.network.cidr} />
+                                                </td>
+                                            </tr>
+                                            : 
+                                            <></>
+                                        }
                                         {props.network.domain ? 
                                             <tr>
                                                 <td>Dominio</td>
@@ -52,7 +60,7 @@ console.log(typeof contacts)
                                         }
                                         {props.network.parent ? 
                                             <tr>
-                                                <td>parent</td>
+                                                <td>Red Padre</td>
                                                 <td>
                                                     <Form.Control plaintext readOnly defaultValue={props.network.parent} />
                                                 </td>
@@ -60,35 +68,34 @@ console.log(typeof contacts)
                                             : 
                                             <></>
                                         }
-                                        <tr>
-                                            <td>Subred</td>
-                                            <td>{children}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Contactos</td>
-                                            <td>{contacts}</td>
-                                        </tr>
-                                        {/*children.length > 0 ?
-                                            children.map((net, index) => {
-                                                <tr>
-                                                    <td>Subred</td>
-                                                    <td key={index}>{net}</td>
-                                                    
-                                                </tr>
-                                            })
-                                        :
-                                        <></>
-                                        */}
-                                        {/*contacts.length > 0 ?
-                                            contacts.map((contact) => {
-                                                <tr>
-                                                    <td>Contactos</td>
-                                                    <td>{contact}</td>
-                                                </tr>
-                                            })
-                                        :
-                                        <></>
-                                        */}
+                                        {props.network.children && props.network.children.length > 1  ? 
+                                            <tr>
+                                                <td>Redes Hijas</td>
+                                                <td>
+                                                    {Object.values(props.network.children).map((net, index)=>{
+                                                        return (
+                                                            <Form.Control plaintext readOnly defaultValue={net} key={index} />
+                                                        )})
+                                                    }
+                                                </td>
+                                            </tr>
+                                            : 
+                                            <></>
+                                        }
+                                        {props.network.contacts && props.network.contacts.length > 1  ? 
+                                            <tr>
+                                                <td>Contactos Relacionados</td>
+                                                <td>
+                                                    {Object.values(props.network.contacts).map((contactItem, index)=>{
+                                                        return (
+                                                            <Form.Control plaintext readOnly defaultValue={contactItem}  key={index} />
+                                                        )})
+                                                    }
+                                                </td>
+                                            </tr>
+                                            : 
+                                            <></>
+                                        }
                                         <tr>
                                             <td>Fecha de creación</td>
                                             <td>
