@@ -3,6 +3,7 @@ import { Row, Col, Card, Table, Button, Breadcrumb, Spinner } from 'react-bootst
 import { Link } from 'react-router-dom';
 import { getTaxonomy } from '../../api/services/taxonomy';
 import CrudButton from '../../components/Button/CrudButton';
+import ActiveButton from '../../components/Button/ActiveButton';
 import Alert from '../../components/Alert/Alert';
 import Pagination from '../../components/Pagination/Pagination';
 
@@ -143,7 +144,8 @@ const ListTaxonomies = () => {
                                     <tr>
                                         <th>#</th>
                                         <th>Nombre</th>
-                                        <th>Activo</th>                                                                              
+                                        <th>Activo</th>     
+                                        <th>Reportes</th>                                                                         
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -152,9 +154,14 @@ const ListTaxonomies = () => {
                                         <tr key={i}>
                                             <th scope="row">{i+1}</th>
                                             <td>{taxonomy.name}</td>
-                                            <td>                                            
+                                            <td>
+                                                <ActiveButton active={+taxonomy.active} />
                                             </td>                                           
-                                            <td>                                                
+                                            <td>{taxonomy.reports.length}</td>
+                                            <td>
+                                            <CrudButton type="read" /> 
+                                            <CrudButton type="edit" /> 
+                                            <CrudButton type="delete" />                                                 
                                             </td>
                                         </tr>
                                     ))}
