@@ -7,14 +7,22 @@ import FormContact from '../Form/FormContact';
 
 const ModalDetailNetwork = (props) => {
     
+    const [created, setCreated] = useState('');
+    const [modified, setModified] = useState('');
+
     useEffect(()=>{
 
-    },[])
+        setCreated(props.network.created)
+        setModified(props.network.modified)
+
+    },[props.network])
 
     const formatDate = (datetime, set) => {
         datetime = datetime.split('T')
-        set(datetime[0] + ' ' + datetime[1].slice(0,8))
+        let format = datetime[0] + ' ' + datetime[1].slice(0,8); 
+        set(format)
     }
+
 
     return (
         <React.Fragment>
@@ -64,7 +72,7 @@ const ModalDetailNetwork = (props) => {
                                             <tr>
                                                 <td>Red Padre</td>
                                                 <td>
-                                                    <FormCidr url={props.network.parent} key={'1'} />
+                                                    <FormCidr url={props.network.parent} />
                                                 </td>
                                             </tr>
                                             : 
@@ -101,13 +109,13 @@ const ModalDetailNetwork = (props) => {
                                         <tr>
                                             <td>Fecha de creación</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={props.network.created} />
+                                                <Form.Control plaintext readOnly defaultValue={created} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Ultima actualización</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={props.network.modified} />
+                                                <Form.Control plaintext readOnly defaultValue={modified} />
                                             </td>
                                         </tr>
                                     </tbody>

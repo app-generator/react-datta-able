@@ -30,7 +30,6 @@ const FormContact = (props) => {
             noc : 'NOC',
         };
 
-        console.log(labelRole['technical'])
 return (
         contact && 
         <React.Fragment>

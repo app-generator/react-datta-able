@@ -41,7 +41,8 @@ const TableContact = ({callback, list, loading }) => {
             setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
             datetime = response.data.modified.split('T');
             setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
-            setRole(Upper(response.data.role))
+            let rol = labelRole[response.data.role];
+            setRole(rol)
             setType(Upper(response.data.type))
             setModalShow(true)
         })
@@ -82,6 +83,15 @@ const TableContact = ({callback, list, loading }) => {
         return (first+text.slice(1))
     }
 
+    const labelRole =
+    {
+        technical : 'Tecnico',
+        administrative : 'Administrativo',
+        abuse : 'Abuso',
+        notifications : 'Notificaciones',
+        noc : 'NOC',
+    };
+
     return (
             <React.Fragment>
                 <Table responsive hover>
@@ -101,7 +111,7 @@ const TableContact = ({callback, list, loading }) => {
                                 <tr key={contact.url}>
                                 <th scope="row">{index+1}</th>
                                 <td>{contact.name}</td>
-                                <td>{contact.role}</td>
+                                <td>{labelRole[contact.role]}</td>
                                 <td>{contact.username}</td>
                                 <td><PriorityButton url={contact.priority}/></td>
                                 <td>
@@ -145,7 +155,7 @@ const TableContact = ({callback, list, loading }) => {
                                                 <Form.Control plaintext readOnly defaultValue={id} />
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr> 
                                             <td>Nombre</td>
                                             <td>
                                                 <Form.Control plaintext readOnly defaultValue={contact.name} />
