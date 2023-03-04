@@ -110,7 +110,7 @@ const FormNetwork = (props) => {
                                 value={props.type}
                                 onChange={(e) =>  props.setType(e.target.value)}>
                                     <option key={1} value='internal'>Interna</option>
-                                    <option key={1} value='external'>Externa</option>
+                                    <option key={2} value='external'>Externa</option>
                             </Form.Control>
                         </Form.Group>
                     </Col>
@@ -131,7 +131,7 @@ const FormNetwork = (props) => {
                                 type="choice"
                                 as="select"
                                 value={props.parent}
-                                onChange={(e) => props.setDomain(e.target.value)}>
+                                onChange={(e) => props.setParent(e.target.value)}>
                                 {parentOptions.map((parentItem, index) => {                
                                     return (
                                         <option key={index} value={parentItem.value}>{parentItem.name}</option>
@@ -145,13 +145,13 @@ const FormNetwork = (props) => {
                 <Row>
                     <Col>
                         <Form.Group controlId="Form.Network.Entity">
-                            <Form.Label>Entity</Form.Label>
+                            <Form.Label>Entidad</Form.Label>
                             <Form.Control
                                 name="entity"
                                 type="choice"
                                 as="select"
                                 value={props.entity}
-                                onChange={(e) => props.setDomain(e.target.value)}>
+                                onChange={(e) => props.setEntity(e.target.value)}>
                                 {entitiesOption.map((entityItem, index) => {                
                                     return (
                                         <option key={index} value={entityItem.value}>{entityItem.name}</option>
@@ -167,11 +167,12 @@ const FormNetwork = (props) => {
                         <Form.Group controlId="Form.Network.Contacts">
                             <Form.Label>Contactos Relacionados</Form.Label>
                             <Form.Control
+                                multiple 
                                 name="contacts"
                                 type="choice"
                                 as="select"
                                 value={props.contacts}
-                                onChange={(e) => props.setDomain(e.target.value)}>
+                                onChange={(e) => props.setContacts(e.target.value)}>
                                 {contactsOption.map((contactsItem, index) => {                
                                     return (
                                         <option key={index} value={contactsItem.value}>{contactsItem.name}</option>

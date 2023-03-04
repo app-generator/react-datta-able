@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, Form, Table, Modal, CloseButton } from 'react-bootstrap';
 import CrudButton from '../../../../components/Button/CrudButton';
 import { Link } from 'react-router-dom';
+import FormCidr from '../Form/FormCidr';
+import FormContact from '../Form/FormContact';
 
 const ModalDetailNetwork = (props) => {
     
@@ -62,7 +64,7 @@ const ModalDetailNetwork = (props) => {
                                             <tr>
                                                 <td>Red Padre</td>
                                                 <td>
-                                                    <Form.Control plaintext readOnly defaultValue={props.network.parent} />
+                                                    <FormCidr url={props.network.parent} key={'1'} />
                                                 </td>
                                             </tr>
                                             : 
@@ -70,11 +72,11 @@ const ModalDetailNetwork = (props) => {
                                         }
                                         {props.network.children && props.network.children.length > 1  ? 
                                             <tr>
-                                                <td>Redes Hijas</td>
+                                                <td>Subredes</td>
                                                 <td>
                                                     {Object.values(props.network.children).map((net, index)=>{
                                                         return (
-                                                            <Form.Control plaintext readOnly defaultValue={net} key={index} />
+                                                            <FormCidr url={net} key={index}/>
                                                         )})
                                                     }
                                                 </td>
@@ -88,7 +90,7 @@ const ModalDetailNetwork = (props) => {
                                                 <td>
                                                     {Object.values(props.network.contacts).map((contactItem, index)=>{
                                                         return (
-                                                            <Form.Control plaintext readOnly defaultValue={contactItem}  key={index} />
+                                                            <FormContact url={contactItem}  key={index} />
                                                         )})
                                                     }
                                                 </td>

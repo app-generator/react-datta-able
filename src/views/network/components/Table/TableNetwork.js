@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../../components/Modal/ModalConfirm';
 import ActiveButton from '../../../../components/Button/ActiveButton';
 import ModalDetailNetwork from '../Modal/ModalDetailNetwork';
+import BadgeNetwork_Entity from '../Badge/BadgeNetwork_Entity';
 
 const TableNetwork = ({callback, list, loading }) => {
     const [network, setNetwork] = useState('')
@@ -96,7 +97,7 @@ const TableNetwork = ({callback, list, loading }) => {
         console.log(error);
         return <p>Ups! Se produjo un error al buscar la red.</p>
     }
-
+console.log(network.network_entity)
     return (
             <React.Fragment>
                 <Table responsive hover>
@@ -116,11 +117,11 @@ const TableNetwork = ({callback, list, loading }) => {
                                 <tr key={network.url}>
                                     <th scope="row">{index+1}</th>
                                     <td>{network.cidr}</td>
-                                    <td>{network.type}</td>
+                                    <td>{network.type === 'internal' ? 'Interna' : 'Externa'}</td>
                                     <td>
                                         <ActiveButton active={+network.active} onClick={() => pressActive(network.domain, network.active, network.url)} />
                                     </td>
-                                    <td>{network. network_entity}</td>
+                                    <td><BadgeNetwork_Entity url={network.network_entity}/></td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showNetwork(network.url)} />
                                         <Link to={{pathname:'/network/edit', state: network}} >
