@@ -54,12 +54,15 @@ function ButtonView({taxonomy}) {
                                             <Form.Control plaintext readOnly defaultValue={taxonomy.type} />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>Descripcion</td>
-                                        <td>
-                                            <Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={taxonomy.description} />
-                                        </td>
-                                    </tr>
+                                    { (taxonomy.description == undefined) ? '' : 
+                                            <tr>
+                                                <td>Descripcion</td>
+                                                <td>
+                                                    <Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={taxonomy.description} />
+                                                </td>
+                                            </tr>
+
+                                    }                                    
                                     <tr>
                                         <td>Informacion Relacionada</td>
                                         <td>

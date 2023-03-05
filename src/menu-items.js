@@ -19,15 +19,7 @@ const menuItems = {
                     url: '/app/feeds',
                     icon: 'fas fa-globe',
                     breadcrumbs: false
-                },
-                {
-                    id: 'taxonomy',
-                    title: 'Taxonomia',
-                    type: 'item',
-                    url: '/app/taxonomy',
-                    icon: 'fas fa-server',
-                    breadcrumbs: false
-                }               
+                }            
             ]
         },
         {
@@ -83,7 +75,15 @@ const menuItems = {
                             icon: 'fa fa-exclamation-triangle',
                             breadcrumbs: false
             
-                        }
+                        },
+                        {
+                            id: 'taxonomy',
+                            title: 'Taxonomia',
+                            type: 'item',
+                            url: '/app/taxonomy',
+                            icon: 'fas fa-server',
+                            breadcrumbs: false
+                        }   
                     ]
                 },
                 {
