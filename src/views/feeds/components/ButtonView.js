@@ -48,12 +48,15 @@ function ButtonView({feed}) {
                                             <Form.Control plaintext readOnly defaultValue={feed.active ? "Activo" : "Inactivo"} />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>Descripcion</td>
-                                        <td>
-                                            <Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={feed.description} />
-                                        </td>
-                                    </tr>
+                                    { (feed.description == undefined) ? '' : 
+                                            <tr>
+                                                <td>Descripcion</td>
+                                                <td>
+                                                    <Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={feed.description} />
+                                                </td>
+                                            </tr>
+
+                                    }                                     
                                     <tr>
                                         <td>Informacion Relacionada</td>
                                         <td>
