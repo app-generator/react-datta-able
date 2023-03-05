@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { getTaxonomy } from '../../api/services/taxonomy';
 import ButtonView from './components/ButtonView';
 import CrudButton from '../../components/Button/CrudButton';
-import ActiveButton from '../../components/Button/ActiveButton';
+import ButtonState from './components/ButtonState';
+import ButtonDelete from './components/ButtonDelete';
 import Alert from '../../components/Alert/Alert';
 import Pagination from '../../components/Pagination/Pagination';
 
@@ -156,13 +157,13 @@ const ListTaxonomies = () => {
                                             <th scope="row">{i+1}</th>
                                             <td>{taxonomy.name}</td>
                                             <td>
-                                                <ActiveButton active={+taxonomy.active} />
+                                                <ButtonState taxonomy={taxonomy}></ButtonState>
                                             </td>                                           
                                             <td>{taxonomy.reports.length}</td>
                                             <td>
                                                 <ButtonView taxonomy={taxonomy}></ButtonView> 
                                                 <CrudButton type="edit" /> 
-                                                <CrudButton type="delete" />                                                 
+                                                <ButtonDelete taxonomy={taxonomy}></ButtonDelete>                                                 
                                             </td>
                                         </tr>
                                     ))}
