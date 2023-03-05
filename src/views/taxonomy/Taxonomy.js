@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table, Button, Breadcrumb, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getTaxonomy } from '../../api/services/taxonomy';
+import ButtonView from './components/ButtonView';
 import CrudButton from '../../components/Button/CrudButton';
 import ActiveButton from '../../components/Button/ActiveButton';
 import Alert from '../../components/Alert/Alert';
@@ -159,9 +160,9 @@ const ListTaxonomies = () => {
                                             </td>                                           
                                             <td>{taxonomy.reports.length}</td>
                                             <td>
-                                            <CrudButton type="read" /> 
-                                            <CrudButton type="edit" /> 
-                                            <CrudButton type="delete" />                                                 
+                                                <ButtonView taxonomy={taxonomy}></ButtonView> 
+                                                <CrudButton type="edit" /> 
+                                                <CrudButton type="delete" />                                                 
                                             </td>
                                         </tr>
                                     ))}

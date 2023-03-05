@@ -1,0 +1,95 @@
+import React, { useState } from 'react';
+import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
+import CrudButton from '../../../components/Button/CrudButton';
+
+function ButtonView({taxonomy}) {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  return (
+    <>
+        <CrudButton type='read' onClick={handleShow} />
+        <Modal size='lg' show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>            
+            <Modal.Body>
+                <Row>    
+                    <Col>                 
+                        <Card>
+                            <Card.Header> 
+                                <Row>
+                                    <Col>
+                                        <Card.Title as="h5">Taxonomia</Card.Title>
+                                        <span className="d-block m-t-5">Detalle de taxonomia</span>
+                                    </Col>
+                                    <Col sm={12} lg={4}>
+                                        <CloseButton aria-label='Cerrar' onClick={handleClose} />
+                                    </Col>
+                                </Row>
+                            </Card.Header>
+                            <Card.Body>
+                                <Table responsive >
+                                    <tr>
+                                        <td>Id del sistema</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={taxonomy.slug}/>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={taxonomy.name} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Estado</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={taxonomy.active ? "Activo" : "Inactivo"} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tipo</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={taxonomy.type} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Descripcion</td>
+                                        <td>
+                                            <Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={taxonomy.description} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Informacion Relacionada</td>
+                                        <td>
+                                            <Button size="sm" variant='light' className="text-capitalize">
+                                                Reportes
+                                                <Badge variant="light" className="ml-1">{taxonomy.reports.length}</Badge>
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha de creación</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={taxonomy.created.slice(0,10)} />
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td>Ultima actualización</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={taxonomy.modified.slice(0,10)} />
+                                        </td>
+                                    </tr>
+                                </Table>
+                            </Card.Body>
+                        </Card>
+                    </Col> 
+                </Row>
+            </Modal.Body>
+        </Modal>
+    </>
+  );
+}
+
+export default ButtonView;
