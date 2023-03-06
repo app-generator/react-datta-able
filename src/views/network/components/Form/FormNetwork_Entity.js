@@ -1,5 +1,5 @@
 import React from 'react';
-import {Badge } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getEntity } from '../../../../api/services/entities';
 
@@ -23,9 +23,10 @@ const BadgeNetwork_Entity = (props) => {
 return (
         entity && 
         <React.Fragment>
-            <Badge className="badge mr-1 ligth" >{entity.name}</Badge> 
+            <Form.Control plaintext readOnly defaultValue={entity.name} />
         </React.Fragment>
     );
 };
 
 export default BadgeNetwork_Entity; 
+ 

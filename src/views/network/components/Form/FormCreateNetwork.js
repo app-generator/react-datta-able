@@ -117,9 +117,10 @@ const FormCreateNetwork = (props) => {
                                 placeholder="CIDR" 
                                 maxlength="18"
                                 value={props.cidr} 
+                                isValid={ validateCidr(props.cidr) && validateSpace(props.cidr) }
+                                isInvalid={ !validateSpace(props.cidr) || !validateCidr(props.cidr) }
                                 onChange={(e) => props.setCidr(e.target.value)}
                                 />
-                            {validateSpace(props.cidr) ? '' : <div className="invalid-feedback">Ingrese cidr</div>}
                             {!props.cidr || validateCidr(props.cidr) ? "" : <div className="invalid-feedback">Ingrese un cidr valido</div>}
 
                         </Form.Group>
@@ -230,8 +231,8 @@ const FormCreateNetwork = (props) => {
                 </Row>
                 <Row>
                 <Form.Group>
-                    {!validateSpace(props.cidr) || !(validateURL(props.domain) || props.domain ==='') || 
-                    (props.type == '0') || (props.contacts.length < 1) ? // || !validateCidr(props.cidr) 
+                    { !validateSpace(props.cidr) || !validateCidr(props.cidr) || !(validateURL(props.domain) || props.domain ==='') || 
+                    (props.type == '0') || (props.contacts.length < 1) ? // 
                         <><Button variant="primary" disabled>Guardar</Button></> 
                         : 
                         <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>

@@ -46,7 +46,7 @@ const validateNumber = (number) => {
 
 const validateCidr = (cidr) => {
   
-  return  (/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/).test(cidr);
+  return  (/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(3[0-2]|2[0-9]|[01]?[0-9])$/).test(cidr);
 }
 
 export {validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr};
