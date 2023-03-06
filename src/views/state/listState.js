@@ -15,6 +15,8 @@ const ListState = () => {
     const [error, setError] = useState()
     const [cantPages, setCantPages] = useState()
     const [pages, setPages] = useState([])
+    const [stateAlert, setStateAlert] = useState(null)
+    const [alert, setAlert] = useState(null)
 
 
     useEffect(() => {
@@ -52,11 +54,35 @@ const ListState = () => {
     
         fetchStates()
         }, [])
+
+        const callbackBackend = (name, stateAlert) => {
+            if(stateAlert) {
+                getStates()
+                .then((response) => {
+                    setStates(response.data.results)
+                })
+                .catch((error) => {
+                    setError(error)
+                })
+                .finally(() => {
+                    setLoading(false)
+                    setAlert({name:name, type:1})
+                    setTimeout(() => {
+                        setAlert(null)
+                        setStateAlert(null)
+                    }, 5000);
+                })
+            }
+            else {
+                setAlert({name:name, type:0})
+            }
+          }
     console.log(states)
     const action = () => {
         console.log("llamada backend")
       }
-  return (<div>
+  return (
+    <div>
       
       <Navigation actualPosition="Estados"/>
       <Card>
@@ -72,9 +98,10 @@ const ListState = () => {
               </Col> 
           </Row>                                 
           </Card.Header>
-          <TableStates states={states}  /> 
+          <TableStates states={states} callback={callbackBackend} loading={loading} /> 
       </Card>
-  </div>)
+  </div>
+  )
 }
 
 export default ListState

@@ -20,8 +20,6 @@ function ListUser() {
   const [stateAlert, setStateAlert] = useState(null)
   const [alert, setAlert] = useState(null)
 
-  
-
   const callbackBackend = (name, stateAlert) => {
     if(stateAlert) {
         getUsers()
@@ -45,34 +43,20 @@ function ListUser() {
     }
   }
 
-
-  
   function CambioDepagina(url){
    
-
     if (jumpPage){
       setjumpPage(false)
-      console.log(url)
-
       const fetchPosts = async () => {
-        console.log(url)
         setLoading(true)
         getUsers(url).then((response) => {
-          setPosts(response.data.results)
-          console.log(response.data.results)
-          
+          setPosts(response.data.results)    
       })
-
         setLoading(false)
-        
       }
       fetchPosts()
-  
     }
   }
-
-  
-  
 
   useEffect(() => {
     if(sessionStorage.getItem('Alerta')) {
@@ -84,38 +68,22 @@ function ListUser() {
               sessionStorage.clear()
           }, 5000);
   }
-
-  
-
     function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
 
       const numberOfPages= Math.ceil(numberOfItems / numberOfElementsOnAPage)
-      console.log(numberOfPages)
-  
-      
-      //setpostsPerPage(number)//hay un bug ya que se va mostrar 8 paginas aunque debe ser el doble
-      
+
       const complementUrl ="?page="
-    
-  
+
       const arrayLinks=[]
-      
-  
-      for (var i = 1; i <= numberOfPages; i++) {
-      
-        arrayLinks.push(complementUrl+i)
         
+      for (var i = 1; i <= numberOfPages; i++) {
+        arrayLinks.push(complementUrl+i)  
       }
-      console.log(arrayLinks)
+
       setcantPages(arrayLinks)
     
-      
-      return numberOfPages
-      
+      return numberOfPages  
     }
-
-    
-        
 
     const fetchUsers = async () => {
       setLoading(true)

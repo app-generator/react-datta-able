@@ -108,6 +108,24 @@ const TablePriorities = ({Priorities, callback, loading}) => {
                             <Card.Body>
                                 <Table responsive > 
                                     <tr>
+                                        <td>Nombre</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={priority.name} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha limite de respuesta</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={priority.attend_deadline} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha limite de resolucion</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={priority.solve_deadline} />
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Severidad</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={priority.severity} />
