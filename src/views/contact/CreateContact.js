@@ -13,7 +13,7 @@ const CreateContact = () => {
     const [selectType, setSelectType] = useState('0');
     const [error, setError] = useState(null);
 
-    const createContact = () => {
+    const createContact = () => { //refactorizar al FormContact
 
         postContact (supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 

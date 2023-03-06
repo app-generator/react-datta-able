@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Row, Col, Card,Breadcrumb, Button } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postNetwork } from '../../api/services/networks';
-import FormNetwork from './components/Form/FormNetwork';
+import FormCreateNetwork from './components/Form/FormCreateNetwork';
 
 const CreateNetwork = () => {
     const [children, setChildren] = useState(null);
     const [cidr, setCidr] = useState(''); //* '10.0.0.0/16'
-    const [domain, setDomain] = useState(null);
+    const [domain, setDomain] = useState('');
     const [active, setActive] = useState(true); //* true 
-    const [type, setType] = useState(null); //* internal external
+    const [type, setType] = useState('0'); //* internal external
     const [parent, setParent] = useState(null);
     const [network_entity, setNetwork_entity] = useState(null);
     const [contacts, setContacts] = useState([]); //* ['http://localhost:8000/api/contact/88/', ...]
@@ -55,13 +55,9 @@ const CreateNetwork = () => {
                             <span className="d-block m-t-5">Agregar Red</span>
                         </Card.Header>
                         <Card.Body>
-                             <p>CREAR</p>
-                             <Button onClick={createNetwork}> Crear</Button>
-                             <FormNetwork 
-                                children={children} setChildren={setChildren}
+                             <FormCreateNetwork 
                                 cidr={cidr} setCidr={setCidr}
                                 domain={domain} setDomain={setDomain}
-                                active={active} setActive={setActive}
                                 type={type} setType={setType}
                                 parent={parent} setParent={setParent}
                                 network_entity={network_entity} setNetwork_entity={setNetwork_entity}
@@ -69,7 +65,7 @@ const CreateNetwork = () => {
                                 ifConfirm={createNetwork} />                          
                         </Card.Body>
                     </Card>
-                    <Alert/>
+                    <Alert />
                 </Col>
             </Row>
         </React.Fragment>

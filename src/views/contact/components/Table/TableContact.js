@@ -29,7 +29,7 @@ const TableContact = ({callback, list, loading }) => {
         );    
     } 
 
-    //Read Entity
+    //Read Contact
     const showContact = (url)=> {
         setId(url.split('/')[(url.split('/')).length-2]);
         setUrl(url)
