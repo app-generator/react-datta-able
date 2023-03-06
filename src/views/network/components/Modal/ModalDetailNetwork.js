@@ -58,6 +58,12 @@ const ModalDetailNetwork = (props) => {
                                             : 
                                             <></>
                                         }
+                                        <tr>
+                                            <td>Estado</td>
+                                            <td>
+                                                <Form.Control plaintext readOnly defaultValue={props.network.active ? 'Activa' : 'Inactiva'} />
+                                            </td>
+                                        </tr>
                                         {props.network.domain ? 
                                             <tr>
                                                 <td>Dominio</td>

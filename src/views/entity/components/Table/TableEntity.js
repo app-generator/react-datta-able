@@ -8,19 +8,19 @@ import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../../components/Modal/ModalConfirm';
 
 const TableEntity = ({callback, list, loading }) => {
-    const [entity, setEntity] = useState('');
-    const [error, setError] = useState(null);
-    const [modalShow, setModalShow] = useState(false);
-    const [modalDelete, setModalDelete] = useState(false);
-    const [modalState, setModalState] = useState(false);
-    const [url, setUrl] = useState(null);
-    const [id, setId] = useState(null);
-    const [name, setName] = useState(null);
-    const [lastItem, setLastItem] = useState(null);
-    const [created, setCreated] = useState(null);
-    const [modified, setModified] = useState(null);
-    const [state,setState] = useState(null);
-    const [active,setActive] = useState(null);
+    const [entity, setEntity] = useState('') 
+    const [error, setError] = useState(null) 
+    const [modalShow, setModalShow] = useState(false) 
+    const [modalDelete, setModalDelete] = useState(false) 
+    const [modalState, setModalState] = useState(false) 
+    const [url, setUrl] = useState(null) 
+    const [id, setId] = useState(null) 
+    const [name, setName] = useState(null) 
+    const [lastItem, setLastItem] = useState(null) 
+    const [created, setCreated] = useState(null) 
+    const [modified, setModified] = useState(null) 
+    const [active,setActive] = useState(null) 
+    const state = ['Inactiva', 'Activa']
 
     useEffect(() => {
 
@@ -46,7 +46,6 @@ const TableEntity = ({callback, list, loading }) => {
             setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
             datetime = response.data.modified.split('T');
             setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
-            setState(response.data.active)
             setModalShow(true)
         })
         .catch(setError);
@@ -152,7 +151,6 @@ const TableEntity = ({callback, list, loading }) => {
                                             <Link to={{pathname:'/entity/edit', state: entity}} >
                                                 <CrudButton type='edit'/>
                                             </Link>
-                                            <ActiveButton active={state} />
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                         </Col>
                                     </Row>
@@ -171,6 +169,12 @@ const TableEntity = ({callback, list, loading }) => {
                                                 <td>Nombre</td>
                                                 <td>
                                                     <Form.Control plaintext readOnly defaultValue={entity.name} />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Estado</td>
+                                                <td>
+                                                    <Form.Control plaintext readOnly defaultValue={state[entity.active]} />
                                                 </td>
                                             </tr>
                                             <tr>
