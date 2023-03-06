@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, Card,Breadcrumb } from 'react-bootstrap';
+import { Button, Breadcrumb, Card, Col, Row  } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
 import FormContact from './components/Form/FormContact';
@@ -50,7 +50,7 @@ const CreateContact = () => {
                                 type={selectType} setType={setSelectType} 
                                 contact={supportedContact} setContact={setSupportedContact} 
                                 keypgp={supportedKey} setKey={setSupportedKey} 
-                                ifConfirm={createContact} />                          
+                                ifConfirm={createContact} ifCancel={() => window.location.href = "/contact/tables"} />
                         </Card.Body>
                     </Card>
                     <Alert/>

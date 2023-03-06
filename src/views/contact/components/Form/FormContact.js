@@ -5,7 +5,7 @@ import { validateSpace, validateAlphanumeric  } from '../../../../components/Val
 import FormContactPriority from './FormContactPriority';
 
 const FormContact = (props) => { 
-    // props: name, setName, role, setRole, priority, setPriority, type, setType, contact, setContact, keypgp, setKey, ifConfirm
+    // props: name, setName, role, setRole, priority, setPriority, type, setType, contact, setContact, keypgp, setKey, ifConfirm, ifCancel
     const [validContact, setValidContact] = useState(false) 
     const [priorities, setPriorities] = useState([])
     const [error, setError] = useState(false)
@@ -159,7 +159,7 @@ const FormContact = (props) => {
                     <Col lg={8}>
                         <FormContactPriority selectedType={props.type} 
                             contact={props.contact} setContact={props.setContact}
-                            setValidContact={setValidContact} />                   
+                            setValidContact={setValidContact} />
                     </Col>
                 </Row>
                 <Form.Group controlId="Form.Contact.Key">
@@ -179,7 +179,7 @@ const FormContact = (props) => {
                         : 
                         <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>
                     }
-                        <Button variant="primary" href="/contact/tables">Cancelar</Button>
+                        <Button variant="primary" onClick={props.ifCancel}>Cancelar</Button>
                 </Form.Group>
             </Form>
         </React.Fragment>

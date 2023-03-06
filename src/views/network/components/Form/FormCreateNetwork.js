@@ -230,8 +230,8 @@ const FormCreateNetwork = (props) => {
                 </Row>
                 <Row>
                 <Form.Group>
-                    {!validateSpace(props.cidr)  || !(validateURL(props.domain) || props.domain ==='') || 
-                    (props.type == '0') || (props.contacts.length < 1) ? // || !validateCidr(props.cidr)
+                    {!validateSpace(props.cidr) || !(validateURL(props.domain) || props.domain ==='') || 
+                    (props.type == '0') || (props.contacts.length < 1) ? // || !validateCidr(props.cidr) 
                         <><Button variant="primary" disabled>Guardar</Button></> 
                         : 
                         <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>
@@ -263,9 +263,9 @@ const FormCreateNetwork = (props) => {
                                     role={selectRol} setRole={setSelectRol} 
                                     priority={supportedPriority} setPriority={setSupportedPriority} 
                                     type={selectType} setType={setSelectType} 
-                                    contact={supportedContact} setContacts={setSupportedContact} 
+                                    contact={supportedContact} setContact={setSupportedContact} 
                                     keypgp={supportedKey} setKey={setSupportedKey} 
-                                    ifConfirm={createContact} />
+                                    ifConfirm={createContact} ifCancel={() => setModalCreate(false)} />
                                 </Card.Body>
                             </Card>
                         </Col> 
