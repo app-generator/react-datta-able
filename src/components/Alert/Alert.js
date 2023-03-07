@@ -4,7 +4,7 @@ import Toast from 'react-bootstrap/Toast';
 import { store } from '../../store';
 import { CLEAR_MESSAGE } from '../../store/actions';
 
-const Alert = () => {
+const Alert = ({ showAlert , resetShowAlert, delay = 5000}) => {
     const [show, setShow] = useState(false);
     const [text, setText] = useState('');
     const [type, setType] = useState('');
@@ -14,8 +14,7 @@ const Alert = () => {
     const typeAlert = store.getState().message.typeMessage;
  
     useEffect(() => {
-        
-        if (textMessage  !== '') {
+        if (showAlert === true && textMessage  !== '') {
             setText(textMessage);
             setType(typeAlert);
             setShow(true); 
@@ -38,17 +37,19 @@ const Alert = () => {
             type: CLEAR_MESSAGE
         });
 
+
         setShow(false);
+        resetShowAlert();
 
     }
   
     return( 
 
-        <div className="mt-2" style={{ display: 'flex', justifyContent: 'center', alignContent:'center'  }}> 
-            <Toast style={{ position: 'fixed', zIndex:99999 , backgroundColor:`${backgroundColor}`}} onClose={() => resetAlert()} show={show} delay={5000} autohide >
+        <div style={{ display: 'flex', position:'fixed', top: '2%', right: '0', left: '0', justifyContent: 'center', alignContent:'center' , zIndex:99999 }}> 
+            <Toast style={{flexBasis: '30%', maxWidth: '30%', zIndex:99999 , backgroundColor:`${backgroundColor}`}} onClose={() => resetAlert()} show={show} delay={delay} autohide >
                 <Toast.Header>   
-                    <h6 className="mr-auto mt-2" > 
-                        <i className={type==='success' ? 'feather icon-check-circle mx-1' : 'feather icon-alert-triangle mx-1'} />
+                    <h6 className="mr-auto mt-2" style={{color: '#5e5e5e'}}> 
+                        <i className={type==='success' ? 'feather icon-check-circle mx-1' : 'feather icon-alert-triangle mx-1'} style={{color: backgroundColor}}/>
                         {text}  
                     </h6>
                 </Toast.Header>
