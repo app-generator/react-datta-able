@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import CrudButton from '../../../components/Button/CrudButton';
+import ActiveButton from '../../../components/Button/ActiveButton';
 
 function ButtonView({feed}) {
   const [show, setShow] = useState(false);
@@ -22,7 +24,10 @@ function ButtonView({feed}) {
                                         <Card.Title as="h5">Fuentes de Informacion</Card.Title>
                                         <span className="d-block m-t-5">Detalle de fuente de informacion</span>
                                     </Col>
-                                    <Col sm={12} lg={4}>
+                                    <Col sm={12} lg={2}>
+                                        <Link to={{pathname:"./feeds/edit", state:{feed}}} >
+                                            <CrudButton type="edit" />
+                                        </Link>
                                         <CloseButton aria-label='Cerrar' onClick={handleClose} />
                                     </Col>
                                 </Row>
@@ -43,9 +48,9 @@ function ButtonView({feed}) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Estado</td>
+                                        <td>Activo</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={feed.active ? "Activo" : "Inactivo"} />
+                                            <ActiveButton active={feed.active} />
                                         </td>
                                     </tr>
                                     { (feed.description == undefined) ? '' : 
