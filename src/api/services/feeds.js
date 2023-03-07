@@ -3,7 +3,14 @@ import { COMPONENT_URL, PAGE } from '../../config/constant';
 import setAlert from "../../utils/setAlert";
 
 const getFeeds = (currentPage) => {
-    return apiInstance.get(COMPONENT_URL.feed + PAGE + currentPage);
+    return apiInstance.get(COMPONENT_URL.feed + PAGE + currentPage,{
+        validateStatus: function (status) {            
+            let messageError = `Se produjo un error al buscar las fuentes de informacion.`;
+            if (status != 200)                 
+                setAlert(messageError, "error");
+            return status;  
+        }
+    });
 }
 
 const postFeed = (slug, name, description, active) => {
