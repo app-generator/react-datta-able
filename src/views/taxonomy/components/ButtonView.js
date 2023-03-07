@@ -2,12 +2,29 @@ import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
 import ActiveButton from '../../../components/Button/ActiveButton';
 import CrudButton from '../../../components/Button/CrudButton';
+import { getParent } from '../../../api/services/taxonomy';
 
 function ButtonView({taxonomy}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  /*
+  const [parent, setParent] = useState(null);
+  const [error, setError] = useState(null);
+  
+  const taxonomyParent = (taxonomy)=> {
+    getParent(taxonomy.parent)
+    .then((response) => {
+        setParent(response.data)
+    })     
+    .catch((error) => {
+        setError(error);            
+    })   
+  }*/
+
+  
+  
 
   return (
     <>
@@ -64,7 +81,15 @@ function ButtonView({taxonomy}) {
                                                 </td>
                                             </tr>
 
-                                    }                                    
+                                    }
+                                    { (taxonomy.parent == undefined) ? '' :                                                                                                                  
+                                        <tr>
+                                            <td>Padre</td>
+                                            <td>
+                                                <Form.Control plaintext readOnly defaultValue={taxonomy.parent} />
+                                            </td>
+                                        </tr>
+                                    }                                     
                                     <tr>
                                         <td>Informacion Relacionada</td>
                                         <td>

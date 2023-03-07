@@ -6,6 +6,10 @@ const getTaxonomy = (currentPage) => {
     return apiInstance.get(COMPONENT_URL.taxonomy + PAGE + currentPage);
 }
 
+const getParent = (url) => { 
+    return apiInstance.get(url);
+}
+
 const putActivationStatus= (url, state, name) => {
     return apiInstance.patch(url, {
         active: state
@@ -38,4 +42,4 @@ const deleteTaxonomy = (url, name) => {
 }
 
 
-export { getTaxonomy, putActivationStatus, deleteTaxonomy }
+export { getTaxonomy, getParent, putActivationStatus, deleteTaxonomy }
