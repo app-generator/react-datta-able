@@ -4,7 +4,7 @@ import setAlert from '../../utils/setAlert';
 
 
 const register = (username, password, email) => {
-    return apiInstance.post("https://cualquier"+COMPONENT_URL.register, {
+    return apiInstance.post(COMPONENT_URL.register, {
         username: username,  
         password: password, 
         email: email, 
@@ -51,9 +51,15 @@ const refreshToken = () => {
 }
 
 const logout = (user) => {
-    console.log("usuario recibido "+user);
-    return apiInstance.post("logout/", {
+    return apiInstance.post(COMPONENT_URL.logout, {
         user: user
+    }).then(response => {
+        return response;
+    }).catch( error => { 
+        if (error.response.status === 400) {
+            setAlert("No se pudo realizar el logout", "error");
+        } 
+        return Promise.reject(error);
     });
 }
 
