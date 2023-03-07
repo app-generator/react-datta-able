@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Button, Breadcrumb, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Table, Breadcrumb, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getFeeds } from '../../api/services/feeds';
 import ButtonView from './components/ButtonView';
