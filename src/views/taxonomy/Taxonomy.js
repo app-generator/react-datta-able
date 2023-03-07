@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Button, Breadcrumb, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Table, Breadcrumb, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getTaxonomy } from '../../api/services/taxonomy';
 import ButtonView from './components/ButtonView';
@@ -68,9 +68,7 @@ const ListTaxonomies = () => {
             setError(null)
         })
         .catch((error)=>{
-            if (error) {      
-                setAlert({name:`Ups! Se produjo un error al buscar las fuentes de informacion.`, type:0})
-            }
+            setError(error)
         })
         .finally(() => {
             setLoading(false)
@@ -133,7 +131,7 @@ const ListTaxonomies = () => {
                                 </Col> 
                                 <Col sm={12} lg={3}>
                                     <React.Fragment>                                        
-                                        <Link to={{pathname:'./feeds/new'}} >
+                                        <Link to={{pathname:'./taxonomy/new'}} >
                                             <CrudButton type='create' name='Taxonomia' />
                                         </Link>
                                     </React.Fragment>                           

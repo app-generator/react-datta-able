@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
+import ActiveButton from '../../../components/Button/ActiveButton';
 import CrudButton from '../../../components/Button/CrudButton';
 
 function ButtonView({taxonomy}) {
@@ -22,7 +23,8 @@ function ButtonView({taxonomy}) {
                                         <Card.Title as="h5">Taxonomia</Card.Title>
                                         <span className="d-block m-t-5">Detalle de taxonomia</span>
                                     </Col>
-                                    <Col sm={12} lg={4}>
+                                    <Col sm={12} lg={2}>
+                                        <CrudButton type="edit" />
                                         <CloseButton aria-label='Cerrar' onClick={handleClose} />
                                     </Col>
                                 </Row>
@@ -43,9 +45,9 @@ function ButtonView({taxonomy}) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Estado</td>
+                                        <td>Activo</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={taxonomy.active ? "Activo" : "Inactivo"} />
+                                            <ActiveButton active={+taxonomy.active} />
                                         </td>
                                     </tr>
                                     <tr>
