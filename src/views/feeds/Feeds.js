@@ -68,9 +68,7 @@ const ListFeeds = () => {
             setError(null)
         })
         .catch((error)=>{
-            if (error) {      
-                setAlert({name:`Ups! Se produjo un error al buscar las fuentes de informacion.`, type:0})
-            }
+            setError(error)
         })
         .finally(() => {
             setLoading(false)
