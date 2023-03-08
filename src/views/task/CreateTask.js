@@ -39,7 +39,6 @@ const CreateTask = () => {
                     </Card.Footer>
                 </Card>
             {/*<Alert/>*/}
-            
             </Col>
         </Row>
     </React.Fragment>

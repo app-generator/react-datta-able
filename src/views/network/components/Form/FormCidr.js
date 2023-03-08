@@ -10,7 +10,7 @@ const FormCidr = (props) => { //TODO refactorizar los Form
 
         showParentCidr(props.url)
         
-    }, []);
+    }, [props.url]);
     
     const showParentCidr = (url) => {
         getNetwork(url)

@@ -33,7 +33,8 @@ const FormContact = (props) => {
 return (
         contact && 
         <React.Fragment>
-            <Badge className="badge mr-1 ligth" >{contact.name + ' (' + labelRole[`${contact.role}`] + '): ' + contact.username}</Badge>
+            <Badge pill variant='info' className="mr-1">
+            {contact.name + ' (' + labelRole[`${contact.role}`] + ')'}</Badge>
             <br/>
         </React.Fragment>
     );
