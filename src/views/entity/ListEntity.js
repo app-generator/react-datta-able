@@ -148,8 +148,8 @@ return (
                         </Row>
                     </Card.Footer>
                 </Card>
-                <Alert/>
-            </Col>
+                {/*<Alert/>*/}
+                </Col>
         </Row>
     </React.Fragment>
 )}

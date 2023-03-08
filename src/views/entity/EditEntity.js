@@ -54,7 +54,7 @@ const EditEntity = () => {
                             </Row>
                         </Card.Body>
                     </Card>
-                    <Alert/>
+                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

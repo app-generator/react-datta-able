@@ -105,7 +105,7 @@ const FormCreateNetwork = (props) => {
 
     return (
         <React.Fragment>
-            <Alert/>
+            {/*<Alert/>*/}
             <Form>
                 <Row>
                     <Col sm={12} lg={12}>
@@ -271,8 +271,6 @@ const FormCreateNetwork = (props) => {
                     </Row>
                 </Modal.Body>
             </Modal>
-
-                                        
         </React.Fragment>
     );
 };

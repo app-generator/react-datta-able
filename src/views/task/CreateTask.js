@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/navigation/navigation';
+import { getAllTaxonomies } from '../../api/services/taxonomy'; 
 
 const CreateTask = () => {
 
-   
+    const [taxonomies, setTaxonomies] = useState();
+    const [error, setError] = useState(null);
+
+
+    getAllTaxonomies()
+    .then((response) => {
+        setTaxonomies(response.data.results)
+        console.log(response.data.results)
+    })
+    .catch((error)=>{
+        setError(error)
+    })
+
+
     return (
     <React.Fragment>
         <Row>
@@ -24,7 +38,8 @@ const CreateTask = () => {
 
                     </Card.Footer>
                 </Card>
-                <Alert/>
+            {/*<Alert/>*/}
+            
             </Col>
         </Row>
     </React.Fragment>

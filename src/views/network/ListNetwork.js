@@ -123,7 +123,6 @@ const ListNetwork = () => {
             <Navigation actualPosition={'Redes'}/>  
         </Row>
         <Row>
-                                <Alert/>    
             <Col>
                 <Card>
                     <Card.Header>
@@ -147,8 +146,8 @@ const ListNetwork = () => {
                         </Row>
                     </Card.Footer>
                 </Card>
-                <Alert/>
-            </Col>
+                {/*<Alert/>*/}
+                </Col>
         </Row>
     </React.Fragment>
 )}

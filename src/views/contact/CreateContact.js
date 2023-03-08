@@ -50,7 +50,7 @@ const CreateContact = () => {
                                 ifConfirm={createContact} ifCancel={() => window.location.href = "/contact/tables"} />
                         </Card.Body>
                     </Card>
-                    <Alert/>
+                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

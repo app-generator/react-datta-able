@@ -6,4 +6,8 @@ const getTaxonomy = (url) => {
     return apiInstance.get(url);
 }
 
-export { getTaxonomy };
+const getAllTaxonomies = () => {
+    return apiInstance.get(COMPONENT_URL.taxonomy);
+}
+
+export { getTaxonomy, getAllTaxonomies };

@@ -52,8 +52,8 @@ const EditContact = () => {
                                 ifConfirm={editContact} />
                         </Card.Body>
                     </Card>
-                    <Alert/>
-                </Col>
+                    {/*<Alert/>*/}
+                    </Col>
             </Row>
         </React.Fragment>
     );

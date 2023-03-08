@@ -52,7 +52,7 @@ const CreateEntity = () => {
                             </Row>
                         </Card.Body>
                     </Card>
-                    <Alert/>
+                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

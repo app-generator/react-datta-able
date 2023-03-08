@@ -131,7 +131,7 @@ const ListPlaybook = () => {
                         </Row>
                     </Card.Footer>
                 </Card>
-                <Alert/>
+            {/*<Alert/>*/}
             </Col>
         </Row>
     </React.Fragment>

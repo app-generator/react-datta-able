@@ -128,7 +128,7 @@ const ListTask = () => {
 
                     </Card.Footer>
                 </Card>
-                <Alert/>
+            {/*<Alert/>*/}
             </Col>
         </Row>
     </React.Fragment>
