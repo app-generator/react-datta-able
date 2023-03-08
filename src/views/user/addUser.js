@@ -76,7 +76,6 @@ const AddUser = () => {
                 
                     <Card.Title as="h5">Agregar Usuario</Card.Title>
                 </Card.Header>
-                <div className="select__multi-value__label css-9jq23d">Blue</div>
                 <Card.Body>
                     <Form >
                         <FormUser body={body} setBody={setBody} priorities={priorities} createUser={createUser} loading={loading} />

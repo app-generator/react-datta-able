@@ -1,21 +1,27 @@
 import React, {useState} from 'react'
 import {Card, Form, Button, ButtonGroup, Badge} from 'react-bootstrap'
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
-const states = ["hijo1", "hijo2", "hijo3"]
-const statesSave = []
-const FormState = ({body, setBody, createState}) => {
+
+const animatedComponents = makeAnimated();
+
+
+const FormState = ({body, setBody, createState, childernes}) => {
 
     const completeField=(event)=>{ 
         setBody({...body,
             [event.target.name] : event.target.value}
         )     
     } 
-    const completeChildren=(event)=>{ 
-        statesSave.push(event.target.value)
-        console.log(statesSave)     
-    } 
-    const deleteChildren=(event)=>{
-        statesSave.pop(event.target.name)
+    const completeChildernes=(event)=>{ 
+        
+        setBody({...body,
+            ["children"] : event.map((e)=>{
+                return e.value
+            })}
+        )
+        console.log(body.children)
     }
 
   return (
@@ -80,6 +86,17 @@ const FormState = ({body, setBody, createState}) => {
 
             <Form.Group controlId="formGridAddress1">
                 <Form.Label>hijos</Form.Label>
+                <Select
+                    closeMenuOnSelect={false}
+                    components={animatedComponents}
+                    isMulti
+                    onChange={(e)=>completeChildernes(e)}
+                    options={childernes}
+                />
+            </Form.Group>
+
+            {/*<Form.Group controlId="formGridAddress1">
+                <Form.Label>hijos</Form.Label>
                 <Form.Control 
                 placeholder="Ingrese un color" 
                 maxlength="150" 
@@ -120,7 +137,7 @@ const FormState = ({body, setBody, createState}) => {
                     
                 </Form.Control>
                 {(body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
-                </Form.Group>
+                </Form.Group>*/}
 
             <Button variant="primary" onClick={createState} >Guardar</Button> 
             <Button variant="primary" href="./list-states">Cancelar</Button>  

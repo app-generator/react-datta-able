@@ -76,12 +76,9 @@ const ListPriorities = () => {
           console.log(response.data.results)
           
       })
-
         setLoading(false)
-        
       }
       fetchPosts()
-  
     }
   }
 

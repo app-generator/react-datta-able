@@ -9,8 +9,6 @@ import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import { deleteState, isActive } from "../../../api/services/states";
 
 
-
-
 const TableStates = ({states, callback, loading}) => {
     const [deleteName, setDeleteName] = useState()
     const [deleteUrl, setDeleteUrl] = useState()
@@ -103,8 +101,9 @@ const TableStates = ({states, callback, loading}) => {
                                             <td>
                                             <ActiveButton active={state.active} onClick={() => modalChangeState(state.url, state.name, state.active)} />
                                             </td>
-                                            <td>{state.attended}</td>
-                                            <td>{state.solved}</td>
+                                            <td>{state.attended ? "Verdadero": "Falso"} </td>
+                                            
+                                            <td>{state.solved ? "Verdadero": "Falso"}</td>
                                             
                                         
                                             <td>
