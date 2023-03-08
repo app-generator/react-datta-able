@@ -221,6 +221,11 @@ const routes = [
                 component: lazy(() => import('./views/state/editState'))
             },
             {
+                exact: true,
+                path: "/list-event",
+                component: lazy(() => import('./views/event/listEvent'))
+            },
+            {
                 path: '*',
                 exact: true,
                 component: () => <Redirect to={BASE_URL} />

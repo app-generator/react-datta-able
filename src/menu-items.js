@@ -109,6 +109,24 @@ const menuItems = {
             }
             ]
         },
+        {
+            id: 'Eventos',
+            title: 'Eventos',
+            type: 'group',
+            icon: 'icon-ui',
+            children: [
+            {
+                id: 'Eventos',
+                title: 'Eventos',
+                type: 'item',
+                url: '/list-event',
+                classes: '',
+                icon: '',
+                breadcrumbs: false,
+            }
+            ]
+        },
+         
          
         {
             id: 'ui-element',
