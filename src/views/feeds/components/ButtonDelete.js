@@ -13,7 +13,7 @@ function ButtonDelete({feed}) {
   const [error, setError] = useState(null);
 
   const removeFeed = (feed)=> {
-    deleteFeed(feed.url, feed.name).then((response) => {
+    deleteFeed(feed.url).then((response) => {
       console.log(response);
       window.location.href = '/app/feeds';
     })
