@@ -134,7 +134,6 @@ function TableUsers({users, callback, loading}) {
                                         <Link to={{pathname:"./edit-user/", state: {user}}} >
                                             <CrudButton  type='edit' />
                                         </Link>
-                                        <ActiveButton active={+user.is_active} onClick={() => showModalChangeState(user.url,user.username, user.is_active)} />
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                     </Col>
                                 </Row>         
@@ -152,6 +151,17 @@ function TableUsers({users, callback, loading}) {
                                         <td>Nombre</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={user.first_name } />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>activo</td>
+                                        <td>
+                                        <Button 
+                                            className="btn-icon btn-rounded" 
+                                            variant={user.is_active ? 'outline-success' : 'outline-danger'} 
+                                            title={user.is_active ? 'Activo' : 'Inactivo'}>
+                                                <i className={user.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
+                                        </Button>
                                         </td>
                                     </tr>
                                     <tr>
