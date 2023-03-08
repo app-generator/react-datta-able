@@ -1,12 +1,12 @@
-import { validateFormatText, validateLengthText, isEmpty } from "./ValidatorInput"
+import { validateFieldText, validateLength, isEmpty } from "../../../components/Validator/validators"
 
 const validateName = (name) =>{
-    return (validateFormatText(name) && validateLengthText(name, 100) && !isEmpty(name))
+    return (validateFieldText(name) && validateLength(name, 100) && !isEmpty(name))
 }
 
 
 const validateDescription = (description) =>{
-    return (validateLengthText(description, 250) && !isEmpty(description))
+    return (validateLength(description, 250) && !isEmpty(description))
 }
 
 export {validateName, validateDescription}

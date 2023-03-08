@@ -18,6 +18,14 @@ const validateSpace= (text) => {
   return (text.trim() != 0)
 }
 
+const validateLength = (text, maxlength) =>{
+  return (text.length <= maxlength)
+}
+
+const isEmpty = (text) =>{
+  return (text.trim().length === 0)
+}
+
 const validateAlphanumeric = (text) =>{
   return (/^[A-Za-zÁÉÍÓÚáéíóúñÑ'0-9 ]+$/g).test(text)
 }

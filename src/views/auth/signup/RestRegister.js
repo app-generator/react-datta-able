@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Row, Col, Button, Alert } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import axios from 'axios';
 import useScriptRef from '../../../hooks/useScriptRef';
-import { API_SERVER } from './../../../config/constant';
+import { register } from '../../../api/services/auth';
+import Alert from './../../../components/Alert/Alert'; 
+
 
 const RestRegister = ({ className, ...rest }) => {
+    const [showAlert, setShowAlert] = useState(false);
+    const [delayAlert, setDelayAlert] = useState(5000);
+    const [registered, setRegistered] = useState(false);
     let history = useHistory();
-    const scriptedRef = useScriptRef();
+
+    const resetShowAlert = () => {
+        
+        if ( registered === true ) {
+            history.push('/auth/signin', { from: '/auth/signup' });
+        } else {
+            setShowAlert(false);
+            setDelayAlert(5000);
+        }
+        
+    }
 
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert} delay={delayAlert}/>
             <Formik
                 initialValues={{
                     username: '',
@@ -22,41 +37,25 @@ const RestRegister = ({ className, ...rest }) => {
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    username: Yup.string().required('Username is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    email: Yup.string().email('El email debe ser válido').max(255).required('El email es requerido'),
+                    username: Yup.string().required('El nombre de usuario es requerido'),
+                    password: Yup.string().max(255).required('La contraseña es requerida')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    try {
-                        axios
-                            .post(API_SERVER + 'register/', {
-                                username: values.username,
-                                password: values.password,
-                                email: values.email
-                            })
-                            .then(function (response) {
-                                if (response.data.success) {
-                                    history.push('/auth/signin');
-                                } else {
-                                    setStatus({ success: false });
-                                    setErrors({ submit: response.data.msg });
-                                    setSubmitting(false);
-                                }
-                            })
-                            .catch(function (error) {
-                                setStatus({ success: false });
-                                setErrors({ submit: error.response.data.msg });
-                                setSubmitting(false);
-                            });
-                    } catch (err) {
-                        console.error(err);
-                        if (scriptedRef.current) {
-                            setStatus({ success: false });
-                            setErrors({ submit: err.message });
-                            setSubmitting(false);
-                        }
-                    }
-                }}
+
+                    register(values.username, values.password, values.email)
+                        .then((response) => {
+                            setShowAlert(true);
+                            setDelayAlert(2000);
+                            setRegistered(true);
+                        })
+                        .catch((error) => {
+                            setShowAlert(true);
+                    });
+
+                }
+            }
+                
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} className={className} {...rest}>
@@ -65,7 +64,7 @@ const RestRegister = ({ className, ...rest }) => {
                                 className="form-control"
                                 error={touched.username && errors.username}
                                 label="Username"
-                                placeholder="Username"
+                                placeholder="Nombre de usuario"
                                 name="username"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
@@ -79,7 +78,7 @@ const RestRegister = ({ className, ...rest }) => {
                                 className="form-control"
                                 error={touched.email && errors.email}
                                 label="Email Address"
-                                placeholder="Email Address"
+                                placeholder="Email"
                                 name="email"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
@@ -93,7 +92,7 @@ const RestRegister = ({ className, ...rest }) => {
                                 className="form-control"
                                 error={touched.password && errors.password}
                                 label="Password"
-                                placeholder="Password"
+                                placeholder="Contraseña"
                                 name="password"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
@@ -102,20 +101,7 @@ const RestRegister = ({ className, ...rest }) => {
                             />
                             {touched.password && errors.password && <small className="text-danger form-text">{errors.password}</small>}
                         </div>
-
-                        {errors.submit && (
-                            <Col sm={12}>
-                                <Alert variant="danger">{errors.submit}</Alert>
-                            </Col>
-                        )}
-
-                        <div className="custom-control custom-checkbox  text-left mb-4 mt-2">
-                            <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                            <label className="custom-control-label" htmlFor="customCheck1">
-                                Save credentials.
-                            </label>
-                        </div>
-
+                       
                         <Row>
                             <Col mt={2}>
                                 <Button
@@ -126,7 +112,7 @@ const RestRegister = ({ className, ...rest }) => {
                                     type="submit"
                                     variant="primary"
                                 >
-                                    Sign UP
+                                    Registrarse
                                 </Button>
                             </Col>
                         </Row>

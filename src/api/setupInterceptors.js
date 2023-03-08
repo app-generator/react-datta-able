@@ -2,7 +2,9 @@ import Cookies from 'js-cookie';
 
 import apiInstance from './api';
 import { refreshToken } from './services/auth';
-import { REFRESH_TOKEN, LOGOUT, SET_MESSAGE } from '../store/actions';
+import { REFRESH_TOKEN, LOGOUT } from '../store/actions';
+
+import setAlert from '../utils/setAlert';
 
 const setup = (store) => {
 
@@ -23,12 +25,38 @@ const setup = (store) => {
         return request;
 
     });
-    
-    apiInstance.interceptors.response.use((response) => {
 
+    apiInstance.interceptors.response.use((response) => {
+     
         return response;
         },(error) => {
+            
+            // Generic error: Connection to server failed
+            if (!error.response) {
     
+                setAlert("Falló la conexión al servidor","error");
+    
+            } 
+            /*
+            else {
+    
+                console.log(JSON.stringify(error.config.url));
+                console.log(JSON.stringify(error.config.method));
+                console.log(JSON.stringify(error.config.data));
+                console.log(JSON.stringify(error.response.status));
+                console.log(JSON.stringify(error.response.data.msg));
+    
+            }      
+            */
+    
+            return Promise.reject(error);
+        }
+    );
+    
+    apiInstance.interceptors.response.use((response) => {
+        return response;
+        },(error) => {
+
             const originalConfig = error.config;
     
             // falta redefinir status esperado en caso de que falle el access token
@@ -61,5 +89,6 @@ const setup = (store) => {
     );
 
 };
+
 
 export default setup;
