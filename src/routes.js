@@ -162,21 +162,6 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/list-Priorities',
-                component: lazy(() => import('./views/priorities/listPriorities'))
-            },
-            {
-                exact: true,
-                path: '/add-Priority',
-                component: lazy(() => import('./views/priorities/addPriority'))
-            },
-            {
-                exact: true,
-                path: '/edit-Priority',
-                component: lazy(() => import('./views/priorities/editPriority'))
-            },
-            {
-                exact: true,
                 path: '/entity/tables',
                 component: lazy(() => import('./views/entity/ListEntity'))
             },
@@ -192,6 +177,36 @@ const routes = [
             },
             {
                 exact: true,
+                path: '/network/tables',
+                component: lazy(() => import('./views/network/ListNetwork'))
+            },
+            {
+                exact: true,
+                path: '/network/create',
+                component: lazy(() => import('./views/network/CreateNetwork'))
+            },
+            {
+                exact: true,
+                path: '/network/edit',
+                component: lazy(() => import('./views/network/EditNetwork'))
+            },
+            {
+                exact: true,
+                path: '/list-Priorities',
+                component: lazy(() => import('./views/priorities/listPriorities'))
+            },
+            {
+                exact: true,
+                path: '/add-Priority',
+                component: lazy(() => import('./views/priorities/addPriority'))
+            },
+            {
+                exact: true,
+                path: '/edit-Priority',
+                component: lazy(() => import('./views/priorities/editPriority'))
+            },
+            {
+                exact: true,
                 path: '/list-user',
                 component: lazy(() => import('./views/user/listUser'))
             },
@@ -204,6 +219,36 @@ const routes = [
                 exact: true,
                 path: "/edit-user",
                 component: lazy(() => import('./views/user/editUser'))
+            },
+            {
+                exact: true,
+                path: '/playbook/tables',
+                component: lazy(() => import('./views/playbook/ListPlaybook'))
+            },
+            {
+                exact: true,
+                path: '/playbook/create',
+                component: lazy(() => import('./views/playbook/CreatePlaybook'))
+            },
+            {
+                exact: true,
+                path: '/playbook/edit',
+                component: lazy(() => import('./views/playbook/EditPlaybook'))
+            },
+            {
+                exact: true,
+                path: '/task/tables',
+                component: lazy(() => import('./views/task/ListTask'))
+            },
+            {
+                exact: true,
+                path: '/task/create',
+                component: lazy(() => import('./views/task/CreateTask'))
+            },
+            {
+                exact: true,
+                path: '/task/edit',
+                component: lazy(() => import('./views/task/EditTask'))
             },
             {
                 path: '*',

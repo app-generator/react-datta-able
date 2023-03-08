@@ -1,36 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert'; 
-import CrudButton from '../../components/Button/CrudButton'; 
-import Pagination from '../../components/Pagination/Pagination'; 
-import TableEntity from './components/Table/TableEntity'; 
-import { getEntities } from '../../api/services/entities';
+import { Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { getTasks } from '../../api/services/tasks';
+import Alert from '../../components/Alert/Alert';
+import CrudButton from '../../components/Button/CrudButton';
 import Navigation from '../../components/navigation/navigation';
 import Search from '../../components/search/search';
+import TableTask from './components/Table/TableTask';
 
-const ListEntity = () => {
-    const [entities, setEntities] = useState([])
+const ListTask = () => {
+
+    const [task, setTask] = useState('')
+
     const [error, setError] = useState(null)
-    const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
 
     const [currentPage, setCurrentPage] = useState(1)
     const [jumpPage, setjumpPage] = useState(false)
     const [pages, setPages] = useState(0)
     const [arrayPages, setArrayPages] = useState([])
-  
+
     useEffect( ()=> {
-        console.log('useEffect')
+
         setCurrentPage(currentPage )//?
 
-        console.log('CURRENT '+currentPage)
-        getEntities('?page='+currentPage) //error al borrar el ultimo elemento de la pagina
+        getTasks('?page='+currentPage)
             .then((response) => {
                 //Pagination
-                console.log('use effect')
-                setPages(arrayWithPages(response.data.count,response.data.results.length))
-                setEntities(response.data.results)
+                setPages(arrayWithPages(response.data.count,response.data.results.length))                 
+                setTask(response.data.results);
             })
             .catch((error) => {
                 setError(error)
@@ -39,7 +37,7 @@ const ListEntity = () => {
                 setLoading(false)
             })
     }, [pages])
-        
+
     //Pagination
     function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
         console.log('funcion arrayWithPages')
@@ -59,36 +57,21 @@ const ListEntity = () => {
 
     if (error) {
         console.log(error);
-        return <p>Ups! Se produjo un error al buscar las entidades.</p>
+        return <p>Ups! Se produjo un error al buscar los contactos.</p>
     }
-
-    //valores ingresados
-    const searcher = (e) => {
-        setSearch(e.target.value) 
-        }
-    //filtro
-    let show = []
-    if (!search) {
-        show = entities
-    } else {
-        show = entities.filter( (item) => 
-            item.name.toLowerCase().includes(search.toLocaleLowerCase())
-        )
-    }
-
+    
     const callbackBackend = (lastItem) => {
-        console.log('funcion callbackBackend')
-        setLoading(true)
-        if(lastItem) {
-            console.log('if lastItem')
-            setCurrentPage(currentPage-1) //ir a la pagina anterior, no se queda en azul la current page
-            setArrayPages(arrayPages.slice(0, -1)) 
-            //CambioDepagina(arrayPages[currentPage-1])
-        }
-        else {
-            console.log('else lastItem')
-        }
-        setPages(0)//
+            setLoading(true)
+            if(lastItem) {
+                console.log('if lastItem')
+                setCurrentPage(currentPage-1) //ir a la pagina anterior, no se queda en azul la current page
+                setArrayPages(arrayPages.slice(0, -1)) 
+                //CambioDepagina(arrayPages[currentPage-1])
+            }
+            else {
+                console.log('else lastItem')
+            }
+            setPages(0)//
     }
 
     //Pagination
@@ -102,8 +85,8 @@ const ListEntity = () => {
 
             const fetchPosts = async () => {
             console.log('funcion fetchPosts')
-            getEntities(page).then((response) => {
-                setEntities(response.data.results)
+            getTasks(page).then((response) => {
+                setTask(response.data.results)
             })
             setLoading(false)
             }
@@ -113,45 +96,42 @@ const ListEntity = () => {
 
     console.log('array ' + arrayPages)
     CambioDepagina(arrayPages[currentPage-1])
-    const currentPosts = entities// lo que se muestra
- 
+    const currentPosts = task// lo que se muestra
+    
     const action = () => {
         console.log("llamada backend")
       }
 
-return (
+    
+    return (
     <React.Fragment>
         <Row>
-            <Navigation actualPosition={'Entidades'}/>  
+            <Navigation actualPosition={'Tarea'}/>  
         </Row>
         <Row>
             <Col>
                 <Card>
                     <Card.Header>
                         <Row>
-                            <Search type="entidad" action={action} />
+                            <Search type="tarea" action={action} />
                             <Col sm={12} lg={3}>
-                                <Link to={{pathname:'/entity/create'}} >
-                                    <CrudButton type='create' name='Entidad' />
+                                <Link to={{pathname:'/task/create'}} >
+                                    <CrudButton type='create' name='Tarea' />
                                 </Link>
                             </Col> 
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableEntity callback={callbackBackend} list={currentPosts} loading={loading} />
+                        <TableTask callback={callbackBackend} list={currentPosts} loading={loading} />
                     </Card.Body>
                     <Card.Footer >
-                        <Row className="justify-content-md-center">
-                            <Col md="auto"> 
-                                <Pagination pages={pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
-                            </Col>
-                        </Row>
+
                     </Card.Footer>
                 </Card>
-                {/*<Alert/>*/}
-                </Col>
+            {/*<Alert/>*/}
+            </Col>
         </Row>
     </React.Fragment>
 )}
 
-export default ListEntity; 
+export default ListTask; 

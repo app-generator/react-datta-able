@@ -29,7 +29,7 @@ const TableContact = ({callback, list, loading }) => {
         );    
     } 
 
-    //Read Entity
+    //Read Contact
     const showContact = (url)=> {
         setId(url.split('/')[(url.split('/')).length-2]);
         setUrl(url)
@@ -41,7 +41,8 @@ const TableContact = ({callback, list, loading }) => {
             setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
             datetime = response.data.modified.split('T');
             setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
-            setRole(Upper(response.data.role))
+            let rol = labelRole[response.data.role];
+            setRole(rol)
             setType(Upper(response.data.type))
             setModalShow(true)
         })
@@ -82,6 +83,15 @@ const TableContact = ({callback, list, loading }) => {
         return (first+text.slice(1))
     }
 
+    const labelRole =
+    {
+        technical : 'Tecnico',
+        administrative : 'Administrativo',
+        abuse : 'Abuso',
+        notifications : 'Notificaciones',
+        noc : 'NOC',
+    };
+
     return (
             <React.Fragment>
                 <Table responsive hover>
@@ -89,9 +99,9 @@ const TableContact = ({callback, list, loading }) => {
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
+                            <th>Rol</th>
                             <th>Contacto</th>
-                            <th>Creado</th>
-                            <th>Modificado</th>
+                            <th>Prioridad</th>
                             <th>Accion</th>
                         </tr>
                     </thead>
@@ -101,9 +111,9 @@ const TableContact = ({callback, list, loading }) => {
                                 <tr key={contact.url}>
                                 <th scope="row">{index+1}</th>
                                 <td>{contact.name}</td>
+                                <td>{labelRole[contact.role]}</td>
                                 <td>{contact.username}</td>
-                                <td>{contact.created.slice(0, 10)}</td>
-                                <td>{contact.modified.slice(0, 10)}</td>
+                                <td><PriorityButton url={contact.priority}/></td>
                                 <td>
                                     <CrudButton type='read' onClick={() => showContact(contact.url)} />
                                     <Link to={{pathname:'/contact/edit', state: contact}} >
@@ -145,7 +155,7 @@ const TableContact = ({callback, list, loading }) => {
                                                 <Form.Control plaintext readOnly defaultValue={id} />
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr> 
                                             <td>Nombre</td>
                                             <td>
                                                 <Form.Control plaintext readOnly defaultValue={contact.name} />
@@ -161,18 +171,6 @@ const TableContact = ({callback, list, loading }) => {
                                             <td>{type}</td>
                                             <td>
                                                 <Form.Control plaintext readOnly defaultValue={contact.username} />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Fecha de creación</td>
-                                            <td>
-                                                <Form.Control plaintext readOnly defaultValue={created} />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ultima actualización</td>
-                                            <td>
-                                                <Form.Control plaintext readOnly defaultValue={modified} />
                                             </td>
                                         </tr>
                                         {contact.public_key ? 
@@ -192,10 +190,24 @@ const TableContact = ({callback, list, loading }) => {
                                                     Redes
                                                 <Badge variant="light" className="ml-2">4</Badge>
                                                 </Button>
-                                                
+                                                <Button size="sm" variant='light' className="text-capitalize">
+                                                    Prioridad&nbsp;
                                                 <PriorityButton url={contact.priority}/>
+                                                </Button>
                                             </td>
                                         </tr> 
+                                        <tr>
+                                            <td>Fecha de creación</td>
+                                            <td>
+                                                <Form.Control plaintext readOnly defaultValue={created} />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ultima actualización</td>
+                                            <td>
+                                                <Form.Control plaintext readOnly defaultValue={modified} />
+                                            </td>
+                                        </tr>
                                     </tbody>
                                     </Table>
                                 </Card.Body>
