@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import CrudButton from '../../../components/Button/CrudButton';
+import ActiveButton from '../../../components/Button/ActiveButton';
 
 function ButtonView({feed}) {
   const [show, setShow] = useState(false);
@@ -22,7 +24,10 @@ function ButtonView({feed}) {
                                         <Card.Title as="h5">Fuentes de Informacion</Card.Title>
                                         <span className="d-block m-t-5">Detalle de fuente de informacion</span>
                                     </Col>
-                                    <Col sm={12} lg={4}>
+                                    <Col sm={12} lg={2}>
+                                        <Link to={{pathname:"./feeds/edit", state:{feed}}} >
+                                            <CrudButton type="edit" />
+                                        </Link>
                                         <CloseButton aria-label='Cerrar' onClick={handleClose} />
                                     </Col>
                                 </Row>
@@ -43,15 +48,27 @@ function ButtonView({feed}) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Estado</td>
+                                        <td>Activo</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={feed.active ? "Activo" : "Inactivo"} />
+                                            <ActiveButton active={feed.active} />
                                         </td>
                                     </tr>
+                                    { (feed.description == undefined) ? '' : 
+                                            <tr>
+                                                <td>Descripcion</td>
+                                                <td>
+                                                    <Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={feed.description} />
+                                                </td>
+                                            </tr>
+
+                                    }                                     
                                     <tr>
-                                        <td>Descripcion</td>
+                                        <td>Informacion Relacionada</td>
                                         <td>
-                                            <Form.Control style={{resize:"none"}} as="textarea" rows={3} plaintext readOnly defaultValue={feed.description} />
+                                            <Button size="sm" variant='light' className="text-capitalize">
+                                                Incidentes
+                                                <Badge variant="light" className="ml-1">24256</Badge>
+                                            </Button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -64,15 +81,6 @@ function ButtonView({feed}) {
                                         <td>Ultima actualización</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={feed.modified.slice(0,10)} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Informacion Relacionada</td>
-                                        <td>
-                                            <Button size="sm" variant='light' className="text-capitalize">
-                                                Incidentes
-                                                <Badge variant="light" className="ml-1">24256</Badge>
-                                            </Button>
                                         </td>
                                     </tr>
                                 </Table>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Button, Breadcrumb, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Table, Breadcrumb, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getFeeds } from '../../api/services/feeds';
 import ButtonView from './components/ButtonView';
@@ -68,33 +68,12 @@ const ListFeeds = () => {
             setError(null)
         })
         .catch((error)=>{
-            if (error) {      
-                setAlert({name:`Ups! Se produjo un error al buscar las fuentes de informacion.`, type:0})
-            }
+            setError(error)
         })
         .finally(() => {
             setLoading(false)
         })
-    }, [pages]);
-    
-    const callbackBackend = (name, stateAlert) => {
-        if(stateAlert) {
-            setLoading(true)
-            if(list.length === 1) {
-                setCurrentPage(currentPage-1) 
-                setArrayPages(arrayPages.slice(0, -1))
-            }           
-            setPages(0)
-            setAlert({name:name, type:1})
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                }, 5000);
-        }
-        else {
-            setAlert({name:name, type:0})
-        }
-    }
+    }, [pages]);  
     
     //valores ingresados
     const searcher = (e) => {
@@ -165,7 +144,7 @@ const ListFeeds = () => {
                                         <th>#</th>
                                         <th>Nombre</th>
                                         <th>Activo</th>
-                                        <th>Descripcion</th>                                       
+                                        <th>Casos Asociados</th>                                                                                  
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -175,15 +154,15 @@ const ListFeeds = () => {
                                             <th scope="row">{i+1}</th>
                                             <td>{feed.name}</td>
                                             <td>
-                                                <ButtonState feed={feed} callback={callbackBackend}></ButtonState>
+                                                <ButtonState feed={feed}></ButtonState>
                                             </td>
-                                            <td>{feed.description}</td>
+                                            <td>24256</td>
                                             <td>
                                                 <ButtonView feed={feed}></ButtonView>
                                                 <Link to={{pathname:"./feeds/edit", state:{feed}}} >
                                                     <CrudButton type="edit" />                                                    
                                                 </Link>    
-                                                <ButtonDelete feed={feed} callback={callbackBackend}></ButtonDelete>
+                                                <ButtonDelete feed={feed}></ButtonDelete>
                                             </td>
                                         </tr>
                                     ))}
