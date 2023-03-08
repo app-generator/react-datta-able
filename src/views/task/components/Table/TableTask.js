@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { Row, Table, Spinner } from 'react-bootstrap';
 import CrudButton from '../../../../components/Button/CrudButton';
-import { getPlaybook, deletePlaybook } from '../../../../api/services/playbooks';
+import { getTask, deleteTask } from '../../../../api/services/tasks';
+import { getPlaybook } from '../../../../api/services/playbooks';
 import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../../components/Modal/ModalConfirm';
-import ModalDetailPlaybook from '../Modal/ModalDetailPlaybook'; 
+import ModalDetailTask from '../Modal/ModalDetailTask'; 
+import PriorityButton from '../../../../components/Button/PriorityButton'; 
 import FormGetName from '../../../../components/Form/FormGetName';
-import { getTask } from '../../../../api/services/tasks';
-import { getTaxonomy } from '../../../../api/services/taxonomy';
 
-
-const TablePlaybook = ({callback, list, loading }) => {
-    const [playbook, setPlaybook] = useState('')
+const TableTask = ({callback, list, loading }) => {
+    const [task, setTask] = useState('')
     const [error, setError] = useState(null)
 
     const [modalDelete, setModalDelete] = useState(false)
@@ -29,29 +28,29 @@ const TablePlaybook = ({callback, list, loading }) => {
         );    
     } 
 
-    //Read Playbook
-    const showPlaybook = (url)=> {
+    //Read Task
+    const showTask = (url)=> {
         setUrl(url)
-        setPlaybook('')
-        getPlaybook(url)
+        setTask('')
+        getTask(url)
         .then((response) => {
-            setPlaybook(response.data)
+            setTask(response.data)
             console.log(response.data.contacts)
             setModalShow(true)
         })
         .catch(setError);
     };
 
-    //Remove Playbook
+    //Remove Task
     const Delete = (url) => {
         setLastItem(list.length === 1)
         setUrl(url);
         setModalDelete(true)
     }
 
-    const removePlaybook = (url)=> {
+    const removeTask = (url)=> {
         console.log(url)
-        deletePlaybook(url)
+        deleteTask(url)
             .then((response) => {
                 console.log(response)
                 callback(lastItem)
@@ -78,52 +77,40 @@ const TablePlaybook = ({callback, list, loading }) => {
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
-                            <th>Tareas</th>
-                            <th>Taxonomias</th>
+                            <th>Prioridad</th>
+                            <th>Playbook</th>
+                            <th>Descripcion</th>
                             <th>Accion</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((book, index) => {
+                        {list.map((itemTask, index) => {
                             return (
-                                <tr key={book.url}>
+                                <tr key={itemTask.url}>
                                     <th scope="row">{index+1}</th>
-                                    <td>{book.name}</td>
+                                    <td>{itemTask.name}</td>
+                                    <td><PriorityButton url={itemTask.priority}/></td>
                                     <td>
-                                        {Object.values(book.tasks).map((taskItem, index)=>{
-                                            return (
-                                                
-                                                    <><FormGetName form={false} get={getTask} url={taskItem} key={index} /><br/></>
-                                                    
-                                            )})
-                                        }
+                                        <FormGetName form={false} get={getPlaybook} url={itemTask.playbook} key={index} />
                                     </td>
+                                    <td>{itemTask.description}</td>                                    
                                     <td>
-                                        {Object.values(book.taxonomy).map((taxonomyItem, index)=>{
-                                            return (
-                                               
-                                                <><FormGetName form={false} get={getTaxonomy} url={taxonomyItem} key={index} /><br/></>
-                                                
-                                            )})
-                                        }
-                                    </td>
-                                    <td>
-                                        <CrudButton type='read' onClick={() => showPlaybook(book.url)} />
-                                        <Link to={{pathname:'/playbook/edit', state: book}} >
+                                        <CrudButton type='read' onClick={() => showTask(itemTask.url)} />
+                                        <Link to={{pathname:'/task/edit', state: itemTask}} >
                                             <CrudButton type='edit'/>
                                         </Link>
-                                        <CrudButton type='delete' onClick={() => Delete(book.url)} />
+                                        <CrudButton type='delete' onClick={() => Delete(itemTask.url)} />
                                     </td>
                                 </tr>
                             );
                         })}
                     </tbody>
                 </Table>
-            <ModalDetailPlaybook show={modalShow} playbook={playbook} onHide={() => setModalShow(false)}/>
-            <ModalConfirm type='delete' component='Playbook' name={'nombre del playbook'} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removePlaybook(url)}/>
+            <ModalDetailTask show={modalShow} task={task} onHide={() => setModalShow(false)}/>
+            <ModalConfirm type='delete' component='Task' name={'nombre de la tarea'} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeTask(url)}/>
 
         </React.Fragment> 
   );
 };
 
-export default TablePlaybook;
+export default TableTask;

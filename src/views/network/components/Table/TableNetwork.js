@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../../components/Modal/ModalConfirm';
 import ActiveButton from '../../../../components/Button/ActiveButton';
 import ModalDetailNetwork from '../Modal/ModalDetailNetwork';
-import FormNetwork_Entity from '../Form/FormNetwork_Entity';
+import { getEntity } from '../../../../api/services/entities';
+import FormGetName from '../../../../components/Form/FormGetName';
 
 const TableNetwork = ({callback, list, loading }) => {
     const [network, setNetwork] = useState('')
@@ -121,7 +122,9 @@ console.log(network.network_entity)
                                     <td>
                                         <ActiveButton active={+network.active} onClick={() => pressActive(network.domain, network.active, network.url)} />
                                     </td>
-                                    <td><FormNetwork_Entity url={network.network_entity}/></td>
+                                    <td>
+                                        <FormGetName form={false} get={getEntity} url={network.network_entity} key={index} />
+                                    </td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showNetwork(network.url)} />
                                         <Link to={{pathname:'/network/edit', state: network}} >

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import FormCidr from '../Form/FormCidr';
 import FormContact from '../Form/FormContact';
 
+
 const ModalDetailNetwork = (props) => {
     
     const [created, setCreated] = useState('');
@@ -104,7 +105,7 @@ const ModalDetailNetwork = (props) => {
                                                 <td>
                                                     {Object.values(props.network.contacts).map((contactItem, index)=>{
                                                         return (
-                                                            <FormContact url={contactItem}  key={index} />
+                                                            <FormContact url={contactItem} key={index} />
                                                         )})
                                                     }
                                                 </td>
