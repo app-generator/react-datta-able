@@ -85,7 +85,6 @@ const FormCreateNetwork = (props) => {
             props.contacts.pop(event.target.value)
         }
         console.log(props.contacts)
-
     }
 
     //Create Contact
@@ -122,7 +121,6 @@ const FormCreateNetwork = (props) => {
                                 onChange={(e) => props.setCidr(e.target.value)}
                                 />
                             {!props.cidr || validateCidr(props.cidr) ? "" : <div className="invalid-feedback">Ingrese un cidr valido</div>}
-
                         </Form.Group>
                     </Col>
                 </Row>
@@ -154,10 +152,10 @@ const FormCreateNetwork = (props) => {
                                 type="domain" 
                                 placeholder="Dominio" 
                                 maxlength="100"
-                                value={ props.domain } 
-                                onChange={ (e) => props.setDomain(e.target.value.trim()) } 
-                                isValid={ validateURL(props.domain) }
-                                isInvalid={ validateSpace(props.domain) && !validateURL(props.domain) }
+                                value={ props.domain || null} ////////////////////////////
+                                onChange={ (e) => props.setDomain(e.target.value) } 
+                                isValid={ validateURL(props.domain) || validateSpaces(props.domain) }
+                                isInvalid={ !validateSpaces(props.domain) && !validateURL(props.domain) }
                             />
                             { false ? "" : <div className="invalid-feedback">Ingrese un dominio valido</div>}
                         </Form.Group>
@@ -231,11 +229,11 @@ const FormCreateNetwork = (props) => {
                 </Row>
                 <Row>
                 <Form.Group>
-                    { !validateSpace(props.cidr) || !validateCidr(props.cidr) || !(validateURL(props.domain) || props.domain ==='') || 
-                    (props.type == '0') || (props.contacts.length < 1) ? // 
-                        <><Button variant="primary" disabled>Guardar</Button></> 
+                    { validateCidr(props.cidr) && (validateURL(props.domain) || props.domain === null|| validateSpaces(props.domain)) && 
+                    (props.type != '0') && (props.contacts.length > 0) ? // 
+                        <><Button variant="primary" onClick={props.ifConfirm } >Guardar</Button></>
                         : 
-                        <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>
+                        <><Button variant="primary" disabled>Guardar</Button></> 
                     }
                     <Button variant="primary" href="/network/tables">Cancelar</Button>
                     </Form.Group>

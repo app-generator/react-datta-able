@@ -6,29 +6,22 @@ import FormCreateNetwork from './components/Form/FormCreateNetwork';
 
 const CreateNetwork = () => {
     const [children, setChildren] = useState(null);
-    const [cidr, setCidr] = useState(''); //* '10.0.0.0/16'
-    const [domain, setDomain] = useState('');
+    const [cidr, setCidr] = useState(''); //* 
+    const [domain, setDomain] = useState(null); // null 
     const [active, setActive] = useState(true); //* true 
     const [type, setType] = useState('0'); //* internal external
     const [parent, setParent] = useState(null);
     const [network_entity, setNetwork_entity] = useState(null);
-    const [contacts, setContacts] = useState([]); //* ['http://localhost:8000/api/contact/88/', ...]
+    const [contacts, setContacts] = useState([]); //* 
     const [error, setError] = useState(null);
 
     const createNetwork = () => {
-        console.log('children: '+ children 
-        + '\ncidr: '+ cidr
-        + '\ndomain: '+ domain
-        + '\nactive: '+ active
-        + '\ntype: '+ type
-        + '\nparent: '+ parent
-        + '\nnetwork_entity: '+ network_entity
-        + '\ncontacts: '+ contacts
-        )
+
         //        postNetwork (null, '10.0.0.0/16', null, true, 'external', null, null, ['http://localhost:8000/api/contact/88/']) 
         postNetwork (children, cidr, domain, active, type, parent, network_entity, contacts) 
             .then((response) => { 
             console.log(response)
+            console.log('create network - post .then')
             //window.location.href = "/network/tables"
         })
         .catch((error) => {
