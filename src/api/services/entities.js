@@ -6,6 +6,10 @@ const getEntities = (page="") => {
     return apiInstance.get(COMPONENT_URL.entity+page);
 }
 
+const getAllEntities = () => {
+    return apiInstance.get(COMPONENT_URL.entity);
+}
+
 const getEntity = (url) => { 
     return apiInstance.get(url);
 }
@@ -90,4 +94,4 @@ const isActive = (url, active) => {
     }); 
 }
 
-export { getEntities, getEntity, postEntity, putEntity, deleteEntity, isActive };
+export { getEntities, getAllEntities, getEntity, postEntity, putEntity, deleteEntity, isActive };

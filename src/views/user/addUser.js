@@ -3,8 +3,10 @@ import { Card, Form } from 'react-bootstrap';
 import { postUser } from "../../api/services/users";
 import { getPriorities } from "../../api/services/priorities";
 import Alert from '../../components/Alert/Alert';
+import setAlert from '../../utils/setAlert';
 import FormUser from './components/formUser'
 import Navigation from '../../components/navigation/navigation'
+
 
 
 const AddUser = () => {    
@@ -67,19 +69,19 @@ const AddUser = () => {
     }
     return (
         <>
-        <Alert alert={alert} stateAlert={stateAlert} />
-          <Card>
-         <Navigation actualPosition="Agregar Usuario" path="/list-user" index ="Usuarios"/>
-          
-                        <Card.Header>
-                            <Card.Title as="h5">Agregar Usuario</Card.Title>
-                        </Card.Header>
-                        <Card.Body>
-                            <Form >
-                                <FormUser body={body} setBody={setBody} priorities={priorities} createUser={createUser} loading={loading} />
-                            </Form>
-                        </Card.Body>
-                    </Card>
+            <Alert alert={alert} stateAlert={stateAlert} />
+            <Navigation actualPosition="Agregar Usuario" path="/list-user" index ="Usuarios"/>
+            <Card>
+                <Card.Header>
+                
+                    <Card.Title as="h5">Agregar Usuario</Card.Title>
+                </Card.Header>
+                <Card.Body>
+                    <Form >
+                        <FormUser body={body} setBody={setBody} priorities={priorities} createUser={createUser} loading={loading} />
+                    </Form>
+                </Card.Body>
+            </Card>
         </>
     )
 }

@@ -76,12 +76,9 @@ const ListPriorities = () => {
           console.log(response.data.results)
           
       })
-
         setLoading(false)
-        
       }
       fetchPosts()
-  
     }
   }
 
@@ -116,11 +113,10 @@ const ListPriorities = () => {
     <div>
     
     <Alert alert={alert} stateAlert={stateAlert} />
+    <Navigation actualPosition="Prioridades"/>
       <Card>
         <Card.Header>
-          <Row>
-            <Navigation actualPosition="Prioridades"/>
-          </Row>
+          
           <Row>
             <Search type="Prioridad" action={action} />
             <Link to={"/add-Priority"} >

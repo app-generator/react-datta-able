@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert'; 
 import CrudButton from '../../components/Button/CrudButton'; 
 import Pagination from '../../components/Pagination/Pagination'; 
 import TableEntity from './components/Table/TableEntity'; 
 import { getEntities } from '../../api/services/entities';
 import { Link } from 'react-router-dom';
+import Navigation from '../../components/navigation/navigation';
+import Search from '../../components/search/search';
 
 const ListEntity = () => {
     const [entities, setEntities] = useState([])
@@ -113,28 +115,21 @@ const ListEntity = () => {
     CambioDepagina(arrayPages[currentPage-1])
     const currentPosts = entities// lo que se muestra
  
+    const action = () => {
+        console.log("llamada backend")
+      }
+
 return (
     <React.Fragment>
         <Row>
-            <Breadcrumb>
-                <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
-                <Breadcrumb.Item active>Entidades</Breadcrumb.Item>
-                <Breadcrumb.Item href='#' active>Listado</Breadcrumb.Item>
-            </Breadcrumb>    
+            <Navigation actualPosition={'Entidades'}/>  
         </Row>
         <Row>
             <Col>
                 <Card>
                     <Card.Header>
                         <Row>
-                            <Col sm={12} lg={9}>
-                                <div className="input-group">
-                                    <input value={search} onChange={searcher} type="text" id="m-search" className="form-control" placeholder="Buscar entidad . . ." />
-                                    <span className="search-btn btn btn-primary">
-                                        <i className="feather icon-search " />
-                                    </span>
-                                </div>
-                            </Col> 
+                            <Search type="entidad" action={action} />
                             <Col sm={12} lg={3}>
                                 <Link to={{pathname:'/entity/create'}} >
                                     <CrudButton type='create' name='Entidad' />
@@ -153,8 +148,8 @@ return (
                         </Row>
                     </Card.Footer>
                 </Card>
-                <Alert/>
-            </Col>
+                {/*<Alert/>*/}
+                </Col>
         </Row>
     </React.Fragment>
 )}

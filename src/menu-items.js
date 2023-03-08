@@ -37,6 +37,14 @@ const menuItems = {
                     breadcrumbs: false
                 },
                 {
+                    id: 'networks',
+                    title: 'Redes',
+                    type: 'item',
+                    url: '/network/tables',
+                    icon: 'feather icon-sidebar',
+                    breadcrumbs: false
+                },
+                {
                     id: 'contacts',
                     title: 'Contactos',
                     type: 'item',
@@ -45,7 +53,8 @@ const menuItems = {
                     breadcrumbs: false
                 }
             ]
-        }, 
+        },
+         
         {
             id: 'config',
             title: 'Configuración',
@@ -86,6 +95,7 @@ const menuItems = {
                         }   
                     ]
                 },
+                
                 {
                     id: 'users',
                     title: 'Usuarios',
@@ -96,7 +106,50 @@ const menuItems = {
                     breadcrumbs: false,
                 }
             ]
-        },  
+        
+        },
+        {
+            id: 'Estados',
+            title: 'Estados',
+            type: 'group',
+            icon: 'icon-ui',
+            children: [
+            {
+                id: 'Estados',
+                title: 'Estados',
+                type: 'item',
+                url: '/list-states',
+                classes: '',
+                icon: '',
+                breadcrumbs: false,
+            }
+            ]
+         
+        },
+        {
+            id: 'new',
+            title: 'Nuevo',
+            type: 'group',
+            icon: 'fas fa-network-wired',
+            children: [
+                {
+                    id: 'playbook',
+                    title: 'Playbook',
+                    type: 'item',
+                    url: '/playbook/tables',
+                    icon: 'fas fa-network-wired',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'task',
+                    title: 'Tareas',
+                    type: 'item',
+                    url: '/task/tables',
+                    icon: 'feather icon-sidebar',
+                    breadcrumbs: false
+                }
+            ]
+        },
         {
             id: 'ui-element',
             title: 'UI ELEMENT',

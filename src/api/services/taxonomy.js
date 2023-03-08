@@ -6,6 +6,14 @@ const getTaxonomy = (currentPage) => {
     return apiInstance.get(COMPONENT_URL.taxonomy + PAGE + currentPage);
 }
 
+const getTaxonomy2 = (url) => { 
+    return apiInstance.get(url);
+}
+
+const getAllTaxonomies = (url=COMPONENT_URL.taxonomy) => {
+    return apiInstance.get(url);
+}
+
 const getParent = (url) => { 
     return apiInstance.get(url);
 }
@@ -46,4 +54,11 @@ const deleteTaxonomy = (url, name) => {
 }
 
 
-export { getTaxonomy, postTaxonomy, putTaxonomy, getParent, putActivationStatus, deleteTaxonomy }
+export { getTaxonomy, getTaxonomy2, postTaxonomy, putTaxonomy, getParent, putActivationStatus, deleteTaxonomy,  getAllTaxonomies }
+
+
+
+
+
+
+
