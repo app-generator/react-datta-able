@@ -134,7 +134,6 @@ function TableUsers({users, callback, loading}) {
                                         <Link to={{pathname:"./edit-user/", state: {user}}} >
                                             <CrudButton  type='edit' />
                                         </Link>
-                                        <ActiveButton active={+user.is_active} onClick={() => showModalChangeState(user.url,user.username, user.is_active)} />
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                     </Col>
                                 </Row>         
