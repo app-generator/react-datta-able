@@ -6,7 +6,6 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import axios from 'axios';
 
 import ChatList from './ChatList';
-import { API_SERVER } from '../../../../config/constant';
 import { LOGOUT } from './../../../../store/actions';
 import { logout } from '../../../../api/services/auth';
 import { store } from './../../../../store';
@@ -16,9 +15,10 @@ import avatar2 from '../../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../../assets/images/user/avatar-3.jpg';
 import avatar4 from '../../../../assets/images/user/avatar-4.jpg';
 
+import Alert from './../../../../components/Alert/Alert'; 
+
 const NavRight = () => {
-    const account = useSelector((state) => state.account);
-    const dispatcher = useDispatch();
+    const [showAlert, setShowAlert] = useState(false);
 
     const [listOpen, setListOpen] = useState(false);
 
@@ -27,6 +27,10 @@ const NavRight = () => {
     const user = JSON.stringify(state.account.user);
 
     console.log(user);
+
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }
 
     const handleLogout = () => {
 
@@ -38,6 +42,7 @@ const NavRight = () => {
         })
         .catch((error) => {
             console.log('No se pudo desloguear');
+            setShowAlert(true);
         });
         /*
         axios
@@ -58,6 +63,7 @@ const NavRight = () => {
 
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <ListGroup as="ul" bsPrefix=" " className="navbar-nav ml-auto" id="navbar-right">
                 <ListGroup.Item as="li" bsPrefix=" ">
                     <Dropdown>

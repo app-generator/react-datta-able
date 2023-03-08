@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Card, Breadcrumb } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postEntity } from '../../api/services/entities';
@@ -6,21 +6,7 @@ import FormEntity from './components/Form/FormEntity';
 
 const CreateEntity = () => {
     const [name, setName] = useState('')
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
     const [error, setError] = useState(null)
-
-    useEffect( ()=> {
-        if(sessionStorage.getItem('Alerta')) {
-            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
-            setAlert(storage)
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                    sessionStorage.removeItem('Alerta')
-                }, 5000);
-        }
-    },[]);
 
     const slugify = (str) => {
         return str
@@ -37,23 +23,16 @@ const CreateEntity = () => {
         postEntity(name, slug, 1)
         .then((response) => { 
             console.log(response)
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`La entidad ${name} ha sido creada`, type:1}));
             window.location.href = "/entity/tables"
         })
         .catch((error) => {
             setError(error)
             console.log(error)
-            setAlert({name:`La entidad ${name} NO ha sido creada`, type:0})
-            setTimeout(() => {
-                setAlert(null)
-                setStateAlert(null)
-            }, 5000);
         });    
     };
        
     return (
         <React.Fragment>
-            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
@@ -76,6 +55,7 @@ const CreateEntity = () => {
                             </Row>
                         </Card.Body>
                     </Card>
+                    <Alert/>
                 </Col>
             </Row>
         </React.Fragment>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
@@ -8,21 +8,7 @@ import FormEntity from './components/Form/FormEntity';
 const EditEntity = () => {
     const entity = useLocation().state;
     const [name, setName] = useState(entity.name);
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
     const [error, setError] = useState(null);
-
-    useEffect( ()=> {
-        if(sessionStorage.getItem('Alerta')) {
-            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
-            setAlert(storage)
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                    sessionStorage.removeItem('Alerta')
-                }, 5000);
-        }
-    },[]);
 
     const slugify = (str) => {
         return str
@@ -36,23 +22,19 @@ const EditEntity = () => {
     //Update
     const editEntity = () => {
         let slug = slugify(name); //backend
-        let id = entity.url.split('/')[(entity.url.split('/')).length-2];
-        putEntity(id, name, slug, entity.active)
+        putEntity(entity.url, name, slug, entity.active)
         .then((response) => { 
             console.log(response)
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`La entidad ${name} ha sido editada`, type:1}));
             window.location.href = "/entity/tables"
         })
         .catch((error) => {
             setError(error)
             console.log(error)
-            setAlert({name:`La entidad ${name} NO ha sido editada`, type:0})
         });    
     };
 
     return (
         <React.Fragment>          
-            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
@@ -75,6 +57,7 @@ const EditEntity = () => {
                             </Row>
                         </Card.Body>
                     </Card>
+                    <Alert/>
                 </Col>
             </Row>
         </React.Fragment>
