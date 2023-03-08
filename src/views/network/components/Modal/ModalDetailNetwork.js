@@ -84,7 +84,7 @@ const ModalDetailNetwork = (props) => {
                                             : 
                                             <></>
                                         }
-                                        {props.network.children && props.network.children.length > 1  ? 
+                                        {props.network.children && props.network.children.length > 0  ? 
                                             <tr>
                                                 <td>Subredes</td>
                                                 <td>
@@ -98,7 +98,7 @@ const ModalDetailNetwork = (props) => {
                                             : 
                                             <></>
                                         }
-                                        {props.network.contacts && props.network.contacts.length > 1  ? 
+                                        {props.network.contacts && props.network.contacts.length > 0  ? 
                                             <tr>
                                                 <td>Contactos Relacionados</td>
                                                 <td>

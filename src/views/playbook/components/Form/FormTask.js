@@ -1,10 +1,11 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { getNetwork } from '../../../../api/services/networks';
+import { getTask } from '../../../../api/services/tasks';
 
-const FormCidr = (props) => { //TODO refactorizar los Form
-    const [network, setNetwork] = useState('');
+
+const FormTask = (props) => { //TODO refactorizar Form
+    const [task, setTask] = useState('');
 
     useEffect(() => {
 
@@ -13,19 +14,19 @@ const FormCidr = (props) => { //TODO refactorizar los Form
     }, []);
     
     const showParentCidr = (url) => {
-        getNetwork(url)
+        getTask(url)
         .then((response) => {
             console.log(response)
-            setNetwork(response.data)
+            setTask(response.data)
         })
         .catch();
     }
 return (
-        network && 
+        task && 
         <React.Fragment>
-            <Form.Control plaintext readOnly defaultValue={network.cidr} />
+            <Form.Control plaintext readOnly defaultValue={task.name} />
         </React.Fragment>
     );
 };
 
-export default FormCidr; 
+export default FormTask; 

@@ -1,10 +1,11 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { getNetwork } from '../../../../api/services/networks';
+import { getTaxonomy } from '../../../../api/services/taxonomy';
 
-const FormCidr = (props) => { //TODO refactorizar los Form
-    const [network, setNetwork] = useState('');
+
+const FormTaxonomy = (props) => { //TODO refactorizar Form
+    const [taxonomy, setTaxonomy] = useState('');
 
     useEffect(() => {
 
@@ -13,19 +14,19 @@ const FormCidr = (props) => { //TODO refactorizar los Form
     }, []);
     
     const showParentCidr = (url) => {
-        getNetwork(url)
+        getTaxonomy(url)
         .then((response) => {
             console.log(response)
-            setNetwork(response.data)
+            setTaxonomy(response.data)
         })
         .catch();
     }
 return (
-        network && 
+        taxonomy && 
         <React.Fragment>
-            <Form.Control plaintext readOnly defaultValue={network.cidr} />
+            <Form.Control plaintext readOnly defaultValue={taxonomy.name} />
         </React.Fragment>
     );
 };
 
-export default FormCidr; 
+export default FormTaxonomy; 
