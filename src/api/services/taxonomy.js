@@ -1,6 +1,6 @@
 import  apiInstance  from "../api";
 import { COMPONENT_URL, PAGE } from '../../config/constant';
-import setAlert from "../../utils/setAlert";
+
 
 const getTaxonomy = (currentPage) => {
     return apiInstance.get(COMPONENT_URL.taxonomy + PAGE + currentPage);
@@ -10,36 +10,40 @@ const getParent = (url) => {
     return apiInstance.get(url);
 }
 
+const postTaxonomy = (slug, type, name, description, active, parent) => {
+    return apiInstance.post(COMPONENT_URL.taxonomy, {
+        slug: slug,
+        type: type, 
+        name: name, 
+        description: description,
+        active: active,
+        parent: parent    
+    });
+}
+
+
+const putTaxonomy = (url, slug, type, name, description, active, parent) => {
+    return apiInstance.put(url, {
+        slug: slug,
+        type: type, 
+        name: name, 
+        description: description,
+        active: active, 
+        parent: parent  
+    });
+}
+
+
 const putActivationStatus= (url, state, name) => {
     return apiInstance.patch(url, {
-        active: state
-    },{
-        validateStatus: function (status) {
-            let messageSuccess = +!state ? `La taxonomia ${name} ha sido desactivada` : `La taxonomia ${name} ha sido activada`;
-            let messageError = `La taxonomia ${name} no se pudo modificar`;
-             if (status === 200)                 
-                setAlert(messageSuccess, "success");
-            else 
-                setAlert(messageError, "error");
-            return status;
-        } 
+        active: state    
     });
 }
 
 
 const deleteTaxonomy = (url, name) => {
-    return apiInstance.delete(url,{
-        validateStatus: function (status) {
-            let messageSuccess = `La taxonomia ${name} se pudo eliminar correctamente`;
-            let messageError = `La taxonomia ${name} no se pudo eliminar`;
-             if (status === 200)                 
-                setAlert(messageSuccess, "success");
-            else 
-                setAlert(messageError, "error");
-            return status;
-        } 
-    });
+    return apiInstance.delete(url);
 }
 
 
-export { getTaxonomy, getParent, putActivationStatus, deleteTaxonomy }
+export { getTaxonomy, postTaxonomy, putTaxonomy, getParent, putActivationStatus, deleteTaxonomy }

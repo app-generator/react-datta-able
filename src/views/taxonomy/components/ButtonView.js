@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import ActiveButton from '../../../components/Button/ActiveButton';
 import CrudButton from '../../../components/Button/CrudButton';
-import { getParent } from '../../../api/services/taxonomy';
+//import { getParent } from '../../../api/services/taxonomy';
 
 function ButtonView({taxonomy}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   /*
   const [parent, setParent] = useState(null);
   const [error, setError] = useState(null);
@@ -22,9 +24,6 @@ function ButtonView({taxonomy}) {
         setError(error);            
     })   
   }*/
-
-  
-  
 
   return (
     <>
@@ -41,7 +40,9 @@ function ButtonView({taxonomy}) {
                                         <span className="d-block m-t-5">Detalle de taxonomia</span>
                                     </Col>
                                     <Col sm={12} lg={2}>
-                                        <CrudButton type="edit" />
+                                        <Link to={{pathname:"./taxonomy/edit", state:{taxonomy}}} >
+                                            <CrudButton type="edit" />
+                                        </Link>
                                         <CloseButton aria-label='Cerrar' onClick={handleClose} />
                                     </Col>
                                 </Row>
