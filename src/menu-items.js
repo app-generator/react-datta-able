@@ -53,7 +53,8 @@ const menuItems = {
                     breadcrumbs: false
                 }
             ]
-        }, 
+        },
+         
         {
             id: 'config',
             title: 'Configuración',
@@ -86,6 +87,7 @@ const menuItems = {
                         }
                     ]
                 },
+                
                 {
                     id: 'users',
                     title: 'Usuarios',
@@ -96,6 +98,25 @@ const menuItems = {
                     breadcrumbs: false,
                 }
             ]
+        
+        },
+        {
+            id: 'Estados',
+            title: 'Estados',
+            type: 'group',
+            icon: 'icon-ui',
+            children: [
+            {
+                id: 'Estados',
+                title: 'Estados',
+                type: 'item',
+                url: '/list-states',
+                classes: '',
+                icon: '',
+                breadcrumbs: false,
+            }
+            ]
+         
         },
         {
             id: 'new',

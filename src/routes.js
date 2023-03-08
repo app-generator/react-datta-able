@@ -222,6 +222,21 @@ const routes = [
             },
             {
                 exact: true,
+                path: "/list-states",
+                component: lazy(() => import('./views/state/listState'))
+            },
+            {
+                exact: true,
+                path: "/add-state",
+                component: lazy(() => import('./views/state/addState'))
+            },
+            {
+                exact: true,
+                path: "/edit-state",
+                component: lazy(() => import('./views/state/editState'))
+            },
+            {
+                exact: true,
                 path: '/playbook/tables',
                 component: lazy(() => import('./views/playbook/ListPlaybook'))
             },

@@ -68,11 +68,12 @@ const EditPriority = () => {
     }
   return (
     <>
+        
+        <Alert alert={alert} stateAlert={stateAlert} />
+            
+        <Navigation actualPosition="Editar prioridad" path="./list-Priorities" index ="Prioridades"/>
+             
         <Card>
-            <Alert alert={alert} stateAlert={stateAlert} />
-            <Row>
-                <Navigation actualPosition="Editar prioridad" path="./list-Priorities" index ="Prioridades"/>
-            </Row>
             <Card.Header>
                 <Card.Title as="h5">Editar Prioridad</Card.Title>
             </Card.Header>

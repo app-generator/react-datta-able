@@ -8,6 +8,7 @@ import Alert from '../../components/Alert/Alert';
 
 
 const AddPriority = () => {
+   
     const formEmpty={ 
         name: "", 
         color: "", 
@@ -24,9 +25,7 @@ const AddPriority = () => {
 
 
     const createPriority=()=>{
-        "severity es primary key"
-        "nombre se puede repetir pero es requerido"
-        "color es requerido , ¿se puede repetir?"
+        
         const attendDeadline = (body.dayAttendDeadline ? body.dayAttendDeadline+" ":"")+body.hourAttendDeadline
         console.log(attendDeadline)
 
@@ -52,11 +51,9 @@ const AddPriority = () => {
 
     return (
         <>
-          <Card>
-            <Row>
-                <Alert alert={alert} stateAlert={stateAlert} />
-                <Navigation actualPosition="Agregar Prioridad" path="./list-Priorities" index ="Prioridades"/>
-            </Row>
+            <Alert alert={alert} stateAlert={stateAlert} />
+            <Navigation actualPosition="Agregar Prioridad" path="./list-Priorities" index ="Prioridades"/>
+            <Card>
                 <Card.Header>
                     <Card.Title as="h5">Agregar Prioridad</Card.Title>
                 </Card.Header>

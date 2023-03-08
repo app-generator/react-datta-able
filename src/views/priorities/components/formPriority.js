@@ -3,7 +3,7 @@ import { Row, Card, Form, Button,Col } from 'react-bootstrap'
 import { validateFieldText, validateNumber} from '../../../components/Validator/validators';
 
 const FormPriority = ({body, setBody, createPriority}) => {
-
+       
     const completeField=(event)=>{ 
         setBody({...body,
             [event.target.name] : event.target.value}
@@ -23,6 +23,7 @@ const FormPriority = ({body, setBody, createPriority}) => {
         }
         return true
     }
+
     return (
     <Card.Body>
   <Form>
@@ -43,7 +44,7 @@ const FormPriority = ({body, setBody, createPriority}) => {
       </Form.Group>
 
       <Form.Group controlId="formGridAddress1">
-              <Form.Label>Gravedad</Form.Label>
+              <Form.Label>Severidad</Form.Label>
               <Form.Control 
                placeholder="Ingrese el valor de gravedad" 
                maxlength="150" 
@@ -67,7 +68,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
               onChange={(e)=>completeField(e)}/>
                {body.color !== "" ? ""  : <div className="invalid-feedback">Ingrese un color </div>}
       </Form.Group>
-
       <Form.Label>Fecha limite de respuesta</Form.Label>
       <Row>
       <Col>
@@ -97,6 +97,7 @@ const FormPriority = ({body, setBody, createPriority}) => {
       </Form.Group>
       </Col>
       </Row>
+
       <Form.Label>Fecha limite de resolucion </Form.Label>
       <Row>
       <Col>
