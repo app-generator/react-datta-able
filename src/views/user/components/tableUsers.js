@@ -155,6 +155,17 @@ function TableUsers({users, callback, loading}) {
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>activo</td>
+                                        <td>
+                                        <Button 
+                                            className="btn-icon btn-rounded" 
+                                            variant={user.is_active ? 'outline-success' : 'outline-danger'} 
+                                            title={user.is_active ? 'Activo' : 'Inactivo'}>
+                                                <i className={user.is_active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
+                                        </Button>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Ultimo inicio de cesion</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={user.last_login ? user.last_login.slice(0,10) : ""} />
