@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Card,Breadcrumb } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
@@ -11,21 +11,7 @@ const CreateContact = () => {
     const [supportedContact, setSupportedContact] = useState('');
     const [supportedKey, setSupportedKey] = useState(null);
     const [selectType, setSelectType] = useState('0');
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
     const [error, setError] = useState(null);
-
-    useEffect( ()=> {
-        if(sessionStorage.getItem('Alerta')) {
-            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
-            setAlert(storage)
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                    sessionStorage.removeItem('Alerta')
-                }, 5000);
-        }
-    },[]);
 
     const createContact = () => {
         console.log(supportedName);
@@ -39,21 +25,16 @@ const CreateContact = () => {
         postContact (supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
             console.log(response)
-            //setAlert
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`El contacto ${supportedName} ha sido creado.`, type:1}));
             window.location.href = "/contact/tables"
         })
         .catch((error) => {
             setError(error)
             console.log(error)
-            //setAlert
-            setAlert({name:`El contacto ${supportedName} NO ha sido creado`, type:0})
         });    
     };
 
     return (
         <React.Fragment>
-            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Breadcrumb>
                     <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
@@ -78,8 +59,8 @@ const CreateContact = () => {
                                 key={supportedKey} setKey={setSupportedKey} 
                                 ifConfirm={createContact} />                          
                         </Card.Body>
-
                     </Card>
+                    <Alert/>
                 </Col>
             </Row>
         </React.Fragment>

@@ -13,6 +13,7 @@ const TableEntity = ({callback, list, loading }) => {
     const [modalShow, setModalShow] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
     const [modalState, setModalState] = useState(false);
+    const [url, setUrl] = useState(null);
     const [id, setId] = useState(null);
     const [name, setName] = useState(null);
     const [lastItem, setLastItem] = useState(null);
@@ -34,10 +35,11 @@ const TableEntity = ({callback, list, loading }) => {
     }
     
     //Read Entity
-    const showEntity = (key)=> {
-        setId(key)
+    const showEntity = (url)=> {
+        setId(url.split('/')[(url.split('/')).length-2]);
+        setUrl(url)
         setEntity('')
-        getEntity(key)
+        getEntity(url)
         .then((response) => {
             setEntity(response.data)
             let datetime = response.data.created.split('T')
@@ -51,25 +53,24 @@ const TableEntity = ({callback, list, loading }) => {
     };
 
     //Remove Entity
-    const Delete = (key, name) => {
+    const Delete = (url, name) => {
         setLastItem(list.length === 1)
-        setId(key)
+        setUrl(url)
         setName(name)
         setModalDelete(true)
     }
     
-    const removeEntity = (key)=> {
+    const removeEntity = (url)=> {
         console.log('Elimna ultimo elemento? '+ lastItem)
-        deleteEntity(key)
+        deleteEntity(url)
             .then((response) => {
                 console.log(response);
-                ////////////////////
-                callback(`La entidad ${name} ha sido eliminada`, true, lastItem)
+                callback(lastItem)
             })
             .catch((error) => {
                 console.log(error)
                 setError(error)
-                callback(`La entidad ${name} NO ha sido eliminada`, false, false)
+                callback(false)
             })
             .finally(() => {
                 setModalDelete(false)
@@ -77,27 +78,24 @@ const TableEntity = ({callback, list, loading }) => {
         };
     
     //Update Entity
-    const pressActive = (name, active, key) => {
-        setId(key)
+    const pressActive = (name, active, url) => {
+        setUrl(url)
         setName(name)
         setActive(active)
         setModalState(true)
     }
 
     const switchState = ()=> {
-        let message = +active ? `La entidad ${name} ha sido desactivada` : `La entidad ${name} ha sido activada`;
-        isActive(id, +!active)
-        .then((response) => {
-            console.log(response)
-            
-            callback(message, true, false)
-        })
-        .catch((error) => {
+        isActive(url, +!active)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((error) => {
                 console.log(error)
                 setError(error)
-                callback(message, false)
             })
             .finally(() => {
+                callback(false)
                 setModalState(false)
                 setModalShow(false)
             })
@@ -118,23 +116,22 @@ const TableEntity = ({callback, list, loading }) => {
                     </thead>
                     <tbody>
                         {list.map((entity, index) => {
-                            let url = entity.url.split('/')[(entity.url.split('/')).length-2];
 
                             return (
-                                <tr key={url}>
+                                <tr key={entity.url}>
                                     <th scope="row">{index+1}</th>
                                     <td>{entity.name}</td>
                                     <td>
-                                        <ActiveButton active={entity.active} onClick={() => pressActive(entity.name, entity.active, url)} />
+                                        <ActiveButton active={entity.active} onClick={() => pressActive(entity.name, entity.active, entity.url)} />
                                     </td>
                                     <td>{entity.created.slice(0,10)}</td>
                                     <td>{entity.modified.slice(0,10)}</td>
                                     <td>
-                                        <CrudButton type='read' onClick={() => showEntity(url)} />
+                                        <CrudButton type='read' onClick={() => showEntity(entity.url)} />
                                         <Link to={{pathname:'/entity/edit', state: entity, callback: callback}} >
                                             <CrudButton type='edit'/>
                                         </Link>
-                                        <CrudButton type='delete' onClick={() => Delete(url, entity.name)} />
+                                        <CrudButton type='delete' onClick={() => Delete(entity.url, entity.name)} />
                                     </td>
                                 </tr>
                             );
@@ -207,9 +204,9 @@ const TableEntity = ({callback, list, loading }) => {
                 </Modal.Body>
             </Modal>
             
-            <ModalConfirm type='delete' component='Entidad' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeEntity(id)}/>
+            <ModalConfirm type='delete' component='Entidad' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeEntity(url)}/>
 
-            <ModalConfirm type='editState' component='Entidad' name={name} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(id,active)}/>
+            <ModalConfirm type='editState' component='Entidad' name={name} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(url, active)}/>
 
         </React.Fragment> 
   );

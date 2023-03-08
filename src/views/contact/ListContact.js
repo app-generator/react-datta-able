@@ -12,8 +12,6 @@ const ListContact = () => {
     const [error, setError] = useState(null)
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
 
     const [currentPage, setCurrentPage] = useState(1)
     const [jumpPage, setjumpPage] = useState(false)
@@ -21,15 +19,7 @@ const ListContact = () => {
     const [arrayPages, setArrayPages] = useState([])
 
     useEffect( ()=> {
-        if(sessionStorage.getItem('Alerta')) {
-            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
-            setAlert(storage)
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                    sessionStorage.removeItem('Alerta')
-                }, 5000);
-        }
+
         setCurrentPage(currentPage )//?
 
         getContacts('?page='+currentPage)
@@ -82,8 +72,7 @@ const ListContact = () => {
         )
     }
 
-    const callbackBackend = (name, stateAlert, lastItem) => {
-        if(stateAlert) {
+    const callbackBackend = (lastItem) => {
             setLoading(true)
             if(lastItem) {
                 console.log('if lastItem')
@@ -95,15 +84,6 @@ const ListContact = () => {
                 console.log('else lastItem')
             }
             setPages(0)//
-            setAlert({name:name, type:1})
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                }, 5000);
-        }
-        else {
-            setAlert({name:name, type:0})
-        }
     }
 
     //Pagination
@@ -133,7 +113,6 @@ const ListContact = () => {
     return (
     <React.Fragment>
         <Row>
-            <Alert alert={alert} stateAlert={stateAlert} />
             <Breadcrumb>
                 <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
                 <Breadcrumb.Item active>Contactos</Breadcrumb.Item>
@@ -141,6 +120,7 @@ const ListContact = () => {
             </Breadcrumb>
         </Row>
         <Row>
+                                <Alert/>    
             <Col>
                 <Card>
                     <Card.Header>
@@ -171,6 +151,7 @@ const ListContact = () => {
                         </Row>
                     </Card.Footer>
                 </Card>
+                <Alert/>
             </Col>
         </Row>
     </React.Fragment>
