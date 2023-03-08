@@ -96,7 +96,31 @@ const menuItems = {
                     breadcrumbs: false,
                 }
             ]
-        },  
+        },
+        {
+            id: 'new',
+            title: 'Nuevo',
+            type: 'group',
+            icon: 'fas fa-network-wired',
+            children: [
+                {
+                    id: 'playbook',
+                    title: 'Playbook',
+                    type: 'item',
+                    url: '/playbook/tables',
+                    icon: 'fas fa-network-wired',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'task',
+                    title: 'Tareas',
+                    type: 'item',
+                    url: '/task/tables',
+                    icon: 'feather icon-sidebar',
+                    breadcrumbs: false
+                }
+            ]
+        },
         {
             id: 'ui-element',
             title: 'UI ELEMENT',

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Row, Col, Card, Breadcrumb } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postEntity } from '../../api/services/entities';
 import FormEntity from './components/Form/FormEntity';
+import Navigation from '../../components/navigation/navigation';
 
 const CreateEntity = () => {
     const [name, setName] = useState('')
@@ -34,11 +35,7 @@ const CreateEntity = () => {
     return (
         <React.Fragment>
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item active>Entidades</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Crear Entidad</Breadcrumb.Item>
-                </Breadcrumb>
+                <Navigation actualPosition="Crear Entidad" path="/entity/tables" index ="Entidades"/>
             </Row>
             <Row>
                 <Col sm={12}>

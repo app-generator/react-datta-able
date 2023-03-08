@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Row, Col, Card,Breadcrumb } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/Form/FormCreateNetwork';
+import Navigation from '../../components/navigation/navigation';
 
 const EditNetwork = () => {
     const network = useLocation().state;
@@ -35,11 +36,7 @@ const EditNetwork = () => {
     return (
         <React.Fragment>
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item active>Redes</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Editar Red</Breadcrumb.Item>
-                </Breadcrumb>
+                <Navigation actualPosition="Editar Red" path="/network/tables" index ="Redes"/>
             </Row>
             <Row>
                 <Col sm={12}>

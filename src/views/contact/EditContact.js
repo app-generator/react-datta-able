@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putContact } from '../../api/services/contacts';
 import FormContact from './components/Form/FormContact';
+import Navigation from '../../components/navigation/navigation';
 
 const EditContact = () => {
     const contact = useLocation().state;
@@ -31,11 +32,7 @@ const EditContact = () => {
     return (
         <React.Fragment>
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item active>Contactos</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Editar Contacto</Breadcrumb.Item>
-                </Breadcrumb> 
+                <Navigation actualPosition="Editar Contacto" path="/contact/tables" index ="Contactos"/>
             </Row>
             <Row>
                 <Col sm={12}>

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putEntity } from '../../api/services/entities';
 import FormEntity from './components/Form/FormEntity';
+import Navigation from '../../components/navigation/navigation';
 
 const EditEntity = () => {
     const entity = useLocation().state;
@@ -36,11 +37,7 @@ const EditEntity = () => {
     return (
         <React.Fragment>          
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item active>Entidades</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Editar Entidad</Breadcrumb.Item>
-                </Breadcrumb>    
+                <Navigation actualPosition="Editar Entidad" path="/entity/tables" index ="Entidades"/>
             </Row>
             <Row>
                 <Col sm={12}>

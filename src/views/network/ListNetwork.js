@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Breadcrumb, Card } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import CrudButton from '../../components/Button/CrudButton';
 import Pagination from "../../components/Pagination/Pagination"; 
 import Alert from "../../components/Alert/Alert";
 import { getNetworks } from '../../api/services/networks';
 import TableNetwork from './components/Table/TableNetwork';
+import Navigation from '../../components/navigation/navigation';
+import Search from '../../components/search/search';
 
 const ListNetwork = () => {
     const [network, setNetwork] = useState('')
@@ -111,14 +113,14 @@ const ListNetwork = () => {
     CambioDepagina(arrayPages[currentPage-1])
     const currentPosts = network// lo que se muestra
     
+    const action = () => {
+        console.log("llamada backend")
+      }
+
     return (
     <React.Fragment>
         <Row>
-            <Breadcrumb>
-                <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
-                <Breadcrumb.Item active>Redes</Breadcrumb.Item>
-                <Breadcrumb.Item href='#' active>Listado</Breadcrumb.Item>
-            </Breadcrumb>
+            <Navigation actualPosition={'Redes'}/>  
         </Row>
         <Row>
                                 <Alert/>    
@@ -126,14 +128,7 @@ const ListNetwork = () => {
                 <Card>
                     <Card.Header>
                         <Row>
-                            <Col sm={12} lg={9}>
-                                <div className="input-group">
-                                    <input value={search} onChange={searcher} type="text" id="m-search" className="form-control" placeholder="Buscar contacto . . ." />
-                                    <span className="search-btn btn btn-primary">
-                                        <i className="feather icon-search " />
-                                    </span>
-                                </div>
-                            </Col> 
+                            <Search type="red" action={action} />
                             <Col sm={12} lg={3}>
                                 <Link to={{pathname:'/network/create'}} >
                                     <CrudButton type='create' name='Red' />

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Breadcrumb, Card, Col, Row  } from 'react-bootstrap';
+import { Card, Col, Row  } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
 import FormContact from './components/Form/FormContact';
+import Navigation from '../../components/navigation/navigation';
 
 const CreateContact = () => {
     const [supportedName, setSupportedName] = useState('');
@@ -29,11 +30,7 @@ const CreateContact = () => {
     return (
         <React.Fragment>
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item active>Contactos</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Crear Contacto</Breadcrumb.Item>
-                </Breadcrumb>
+                <Navigation actualPosition="Crear Contacto" path="/contact/tables" index ="Contactos"/>
             </Row>
             <Row>
                 <Col sm={12}>

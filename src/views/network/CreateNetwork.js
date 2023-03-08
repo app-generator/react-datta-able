@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Row, Col, Card,Breadcrumb, Button } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/Form/FormCreateNetwork';
+import Navigation from '../../components/navigation/navigation';
 
 const CreateNetwork = () => {
     const [children, setChildren] = useState(null);
@@ -34,11 +35,7 @@ const CreateNetwork = () => {
     return (
         <React.Fragment>
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item active>Redes</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Crear Red</Breadcrumb.Item>
-                </Breadcrumb>
+                <Navigation actualPosition="Crear Red" path="/network/tables" index ="Redes"/>
             </Row>
             <Row>
                 <Col sm={12}>
