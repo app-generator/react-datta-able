@@ -2,11 +2,11 @@ import  apiInstance  from "../api";
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 
 
-const getTaxonomy = (currentPage) => {
+const getTaxonomies = (currentPage) => {
     return apiInstance.get(COMPONENT_URL.taxonomy + PAGE + currentPage);
 }
 
-const getTaxonomy2 = (url) => { 
+const getTaxonomy = (url) => { 
     return apiInstance.get(url);
 }
 
@@ -54,7 +54,7 @@ const deleteTaxonomy = (url, name) => {
 }
 
 
-export { getTaxonomy, getTaxonomy2, postTaxonomy, putTaxonomy, getParent, putActivationStatus, deleteTaxonomy,  getAllTaxonomies }
+export { getTaxonomies, getTaxonomy, postTaxonomy, putTaxonomy, getParent, putActivationStatus, deleteTaxonomy,  getAllTaxonomies }
 
 
 

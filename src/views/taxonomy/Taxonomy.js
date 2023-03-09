@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table, Breadcrumb, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getTaxonomy } from '../../api/services/taxonomy';
+import { getTaxonomies } from '../../api/services/taxonomy';
 import ButtonView from './components/ButtonView';
 import CrudButton from '../../components/Button/CrudButton';
 import ButtonState from './components/ButtonState';
@@ -40,7 +40,7 @@ const ListTaxonomies = () => {
             setjumpPage(false)
 
             const fetchTaxonomy = async () => {            
-            getTaxonomy(page).then((response) => {
+            getTaxonomies(page).then((response) => {
                 setTaxonomy(response.data.results)
             })
             setLoading(false)
@@ -61,7 +61,7 @@ const ListTaxonomies = () => {
                 }, 5000);
         }
         setCurrentPage(currentPage)        
-        getTaxonomy(currentPage)
+        getTaxonomies(currentPage)
         .then((response) => {
             setPages(arrayWithPages(response.data.count))
             setTaxonomy(response.data.results)
