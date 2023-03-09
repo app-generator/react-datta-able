@@ -84,7 +84,15 @@ const menuItems = {
                             icon: 'fa fa-exclamation-triangle',
                             breadcrumbs: false
             
-                        }
+                        },
+                        {
+                            id: 'playbook',
+                            title: 'Playbook',
+                            type: 'item',
+                            url: '/playbook/tables',
+                            icon: 'fas fa-network-wired',
+                            breadcrumbs: false
+                        },
                     ]
                 },
                 
@@ -124,14 +132,6 @@ const menuItems = {
             type: 'group',
             icon: 'fas fa-network-wired',
             children: [
-                {
-                    id: 'playbook',
-                    title: 'Playbook',
-                    type: 'item',
-                    url: '/playbook/tables',
-                    icon: 'fas fa-network-wired',
-                    breadcrumbs: false
-                },
                 {
                     id: 'task',
                     title: 'Tareas',
