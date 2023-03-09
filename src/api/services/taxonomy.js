@@ -14,10 +14,6 @@ const getAllTaxonomies = (url=COMPONENT_URL.taxonomy) => {
     return apiInstance.get(url);
 }
 
-const getParent = (url) => { 
-    return apiInstance.get(url);
-}
-
 const postTaxonomy = (slug, type, name, description, active, parent) => {
     return apiInstance.post(COMPONENT_URL.taxonomy, {
         slug: slug,
@@ -54,7 +50,7 @@ const deleteTaxonomy = (url, name) => {
 }
 
 
-export { getTaxonomies, getTaxonomy, postTaxonomy, putTaxonomy, getParent, putActivationStatus, deleteTaxonomy,  getAllTaxonomies }
+export { getTaxonomies, getTaxonomy, postTaxonomy, putTaxonomy, putActivationStatus, deleteTaxonomy,  getAllTaxonomies }
 
 
 

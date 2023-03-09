@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ActiveButton from '../../../components/Button/ActiveButton';
 import CrudButton from '../../../components/Button/CrudButton';
-//import { getParent } from '../../../api/services/taxonomy';
+import { getTaxonomy } from '../../../api/services/taxonomy';
 
 function ButtonView({taxonomy}) {
   const [show, setShow] = useState(false);
@@ -11,19 +11,25 @@ function ButtonView({taxonomy}) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  /*
+  
   const [parent, setParent] = useState(null);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+
+    taxonomyParent()
+    
+  }, [taxonomy]);
   
-  const taxonomyParent = (taxonomy)=> {
-    getParent(taxonomy.parent)
+  const taxonomyParent = ()=> {
+    getTaxonomy(taxonomy.parent)
     .then((response) => {
-        setParent(response.data)
+        setParent(response.data.name)               
     })     
     .catch((error) => {
         setError(error);            
     })   
-  }*/
+  }
 
   return (
     <>
@@ -87,7 +93,7 @@ function ButtonView({taxonomy}) {
                                         <tr>
                                             <td>Padre</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={taxonomy.parent} />
+                                                <Form.Control plaintext readOnly defaultValue={parent} />
                                             </td>
                                         </tr>
                                     }                                     
