@@ -1,15 +1,16 @@
 import React from 'react';
-import {Button} from 'react-bootstrap';
+import {Badge, Button} from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getPriority } from '../../api/services/priorities';
 
 const PriorityButton = (props) => {
     const [priority, setPriority] = useState('');
-    
+    const [colorText, setColorText] = useState('');
+
     useEffect(() => {
 
         showPriority(props.url)
-
+        
     }, []);
     
     const showPriority = (url) => {
@@ -20,16 +21,14 @@ const PriorityButton = (props) => {
         })
         .catch();
     }
-
 return (
-        priority && //sin prioridad no aparece el boton 
+        priority && 
         <React.Fragment>
-            <Button size="sm" variant='light' className="text-capitalize" title='Prioridades'>
-                Prioridad
-                <span className="badge ml-2" style={{background: `${priority.color}`} }>{priority.name}</span>
-            </Button>
+                <Badge className="badge mr-1" 
+                style={{background: `${priority.color}`, color: '#111111'}}>{priority.name}</Badge> 
         </React.Fragment>
     );
 };
 
 export default PriorityButton; 
+//parseInt(priority.color.slice(1),16)

@@ -6,9 +6,11 @@ import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
 
 import RestLogin from './RestLogin';
 
+import Alert from './../../../components/Alert/Alert';
+
 const Signin1 = () => {
     return (
-        <React.Fragment>
+        <React.Fragment>    
             <Breadcrumb />
             <div className="auth-wrapper">
                 <div className="auth-content">
@@ -20,7 +22,7 @@ const Signin1 = () => {
                     </div>
                     <Card className="borderless text-center">
                         <Card.Body>
-                            <h4 className="mb-4">React Datta Able</h4>
+                            <h4 className="mb-4">NGEN</h4>
 
                             <div className="mb-4">
                                 <i className="feather icon-unlock auth-icon" />
@@ -29,25 +31,13 @@ const Signin1 = () => {
                             <RestLogin />
 
                             <p className="mb-0 text-muted">
-                                Don’t have an account?{' '}
+                                No tienes una cuenta?{' '}
                                 <NavLink to="/auth/signup" className="f-w-400">
-                                    Sign UP
+                                    Registrarse
                                 </NavLink>
                             </p>
 
                             <br />
-
-                            <p className="mb-0 text-muted">
-                                &copy;{' '}
-                                <a target="_blank" href="https://codedthemes.com/" rel="noreferrer">
-                                    CodedThemes
-                                </a>
-                                -{' '}
-                                <a target="_blank" href="https://appseed.us" rel="noreferrer">
-                                    AppSeed
-                                </a>
-                                .
-                            </p>
                         </Card.Body>
                     </Card>
                 </div>

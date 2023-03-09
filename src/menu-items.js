@@ -37,6 +37,14 @@ const menuItems = {
                     breadcrumbs: false
                 },
                 {
+                    id: 'networks',
+                    title: 'Redes',
+                    type: 'item',
+                    url: '/network/tables',
+                    icon: 'feather icon-sidebar',
+                    breadcrumbs: false
+                },
+                {
                     id: 'contacts',
                     title: 'Contactos',
                     type: 'item',
@@ -108,6 +116,7 @@ const menuItems = {
                 breadcrumbs: false,
             }
             ]
+
         },
         {
             id: 'Eventos',
@@ -128,6 +137,31 @@ const menuItems = {
         },
          
          
+    
+        {
+            id: 'new',
+            title: 'Nuevo',
+            type: 'group',
+            icon: 'fas fa-network-wired',
+            children: [
+                {
+                    id: 'playbook',
+                    title: 'Playbook',
+                    type: 'item',
+                    url: '/playbook/tables',
+                    icon: 'fas fa-network-wired',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'task',
+                    title: 'Tareas',
+                    type: 'item',
+                    url: '/task/tables',
+                    icon: 'feather icon-sidebar',
+                    breadcrumbs: false
+                }
+            ]
+        },
         {
             id: 'ui-element',
             title: 'UI ELEMENT',

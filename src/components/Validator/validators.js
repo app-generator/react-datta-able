@@ -18,6 +18,14 @@ const validateSpace= (text) => {
   return (text.trim() != 0)
 }
 
+const validateLength = (text, maxlength) =>{
+  return (text.length <= maxlength)
+}
+
+const isEmpty = (text) =>{
+  return (text.trim().length === 0)
+}
+
 const validateAlphanumeric = (text) =>{
   return (/^[A-Za-zÁÉÍÓÚáéíóúñÑ'0-9 ]+$/g).test(text)
 }
@@ -44,4 +52,9 @@ const validateNumber = (number) => {
   return (/^[0-9]+$/g).test(number)
 }
 
-export {validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL};
+const validateCidr = (cidr) => {
+  
+  return  (/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(3[0-2]|2[0-9]|[01]?[0-9])$/).test(cidr);
+}
+
+export {validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, validateLength, isEmpty};

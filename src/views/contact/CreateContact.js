@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Row, Col, Card,Breadcrumb } from 'react-bootstrap';
+import { Card, Col, Row  } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
 import FormContact from './components/Form/FormContact';
+import Navigation from '../../components/navigation/navigation';
 
 const CreateContact = () => {
     const [supportedName, setSupportedName] = useState('');
@@ -13,14 +14,7 @@ const CreateContact = () => {
     const [selectType, setSelectType] = useState('0');
     const [error, setError] = useState(null);
 
-    const createContact = () => {
-        console.log(supportedName);
-        console.log(supportedContact);
-        console.log(supportedKey);
-        console.log(selectType);
-        console.log(selectRol);
-        console.log(supportedPriority);
-
+    const createContact = () => { //refactorizar al FormContact
 
         postContact (supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
@@ -36,11 +30,7 @@ const CreateContact = () => {
     return (
         <React.Fragment>
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href="./app/dashboard/default"><i className="fas fa-home" /></Breadcrumb.Item>
-                    <Breadcrumb.Item active>Contactos</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Crear Contacto</Breadcrumb.Item>
-                </Breadcrumb>
+                <Navigation actualPosition="Crear Contacto" path="/contact/tables" index ="Contactos"/>
             </Row>
             <Row>
                 <Col sm={12}>
@@ -56,11 +46,11 @@ const CreateContact = () => {
                                 priority={supportedPriority} setPriority={setSupportedPriority} 
                                 type={selectType} setType={setSelectType} 
                                 contact={supportedContact} setContact={setSupportedContact} 
-                                key={supportedKey} setKey={setSupportedKey} 
-                                ifConfirm={createContact} />                          
+                                keypgp={supportedKey} setKey={setSupportedKey} 
+                                ifConfirm={createContact} ifCancel={() => window.location.href = "/contact/tables"} />
                         </Card.Body>
                     </Card>
-                    <Alert/>
+                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

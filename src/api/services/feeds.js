@@ -28,7 +28,7 @@ const putFeed = (url, slug, name, description, active) => {
 const putActivationStatus= (url, state) => {
     return apiInstance.patch(url, {
         active: state
-    } );
+    });
 }
 
 

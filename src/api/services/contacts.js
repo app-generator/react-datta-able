@@ -6,6 +6,10 @@ const getContacts = (page="") => {
     return apiInstance.get(COMPONENT_URL.contact+page);
 }
 
+const getAllContacts = () => {
+    return apiInstance.get(COMPONENT_URL.contact);
+}
+
 const getContact = (url) => { 
     return apiInstance.get(url);
 }
@@ -75,4 +79,4 @@ const deleteContact = (url) => {
         });
     }
 
-export { getContacts, getContact, postContact, putContact, deleteContact };
+export { getContacts, getAllContacts, getContact, postContact, putContact, deleteContact };
