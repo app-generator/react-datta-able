@@ -38,14 +38,14 @@ const putTaxonomy = (url, slug, type, name, description, active, parent) => {
 }
 
 
-const putActivationStatus= (url, state, name) => {
+const putActivationStatus= (url, state) => {
     return apiInstance.patch(url, {
         active: state    
     });
 }
 
 
-const deleteTaxonomy = (url, name) => {
+const deleteTaxonomy = (url) => {
     return apiInstance.delete(url);
 }
 
