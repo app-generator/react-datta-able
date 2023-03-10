@@ -18,8 +18,8 @@ const register = (username, password, email) => {
     });
 }
 
-const getJWT = (username, password) => {
-    return apiInstance.post("token/", {
+const getCookieJWT = (username, password) => {
+    return apiInstance.post(COMPONENT_URL.cookieToken, {
         username: username,  
         password: password, 
     });
@@ -30,7 +30,13 @@ const login = (username, password) => {
         username: username,
         password: password, 
     }).then(response => {
-        return response;
+       return getCookieJWT(username, password)
+        .then(res => {
+            return response;
+        }).catch(err => {
+            setAlert("No se pudo realizar el login", "error");
+            return Promise.reject(err);
+        });
     }).catch( error => { 
         if (error.response.data.msg === "Wrong credentials") {
             setAlert("Las credenciales de acceso son inválidas", "error");
@@ -42,25 +48,15 @@ const login = (username, password) => {
 }
 
 const refreshToken = () => {
-    // falta el refresh token en el backend
-    console.log("Ejecutó refresh token")
-    return apiInstance.post("token/", {
-        username: 'ngen',  
-        password: 'ngen', 
-    });
+    return apiInstance.post(COMPONENT_URL.refreshCookieToken, {}); 
 }
 
-const logout = (user) => {
-    return apiInstance.post(COMPONENT_URL.logout, {
-        user: user
-    }).then(response => {
-        return response;
-    }).catch( error => { 
-        if (error.response.status === 400) {
+const logout = () => {
+    return apiInstance.post(COMPONENT_URL.logout)
+        .catch( error => { 
             setAlert("No se pudo realizar el logout", "error");
-        } 
-        return Promise.reject(error);
-    });
+            return Promise.reject(error);
+        });
 }
 
-export { register, getJWT, login, refreshToken, logout };
+export { register, getCookieJWT, login, refreshToken, logout };
