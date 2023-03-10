@@ -4,6 +4,7 @@ import CrudButton from '../../../../components/Button/CrudButton';
 import { Link } from 'react-router-dom';
 import FormCidr from '../Form/FormCidr';
 import FormContact from '../Form/FormContact';
+import ActiveButton from '../../../../components/Button/ActiveButton';
 
 
 const ModalDetailNetwork = (props) => {
@@ -12,10 +13,11 @@ const ModalDetailNetwork = (props) => {
     const [modified, setModified] = useState('');
 
     useEffect(()=>{
+        if(props.network){
 
-        setCreated(props.network.created)
-        setModified(props.network.modified)
-
+            formatDate(props.network.created, setCreated)
+            formatDate(props.network.modified, setModified)
+        }
     },[props.network])
 
     const formatDate = (datetime, set) => {
@@ -60,9 +62,9 @@ const ModalDetailNetwork = (props) => {
                                             <></>
                                         }
                                         <tr>
-                                            <td>Estado</td>
+                                            <td>Activa</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={props.network.active ? 'Activa' : 'Inactiva'} />
+                                                <ActiveButton active={props.network.active} />
                                             </td>
                                         </tr>
                                         {props.network.domain ? 

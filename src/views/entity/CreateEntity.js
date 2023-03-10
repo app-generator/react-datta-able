@@ -7,6 +7,7 @@ import Navigation from '../../components/navigation/navigation';
 
 const CreateEntity = () => {
     const [name, setName] = useState('')
+    const active = 1; //se crea activo por defecto
     const [error, setError] = useState(null)
 
     const slugify = (str) => {
@@ -21,7 +22,7 @@ const CreateEntity = () => {
     //Create
     const addEntity = () => {
         let slug = slugify(name);
-        postEntity(name, slug, 1)
+        postEntity(name, slug, active)
         .then((response) => { 
             console.log(response)
             window.location.href = "/entity/tables"
@@ -47,7 +48,9 @@ const CreateEntity = () => {
                         <Card.Body>
                             <Row>
                                 <Col sm={12} lg={12}>
-                                    <FormEntity name={name} setName={setName} ifConfirm={addEntity}/>
+                                    <FormEntity 
+                                        name={name} setName={setName} 
+                                        ifConfirm={addEntity} edit={false} />
                                 </Col>
                             </Row>
                         </Card.Body>

@@ -90,9 +90,17 @@ const menuItems = {
                             title: 'Playbook',
                             type: 'item',
                             url: '/playbook/tables',
-                            icon: 'fas fa-network-wired',
+                            icon: 'fas fa-stream',
                             breadcrumbs: false
                         },
+                        {
+                            id: 'task',
+                            title: 'Tareas',
+                            type: 'item',
+                            url: '/task/tables',
+                            icon: 'feather icon-sidebar',
+                            breadcrumbs: false
+                        }
                     ]
                 },
                 
@@ -125,22 +133,6 @@ const menuItems = {
             }
             ]
          
-        },
-        {
-            id: 'new',
-            title: 'Nuevo',
-            type: 'group',
-            icon: 'fas fa-network-wired',
-            children: [
-                {
-                    id: 'task',
-                    title: 'Tareas',
-                    type: 'item',
-                    url: '/task/tables',
-                    icon: 'feather icon-sidebar',
-                    breadcrumbs: false
-                }
-            ]
         },
         {
             id: 'ui-element',

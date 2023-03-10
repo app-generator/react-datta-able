@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Table, Modal, CloseButton } from 'react-bootstrap';
 import CrudButton from '../../../../components/Button/CrudButton';
 import { Link } from 'react-router-dom';
@@ -8,9 +8,22 @@ import { getTaxonomy } from '../../../../api/services/taxonomy';
 
 const ModalDetailPlaybook = (props) => {
     
-    useEffect(()=>{
+    const [created, setCreated] = useState('');
+    const [modified, setModified] = useState('');
 
-    },[])
+    useEffect(()=>{
+        if(props.playbook){
+
+            formatDate(props.playbook.created, setCreated)
+            formatDate(props.playbook.modified, setModified)
+        }
+    },[props.playbook])
+
+    const formatDate = (datetime, set) => {
+        datetime = datetime.split('T')
+        let format = datetime[0] + ' ' + datetime[1].slice(0,8); 
+        set(format)
+    }
 
     return (
         <React.Fragment>
@@ -77,13 +90,13 @@ const ModalDetailPlaybook = (props) => {
                                         <tr>
                                             <td>Fecha de creación</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={props.playbook.created} />
+                                                <Form.Control plaintext readOnly defaultValue={created} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Ultima actualización</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={props.playbook.modified} />
+                                                <Form.Control plaintext readOnly defaultValue={modified} />
                                             </td>
                                         </tr>
                                     </tbody>

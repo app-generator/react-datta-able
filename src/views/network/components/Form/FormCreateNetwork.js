@@ -6,12 +6,20 @@ import { getAllNetworks } from '../../../../api/services/networks';
 import CrudButton from '../../../../components/Button/CrudButton';
 import FormContact from '../../../contact/components/Form/FormContact';
 import { postContact } from '../../../../api/services/contacts';
-import { validateSpace, validateAlphanumeric, validateCidr, validateURL, validateSpaces  } from '../../../../components/Validator/validators'; 
+import { validateSpace, validateCidr, validateURL, validateSpaces } from '../../../../components/Validator/validators'; 
 import Alert from '../../../../components/Alert/Alert';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import DropdownState from '../../../../components/Dropdown/DropdownState';
+
+
+const animatedComponents = makeAnimated();
+
 
 const FormCreateNetwork = (props) => { 
     // props: ifConfirm children setChildren cidr setCidr domain setDomain active setActive 
     // type setType parent setParent network_entity setNetwork_entity contacts setContactss 
+    // {edit:false | true -> active, setActive}
     
     const [contactsOption, setContactssOption] = useState([])
     const [entitiesOption, setEntitiesOption] = useState([])
@@ -66,26 +74,7 @@ const FormCreateNetwork = (props) => {
         abuse : 'Abuso',
         notifications : 'Notificaciones',
         noc : 'NOC',
-    };
-
-        console.log(props.cidr)
-        console.log(props.domain)
-        console.log(props.type)
-        console.log(props.parent)
-        console.log(props.network_entity)
-        console.log(props.contacts)
-    
-
-    const editContactList = (event) => {
-        if(!props.contacts.includes(event.target.value)){
-            props.contacts.push(event.target.value)
-        }
-        else {
-            //props.contacts.filter(contact => contact != event.target.value)
-            props.contacts.pop(event.target.value)
-        }
-        console.log(props.contacts)
-    }
+    }; 
 
     //Create Contact
     const createContact = () => { //refactorizar al FormContact
@@ -102,6 +91,13 @@ const FormCreateNetwork = (props) => {
             console.log(error)
         });    
     };
+
+    console.log(props.cidr)
+    console.log(props.domain)
+    console.log(props.type)
+    console.log(props.parent)
+    console.log(props.network_entity)
+    console.log(props.contacts)
 
     return (
         <React.Fragment>
@@ -152,10 +148,8 @@ const FormCreateNetwork = (props) => {
                                 type="domain" 
                                 placeholder="Dominio" 
                                 maxlength="100"
-                                value={ props.domain || null} ////////////////////////////
+                                value={ props.domain } ////////////////////////////
                                 onChange={ (e) => props.setDomain(e.target.value) } 
-                                isValid={ validateURL(props.domain) || validateSpaces(props.domain) }
-                                isInvalid={ !validateSpaces(props.domain) && !validateURL(props.domain) }
                             />
                             { false ? "" : <div className="invalid-feedback">Ingrese un dominio valido</div>}
                         </Form.Group>
@@ -171,7 +165,7 @@ const FormCreateNetwork = (props) => {
                                 as="select"
                                 value={props.parent}
                                 onChange={(e) => props.setParent(e.target.value)}>
-                                    <option key={0} value={null}> </option>
+                                    {props.edit ? '' : <option key={0} value={null}> </option>}
                                     {networks.map((net, index) => {   
                                         parentOption.add(net.cidr);
                                         return (
@@ -189,9 +183,9 @@ const FormCreateNetwork = (props) => {
                                 name="entity"
                                 type="choice"
                                 as="select"
-                                value={props.entity}
+                                value={props.network_entity}
                                 onChange={(e) => props.setNetwork_entity(e.target.value)}>
-                                    <option key={0} value={null}> </option>
+                                    {props.edit ? '' : <option key={0} value={null}> </option>}
                                     {entitiesOption.map((entityItem, index) => {                
                                         return (
                                             <option key={index} value={entityItem.value}>{entityItem.name}</option>
@@ -202,7 +196,7 @@ const FormCreateNetwork = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={12} lg={9}>
+                    <Col sm={12} lg={12}>
                         <Form.Group controlId="Form.Network.Contacts">
                             <Form.Label>Contactos Relacionados</Form.Label>
                             <Form.Control
@@ -211,7 +205,7 @@ const FormCreateNetwork = (props) => {
                                 type="choice"
                                 as="select"
                                 value={props.contacts}
-                                onChange={(e) => editContactList(e)}>
+                                >
                                 {contactsOption.map((contactsItem, index) => {                
                                     return (
                                         <option key={index} value={contactsItem.url}>{contactsItem.name + ' (' + labelRole[contactsItem.role] + ') ' + contactsItem.username}</option>
@@ -220,23 +214,50 @@ const FormCreateNetwork = (props) => {
                             </Form.Control>
                         </Form.Group>
                     </Col>
-                    <Col>
-                    <br/>
-                    <br/>
-                        <CrudButton type='create' name='Contacto' onClick={() => setModalCreate(true)}/>
-                        <Button onClick={() => props.setContacts([])}>LImpiar</Button>
+                </Row>
+                <Row>
+                    <Col sm={12} lg={12}>
+                        <Form.Group controlId="Form.Network.Contacts.Multiselect">
+                            <Form.Label>Contactos Relacionados</Form.Label>
+                            <Select
+                                closeMenuOnSelect={false}
+                                components={animatedComponents}
+                                isMulti
+                                onChange={ (e) => console.log(e) }
+                                options={contactsOption}
+                                />
+                        </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                <Form.Group>
-                    { validateCidr(props.cidr) && (validateURL(props.domain) || props.domain === null|| validateSpaces(props.domain)) && 
-                    (props.type != '0') && (props.contacts.length > 0) ? // 
-                        <><Button variant="primary" onClick={props.ifConfirm } >Guardar</Button></>
-                        : 
-                        <><Button variant="primary" disabled>Guardar</Button></> 
-                    }
-                    <Button variant="primary" href="/network/tables">Cancelar</Button>
-                    </Form.Group>
+                    <Col>
+                        <CrudButton type='create' name='Contacto' onClick={() => setModalCreate(true)}/>
+                    </Col>
+                </Row>
+                {props.edit ? 
+                <Row>
+                    <Col>
+                        <Form.Group>
+                            <Form.Label>Estado</Form.Label>
+                                <DropdownState state={props.active} setActive={props.setActive}></DropdownState>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                :
+                <></>}
+                <Row>
+                    <Col sm={12} lg={9} />
+                    <Col>
+                        <Form.Group>
+                            { validateCidr(props.cidr) && (validateURL(props.domain) || props.domain === null|| validateSpaces(props.domain)) && 
+                            (props.type != '0') && (props.contacts.length > 0) ? // 
+                                <><Button variant="primary" onClick={props.ifConfirm } >Guardar</Button></>
+                                : 
+                                <><Button variant="primary" disabled>Guardar</Button></> 
+                            }
+                            <Button variant="primary" href="/network/tables">Cancelar</Button>
+                        </Form.Group>
+                    </Col>
                 </Row>
             </Form>
 

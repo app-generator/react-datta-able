@@ -52,7 +52,7 @@ const CreateNetwork = () => {
                                 parent={parent} setParent={setParent}
                                 network_entity={network_entity} setNetwork_entity={setNetwork_entity}
                                 contacts={contacts} setContacts={setContacts}
-                                ifConfirm={createNetwork} />                          
+                                ifConfirm={createNetwork} edit={false} />                          
                         </Card.Body>
                     </Card>
                     <Alert />

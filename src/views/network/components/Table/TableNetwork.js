@@ -120,7 +120,7 @@ console.log(network.network_entity)
                                     <td>{network.cidr}</td>
                                     <td>{network.type === 'internal' ? 'Interna' : 'Externa'}</td>
                                     <td>
-                                        <ActiveButton active={+network.active} onClick={() => pressActive(network.domain, network.active, network.url)} />
+                                        <ActiveButton active={network.active} onClick={() => pressActive(network.domain, network.active, network.url)} />
                                     </td>
                                     <td>
                                         <FormGetName form={false} get={getEntity} url={network.network_entity} key={index} />

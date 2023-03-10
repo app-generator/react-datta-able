@@ -49,7 +49,7 @@ const EditContact = () => {
                                 type={selectType} setType={setSelectType} 
                                 contact={supportedContact} setContact={setSupportedContact} 
                                 key={supportedKey} setKey={setSupportedKey} 
-                                ifConfirm={editContact} />
+                                ifConfirm={editContact} ifCancel={() => {window.location.href = "/contact/tables"}}/>
                         </Card.Body>
                     </Card>
                     {/*<Alert/>*/}

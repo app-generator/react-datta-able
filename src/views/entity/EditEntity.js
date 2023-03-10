@@ -9,6 +9,7 @@ import Navigation from '../../components/navigation/navigation';
 const EditEntity = () => {
     const entity = useLocation().state;
     const [name, setName] = useState(entity.name);
+    const [active, setActive] = useState(entity.active);
     const [error, setError] = useState(null);
 
     const slugify = (str) => {
@@ -23,7 +24,7 @@ const EditEntity = () => {
     //Update
     const editEntity = () => {
         let slug = slugify(name); //backend
-        putEntity(entity.url, name, slug, entity.active)
+        putEntity(entity.url, name, slug, active)
         .then((response) => { 
             console.log(response)
             window.location.href = "/entity/tables"
@@ -49,7 +50,10 @@ const EditEntity = () => {
                         <Card.Body>
                             <Row>
                                 <Col sm={12} >
-                                    <FormEntity name={name} setName={setName} ifConfirm={editEntity}/>
+                                    <FormEntity 
+                                        name={name} setName={setName} 
+                                        active={active} setActive={setActive}
+                                        ifConfirm={editEntity} edit={true} />
                                 </Col>
                             </Row>
                         </Card.Body>

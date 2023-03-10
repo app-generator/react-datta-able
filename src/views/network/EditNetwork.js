@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/Form/FormCreateNetwork';
 import Navigation from '../../components/navigation/navigation';
+import ModalConfirm from '../../components/Modal/ModalConfirm';
+import ActiveButton from '../../components/Button/ActiveButton';
+import { isActive } from '../../api/services/networks'; 
+import ButtonState from '../feeds/components/ButtonState'; //rox
 
 const EditNetwork = () => {
+
     const network = useLocation().state;
     const [url, setUrl] = useState(network.url);///
     const [children, setChildren] = useState(network.children);
@@ -18,6 +23,10 @@ const EditNetwork = () => {
     const [network_entity, setNetwork_entity] = useState(network.network_entity);
     const [contacts, setContacts] = useState([...network.contacts]); //* 
     const [error, setError] = useState(null);
+    const [modalState, setModalState] = useState(false);
+
+
+    useEffect (() => {}, [active])
 
     //Update
     const editNetwork = () => {
@@ -33,6 +42,24 @@ const EditNetwork = () => {
         });    
     };
 
+    //Update Network
+
+    const switchState = ()=> {
+        isActive(url, !active) //+!active si el estado es int
+            .then((response) => {
+                console.log(response.data)
+                setActive(response.data.active)
+            })
+            .catch((error) => {
+                console.log(error)
+                setError(error)
+            })
+            .finally(() => {
+                setModalState(false)
+            })
+    };
+    
+
     return (
         <React.Fragment>
             <Row>
@@ -42,8 +69,12 @@ const EditNetwork = () => {
                 <Col sm={12}>
                     <Card>
                         <Card.Header>
-                            <Card.Title as="h5">Redes</Card.Title>
-                            <span className="d-block m-t-5">Editar Red</span>
+                            <Row>
+                                <Col>
+                                    <Card.Title as="h5">Redes</Card.Title>
+                                    <span className="d-block m-t-5">Editar Red</span>
+                                </Col>
+                            </Row>
                         </Card.Header>
                         <Card.Body>
                              <FormCreateNetwork 
@@ -53,12 +84,14 @@ const EditNetwork = () => {
                                 parent={parent} setParent={setParent}
                                 network_entity={network_entity} setNetwork_entity={setNetwork_entity}
                                 contacts={contacts} setContacts={setContacts}
-                                ifConfirm={editNetwork} />                          
+                                ifConfirm={editNetwork} 
+                                active={active} setActive={setActive} edit={true} />                          
                         </Card.Body>
                     </Card>
                     <Alert />
                 </Col>
             </Row>
+            <ModalConfirm type='editState' component='Red' name={cidr} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(url, active)}/>
         </React.Fragment>
     );
 };

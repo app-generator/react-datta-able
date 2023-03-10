@@ -3,11 +3,14 @@ import {Button} from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 
 const ActiveButton = ({ active, onClick}) => {
+    
     const [stateBool, setStateBool] = useState(null);
     
     useEffect(() => {
-        setStateBool(active===1);
-},[active]);
+
+        setStateBool(active);
+
+    },[active]);
 
     return (
         <React.Fragment>

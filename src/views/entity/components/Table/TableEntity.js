@@ -120,7 +120,7 @@ const TableEntity = ({callback, list, loading }) => {
                                     <th scope="row">{index+1}</th>
                                     <td>{entity.name}</td>
                                     <td>
-                                        <ActiveButton active={entity.active} onClick={() => pressActive(entity.name, entity.active, entity.url)} />
+                                        <ActiveButton active={entity.active === 1} onClick={() => pressActive(entity.name, entity.active, entity.url)} />
                                     </td>
                                     <td>5</td>
                                     <td>
@@ -172,9 +172,9 @@ const TableEntity = ({callback, list, loading }) => {
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Estado</td>
+                                                <td>Activa</td>
                                                 <td>
-                                                    <Form.Control plaintext readOnly defaultValue={state[entity.active]} />
+                                                    <ActiveButton active={entity.active === 1} />
                                                 </td>
                                             </tr>
                                             <tr>

@@ -1,13 +1,14 @@
 import React from 'react';
 import {Button, Form} from 'react-bootstrap';
+import DropdownState from '../../../../components/Dropdown/DropdownState';
 import { validateAlphanumeric, validateSpace } from '../../../../components/Validator/validators'; 
 
-const FormEntity = (props) => { // props: name, setName, ifConfirm
+const FormEntity = (props) => { // props: name, setName, ifConfirm, {edit:false | true -> active, setActive}
 
     return (
         <React.Fragment>
             <Form>
-            <Form.Group controlId="Form.Entity.Name">
+                <Form.Group controlId="Form.Entity.Name">
                     <Form.Label>Nombre</Form.Label>
                     <Form.Control 
                         type="nombre" 
@@ -20,7 +21,15 @@ const FormEntity = (props) => { // props: name, setName, ifConfirm
                         />
                     {validateSpace(props.name) ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
                     {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
+                
                 </Form.Group>
+                {props.edit ? 
+                    <Form.Group>
+                        <Form.Label>Estado</Form.Label>
+                        <DropdownState state={props.active} setActive={props.setActive}></DropdownState>
+                    </Form.Group>
+                :
+                <></>}
 
                 {!validateSpace(props.name) || !validateAlphanumeric(props.name) ? 
                     <><Button variant="primary" disabled>Guardar</Button></> 

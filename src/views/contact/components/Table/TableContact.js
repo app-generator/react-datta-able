@@ -43,7 +43,8 @@ const TableContact = ({callback, list, loading }) => {
             setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
             let rol = labelRole[response.data.role];
             setRole(rol)
-            setType(Upper(response.data.type))
+            let type = labelContact[response.data.type];
+            setType(type)
             setModalShow(true)
         })
         .catch(setError);
@@ -90,6 +91,14 @@ const TableContact = ({callback, list, loading }) => {
         abuse : 'Abuso',
         notifications : 'Notificaciones',
         noc : 'NOC',
+    };
+
+    const labelContact =
+    {
+        email : 'Correo electrónico',
+        telegram : 'Telegram',
+        phone : 'Teléfono',
+        uri : 'URI',
     };
 
     return (
