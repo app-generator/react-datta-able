@@ -23,10 +23,6 @@ const NavRight = () => {
     const [listOpen, setListOpen] = useState(false);
 
     const { dispatch } = store;
-    const state = store.getState();
-    const user = JSON.stringify(state.account.user);
-
-    console.log(user);
 
     const resetShowAlert = () => {
         setShowAlert(false);
@@ -34,30 +30,14 @@ const NavRight = () => {
 
     const handleLogout = () => {
 
-        logout(user).then((response) => {
-            console.log('Se pudo desloguear');
+        logout().then((response) => {
             dispatch({
                 type: LOGOUT,
             });
         })
         .catch((error) => {
-            console.log('No se pudo desloguear');
             setShowAlert(true);
         });
-        /*
-        axios
-            .post(API_SERVER + 'logout/', {}, { headers: { Authorization: `${account.token}` } })
-            .then(function (response) {
-                // Force the LOGOUT
-                //if (response.data.success) {
-                dispatcher({ type: LOGOUT });
-                //} else {
-                //    console.log('response - ', response.data.msg);
-                //}
-            })
-            .catch(function (error) {
-                console.log('error - ', error);
-            });*/
         
     };
 
