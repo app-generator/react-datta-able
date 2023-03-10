@@ -23,12 +23,10 @@ const CreateEntity = () => {
         let slug = slugify(name);
         postEntity(name, slug, 1)
         .then((response) => { 
-            console.log(response)
             window.location.href = "/entity/tables"
         })
         .catch((error) => {
             setError(error)
-            console.log(error)
         });    
     };
        

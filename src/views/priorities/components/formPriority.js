@@ -8,7 +8,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
         setBody({...body,
             [event.target.name] : event.target.value}
         )     
-        console.log(event.target.value)  
     }
     const activateBooton = (body)=>{
         if (!validateFieldText(body.name)){

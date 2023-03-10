@@ -18,12 +18,10 @@ const CreateContact = () => {
 
         postContact (supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
-            console.log(response)
             window.location.href = "/contact/tables"
         })
         .catch((error) => {
             setError(error)
-            console.log(error)
         });    
     };
 
