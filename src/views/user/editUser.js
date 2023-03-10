@@ -38,19 +38,16 @@ const EditUser = () => {
     
         
     },[]);
-    console.log(body)
     
     const editUser=(e)=>{
         
             putUser(body.url,body.username,body.first_name,body.last_name,body.email,body.priority)
             .then((response) => { 
-                console.log(response)
                 sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido modificado`, type:1}));
                 window.location.href = "/list-user"
             })
             .catch((error) => {
                 setError(error)
-                console.log(error)
                 setAlert({name:`El usuario ${body.username} NO puede ser creado verifica que no exista`, type:0})
                 setTimeout(() => {
                     setAlert(null)

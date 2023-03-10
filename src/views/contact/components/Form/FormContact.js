@@ -15,7 +15,6 @@ const FormContact = (props) => {
         getPriorities()
             .then((response) => {
                 setPriorities(Object.values(response.data.results))
-                console.log(response.data.results)
             })
             .catch((error)=>{
                 setError(error)

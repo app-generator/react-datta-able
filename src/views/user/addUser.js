@@ -53,13 +53,11 @@ const AddUser = () => {
         
         postUser(body.username,body.first_name,body.last_name,body.email, body.priority)
         .then((response) => { 
-            console.log(response)
             sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
             window.location.href = "/list-user"
         })
         .catch((error) => {
             setError(error)
-            console.log(error)
             setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
             setTimeout(() => {
                 setAlert(null)

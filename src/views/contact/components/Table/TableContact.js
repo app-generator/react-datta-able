@@ -60,11 +60,9 @@ const TableContact = ({callback, list, loading }) => {
     const removeContact = (url)=> {
         deleteContact(url)
             .then((response) => {
-                console.log(response)
                 callback(lastItem)
             })
             .catch((error) => {
-                console.log(error)
                 setError(error)
                 callback(false) //error si no se puede eliminar el ultimo
             })
@@ -74,7 +72,6 @@ const TableContact = ({callback, list, loading }) => {
     };
 
     if (error) {
-        console.log(error);
         return <p>Ups! Se produjo un error al buscar el contacto.</p>
     }
 

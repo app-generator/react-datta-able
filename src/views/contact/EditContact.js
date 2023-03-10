@@ -20,12 +20,10 @@ const EditContact = () => {
     const editContact = () => {
         putContact (contact.url, supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
-            console.log(response)
             window.location.href = "/contact/tables"
         })
         .catch((error) => {
             setError(error)
-            console.log(error)
         });    
     };
 

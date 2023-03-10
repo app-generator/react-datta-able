@@ -25,12 +25,10 @@ const EditEntity = () => {
         let slug = slugify(name); //backend
         putEntity(entity.url, name, slug, entity.active)
         .then((response) => { 
-            console.log(response)
             window.location.href = "/entity/tables"
         })
         .catch((error) => {
             setError(error)
-            console.log(error)
         });    
     };
 

@@ -6,8 +6,7 @@ import {
 
 const Navigation = ({actualPosition, path=false, index =""}) => {
   return (
-    <React.Fragment>
-        <Row>
+    <React.Fragment>  
             <Breadcrumb>
                 <Breadcrumb.Item href="./app/dashboard/default">
                     <i className="fas fa-home" />
@@ -18,9 +17,7 @@ const Navigation = ({actualPosition, path=false, index =""}) => {
                 <Breadcrumb.Item active>
                     <b>{actualPosition}</b>
                 </Breadcrumb.Item>
-            </Breadcrumb>
-        </Row>
-                    
+            </Breadcrumb>          
     </React.Fragment>
   )
 }
