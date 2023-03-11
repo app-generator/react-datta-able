@@ -8,6 +8,7 @@ import ButtonState from './components/ButtonState';
 import CrudButton from '../../components/Button/CrudButton';
 import Alert from '../../components/Alert/Alert';
 import Pagination from '../../components/Pagination/Pagination';
+import Navigation from '../../components/navigation/navigation';
 
 const ListFeeds = () => {
     
@@ -104,14 +105,7 @@ const ListFeeds = () => {
         <React.Fragment>
             <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href='/app/dhasboard/default'>
-                        <i className="fas fa-home" />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item active>
-                        <b>Fuentes de Informacion</b> 
-                    </Breadcrumb.Item>
-                </Breadcrumb>    
+                <Navigation actualPosition={'Fuentes de Información'}/>  
             </Row>
             <Row>
                 <Col>             

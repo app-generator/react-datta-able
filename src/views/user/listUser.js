@@ -105,7 +105,6 @@ function ListUser() {
     fetchUsers()
   }, [])
   if (error) {
-    console.log(error);
     return <p>Ups! Se produjo un error al buscar los usuarios</p>
 }
 
@@ -113,7 +112,6 @@ function ListUser() {
   CambioDepagina(cantPages[currentPage-1])
   const currentPosts = posts// lo que se muestra
   const howManyPages = pages//la cantidad de paginas del paginado 
-  console.log("cant "+howManyPages)
   const name = "Usuarios"
 
   
@@ -125,7 +123,9 @@ function ListUser() {
   return (
     <div >
       <Alert alert={alert} stateAlert={stateAlert} />
-      <Navigation actualPosition={name}/>
+      <Row>
+        <Navigation actualPosition={name}/>
+      </Row>   
       <Card>
         <Card.Header>
           <Row>

@@ -53,11 +53,9 @@ const EditPriority = () => {
 
         putPriority(body.url, body.name,body.color,body.severity, attendDeadline, solveDeadline)
         .then((response) => { 
-            console.log(response)
             window.location.href = "/list-Priorities"
         }).catch((error) => {
             setError(error)
-            console.log(error)
             setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
             setTimeout(() => {
                 setAlert(null)

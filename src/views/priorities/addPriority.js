@@ -27,19 +27,15 @@ const AddPriority = () => {
     const createPriority=()=>{
         
         const attendDeadline = (body.dayAttendDeadline ? body.dayAttendDeadline+" ":"")+body.hourAttendDeadline
-        console.log(attendDeadline)
 
         const solveDeadline = (body.daySolveDeadline ? body.daySolveDeadline+" ":"")+body.hourSolveDeadline
-        console.log(solveDeadline)
 
         postPriority(body.name,body.color,body.severity,attendDeadline, solveDeadline)
         .then((response) => { 
-            console.log(response)
             sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
             window.location.href = "/list-Priorities"
         }).catch((error) => {
             setError(error)
-            console.log(error)
             setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
             setTimeout(() => {
                 setAlert(null)

@@ -47,7 +47,6 @@ if(username){
     ]
     
     const username = typeValue.find(contact => contact.name === props.selectedType)
-    console.log(username)
     
     
     if(username) {

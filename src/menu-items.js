@@ -10,7 +10,8 @@ const menuItems = {
                     title: 'Métricas',
                     type: 'item',
                     url: '/app/dashboard/default',
-                    icon: 'feather icon-home'
+                    icon: 'feather icon-home',
+                    breadcrumbs: false
                 },
                 {
                     id: 'feeds',
