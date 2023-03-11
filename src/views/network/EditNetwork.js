@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
+import { getAllContacts } from '../../api/services/contacts';
 import { putNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/Form/FormCreateNetwork';
 import Navigation from '../../components/navigation/navigation';
@@ -14,7 +15,7 @@ const EditNetwork = () => {
     const [url, setUrl] = useState(network.url);///
     const [children, setChildren] = useState(network.children);
     const [cidr, setCidr] = useState(network.cidr); //* 
-    const [domain, setDomain] = useState(network.domain); // null 
+    const [domain, setDomain] = useState(network.domain===null ? '' : network.domain); // null 
     const [active, setActive] = useState(network.active); //* true 
     const [type, setType] = useState(network.type); //* internal external
     const [parent, setParent] = useState(network.parent);
@@ -23,25 +24,53 @@ const EditNetwork = () => {
     const [error, setError] = useState(null);
     const [modalState, setModalState] = useState(false);
 
+    //Dropdown
+    const [contactsOption, setContactsOption] = useState([])
+    const [contactCreated, setContactsCreated ] = useState(null); // si creo se renderiza
+    
 
-    useEffect (() => {}, [active])
+    useEffect(()=> {
+
+        getAllContacts()
+            .then((response) => {
+                let listContact = []
+                response.data.results.map((contactsItem)=>{
+                    listContact.push({value:contactsItem.url, label:contactsItem.name + ' (' + labelRole[contactsItem.role] + ') ' + contactsItem.username})
+                })
+                setContactsOption(listContact)
+                console.log(response.data.results)
+            })
+            .catch((error)=>{
+                setError(error)
+            })  
+        
+        
+        },[active, contactCreated])
+
+    const labelRole = {
+        technical : 'Tecnico',
+        administrative : 'Administrativo',
+        abuse : 'Abuso',
+        notifications : 'Notificaciones',
+        noc : 'NOC',
+    };
 
     //Update
     const editNetwork = () => {
-    //        putNetwork (url, null, '10.0.0.0/16', null, true, 'external', null, null, ['http://localhost:8000/api/contact/88/']) 
-    putNetwork (url, children, cidr, domain, active, type, parent, network_entity, contacts) 
-        .then((response) => { 
-            console.log(response)
-            window.location.href = "/network/tables"
-        })
-        .catch((error) => {
-            setError(error)
-            console.log(error)
-        });    
+
+        putNetwork (url, children, cidr, domain, active, type, parent, network_entity, contacts) 
+            .then((response) => { 
+                console.log(response)
+                console.log('create network - put .then')
+                window.location.href = "/network/tables"
+            })
+            .catch((error) => {
+                setError(error)
+                console.log(error)
+            });    
     };
 
     //Update Network
-
     const switchState = ()=> {
         isActive(url, !active) //+!active si el estado es int
             .then((response) => {
@@ -83,7 +112,9 @@ const EditNetwork = () => {
                                 network_entity={network_entity} setNetwork_entity={setNetwork_entity}
                                 contacts={contacts} setContacts={setContacts}
                                 ifConfirm={editNetwork} 
-                                active={active} setActive={setActive} edit={true} />                          
+                                active={active} setActive={setActive} edit={true} 
+                                contactsOption={contactsOption}
+                                setContactsCreated={setContactsCreated} />                          
                         </Card.Body>
                     </Card>
                     <Alert />
