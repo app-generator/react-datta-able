@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Button, Card, CloseButton, Col, Row, Form, Modal} from 'react-bootstrap';
 import CrudButton from '../../../../components/Button/CrudButton';
-import { validateSpace, validateAlphanumeric, validateSpaces } from '../../../../components/Validator/validators'; 
+import { validateAlphanumeric, validateSpace } from '../../../../components/Validator/validators'; 
 import Alert from '../../../../components/Alert/Alert';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -36,11 +36,12 @@ const FormCreateNetwork = (props) => {
                                 placeholder="Ingrese nombre" 
                                 maxlength="100"
                                 value={props.name} 
-                                isValid={ validateAlphanumeric(props.name) && validateSpaces(props.name) }
-                                isInvalid={ !validateSpaces(props.name) || !validateAlphanumeric(props.name) }
-                                onChange={(e) => props.setCidr(e.target.value)}
+                                onChange={(e) => props.setName(e.target.value)}
+                                isInvalid={!validateAlphanumeric(props.name) || !validateSpace(props.name)}
+                                isValid={validateAlphanumeric(props.name) && validateSpace(props.name)}
                                 />
-                            {!props.name || validateAlphanumeric(props.cidr) ? "" : <div className="invalid-feedback">Ingrese un cidr valido</div>}
+                            {validateSpace(props.name) ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
+                            {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
                         </Form.Group>
                     </Col>
                 </Row>
@@ -72,7 +73,7 @@ const FormCreateNetwork = (props) => {
                                 : 
                                 <><Button variant="primary" disabled>Guardar</Button></> 
                             }
-                            <Button variant="primary" href="/network/tables">Cancelar</Button>
+                            <Button variant="primary" href="/playbook/tables">Cancelar</Button>
                         </Form.Group>
                     </Col>
                 </Row>

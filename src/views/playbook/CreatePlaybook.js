@@ -63,8 +63,14 @@ const CreatePlaybook = () => {
                                 name={name} setName={setName}
                                 taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
                                 taxonomiesOption={taxonomiesOption} setTaxonomyCreated={setTaxonomyCreated}
-                                ifConfirm={createPlaybook} />                          
+                                ifConfirm={createPlaybook} />
                         </Card.Body>
+                    </Card>
+                    <Card>
+                        <Card.Header>
+                            <Card.Title as="h5">Tareas</Card.Title>
+                            <span className="d-block m-t-5">Lista de Tareas</span>
+                        </Card.Header>
                     </Card>
                     {/*<Alert />*/}
                 </Col>

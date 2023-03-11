@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, Col, Row  } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
-import FormContact from './components/Form/FormContact';
+import FormCreateContact from './components/Form/FormCreateContact';
 import Navigation from '../../components/navigation/navigation';
 
 const CreateContact = () => {
@@ -14,7 +14,7 @@ const CreateContact = () => {
     const [selectType, setSelectType] = useState('0');
     const [error, setError] = useState(null);
 
-    const createContact = () => { //refactorizar al FormContact
+    const createContact = () => { //refactorizar al FormCreateContact
 
         postContact (supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
@@ -40,7 +40,7 @@ const CreateContact = () => {
                             <span className="d-block m-t-5">Agregar Contacto</span>
                         </Card.Header>
                         <Card.Body>
-                             <FormContact 
+                             <FormCreateContact 
                                 name={supportedName} setName= {setSupportedName} 
                                 role={selectRol} setRole={setSelectRol} 
                                 priority={supportedPriority} setPriority={setSupportedPriority} 

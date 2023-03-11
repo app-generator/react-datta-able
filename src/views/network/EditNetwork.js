@@ -6,9 +6,7 @@ import { putNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/Form/FormCreateNetwork';
 import Navigation from '../../components/navigation/navigation';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
-import ActiveButton from '../../components/Button/ActiveButton';
 import { isActive } from '../../api/services/networks'; 
-import ButtonState from '../feeds/components/ButtonState'; //rox
 
 const EditNetwork = () => {
 

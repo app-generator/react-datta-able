@@ -1,9 +1,9 @@
 import React from 'react';
-import { Badge, Form } from 'react-bootstrap';
+import { Badge } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getContact } from '../../../../api/services/contacts';
 
-const FormContact = (props) => {
+const BadgeNetworkLabelContact = (props) => {
     const [contact, setContact] = useState('');
 
     useEffect(() => {
@@ -40,5 +40,5 @@ return (
     );
 };
 
-export default FormContact; 
+export default BadgeNetworkLabelContact; 
 //<Form.Control plaintext readOnly defaultValue={contact.name + ' (' + contact.role + '): ' + contact.username} />

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, Form, Table, Modal, CloseButton } from 'react-bootstrap';
 import CrudButton from '../../../../components/Button/CrudButton';
 import { Link } from 'react-router-dom';
-import FormCidr from '../Form/FormCidr';
-import FormContact from '../Form/FormContact';
+import FormNetworkLabelCidr from '../Form/FormNetworkLabelCidr';
+import BadgeNetworkLabelContact from '../Badge/BadgeNetworkLabelContact';
 import ActiveButton from '../../../../components/Button/ActiveButton';
 
 
@@ -81,7 +81,7 @@ const ModalDetailNetwork = (props) => {
                                             <tr>
                                                 <td>Red Padre</td>
                                                 <td>
-                                                    <FormCidr url={props.network.parent} />
+                                                    <FormNetworkLabelCidr url={props.network.parent} />
                                                 </td>
                                             </tr>
                                             : 
@@ -93,7 +93,7 @@ const ModalDetailNetwork = (props) => {
                                                 <td>
                                                     {Object.values(props.network.children).map((net, index)=>{
                                                         return (
-                                                            <FormCidr url={net} key={index}/>
+                                                            <FormNetworkLabelCidr url={net} key={index}/>
                                                         )})
                                                     }
                                                 </td>
@@ -107,7 +107,7 @@ const ModalDetailNetwork = (props) => {
                                                 <td>
                                                     {Object.values(props.network.contacts).map((contactItem, index)=>{
                                                         return (
-                                                            <FormContact url={contactItem} key={index} />
+                                                            <BadgeNetworkLabelContact url={contactItem} key={index} />
                                                         )})
                                                     }
                                                 </td>

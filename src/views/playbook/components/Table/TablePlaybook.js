@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../../components/Modal/ModalConfirm';
 import ModalDetailPlaybook from '../Modal/ModalDetailPlaybook'; 
 import FormGetName from '../../../../components/Form/FormGetName';
-import { getTask } from '../../../../api/services/tasks';
 import { getTaxonomy } from '../../../../api/services/taxonomy';
 
 
@@ -78,7 +77,6 @@ const TablePlaybook = ({callback, list, loading }) => {
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
-                            <th>Tareas</th>
                             <th>Taxonomias</th>
                             <th>Accion</th>
                         </tr>
@@ -89,15 +87,6 @@ const TablePlaybook = ({callback, list, loading }) => {
                                 <tr key={book.url}>
                                     <th scope="row">{index+1}</th>
                                     <td>{book.name}</td>
-                                    <td>
-                                        {Object.values(book.tasks).map((taskItem, index)=>{
-                                            return (
-                                                
-                                                    <><FormGetName form={false} get={getTask} url={taskItem} key={index} /><br/></>
-                                                    
-                                            )})
-                                        }
-                                    </td>
                                     <td>
                                         {Object.values(book.taxonomy).map((taxonomyItem, index)=>{
                                             return (

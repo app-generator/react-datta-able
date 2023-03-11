@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import {Button, Col, Row, Form} from 'react-bootstrap';
 import { getPriorities } from '../../../../api/services/priorities';
 import { validateSpace, validateAlphanumeric  } from '../../../../components/Validator/validators'; 
-import FormContactPriority from './FormContactPriority';
+import FormContactSelectUSername from './FormContactSelectUSername';
 
-const FormContact = (props) => { 
+const FormCreateContact = (props) => { 
     // props: name, setName, role, setRole, priority, setPriority, type, setType, contact, setContact, keypgp, setKey, ifConfirm, ifCancel
     const [validContact, setValidContact] = useState(false) 
-    const [priorities, setPriorities] = useState([])
+    const [prioritiesOption, setPrioritiesOption] = useState([])
     const [error, setError] = useState(false)
 
     useEffect(()=> {
 
         getPriorities()
             .then((response) => {
-                setPriorities(Object.values(response.data.results))
+                setPrioritiesOption(Object.values(response.data.results))
                 console.log(response.data.results)
             })
             .catch((error)=>{
@@ -125,7 +125,7 @@ const FormContact = (props) => {
                                 isValid={props.priority !== '0'}
                                 onChange={(e) =>  props.setPriority(e.target.value)}>
                                 <option value='0'>Seleccione</option>
-                                {priorities.map((priorityItem, index) => {                
+                                {prioritiesOption.map((priorityItem, index) => {                
                                     return (
                                         <option key={index} value={priorityItem.url}>{priorityItem.name}</option>
                                     );
@@ -157,7 +157,7 @@ const FormContact = (props) => {
                         </Form.Group>
                     </Col>
                     <Col lg={8}>
-                        <FormContactPriority selectedType={props.type} 
+                        <FormContactSelectUSername selectedType={props.type} 
                             contact={props.contact} setContact={props.setContact}
                             setValidContact={setValidContact} />
                     </Col>
@@ -186,4 +186,4 @@ const FormContact = (props) => {
     );
 };
             
-export default FormContact;
+export default FormCreateContact;

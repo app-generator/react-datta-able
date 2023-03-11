@@ -4,7 +4,7 @@ import { getAllContacts } from '../../../../api/services/contacts';
 import { getAllEntities } from '../../../../api/services/entities';
 import { getAllNetworks } from '../../../../api/services/networks';
 import CrudButton from '../../../../components/Button/CrudButton';
-import FormContact from '../../../contact/components/Form/FormContact';
+import FormCreateContact from '../../../contact/components/Form/FormCreateContact';
 import { postContact } from '../../../../api/services/contacts';
 import { validateSpace, validateCidr, validateURL, validateSpaces } from '../../../../components/Validator/validators'; 
 import Alert from '../../../../components/Alert/Alert';
@@ -278,7 +278,7 @@ const FormCreateNetwork = (props) => {
                                     </Row>
                                 </Card.Header>
                                 <Card.Body>
-                                <FormContact 
+                                <FormCreateContact 
                                     name={supportedName} setName= {setSupportedName} 
                                     role={selectRol} setRole={setSelectRol} 
                                     priority={supportedPriority} setPriority={setSupportedPriority} 
