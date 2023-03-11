@@ -80,12 +80,12 @@ const FormCreateNetwork = (props) => {
             console.log(error)
         });    
     };
-    console.log(props.cidr)
-    console.log(props.domain)
-    console.log(props.type)
-    console.log(props.parent)
-    console.log(props.network_entity)
-    console.log(props.contacts)
+    console.log('cidr: '+ props.cidr)
+    console.log('type: '+ props.type)
+    console.log('domain: '+ props.domain)
+    console.log('parent: '+ props.parent)
+    console.log('network_entity: '+ props.network_entity)
+    console.log('contacts: '+ props.contacts)
 
     return (
         <React.Fragment>
@@ -138,10 +138,10 @@ const FormCreateNetwork = (props) => {
                                 maxlength="100"
                                 value={ props.domain } 
                                 isValid={ validateURL(props.domain) || validateSpaces(props.domain) }
-                                isInvalid={ !validateSpaces(props.domain) && !validateURL(props.domain) }
+                                isInvalid={ props.domain!='' && !validateURL(props.domain) }
                                 onChange={ (e) => props.setDomain(e.target.value) } 
                             />
-                            { false ? "" : <div className="invalid-feedback">Ingrese un dominio valido</div>}
+                            {props.domain!='' && !validateURL(props.domain) ? <div className="invalid-feedback">Ingrese caracteres validos</div> : ''}
                         </Form.Group>
                     </Col>
                 </Row>
@@ -193,7 +193,7 @@ const FormCreateNetwork = (props) => {
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
                                 isMulti
-                                //hasValue={props.contacts}
+                                hasValue={props.contacts}
                                 onChange={(e)=>selectContacts(e)}
                                 options={props.contactsOption}
                                 />
@@ -220,7 +220,7 @@ const FormCreateNetwork = (props) => {
                     <Col sm={12} lg={9} />
                     <Col>
                         <Form.Group>
-                            { validateCidr(props.cidr) && (validateURL(props.domain) || validateSpaces(props.domain)) && 
+                            { validateCidr(props.cidr) && (validateURL(props.domain) || props.domain==='') && 
                             (props.type != '0') && (props.contacts.length > 0) ? // 
                                 <><Button variant="primary" onClick={props.ifConfirm } >Guardar</Button></>
                                 : 
