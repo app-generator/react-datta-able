@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 import DropdownState from '../taxonomy/components/DropdownState';
 import { postTaxonomy } from '../../api/services/taxonomy';
 import { validateName, validateDescription } from './components/ValidatorTaxonomy';
+import { getTaxonomies } from '../../api/services/taxonomy';
 
 const NewTaxonomy = () => {
 
@@ -12,8 +13,25 @@ const NewTaxonomy = () => {
     const [active, setActive] = useState(1);
     const [description, setDescription] = useState("");
     const [parent, setParent] = useState("");
+    const [taxonomies, setTaxonomies] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);   
+
 
     const [error, setError] = useState(null);
+
+    useEffect(() => {        
+        getAllTaxonomies(currentPage)       
+        
+    }, []);    
+
+    const getAllTaxonomies = (currentPage)=> {
+       getTaxonomies(currentPage)
+       .then((response) => {
+            setTaxonomies(response.data.results)  
+            setCurrentPage(currentPage++) 
+            getAllTaxonomies(currentPage)
+        })              
+    };
 
     const createTaxonomy = ()=> {
         postTaxonomy(slug, type, name, description, active, parent).then((response) => {
@@ -73,7 +91,18 @@ const NewTaxonomy = () => {
                                 <Form.Group as={Col}>
                                     <Form.Label>Estado Inicial</Form.Label>
                                     <DropdownState state={active} setActive={setActive}></DropdownState>
-                                </Form.Group>                              
+                                </Form.Group>        
+
+                                <Form.Group as={Col}>
+                                    <Form.Label>Padre</Form.Label>
+                                    <Form.Control type="choice" as="select" value={parent} onChange={(e) => setParent(e.target.value)} isInvalid={parent === ''} isValid={parent !== ''} >
+                                        <option key={0} value=''>Seleccione</option>
+                                            {taxonomies.map((taxonomy, i) => (
+                                                <option  key={i+1} value={taxonomy.url} > {taxonomy.name} </option>
+                                            ))} 
+                                    </Form.Control>
+                                </Form.Group>
+                      
 
                                 { validateName(name) && validateDescription(description) ?
                                     <Button variant="primary" onClick={createTaxonomy}>Guardar</Button>                                    
