@@ -233,7 +233,7 @@ const FormCreateNetwork = (props) => {
             </Form>
 
             <Modal size='lg' show={modalCreate} onHide={() => setModalCreate(false)} aria-labelledby="contained-modal-title-vcenter" centered>
-            <Modal.Body>
+                <Modal.Body>
                     <Row>    
                         <Col>                 
                             <Card>
