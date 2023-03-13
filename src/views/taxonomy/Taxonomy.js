@@ -8,6 +8,7 @@ import ButtonState from './components/ButtonState';
 import ButtonDelete from './components/ButtonDelete';
 import Alert from '../../components/Alert/Alert';
 import Pagination from '../../components/Pagination/Pagination';
+import Navigation from '../../components/navigation/navigation'
 
 const ListTaxonomies = () => {
     
@@ -105,14 +106,7 @@ const ListTaxonomies = () => {
         <React.Fragment>
             <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href='/app/dhasboard/default'>
-                        <i className="fas fa-home" />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item active>
-                        <b>Taxonomia</b> 
-                    </Breadcrumb.Item>
-                </Breadcrumb>    
+                <Navigation actualPosition={'TAxonomia'}/>  
             </Row>
             <Row>
                 <Col>             

@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { putTaxonomy } from '../../api/services/taxonomy';
 import { validateName, validateDescription } from './components/ValidatorTaxonomy';
 import { getTaxonomies } from '../../api/services/taxonomy';
+import Navigation from '../../components/navigation/navigation'
 
 const EditTaxonomy = () => {
     const location = useLocation();
@@ -45,7 +46,7 @@ const EditTaxonomy = () => {
         })                   
     };
 
-    const createTaxonomy = ()=> {        
+    const changeTaxonomy = ()=> {        
         putTaxonomy(taxonomy.url, slug, type, name, description, active, parent).then((response) => {
             console.log(response);            
             window.location.href = '/app/taxonomy';
@@ -59,17 +60,7 @@ const EditTaxonomy = () => {
     return (
         <React.Fragment>
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href='/app/dhasboard/default'>
-                        <i className="fas fa-home" />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='/app/taxonomy'>
-                        Taxonomia
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#' active>
-                        <b>Editar taxonomia</b> 
-                    </Breadcrumb.Item>
-                </Breadcrumb>    
+                <Navigation actualPosition="Editar taxonomia" path="/app/taxonomy" index ="Taxonomia"/> 
             </Row>
             <Row>
                 <Col sm={12}>
@@ -117,7 +108,7 @@ const EditTaxonomy = () => {
                       
 
                                 { validateName(name) && validateDescription(description) ?
-                                    <Button variant="primary" onClick={createTaxonomy}>Guardar</Button>                                    
+                                    <Button variant="primary" onClick={changeTaxonomy}>Guardar</Button>                                    
                                     : 
                                     <Button variant="primary" disabled>Guardar</Button>                                    
                                 }                                 

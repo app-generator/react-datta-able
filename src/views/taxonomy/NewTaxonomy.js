@@ -3,6 +3,7 @@ import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 import { postTaxonomy } from '../../api/services/taxonomy';
 import { validateName, validateDescription } from './components/ValidatorTaxonomy';
 import { getTaxonomies } from '../../api/services/taxonomy';
+import Navigation from '../../components/navigation/navigation'
 
 const NewTaxonomy = () => {
 
@@ -55,17 +56,7 @@ const NewTaxonomy = () => {
     return (
         <React.Fragment>
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href='/app/dhasboard/default'>
-                        <i className="fas fa-home" />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='/app/taxonomy'>
-                        Taxonomia
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#' active>
-                        <b>Crear taxonomia</b> 
-                    </Breadcrumb.Item>
-                </Breadcrumb>    
+                <Navigation actualPosition="Agregar taxonomia" path="/app/taxonomy" index ="Taxonomia"/>
             </Row>
             <Row>
                 <Col sm={12}>
