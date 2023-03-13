@@ -17,6 +17,7 @@ const TablePlaybook = ({callback, list, loading }) => {
     const [modalShow, setModalShow] = useState(false)
 
     const [url, setUrl] = useState(null)
+    const [name, setName] = useState(null)
 
     const [lastItem, setLastItem] = useState(null);
 
@@ -42,9 +43,10 @@ const TablePlaybook = ({callback, list, loading }) => {
     };
 
     //Remove Playbook
-    const Delete = (url) => {
+    const Delete = (url, name) => {
         setLastItem(list.length === 1)
         setUrl(url);
+        setName(name);
         setModalDelete(true)
     }
 
@@ -52,7 +54,7 @@ const TablePlaybook = ({callback, list, loading }) => {
         console.log(url)
         deletePlaybook(url)
             .then((response) => {
-                console.log(response)
+                console.log(response.data)
                 callback(lastItem)
             })
             .catch((error) => {
@@ -90,9 +92,7 @@ const TablePlaybook = ({callback, list, loading }) => {
                                     <td>
                                         {Object.values(book.taxonomy).map((taxonomyItem, index)=>{
                                             return (
-                                               
                                                 <><FormGetName form={false} get={getTaxonomy} url={taxonomyItem} key={index} /><br/></>
-                                                
                                             )})
                                         }
                                     </td>
@@ -101,7 +101,7 @@ const TablePlaybook = ({callback, list, loading }) => {
                                         <Link to={{pathname:'/playbook/edit', state: book}} >
                                             <CrudButton type='edit'/>
                                         </Link>
-                                        <CrudButton type='delete' onClick={() => Delete(book.url)} />
+                                        <CrudButton type='delete' onClick={() => Delete(book.url, book.name)} />
                                     </td>
                                 </tr>
                             );
@@ -109,7 +109,7 @@ const TablePlaybook = ({callback, list, loading }) => {
                     </tbody>
                 </Table>
             <ModalDetailPlaybook show={modalShow} playbook={playbook} onHide={() => setModalShow(false)}/>
-            <ModalConfirm type='delete' component='Playbook' name={'nombre del playbook'} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removePlaybook(url)}/>
+            <ModalConfirm type='delete' component='Playbook' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removePlaybook(url)}/>
 
         </React.Fragment> 
   );

@@ -5,13 +5,15 @@ import Navigation from '../../components/navigation/navigation';
 import { postPlaybook } from '../../api/services/playbooks';
 import FormCreatePlaybook from '../playbook/components/Form/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomy';
+import ListTask from '../task/ListTask';
 
 const CreatePlaybook = () => {
 
     const [name, setName] = useState('');
     const [taxonomy, setTaxonomy] = useState([]);
-    const [taxonomiesOption, setTaxonomiesOption] = useState([])
+    
     //Renderizar
+    const [taxonomiesOption, setTaxonomiesOption] = useState([])
     const [taxonomyCreated, setTaxonomyCreated] = useState(null)
 
     const [error, setError] = useState(null);
@@ -20,7 +22,11 @@ const CreatePlaybook = () => {
 
         getAllTaxonomies()
             .then((response) => {
-                setTaxonomiesOption(response.data.results)
+                let listTaxonomies = []
+                response.data.results.map((taxonomyItem)=>{
+                    listTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
+                })
+                setTaxonomiesOption(listTaxonomies)
                 console.log(response.data.results)
             })
             .catch((error)=>{
@@ -29,15 +35,18 @@ const CreatePlaybook = () => {
 
         },[taxonomyCreated])
 
-
+    const labelTaxonomy = {
+        vulnerability : 'Vulnerabilidad',
+        incident : 'Incidente',
+    };
 
     const createPlaybook = () => {
 
         postPlaybook (name, taxonomy)
             .then((response) => { 
-            console.log(response)
+            console.log(response.data)
             console.log('create playbook - post .then')
-            //window.location.href = "/playbook/tables"
+            window.location.href = "/playbook/tables"
         })
         .catch((error) => {
             setError(error)
@@ -62,8 +71,9 @@ const CreatePlaybook = () => {
                              <FormCreatePlaybook
                                 name={name} setName={setName}
                                 taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
-                                taxonomiesOption={taxonomiesOption} setTaxonomyCreated={setTaxonomyCreated}
-                                ifConfirm={createPlaybook} />
+                                ifConfirm={createPlaybook} 
+                                taxonomiesOption={taxonomiesOption} 
+                                setTaxonomyCreated={setTaxonomyCreated} />
                         </Card.Body>
                     </Card>
                     <Card>
@@ -71,6 +81,9 @@ const CreatePlaybook = () => {
                             <Card.Title as="h5">Tareas</Card.Title>
                             <span className="d-block m-t-5">Lista de Tareas</span>
                         </Card.Header>
+                        <Card.Body>
+                            <ListTask inCard={true} />
+                        </Card.Body>
                     </Card>
                     {/*<Alert />*/}
                 </Col>

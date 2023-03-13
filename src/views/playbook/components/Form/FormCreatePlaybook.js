@@ -18,10 +18,26 @@ const FormCreateNetwork = (props) => {
     //Create Taxonomy
     const [modalCreate, setModalCreate] = useState(false)
 
+    useEffect(()=> {
+        
+        },[props.taxonomiesOption])
+
+    //Multiselect    
+    const selectTaxonomies=(event)=>{ 
+        props.setTaxonomy(
+            event.map((e)=>{
+                return e.value
+            })
+            )
+        }
+
     //Create Taxonomy
     const createTaxonomy = () => { 
-  
+        console.log('CREAR TAXONOMIA')
+        props.setTaxonomyCreated('response') //
+        setModalCreate(false) //
     };
+
 
     return (
         <React.Fragment>
@@ -50,10 +66,12 @@ const FormCreateNetwork = (props) => {
                         <Form.Group controlId="Form.Playbook.Taxonomy.Multiselect">
                             <Form.Label>Taxonomias</Form.Label>
                             <Select
+                                placeholder='Seleccione Taxonomias'
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
                                 isMulti
-                                onChange={ (e) => console.log(e) }
+                                hasValue={props.taxonomy}
+                                onChange={selectTaxonomies}
                                 options={props.taxonomiesOption}
                             />
                         </Form.Group>
@@ -78,29 +96,6 @@ const FormCreateNetwork = (props) => {
                     </Col>
                 </Row>
             </Form>
-
-            <Form>
-                <Row>
-                    <Col sm={12} lg={12}>
-                        <Form.Group controlId="Form.Playbook.Taxonomy">
-                            <Form.Label>Taxonomias</Form.Label>
-                            <Form.Control
-                                multiple 
-                                name="taxonomy"
-                                type="choice"
-                                as="select"
-                                value={props.taxonomy}
-                                >
-                                {props.taxonomiesOption.map((tax, index) => {                
-                                    return (
-                                        <option key={index} value={tax.url}>{tax.name}</option>
-                                    );
-                                })}
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                </Row>
-            </Form>
             
             <Modal size='lg' show={modalCreate} onHide={() => setModalCreate(false)} aria-labelledby="contained-modal-title-vcenter" centered>
                 <Modal.Body>
@@ -119,7 +114,7 @@ const FormCreateNetwork = (props) => {
                                     </Row>
                                 </Card.Header>
                                 <Card.Body>
-                                    CREAR TAXONOMIA
+                                    <Button onClick={createTaxonomy}>CREAR TAXONOMIA</Button>
                                 </Card.Body>
                             </Card>
                         </Col> 

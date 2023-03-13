@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 
 
-const FormGetName = (props) => { // url, get, Form: true o false
+const FormGetName = (props) => { // url, get, key, Form: true o false
     const [item, setItem] = useState('');
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const FormGetName = (props) => { // url, get, Form: true o false
 return (
         item && 
         <React.Fragment>
-            {props.form ? <Form.Control plaintext readOnly defaultValue={item.name} />
+            {props.form ? <Form.Control plaintext readOnly defaultValue={item.name} key={props.key.toString()} />
             :
             <>{item.name}</>
             }

@@ -5,10 +5,11 @@ import { getTasks } from '../../api/services/tasks';
 import Alert from '../../components/Alert/Alert';
 import CrudButton from '../../components/Button/CrudButton';
 import Navigation from '../../components/navigation/navigation';
+import Pagination from '../../components/Pagination/Pagination';
 import Search from '../../components/search/search';
 import TableTask from './components/Table/TableTask';
 
-const ListTask = () => {
+const ListTask = (props) => { //inCard: true = agregarlo a createPlaybook
 
     const [task, setTask] = useState('')
 
@@ -105,12 +106,15 @@ const ListTask = () => {
     
     return (
     <React.Fragment>
+        {props.inCard ? <></> : 
         <Row>
             <Navigation actualPosition={'Tarea'}/>  
         </Row>
+        }
         <Row>
             <Col>
                 <Card>
+                    {props.inCard ? <></> : 
                     <Card.Header>
                         <Row>
                             <Search type="tarea" action={action} />
@@ -120,12 +124,17 @@ const ListTask = () => {
                                 </Link>
                             </Col> 
                         </Row>
-                    </Card.Header>
+                    </Card.Header> 
+                    }
                     <Card.Body>
                         <TableTask callback={callbackBackend} list={currentPosts} loading={loading} />
                     </Card.Body>
                     <Card.Footer >
-
+                        <Row className="justify-content-md-center">
+                            <Col md="auto"> 
+                               <Pagination pages={pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+                            </Col>
+                        </Row>
                     </Card.Footer>
                 </Card>
             {/*<Alert/>*/}
