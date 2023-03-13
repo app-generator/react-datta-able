@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
-import DropdownState from '../taxonomy/components/DropdownState';
 import { postTaxonomy } from '../../api/services/taxonomy';
 import { validateName, validateDescription } from './components/ValidatorTaxonomy';
 import { getTaxonomies } from '../../api/services/taxonomy';
@@ -9,31 +8,40 @@ const NewTaxonomy = () => {
 
     const[slug, setSlug] = useState ("");
     const [type, setType] = useState("");
-    const [name, setName] = useState("");
-    const [active, setActive] = useState(1);
+    const [name, setName] = useState("");    
     const [description, setDescription] = useState("");
     const [parent, setParent] = useState("");
-    const [taxonomies, setTaxonomies] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);   
+    const [taxonomies, setTaxonomies] = useState([]);      
 
 
     const [error, setError] = useState(null);
 
-    useEffect(() => {        
-        getAllTaxonomies(currentPage)       
+    useEffect(() => {  
+        let currentPage = 1  
+        let results = []        
+        getAllTaxonomies(currentPage, results)       
         
     }, []);    
 
-    const getAllTaxonomies = (currentPage)=> {
-       getTaxonomies(currentPage)
-       .then((response) => {
-            setTaxonomies(response.data.results)  
-            setCurrentPage(currentPage++) 
-            getAllTaxonomies(currentPage)
-        })              
+    const getAllTaxonomies = (currentPage, results)=> {         
+        getTaxonomies(currentPage)
+        .then((response) => {
+            results = [...results, ...response.data.results]                                    
+            if(response.data.next != undefined){                                
+                getAllTaxonomies(++currentPage, results)
+            }
+            else{
+                setTaxonomies([...taxonomies, ...results])     
+            }         
+                
+        })
+        .catch((error) => {
+            setError(error);            
+        })                   
     };
 
     const createTaxonomy = ()=> {
+        let active = true
         postTaxonomy(slug, type, name, description, active, parent).then((response) => {
             console.log(response);            
             window.location.href = '/app/taxonomy';
@@ -87,17 +95,12 @@ const NewTaxonomy = () => {
                                     <Form.Control as="textarea" rows={3} placeholder="Descripcion" onChange={(e) => setDescription(e.target.value)}  isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
                                     {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
                                 </Form.Group>
-
-                                <Form.Group as={Col}>
-                                    <Form.Label>Estado Inicial</Form.Label>
-                                    <DropdownState state={active} setActive={setActive}></DropdownState>
-                                </Form.Group>        
-
+                               
                                 <Form.Group as={Col}>
                                     <Form.Label>Padre</Form.Label>
                                     <Form.Control type="choice" as="select" value={parent} onChange={(e) => setParent(e.target.value)} isInvalid={parent === ''} isValid={parent !== ''} >
                                         <option key={0} value=''>Seleccione</option>
-                                            {taxonomies.map((taxonomy, i) => (
+                                            {taxonomies.sort((a, b) => (a.name < b.name ? -1 : 1)).map((taxonomy, i) => (
                                                 <option  key={i+1} value={taxonomy.url} > {taxonomy.name} </option>
                                             ))} 
                                     </Form.Control>
