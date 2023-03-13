@@ -41,7 +41,7 @@ const CreatePlaybook = () => {
     };
 
     const createPlaybook = () => {
-
+            ////
         postPlaybook (name, taxonomy)
             .then((response) => { 
             console.log(response.data)
@@ -77,13 +77,7 @@ const CreatePlaybook = () => {
                         </Card.Body>
                     </Card>
                     <Card>
-                        <Card.Header>
-                            <Card.Title as="h5">Tareas</Card.Title>
-                            <span className="d-block m-t-5">Lista de Tareas</span>
-                        </Card.Header>
-                        <Card.Body>
-                            <ListTask inCard={true} />
-                        </Card.Body>
+                        <ListTask />
                     </Card>
                     {/*<Alert />*/}
                 </Col>

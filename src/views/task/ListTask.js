@@ -106,18 +106,15 @@ const ListTask = (props) => { //inCard: true = agregarlo a createPlaybook
     
     return (
     <React.Fragment>
-        {props.inCard ? <></> : 
-        <Row>
-            <Navigation actualPosition={'Tarea'}/>  
-        </Row>
-        }
         <Row>
             <Col>
                 <Card>
-                    {props.inCard ? <></> : 
                     <Card.Header>
                         <Row>
-                            <Search type="tarea" action={action} />
+                            <Col sm={12} lg={9}>
+                                <Card.Title as="h5">Tareas</Card.Title>
+                                <span className="d-block m-t-5">Lista de Tareas</span>
+                            </Col>
                             <Col sm={12} lg={3}>
                                 <Link to={{pathname:'/task/create'}} >
                                     <CrudButton type='create' name='Tarea' />
@@ -125,7 +122,6 @@ const ListTask = (props) => { //inCard: true = agregarlo a createPlaybook
                             </Col> 
                         </Row>
                     </Card.Header> 
-                    }
                     <Card.Body>
                         <TableTask callback={callbackBackend} list={currentPosts} loading={loading} />
                     </Card.Body>

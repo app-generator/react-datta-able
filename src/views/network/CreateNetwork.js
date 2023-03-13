@@ -27,7 +27,7 @@ const CreateNetwork = () => {
             .then((response) => {
                 let listContact = []
                 response.data.results.map((contactsItem)=>{
-                    listContact.push({value:contactsItem.url, label:contactsItem.name + ' (' + labelRole[contactsItem.role] + ') ' + contactsItem.username})
+                    listContact.push({value:contactsItem.url, label:contactsItem.name + ' (' + labelRole[contactsItem.role] + ')'})
                 })
                 setContactsOption(listContact)
                 console.log(response.data.results)

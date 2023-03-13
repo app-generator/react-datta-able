@@ -10,7 +10,7 @@ const CreateContact = () => {
     const [selectRol, setSelectRol] = useState('0');
     const [supportedPriority, setSupportedPriority] = useState('0');
     const [supportedContact, setSupportedContact] = useState('');
-    const [supportedKey, setSupportedKey] = useState(null);
+    const [supportedKey, setSupportedKey] = useState('');
     const [selectType, setSelectType] = useState('0');
     const [error, setError] = useState(null);
 

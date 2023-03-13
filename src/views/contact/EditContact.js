@@ -48,7 +48,7 @@ const EditContact = () => {
                                 priority={supportedPriority} setPriority={setSupportedPriority} 
                                 type={selectType} setType={setSelectType} 
                                 contact={supportedContact} setContact={setSupportedContact} 
-                                key={supportedKey} setKey={setSupportedKey} 
+                                keypgp={supportedKey} setKey={setSupportedKey} 
                                 ifConfirm={editContact} ifCancel={() => {window.location.href = "/contact/tables"}}/>
                         </Card.Body>
                     </Card>

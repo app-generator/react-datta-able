@@ -23,7 +23,7 @@ const FormGetName = (props) => { // url, get, key, Form: true o false
 return (
         item && 
         <React.Fragment>
-            {props.form ? <Form.Control plaintext readOnly defaultValue={item.name} key={props.key.toString()} />
+            {props.form ? <Form.Control plaintext readOnly defaultValue={item.name} key={props.key} />
             :
             <>{item.name}</>
             }

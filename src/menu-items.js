@@ -92,14 +92,6 @@ const menuItems = {
                             url: '/playbook/tables',
                             icon: 'fas fa-stream',
                             breadcrumbs: false
-                        },
-                        {
-                            id: 'task',
-                            title: 'Tareas',
-                            type: 'item',
-                            url: '/task/tables',
-                            icon: 'feather icon-sidebar',
-                            breadcrumbs: false
                         }
                     ]
                 },

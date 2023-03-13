@@ -168,8 +168,8 @@ const FormCreateContact = (props) => {
                         type="string"
                         placeholder="Llave pública PGP"
                         value={props.keypgp}
-                        maxlength="4000"
-                        onChange={(e) =>  props.setKey(e.target.value)} />
+                        maxlength="100"
+                        onChange = {(e) =>  {props.setKey(e.target.value)}} />
                 </Form.Group>
                 <Form.Group>
                     {(!validateSpace(props.name) || !validateAlphanumeric(props.name) 
