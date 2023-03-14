@@ -5,6 +5,25 @@ const getStates = (page="") => {//el parametro es para completar la url con el n
     
     return apiInstance.get(COMPONENT_URL.state+page);
 }
+
+const getAllStates = (currentPage = 1, results = [], limit = 100) => {
+            
+    return apiInstance.get(COMPONENT_URL.state, { params: { page: currentPage, page_size: limit } })       
+        .then((response) => {
+            let res = [...results, ...response.data.results]                                    
+            if(response.data.next != undefined){                                
+                return getAllStates(++currentPage, res, limit)
+            }
+            else{
+                return res;     
+            }                  
+        })
+        .catch((error) => {
+            return Promise.reject(error);            
+        })   
+
+}
+
 const postState = ( slug,name,attended,solved,active,description,children) => {   
     return apiInstance.post(COMPONENT_URL.state, {
         slug:slug ,
@@ -38,4 +57,4 @@ const isActive = (url, active) =>{
         active: active
     } );
 }
-export {getStates, postState, putState, deleteState, isActive}
+export { getStates, getAllStates, postState, putState, deleteState, isActive }

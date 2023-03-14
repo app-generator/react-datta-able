@@ -6,12 +6,26 @@ const getContacts = (page="") => {
     return apiInstance.get(COMPONENT_URL.contact+page);
 }
 
-const getAllContacts = () => {
-    return apiInstance.get(COMPONENT_URL.contact);
-}
-
 const getContact = (url) => { 
     return apiInstance.get(url);
+}
+
+const getAllContacts = (currentPage = 1, results = [], limit = 100) => {
+            
+    return apiInstance.get(COMPONENT_URL.contact, { params: { page: currentPage, page_size: limit } })       
+        .then((response) => {
+            let res = [...results, ...response.data.results]                                    
+            if(response.data.next != undefined){                                
+                return getAllContacts(++currentPage, res, limit)
+            }
+            else{
+                return res;     
+            }                  
+        })
+        .catch((error) => {
+            return Promise.reject(error);            
+        })   
+
 }
 
 const postContact = (name, username, public_key, type, role, priority) => {
