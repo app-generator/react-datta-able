@@ -45,7 +45,7 @@ const NavRight = () => {
         <React.Fragment>
             <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <ListGroup as="ul" bsPrefix=" " className="navbar-nav ml-auto" id="navbar-right">
-                <ListGroup.Item as="li" bsPrefix=" ">
+                {/* <ListGroup.Item as="li" bsPrefix=" ">
                     <Dropdown>
                         <Dropdown.Toggle as={Link} variant="link" to="#" id="dropdown-basic">
                             <i className="feather icon-bell icon" />
@@ -143,30 +143,29 @@ const NavRight = () => {
                         </Dropdown.Toggle>
                     </Dropdown>
                 </ListGroup.Item>
+                */}
                 <ListGroup.Item as="li" bsPrefix=" ">
                     <Dropdown className="drp-user">
                         <Dropdown.Toggle as={Link} variant="link" to="#" id="dropdown-basic">
                             <i className="icon feather icon-settings" />
                         </Dropdown.Toggle>
                         <Dropdown.Menu alignRight className="profile-notification">
+                            {/* 
                             <div className="pro-head">
-                                <img src={avatar1} className="img-radius" alt="User Profile" />
+                               <img src={avatar3} className="img-radius" alt="User Profile" /> 
                                 <span>
-                                    User Menu
+                                    Menú de Usuario
                                 </span>
                                 <Link to="#" className="dud-logout" onClick={handleLogout} title="Logout">
                                     <i className="feather icon-log-out" />
                                 </Link>
                             </div>
+                            */}
                             <ListGroup as="ul" bsPrefix=" " variant="flush" className="pro-body">
+                                {/*
                                 <ListGroup.Item as="li" bsPrefix=" ">
                                     <Link to="#" className="dropdown-item">
                                         <i className="feather icon-settings" /> Settings
-                                    </Link>
-                                </ListGroup.Item>
-                                <ListGroup.Item as="li" bsPrefix=" ">
-                                    <Link to="#" className="dropdown-item">
-                                        <i className="feather icon-user" /> Profile
                                     </Link>
                                 </ListGroup.Item>
                                 <ListGroup.Item as="li" bsPrefix=" ">
@@ -177,6 +176,12 @@ const NavRight = () => {
                                 <ListGroup.Item as="li" bsPrefix=" ">
                                     <Link to="#" className="dropdown-item">
                                         <i className="feather icon-lock" /> Lock Screen
+                                    </Link>
+                                </ListGroup.Item>
+                                */}
+                                <ListGroup.Item as="li" bsPrefix=" ">
+                                    <Link to="#" className="dropdown-item">
+                                        <i className="feather icon-user" /> Mi perfil
                                     </Link>
                                 </ListGroup.Item>
                                 <ListGroup.Item as="li" bsPrefix=" ">

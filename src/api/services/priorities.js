@@ -10,6 +10,24 @@ const getPriority = (url) => {
     return apiInstance.get(url);
 }
 
+const getAllPriorities = (currentPage = 1, results = [], limit = 100) => {
+            
+    return apiInstance.get(COMPONENT_URL.priority, { params: { page: currentPage, page_size: limit } })       
+        .then((response) => {
+            let res = [...results, ...response.data.results]                                    
+            if(response.data.next != undefined){                                
+                return getAllPriorities(++currentPage, res, limit)
+            }
+            else{
+                return res;     
+            }                  
+        })
+        .catch((error) => {
+            return Promise.reject(error);            
+        })   
+
+}
+
 const postPriority = (name, color, severity, attend_deadline, solve_deadline) => {
     
     return apiInstance.post(COMPONENT_URL.priority, {
@@ -35,4 +53,4 @@ const putPriority = ( url, name, color, severity, attend_deadline, solve_deadlin
 const deletePriority = (url) => {
     return apiInstance.delete(url);
 }
-export {getPriorities, getPriority, postPriority, deletePriority, putPriority}
+export { getPriorities, getAllPriorities, getPriority, postPriority, deletePriority, putPriority }
