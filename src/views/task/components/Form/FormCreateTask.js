@@ -45,6 +45,14 @@ const FormCreateTask = (props) => {
             <Form>
                 <Row>
                     <Col sm={12} lg={12}>
+                        <Form.Group controlId="Form.Task.Playbook" >
+                            <Form.Label>Playbook</Form.Label>
+                            <Form.Control plaintext readOnly defaultValue={props.playbook.url}/>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12} lg={12}>
                         <Form.Group controlId="Form.Task.Name">
                             <Form.Label>Nombre</Form.Label>
                             <Form.Control 
@@ -85,29 +93,6 @@ const FormCreateTask = (props) => {
                 </Row>
                 <Row>
                     <Col sm={12} lg={12}>
-                        <Form.Group controlId="Form.Task.Playbook" >
-                            <Form.Label>Playbook</Form.Label>
-                            <Form.Control
-                                name="playbook"
-                                type="choice"                                            
-                                as="select"
-                                value={props.playbook}
-                                isInvalid={props.playbook == '0'}
-                                isValid={props.playbook !== '0'}
-                                onChange={(e) =>  props.setPlaybook(e.target.value)}>
-                                <option value='0'>Seleccione</option>
-                                {playbookOption.map((playbookItem, index) => {                
-                                    return (
-                                        <option key={index} value={playbookItem.url}>{playbookItem.name}</option>
-                                        );
-                                    })}
-                            </Form.Control>
-                            {props.playbook ? '' : <div className="invalid-feedback">Seleccione playbook</div>}
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm={12} lg={12}>
                         <Form.Group controlId="Form.Task.Description" >
                             <Form.Label>Descripcion</Form.Label>
                             <Form.Control 
@@ -124,7 +109,7 @@ const FormCreateTask = (props) => {
                 <Row>
                     <Form.Group>
                         {(!validateSpace(props.name) || !validateAlphanumeric(props.name) 
-                        || (props.priority == '0' ) || (props.playbook == '0')) ? 
+                        || (props.priority == '0' ) ) ? 
                         <><Button variant="primary" disabled>Guardar</Button></> 
                         : 
                             <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>

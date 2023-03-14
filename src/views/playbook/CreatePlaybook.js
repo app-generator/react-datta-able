@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Col, Row } from 'react-bootstrap'; 
+import { Button, Card, Col, Collapse, Row } from 'react-bootstrap'; 
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/navigation/navigation';
 import { postPlaybook } from '../../api/services/playbooks';
@@ -15,6 +15,9 @@ const CreatePlaybook = () => {
     //Renderizar
     const [taxonomiesOption, setTaxonomiesOption] = useState([])
     const [taxonomyCreated, setTaxonomyCreated] = useState(null)
+
+    //Collapse
+    const [sectionAddTask, setSectionAddTask] = useState(false);
 
     const [error, setError] = useState(null);
 
@@ -42,17 +45,17 @@ const CreatePlaybook = () => {
 
     const createPlaybook = () => {
             ////
-        postPlaybook (name, taxonomy)
+            setSectionAddTask(true)
+            /*        postPlaybook (name, taxonomy)
             .then((response) => { 
             console.log(response.data)
-            console.log('create playbook - post .then')
-            window.location.href = "/playbook/tables"
+            console.log('create playbook - Abrir Tareas')
         })
         .catch((error) => {
             setError(error)
             console.log(error)
         })
-
+*/
     };
    
     return (
@@ -76,9 +79,10 @@ const CreatePlaybook = () => {
                                 setTaxonomyCreated={setTaxonomyCreated} />
                         </Card.Body>
                     </Card>
-                    <Card>
-                        <ListTask />
-                    </Card>
+                    
+                    <ListTask sectionAddTask={sectionAddTask}/>
+                    
+                    
                     {/*<Alert />*/}
                 </Col>
             </Row>

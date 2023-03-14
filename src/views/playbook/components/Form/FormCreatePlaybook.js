@@ -87,7 +87,7 @@ const FormCreateNetwork = (props) => {
                     <Col>
                         <Form.Group>
                             { validateAlphanumeric(props.name) && (props.taxonomy.length > 0) ? // 
-                                <><Button variant="primary" onClick={props.ifConfirm}>Guardar</Button></>
+                                <><Button variant="primary" onClick={props.ifConfirm}>Crear</Button></>
                                 : 
                                 <><Button variant="primary" disabled>Guardar</Button></> 
                             }
