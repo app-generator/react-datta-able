@@ -6,12 +6,26 @@ const getEntities = (page="") => {
     return apiInstance.get(COMPONENT_URL.entity+page);
 }
 
-const getAllEntities = () => {
-    return apiInstance.get(COMPONENT_URL.entity);
-}
-
 const getEntity = (url) => { 
     return apiInstance.get(url);
+}
+
+const getAllEntities = (currentPage = 1, results = [], limit = 100) => {
+            
+    return apiInstance.get(COMPONENT_URL.entity, { params: { page: currentPage, page_size: limit } })       
+        .then((response) => {
+            let res = [...results, ...response.data.results]                                    
+            if(response.data.next != undefined){                                
+                return getAllEntities(++currentPage, res, limit)
+            }
+            else{
+                return res;     
+            }                  
+        })
+        .catch((error) => {
+            return Promise.reject(error);            
+        })   
+
 }
 
 const postEntity = (name, slug, active) => {

@@ -34,7 +34,7 @@ const menuItems = {
                     title: 'Entidades',
                     type: 'item',
                     url: '/entity/tables',
-                    icon: 'fas fa-network-wired',
+                    icon: 'feather icon-box',
                     breadcrumbs: false
                 },
                 {
@@ -42,7 +42,7 @@ const menuItems = {
                     title: 'Redes',
                     type: 'item',
                     url: '/network/tables',
-                    icon: 'feather icon-sidebar',
+                    icon: 'fas fa-network-wired',
                     breadcrumbs: false
                 },
                 {
@@ -66,7 +66,7 @@ const menuItems = {
                     id: 'platform',
                     title: 'Plataforma',
                     type: 'collapse',
-                    icon: 'feather icon-box',
+                    icon: 'feather icon-settings',
                     children: [
                         {
                             id: 'tlp',
