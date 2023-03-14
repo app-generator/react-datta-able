@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import { getPriorities } from "../../api/services/priorities";
 import FormUser from './components/formUser'
-import Navigation from '../../components/navigation/navigation'
+import Navigation from '../../components/Navigation/Navigation'
 
 
 

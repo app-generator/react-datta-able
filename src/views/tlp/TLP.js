@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table, Breadcrumb, Form, Spinner } from 'react-bootstrap';
 import { getTLP } from '../../api/services/tlp';
 import Alert from '../../components/Alert/Alert';
-import Navigation from '../../components/navigation/navigation'
+import Navigation from '../../components/Navigation/Navigation'
 
 
 const ListTLP = () => {

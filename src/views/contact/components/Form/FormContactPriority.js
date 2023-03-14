@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
-import { validateSpace, validateEmail, validateAlphanumeric, validateNumbers, validateURL } from '../../../../components/Validator/validators'; 
+import { validateSpace, validateEmail, validateAlphanumeric, validateNumbers, validateURL } from '../../../../components/Validator/Validator'; 
 
 const FormContactPriority = (props) => { 
     // props: selectedType, contact, setContact, setValidContact

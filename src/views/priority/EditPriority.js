@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Row, Card } from 'react-bootstrap';
 import FormPriority from './components/formPriority'
 
-import Navigation from '../../components/navigation/navigation'
+import Navigation from '../../components/Navigation/Navigation'
 import { putPriority} from "../../api/services/priorities";
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';

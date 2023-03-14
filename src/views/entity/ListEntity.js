@@ -6,8 +6,8 @@ import Pagination from '../../components/Pagination/Pagination';
 import TableEntity from './components/Table/TableEntity'; 
 import { getEntities } from '../../api/services/entities';
 import { Link } from 'react-router-dom';
-import Navigation from '../../components/navigation/navigation';
-import Search from '../../components/search/search';
+import Navigation from '../../components/Navigation/Navigation';
+import Search from '../../components/Search/Search';
 
 const ListEntity = () => {
     const [entities, setEntities] = useState([])
