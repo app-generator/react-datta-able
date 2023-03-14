@@ -5,7 +5,7 @@ import { getPriorities } from "../../api/services/priorities";
 import Alert from '../../components/Alert/Alert';
 import setAlert from '../../utils/setAlert';
 import FormUser from './components/formUser'
-import Navigation from '../../components/navigation/navigation'
+import Navigation from '../../components/Navigation/Navigation'
 
 
 

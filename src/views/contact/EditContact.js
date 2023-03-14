@@ -4,7 +4,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putContact } from '../../api/services/contacts';
 import FormContact from './components/Form/FormContact';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 
 const EditContact = () => {
     const contact = useLocation().state;

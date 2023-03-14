@@ -6,8 +6,8 @@ import {
 import Pagination from '../../components/Pagination/Pagination'
 import Alert from '../../components/Alert/Alert';
 
-import Navigation from '../../components/navigation/navigation'
-import Search from '../../components/search/search'
+import Navigation from '../../components/Navigation/Navigation'
+import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
 import { getPriorities} from "../../api/services/priorities";
 import TablePriorities from './components/tablePriorities';

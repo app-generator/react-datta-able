@@ -4,7 +4,7 @@ import DropdownState from './components/DropdownState';
 import { postFeed } from '../../api/services/feeds';
 import Alert from '../../components/Alert/Alert';
 import { validateName, validateDescription } from './components/ValidatorFeed';
-import Navigation from '../../components/navigation/navigation'
+import Navigation from '../../components/Navigation/Navigation'
 
 const NewFeed = () => {
 

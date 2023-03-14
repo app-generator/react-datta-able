@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 import { getAllTaxonomies } from '../../api/services/taxonomy'; 
 
 const CreateTask = () => {

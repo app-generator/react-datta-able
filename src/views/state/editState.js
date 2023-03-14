@@ -3,7 +3,7 @@ import { Card, Form, Breadcrumb } from 'react-bootstrap';
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import FormState from './components/formState'
-import Navigation from '../../components/navigation/navigation'
+import Navigation from '../../components/Navigation/Navigation'
 import { putState} from "../../api/services/states";
 
 
