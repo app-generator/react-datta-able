@@ -1,11 +1,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import ActiveButton from '../../../../components/Button/ActiveButton';
-import CrudButton from '../../../../components/Button/CrudButton';
-import { getEntity, deleteEntity, isActive } from '../../../../api/services/entities';
+import ActiveButton from '../../../components/Button/ActiveButton';
+import CrudButton from '../../../components/Button/CrudButton';
+import { getEntity, deleteEntity, isActive } from '../../../api/services/entities';
 import { Link } from 'react-router-dom';
-import ModalConfirm from '../../../../components/Modal/ModalConfirm';
+import ModalConfirm from '../../../components/Modal/ModalConfirm';
 
 const TableEntity = ({callback, list, loading }) => {
     const [entity, setEntity] = useState('') 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
-import { getContact, deleteContact } from '../../../../api/services/contacts';
+import CrudButton from '../../../components/Button/CrudButton';
+import { getContact, deleteContact } from '../../../api/services/contacts';
 import { Link } from 'react-router-dom';
-import ModalConfirm from '../../../../components/Modal/ModalConfirm';
-import PriorityButton from '../../../../components/Button/PriorityButton';
+import ModalConfirm from '../../../components/Modal/ModalConfirm';
+import PriorityButton from '../../../components/Button/PriorityButton';
 
 const TableContact = ({callback, list, loading }) => {
     const [contact, setContact] = useState('')

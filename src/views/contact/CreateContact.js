@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, Col, Row  } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
-import FormCreateContact from './components/Form/FormCreateContact';
+import FormCreateContact from './components/FormCreateContact';
 import Navigation from '../../components/navigation/navigation';
 
 const CreateContact = () => {

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {Button, Card, CloseButton, Col, Row, Form, Modal} from 'react-bootstrap';
-import { getAllEntities } from '../../../../api/services/entities';
-import { getAllNetworks } from '../../../../api/services/networks';
-import CrudButton from '../../../../components/Button/CrudButton';
-import FormCreateContact from '../../../contact/components/Form/FormCreateContact';
-import { postContact } from '../../../../api/services/contacts';
-import { validateSpace, validateCidr, validateURL, validateSpaces } from '../../../../components/Validator/validators'; 
-import Alert from '../../../../components/Alert/Alert';
+import { getAllEntities } from '../../../api/services/entities';
+import { getAllNetworks } from '../../../api/services/networks';
+import CrudButton from '../../../components/Button/CrudButton';
+import FormCreateContact from '../../contact/components/FormCreateContact';
+import { postContact } from '../../../api/services/contacts';
+import { validateSpace, validateCidr, validateURL, validateSpaces } from '../../../utils/validators'; 
+import Alert from '../../../components/Alert/Alert';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import DropdownState from '../../../../components/Dropdown/DropdownState';
+import DropdownState from '../../../components/Dropdown/DropdownState';
 
 
 const animatedComponents = makeAnimated();
@@ -148,7 +148,7 @@ const FormCreateNetwork = (props) => {
                 <Row>
                     <Col sm={12} lg={12}>
                         <Form.Group controlId="Form.Network.Parent">
-                            <Form.Label>Red Padre - duplicados</Form.Label>
+                            <Form.Label>Red Padre</Form.Label>
                             <Form.Control
                                 name="parent"
                                 type="choice"

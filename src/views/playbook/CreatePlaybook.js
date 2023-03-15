@@ -3,7 +3,7 @@ import { Card, Col, Row } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/navigation/navigation';
 import { postPlaybook } from '../../api/services/playbooks';
-import FormCreatePlaybook from '../playbook/components/Form/FormCreatePlaybook';
+import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomy';
 import ListTask from '../task/ListTask';
 

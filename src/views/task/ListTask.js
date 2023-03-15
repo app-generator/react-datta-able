@@ -3,9 +3,9 @@ import { Button, Card, CloseButton, Col, Collapse, Modal, Row, Table} from 'reac
 import { getPlaybook } from '../../api/services/playbooks';
 import Alert from '../../components/Alert/Alert';
 import CrudButton from '../../components/Button/CrudButton';
-import FormCreateTask from './components/Form/FormCreateTask';
+import FormCreateTask from './components/FormCreateTask';
 import { postTask } from '../../api/services/tasks';
-import RowTask from './components/Row/RowTask';
+import RowTask from './components/RowTask';
 
 const ListTask = (props) => { 
 
@@ -97,7 +97,7 @@ const ListTask = (props) => {
                                     <tbody>
                                         {tasks ? tasks.map((urlTask, index) => {
                                             return (
-                                                <RowTask url={urlTask} key={index+1} taskDeleted={taskDeleted} setTaskDeleted={setTaskDeleted} setTaskUpdated={setTaskUpdated} />)
+                                                <RowTask url={urlTask} id={index+1} taskDeleted={taskDeleted} setTaskDeleted={setTaskDeleted} setTaskUpdated={setTaskUpdated} />)
                                             }) : <></>
                                         }
                                     </tbody>

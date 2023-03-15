@@ -1,26 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, Form, Table, Modal, CloseButton } from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
-import PriorityButton from '../../../../components/Button/PriorityButton';
+import CrudButton from '../../../components/Button/CrudButton';
+import { Link } from 'react-router-dom';
+import FormNetworkLabelCidr from './FormNetworkLabelCidr';
+import BadgeNetworkLabelContact from './BadgeNetworkLabelContact';
+import ActiveButton from '../../../components/Button/ActiveButton';
 
-const ModalDetailTask = (props) => {
+
+const ModalDetailNetwork = (props) => {
     
     const [created, setCreated] = useState('');
     const [modified, setModified] = useState('');
 
-    const [row, setRow] = useState(1);
-
     useEffect(()=>{
-        if(props.task){
+        if(props.network){
 
-            formatDate(props.task.created, setCreated)
-            formatDate(props.task.modified, setModified)
-            if (props.task.description!=null){
-             setRow(props.task.description.length / 40)
-            }    
+            formatDate(props.network.created, setCreated)
+            formatDate(props.network.modified, setModified)
         }
-    },[props.task])
-
+    },[props.network])
 
     const formatDate = (datetime, set) => {
         datetime = datetime.split('T')
@@ -28,12 +26,6 @@ const ModalDetailTask = (props) => {
         set(format)
     }
 
-    const textareaStyle = {
-        resize:"none", 
-        backgroundColor:"transparent", 
-        border:"none", 
-        boxShadow: "none"
-    }
 
     return (
         <React.Fragment>
@@ -45,13 +37,13 @@ const ModalDetailTask = (props) => {
                                 <Card.Header> 
                                     <Row>
                                         <Col>
-                                            <Card.Title as="h5">Tarea</Card.Title>
-                                            <span className="d-block m-t-5">Detalle de la tarea</span>
+                                            <Card.Title as="h5">Redes</Card.Title>
+                                            <span className="d-block m-t-5">Detalle de red</span>
                                         </Col>
                                         <Col sm={12} lg={2}>                       
-                                            {/*<Link to={{pathname:'/task/edit', state: props.task}} >
-                                            </Link>*/}
+                                            <Link to={{pathname:'/network/edit', state: props.network}} >
                                                 <CrudButton type='edit'/>
+                                            </Link>
                                             <CloseButton aria-label='Cerrar' onClick={props.onHide} />
                                         </Col>
                                     </Row>
@@ -59,41 +51,65 @@ const ModalDetailTask = (props) => {
                                 <Card.Body>
                                     <Table responsive >
                                     <tbody>
-                                        {props.task.name ? 
+                                        {props.network.cidr ? 
                                             <tr>
-                                                <td>Nombre</td>
+                                                <td>CIDR</td>
                                                 <td>
-                                                    <Form.Control plaintext readOnly defaultValue={props.task.name} />
+                                                    <Form.Control plaintext readOnly defaultValue={props.network.cidr} />
                                                 </td>
                                             </tr>
                                             : 
                                             <></>
-                                        } 
-                                        {props.task.priority ? 
+                                        }
+                                        <tr>
+                                            <td>Activa</td>
+                                            <td>
+                                                <ActiveButton active={props.network.active} />
+                                            </td>
+                                        </tr>
+                                        {props.network.domain ? 
                                             <tr>
-                                                <td>Prioridad</td>
+                                                <td>Dominio</td>
                                                 <td>
-                                                    <PriorityButton url={props.task.priority} />
+                                                    <Form.Control plaintext readOnly defaultValue={props.network.domain} />
                                                 </td>
                                             </tr>
                                             : 
                                             <></>
-                                        } 
-                                        {/*props.task.playbook ? 
+                                        }
+                                        {props.network.parent ? 
                                             <tr>
-                                                <td>Playbook</td>
+                                                <td>Red Padre</td>
                                                 <td>
-                                                    <FormGetName form={true} get={getPlaybook} url={props.task.playbook} />
+                                                    <FormNetworkLabelCidr url={props.network.parent} />
                                                 </td>
                                             </tr>
                                             : 
                                             <></>
-                                    */}  
-                                        {props.task.description ? 
+                                        }
+                                        {props.network.children && props.network.children.length > 0  ? 
                                             <tr>
-                                                <td>Descripcion</td>
+                                                <td>Subredes</td>
                                                 <td>
-                                                    <Form.Control plaintext readOnly value={props.task.description===null ? 'No tiene descripcion' : props.task.description} style={textareaStyle} as="textarea" rows={row}/>
+                                                    {Object.values(props.network.children).map((net, index)=>{
+                                                        return (
+                                                            <FormNetworkLabelCidr url={net} key={index}/>
+                                                        )})
+                                                    }
+                                                </td>
+                                            </tr>
+                                            : 
+                                            <></>
+                                        }
+                                        {props.network.contacts && props.network.contacts.length > 0  ? 
+                                            <tr>
+                                                <td>Contactos Relacionados</td>
+                                                <td>
+                                                    {Object.values(props.network.contacts).map((contactItem, index)=>{
+                                                        return (
+                                                            <BadgeNetworkLabelContact url={contactItem} key={index} />
+                                                        )})
+                                                    }
                                                 </td>
                                             </tr>
                                             : 
@@ -123,4 +139,4 @@ const ModalDetailTask = (props) => {
     )
 }
 
-export default ModalDetailTask;
+export default ModalDetailNetwork;

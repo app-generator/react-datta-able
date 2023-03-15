@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Row, Table, Spinner } from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
-import { getNetwork, deleteNetwork, isActive } from '../../../../api/services/networks';
+import CrudButton from '../../../components/Button/CrudButton';
+import { getNetwork, deleteNetwork, isActive } from '../../../api/services/networks';
 import { Link } from 'react-router-dom';
-import ModalConfirm from '../../../../components/Modal/ModalConfirm';
-import ActiveButton from '../../../../components/Button/ActiveButton';
-import ModalDetailNetwork from '../Modal/ModalDetailNetwork';
-import { getEntity } from '../../../../api/services/entities';
-import FormGetName from '../../../../components/Form/FormGetName';
+import ModalConfirm from '../../../components/Modal/ModalConfirm';
+import ActiveButton from '../../../components/Button/ActiveButton';
+import ModalDetailNetwork from './ModalDetailNetwork';
+import { getEntity } from '../../../api/services/entities';
+import FormGetName from '../../../components/Form/FormGetName';
 
 const TableNetwork = ({callback, list, loading }) => {
     const [network, setNetwork] = useState('')

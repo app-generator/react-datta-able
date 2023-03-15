@@ -1,12 +1,12 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { getTask, deleteTask } from '../../../../api/services/tasks';
-import PriorityButton from '../../../../components/Button/PriorityButton';
-import ModalDetailTask from '../Modal/ModalDetailTask';
-import ModalConfirm from '../../../../components/Modal/ModalConfirm';
-import CrudButton from '../../../../components/Button/CrudButton';
-import ModalEditTask from '../Modal/ModalEditTask';
+import { getTask, deleteTask } from '../../../api/services/tasks';
+import PriorityButton from '../../../components/Button/PriorityButton';
+import ModalDetailTask from './ModalDetailTask';
+import ModalConfirm from '../../../components/Modal/ModalConfirm';
+import CrudButton from '../../../components/Button/CrudButton';
+import ModalEditTask from './ModalEditTask';
 
 const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskUpdated 
     
@@ -72,7 +72,7 @@ return (
         task && 
         <React.Fragment>
             <tr key={task.url}>
-                <th scope="row">{props.key}</th>
+                <th scope="row">{props.id}</th>
                 <td>{task.name}</td>
                 <td>
                     <PriorityButton url={task.priority}/>
@@ -89,7 +89,7 @@ return (
 
             <ModalDetailTask show={modalShow} task={task} onHide={() => setModalShow(false)}/>
             <ModalEditTask show={modalEdit} task={task} onHide={() => setModalEdit(false)} ifEdit={props.setTaskUpdated} />
-            <ModalConfirm showModal={modalDelete} type='delete' component='Task' name={task.url}  onHide={() => setModalDelete(false)} ifConfirm={() => removeTask(task.url)}/>
+            <ModalConfirm showModal={modalDelete} type='delete' component='Task' name={task.name}  onHide={() => setModalDelete(false)} ifConfirm={() => removeTask(task.url)}/>
 
         </React.Fragment>
     );

@@ -4,7 +4,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { getAllContacts } from '../../api/services/contacts';
 import { putNetwork } from '../../api/services/networks';
-import FormCreateNetwork from './components/Form/FormCreateNetwork';
+import FormCreateNetwork from './components/FormCreateNetwork';
 import Navigation from '../../components/navigation/navigation';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
 import { isActive } from '../../api/services/networks'; 

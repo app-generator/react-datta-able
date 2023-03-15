@@ -1,28 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Table, Modal, CloseButton } from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
-import { Link } from 'react-router-dom';
-import FormGetName from '../../../../components/Form/FormGetName';
-import { getTask } from '../../../../api/services/tasks';
-import { getTaxonomy } from '../../../../api/services/taxonomy';
+import CrudButton from '../../../components/Button/CrudButton';
+import PriorityButton from '../../../components/Button/PriorityButton';
 
-const ModalDetailPlaybook = (props) => {
+const ModalDetailTask = (props) => {
     
     const [created, setCreated] = useState('');
     const [modified, setModified] = useState('');
 
-    useEffect(()=>{
-        if(props.playbook){
+    const [row, setRow] = useState(1);
 
-            formatDate(props.playbook.created, setCreated)
-            formatDate(props.playbook.modified, setModified)
+    useEffect(()=>{
+        if(props.task){
+
+            formatDate(props.task.created, setCreated)
+            formatDate(props.task.modified, setModified)
+            if (props.task.description!=null){
+             setRow(props.task.description.length / 40)
+            }    
         }
-    },[props.playbook])
+    },[props.task])
+
 
     const formatDate = (datetime, set) => {
         datetime = datetime.split('T')
         let format = datetime[0] + ' ' + datetime[1].slice(0,8); 
         set(format)
+    }
+
+    const textareaStyle = {
+        resize:"none", 
+        backgroundColor:"transparent", 
+        border:"none", 
+        boxShadow: "none"
     }
 
     return (
@@ -35,13 +45,13 @@ const ModalDetailPlaybook = (props) => {
                                 <Card.Header> 
                                     <Row>
                                         <Col>
-                                            <Card.Title as="h5">Playbook</Card.Title>
-                                            <span className="d-block m-t-5">Detalle de playbook</span>
+                                            <Card.Title as="h5">Tarea</Card.Title>
+                                            <span className="d-block m-t-5">Detalle de la tarea</span>
                                         </Col>
                                         <Col sm={12} lg={2}>                       
-                                            <Link to={{pathname:'/playbook/edit', state: props.playbook}} >
+                                            {/*<Link to={{pathname:'/task/edit', state: props.task}} >
+                                            </Link>*/}
                                                 <CrudButton type='edit'/>
-                                            </Link>
                                             <CloseButton aria-label='Cerrar' onClick={props.onHide} />
                                         </Col>
                                     </Row>
@@ -49,39 +59,41 @@ const ModalDetailPlaybook = (props) => {
                                 <Card.Body>
                                     <Table responsive >
                                     <tbody>
-                                        {props.playbook.name ? 
+                                        {props.task.name ? 
                                             <tr>
                                                 <td>Nombre</td>
                                                 <td>
-                                                    <Form.Control plaintext readOnly defaultValue={props.playbook.name} />
+                                                    <Form.Control plaintext readOnly defaultValue={props.task.name} />
                                                 </td>
                                             </tr>
                                             : 
                                             <></>
-                                        }                                     
-                                        {props.playbook.taxonomy && props.playbook.taxonomy.length > 0  ? 
+                                        } 
+                                        {props.task.priority ? 
                                             <tr>
-                                                <td>Taxonomias</td>
+                                                <td>Prioridad</td>
                                                 <td>
-                                                    {Object.values(props.playbook.taxonomy).map((taxonomyItem, index)=>{
-                                                        return (
-                                                            <FormGetName form={true} get={getTaxonomy} url={taxonomyItem} key={index} />
-                                                            )})
-                                                        }
+                                                    <PriorityButton url={props.task.priority} />
                                                 </td>
                                             </tr>
                                             : 
                                             <></>
-                                        }
-                                        {props.playbook.tasks && props.playbook.tasks.length > 0  ? 
+                                        } 
+                                        {/*props.task.playbook ? 
                                             <tr>
-                                                <td>Tareas</td>
+                                                <td>Playbook</td>
                                                 <td>
-                                                    {Object.values(props.playbook.tasks).map((taskItem, index)=>{
-                                                        return (
-                                                            <FormGetName form={true} get={getTask} url={taskItem} key={index} />
-                                                            )})
-                                                    }
+                                                    <FormGetName form={true} get={getPlaybook} url={props.task.playbook} />
+                                                </td>
+                                            </tr>
+                                            : 
+                                            <></>
+                                    */}  
+                                        {props.task.description ? 
+                                            <tr>
+                                                <td>Descripcion</td>
+                                                <td>
+                                                    <Form.Control plaintext readOnly value={props.task.description===null ? 'No tiene descripcion' : props.task.description} style={textareaStyle} as="textarea" rows={row}/>
                                                 </td>
                                             </tr>
                                             : 
@@ -111,4 +123,4 @@ const ModalDetailPlaybook = (props) => {
     )
 }
 
-export default ModalDetailPlaybook;
+export default ModalDetailTask;

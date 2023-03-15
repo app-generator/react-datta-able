@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postEntity } from '../../api/services/entities';
-import FormEntity from './components/Form/FormEntity';
+import FormEntity from './components/FormEntity';
 import Navigation from '../../components/navigation/navigation';
 
 const CreateEntity = () => {

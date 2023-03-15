@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putContact } from '../../api/services/contacts';
-import FormCreateContact from './components/Form/FormCreateContact';
+import FormCreateContact from './components/FormCreateContact';
 import Navigation from '../../components/navigation/navigation';
 
 const EditContact = () => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import TableContact from './components/Table/TableContact';
+import TableContact from './components/TableContact';
 import CrudButton from '../../components/Button/CrudButton';
 import Pagination from "../../components/Pagination/Pagination"; 
 import { getContacts } from '../../api/services/contacts';

@@ -6,7 +6,7 @@ import CrudButton from '../../components/Button/CrudButton';
 import Navigation from '../../components/navigation/navigation';
 import Pagination from '../../components/Pagination/Pagination';
 import Search from '../../components/search/search';
-import TablePlaybook from './components/Table/TablePlaybook';
+import TablePlaybook from './components/TablePlaybook';
 import { getPlaybooks } from '../../api/services/playbooks';
 
 const ListPlaybook = () => {

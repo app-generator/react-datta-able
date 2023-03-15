@@ -4,7 +4,7 @@ import { Card, Col, Row } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/navigation/navigation';
 import { putPlaybook } from '../../api/services/playbooks';
-import FormCreatePlaybook from '../playbook/components/Form/FormCreatePlaybook';
+import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomy';
 
 const EditPlaybook = () => {

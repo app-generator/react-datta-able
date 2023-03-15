@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Modal, CloseButton } from 'react-bootstrap';
-import { putTask } from '../../../../api/services/tasks';
-import FormCreateTask from '../Form/FormCreateTask';
+import { putTask } from '../../../api/services/tasks';
+import FormCreateTask from './FormCreateTask';
 
 const ModalEditTask = (props) => { //show, task, onHide, ifEdit
 

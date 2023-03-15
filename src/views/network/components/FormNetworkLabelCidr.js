@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { getNetwork } from '../../../../api/services/networks';
+import { getNetwork } from '../../../api/services/networks';
 
 const FormNetworkLabelCidr = (props) => { //TODO refactorizar los Form
     const [network, setNetwork] = useState('');

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Badge } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { getContact } from '../../../../api/services/contacts';
+import { getContact } from '../../../api/services/contacts';
 
 const BadgeNetworkLabelContact = (props) => {
     const [contact, setContact] = useState('');

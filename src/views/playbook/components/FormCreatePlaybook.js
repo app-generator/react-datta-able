@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {Button, Card, CloseButton, Col, Row, Form, Modal} from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
-import { validateAlphanumeric, validateSpace } from '../../../../components/Validator/validators'; 
-import Alert from '../../../../components/Alert/Alert';
+import CrudButton from '../../../components/Button/CrudButton';
+import { validateAlphanumeric, validateSpace } from '../../../utils/validators'; 
+import Alert from '../../../components/Alert/Alert';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -10,13 +10,10 @@ import makeAnimated from 'react-select/animated';
 const animatedComponents = makeAnimated();
 
 
-const FormCreateNetwork = (props) => { 
+const FormCreatePlaybook = (props) => { 
     // props: ifConfirm name setName taxonomy setTaxonomy taxonomiesOption setTaxonomyCreated
     
     const [error, setError] = useState(null)
-
-    //Create Taxonomy
-    const [modalCreate, setModalCreate] = useState(false)
 
     useEffect(()=> {
         
@@ -30,14 +27,6 @@ const FormCreateNetwork = (props) => {
             })
             )
         }
-
-    //Create Taxonomy
-    const createTaxonomy = () => { 
-        console.log('CREAR TAXONOMIA')
-        props.setTaxonomyCreated('response') //
-        setModalCreate(false) //
-    };
-
 
     return (
         <React.Fragment>
@@ -70,16 +59,11 @@ const FormCreateNetwork = (props) => {
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
                                 isMulti
-                                hasValue={props.taxonomy}
+                                defaultValue={props.taxonomy}
                                 onChange={selectTaxonomies}
                                 options={props.taxonomiesOption}
                             />
                         </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm={12} lg={9}>
-                        <CrudButton type='create' name='Taxonomia' onClick={() => setModalCreate(true)}/>
                     </Col>
                 </Row>
                 <Row>
@@ -96,33 +80,8 @@ const FormCreateNetwork = (props) => {
                     </Col>
                 </Row>
             </Form>
-            
-            <Modal size='lg' show={modalCreate} onHide={() => setModalCreate(false)} aria-labelledby="contained-modal-title-vcenter" centered>
-                <Modal.Body>
-                        <Row>    
-                            <Col>                 
-                                <Card>
-                                <Card.Header> 
-                                    <Row>
-                                        <Col>
-                                            <Card.Title as="h5">Taxonomias</Card.Title>
-                                            <span className="d-block m-t-5">Crear taxonomia</span>
-                                        </Col>
-                                        <Col sm={12} lg={2}>                       
-                                            <CloseButton aria-label='Cerrar' onClick={() => setModalCreate(false)} />
-                                        </Col>
-                                    </Row>
-                                </Card.Header>
-                                <Card.Body>
-                                    <Button onClick={createTaxonomy}>CREAR TAXONOMIA</Button>
-                                </Card.Body>
-                            </Card>
-                        </Col> 
-                    </Row>
-                </Modal.Body>
-            </Modal>
         </React.Fragment>
     );
 };
             
-export default FormCreateNetwork;
+export default FormCreatePlaybook;

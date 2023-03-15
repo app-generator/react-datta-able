@@ -5,7 +5,7 @@ import CrudButton from '../../components/Button/CrudButton';
 import Pagination from "../../components/Pagination/Pagination"; 
 import Alert from "../../components/Alert/Alert";
 import { getNetworks } from '../../api/services/networks';
-import TableNetwork from './components/Table/TableNetwork';
+import TableNetwork from './components/TableNetwork';
 import Navigation from '../../components/navigation/navigation';
 import Search from '../../components/search/search';
 

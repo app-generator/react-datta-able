@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Row, Table, Spinner } from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
-import { getPlaybook, deletePlaybook } from '../../../../api/services/playbooks';
+import CrudButton from '../../../components/Button/CrudButton';
+import { getPlaybook, deletePlaybook } from '../../../api/services/playbooks';
 import { Link } from 'react-router-dom';
-import ModalConfirm from '../../../../components/Modal/ModalConfirm';
-import ModalDetailPlaybook from '../Modal/ModalDetailPlaybook'; 
-import FormGetName from '../../../../components/Form/FormGetName';
-import { getTaxonomy } from '../../../../api/services/taxonomy';
+import ModalConfirm from '../../../components/Modal/ModalConfirm';
+import ModalDetailPlaybook from './ModalDetailPlaybook'; 
+import FormGetName from '../../../components/Form/FormGetName';
+import { getTaxonomy } from '../../../api/services/taxonomy';
 
 
 const TablePlaybook = ({callback, list, loading }) => {

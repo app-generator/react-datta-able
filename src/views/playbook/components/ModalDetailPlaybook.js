@@ -1,31 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Table, Modal, CloseButton } from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
+import CrudButton from '../../../components/Button/CrudButton';
 import { Link } from 'react-router-dom';
-import FormNetworkLabelCidr from '../Form/FormNetworkLabelCidr';
-import BadgeNetworkLabelContact from '../Badge/BadgeNetworkLabelContact';
-import ActiveButton from '../../../../components/Button/ActiveButton';
+import FormGetName from '../../../components/Form/FormGetName';
+import { getTask } from '../../../api/services/tasks';
+import { getTaxonomy } from '../../../api/services/taxonomy';
 
-
-const ModalDetailNetwork = (props) => {
+const ModalDetailPlaybook = (props) => {
     
     const [created, setCreated] = useState('');
     const [modified, setModified] = useState('');
 
     useEffect(()=>{
-        if(props.network){
+        if(props.playbook){
 
-            formatDate(props.network.created, setCreated)
-            formatDate(props.network.modified, setModified)
+            formatDate(props.playbook.created, setCreated)
+            formatDate(props.playbook.modified, setModified)
         }
-    },[props.network])
+    },[props.playbook])
 
     const formatDate = (datetime, set) => {
         datetime = datetime.split('T')
         let format = datetime[0] + ' ' + datetime[1].slice(0,8); 
         set(format)
     }
-
 
     return (
         <React.Fragment>
@@ -37,11 +35,11 @@ const ModalDetailNetwork = (props) => {
                                 <Card.Header> 
                                     <Row>
                                         <Col>
-                                            <Card.Title as="h5">Redes</Card.Title>
-                                            <span className="d-block m-t-5">Detalle de red</span>
+                                            <Card.Title as="h5">Playbook</Card.Title>
+                                            <span className="d-block m-t-5">Detalle de playbook</span>
                                         </Col>
                                         <Col sm={12} lg={2}>                       
-                                            <Link to={{pathname:'/network/edit', state: props.network}} >
+                                            <Link to={{pathname:'/playbook/edit', state: props.playbook}} >
                                                 <CrudButton type='edit'/>
                                             </Link>
                                             <CloseButton aria-label='Cerrar' onClick={props.onHide} />
@@ -51,64 +49,38 @@ const ModalDetailNetwork = (props) => {
                                 <Card.Body>
                                     <Table responsive >
                                     <tbody>
-                                        {props.network.cidr ? 
+                                        {props.playbook.name ? 
                                             <tr>
-                                                <td>CIDR</td>
+                                                <td>Nombre</td>
                                                 <td>
-                                                    <Form.Control plaintext readOnly defaultValue={props.network.cidr} />
+                                                    <Form.Control plaintext readOnly defaultValue={props.playbook.name} />
                                                 </td>
                                             </tr>
                                             : 
                                             <></>
-                                        }
-                                        <tr>
-                                            <td>Activa</td>
-                                            <td>
-                                                <ActiveButton active={props.network.active} />
-                                            </td>
-                                        </tr>
-                                        {props.network.domain ? 
+                                        }                                     
+                                        {props.playbook.taxonomy && props.playbook.taxonomy.length > 0  ? 
                                             <tr>
-                                                <td>Dominio</td>
+                                                <td>Taxonomias</td>
                                                 <td>
-                                                    <Form.Control plaintext readOnly defaultValue={props.network.domain} />
-                                                </td>
-                                            </tr>
-                                            : 
-                                            <></>
-                                        }
-                                        {props.network.parent ? 
-                                            <tr>
-                                                <td>Red Padre</td>
-                                                <td>
-                                                    <FormNetworkLabelCidr url={props.network.parent} />
-                                                </td>
-                                            </tr>
-                                            : 
-                                            <></>
-                                        }
-                                        {props.network.children && props.network.children.length > 0  ? 
-                                            <tr>
-                                                <td>Subredes</td>
-                                                <td>
-                                                    {Object.values(props.network.children).map((net, index)=>{
+                                                    {Object.values(props.playbook.taxonomy).map((taxonomyItem, index)=>{
                                                         return (
-                                                            <FormNetworkLabelCidr url={net} key={index}/>
-                                                        )})
-                                                    }
+                                                            <FormGetName form={true} get={getTaxonomy} url={taxonomyItem} key={index} />
+                                                            )})
+                                                        }
                                                 </td>
                                             </tr>
                                             : 
                                             <></>
                                         }
-                                        {props.network.contacts && props.network.contacts.length > 0  ? 
+                                        {props.playbook.tasks && props.playbook.tasks.length > 0  ? 
                                             <tr>
-                                                <td>Contactos Relacionados</td>
+                                                <td>Tareas</td>
                                                 <td>
-                                                    {Object.values(props.network.contacts).map((contactItem, index)=>{
+                                                    {Object.values(props.playbook.tasks).map((taskItem, index)=>{
                                                         return (
-                                                            <BadgeNetworkLabelContact url={contactItem} key={index} />
-                                                        )})
+                                                            <FormGetName form={true} get={getTask} url={taskItem} key={index} />
+                                                            )})
                                                     }
                                                 </td>
                                             </tr>
@@ -139,4 +111,4 @@ const ModalDetailNetwork = (props) => {
     )
 }
 
-export default ModalDetailNetwork;
+export default ModalDetailPlaybook;
