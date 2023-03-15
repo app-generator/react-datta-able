@@ -10,8 +10,22 @@ const getTaxonomy = (url) => {
     return apiInstance.get(url);
 }
 
-const getAllTaxonomies = (url=COMPONENT_URL.taxonomy) => {
-    return apiInstance.get(url);
+const getAllTaxonomies = (currentPage = 1, results = [], limit = 100) => {
+
+    return apiInstance.get(COMPONENT_URL.taxonomy, { params: { page: currentPage, page_size: limit } })       
+        .then((response) => {
+            let res = [...results, ...response.data.results]                                    
+            if(response.data.next != undefined){                                
+                return getAllTaxonomies(++currentPage, res, limit)
+            }
+            else{
+                return res;     
+            }                  
+        })
+        .catch((error) => {
+            return Promise.reject(error);            
+        })   
+
 }
 
 const postTaxonomy = (slug, type, name, description, active, parent) => {
