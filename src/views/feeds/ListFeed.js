@@ -8,7 +8,8 @@ import ButtonState from './components/ButtonState';
 import CrudButton from '../../components/Button/CrudButton';
 import Alert from '../../components/Alert/Alert';
 import Pagination from '../../components/Pagination/Pagination';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
+
 
 const ListFeeds = () => {
     
@@ -105,7 +106,7 @@ const ListFeeds = () => {
         <React.Fragment>
             <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
-                <Navigation actualPosition={'Fuentes de Información'}/>  
+                <Navigation actualPosition={'Fuentes de Información'}/>
             </Row>
             <Row>
                 <Col>             
@@ -113,7 +114,7 @@ const ListFeeds = () => {
                         <Card.Header>
                             <Row>
                                 <Col sm={12} lg={9}>
-                                <React.Fragment>
+                                    <React.Fragment>
                                         <div className="input-group">
                                             <input value={search} onChange={searcher} type="text" id="m-search" className="form-control" placeholder="Buscar fuente de informacion . . ." />
                                             <span className="search-btn btn btn-primary">
@@ -121,11 +122,11 @@ const ListFeeds = () => {
                                             </span>
                                         </div>
                                     </React.Fragment>                                 
-                                </Col> 
+                                </Col>
                                 <Col sm={12} lg={3}>
                                     <React.Fragment>                                        
                                         <Link to={{pathname:'./feeds/new'}} >
-                                            <CrudButton type='create' name='Fuente de Informacion' />
+                                            <CrudButton type='create' name='Fuente' />
                                         </Link>
                                     </React.Fragment>                           
                                 </Col>  

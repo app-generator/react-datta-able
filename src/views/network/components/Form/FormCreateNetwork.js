@@ -6,7 +6,7 @@ import { getAllNetworks } from '../../../../api/services/networks';
 import CrudButton from '../../../../components/Button/CrudButton';
 import FormContact from '../../../contact/components/Form/FormContact';
 import { postContact } from '../../../../api/services/contacts';
-import { validateSpace, validateAlphanumeric, validateCidr, validateURL, validateSpaces  } from '../../../../components/Validator/validators'; 
+import { validateSpace, validateAlphanumeric, validateCidr, validateURL, validateSpaces  } from '../../../../components/Validator/Validator'; 
 import Alert from '../../../../components/Alert/Alert';
 
 const FormCreateNetwork = (props) => { 

@@ -65,12 +65,12 @@ const routes = [
             {
                 exact: true,
                 path: '/app/feeds',
-                component: lazy(() => import('./views/feeds/Feeds'))
+                component: lazy(() => import('./views/feeds/ListFeed'))
             },
             {
                 exact: true,
                 path: '/app/feeds/new',
-                component: lazy(() => import('./views/feeds/NewFeed'))
+                component: lazy(() => import('./views/feeds/CreateFeed'))
             },
             {
                 exact: true,
@@ -208,17 +208,17 @@ const routes = [
             {
                 exact: true,
                 path: '/list-Priorities',
-                component: lazy(() => import('./views/priorities/listPriorities'))
+                component: lazy(() => import('./views/priority/ListPriority'))
             },
             {
                 exact: true,
                 path: '/add-Priority',
-                component: lazy(() => import('./views/priorities/addPriority'))
+                component: lazy(() => import('./views/priority/CreatePriority'))
             },
             {
                 exact: true,
                 path: '/edit-Priority',
-                component: lazy(() => import('./views/priorities/editPriority'))
+                component: lazy(() => import('./views/priority/EditPriority'))
             },
             {
                 exact: true,

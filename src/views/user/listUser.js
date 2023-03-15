@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom'
 import Pagination from '../../components/Pagination/Pagination'
 import Alert from '../../components/Alert/Alert';
 import TableUsers from './components/tableUsers'
-import Navigation from '../../components/navigation/navigation'
-import Search from '../../components/search/search'
+import Navigation from '../../components/Navigation/Navigation'
+import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
 import { getUsers} from "../../api/services/users";
 

@@ -4,7 +4,7 @@ import DropdownState from './components/DropdownState';
 import { useLocation } from "react-router-dom";
 import { putFeed } from '../../api/services/feeds';
 import { validateName, validateDescription } from './components/ValidatorFeed';
-import Navigation from '../../components/navigation/navigation'
+import Navigation from '../../components/Navigation/Navigation';
 
 
 const EditFeed = () => {
