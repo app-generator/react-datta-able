@@ -9,6 +9,7 @@ import ListTask from '../task/ListTask';
 
 const CreatePlaybook = () => {
 
+    const [url, setUrl] = useState('');
     const [name, setName] = useState('');
     const [taxonomy, setTaxonomy] = useState([]);
     
@@ -44,22 +45,19 @@ const CreatePlaybook = () => {
     };
 
     const createPlaybook = () => {
-            ////
-            setSectionAddTask(true)
-            /*        postPlaybook (name, taxonomy)
-            .then((response) => { 
+        postPlaybook (name, taxonomy)
+        .then((response) => { 
             console.log(response.data)
+            setUrl(response.data.url)
             console.log('create playbook - Abrir Tareas')
+            setSectionAddTask(true)
         })
         .catch((error) => {
             setError(error)
             console.log(error)
         })
-*/
     };
    
-    const url = 'http://localhost:8000/api/playbook/3/';
-
     return (
     <React.Fragment>
         <Row>
