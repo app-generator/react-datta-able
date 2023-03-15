@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, Col, Collapse, Row } from 'react-bootstrap'; 
+import { Card, Col, Row } from 'react-bootstrap'; 
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/navigation/navigation';
 import { postPlaybook } from '../../api/services/playbooks';
@@ -59,7 +59,7 @@ const CreatePlaybook = () => {
     };
    
     const url = 'http://localhost:8000/api/playbook/3/';
-    
+
     return (
     <React.Fragment>
         <Row>

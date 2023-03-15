@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Table, Modal, CloseButton } from 'react-bootstrap';
 import CrudButton from '../../../../components/Button/CrudButton';
-import { Link } from 'react-router-dom';
 import PriorityButton from '../../../../components/Button/PriorityButton';
-import FormGetName from '../../../../components/Form/FormGetName';
-import { getPlaybook } from '../../../../api/services/playbooks';
 
 const ModalDetailTask = (props) => {
     
     const [created, setCreated] = useState('');
     const [modified, setModified] = useState('');
 
+    const [row, setRow] = useState(1);
+
     useEffect(()=>{
         if(props.task){
 
             formatDate(props.task.created, setCreated)
             formatDate(props.task.modified, setModified)
+            if (props.task.description!=null){
+             setRow(props.task.description.length / 40)
+            }    
         }
     },[props.task])
 
@@ -24,6 +26,13 @@ const ModalDetailTask = (props) => {
         datetime = datetime.split('T')
         let format = datetime[0] + ' ' + datetime[1].slice(0,8); 
         set(format)
+    }
+
+    const textareaStyle = {
+        resize:"none", 
+        backgroundColor:"transparent", 
+        border:"none", 
+        boxShadow: "none"
     }
 
     return (
@@ -84,7 +93,7 @@ const ModalDetailTask = (props) => {
                                             <tr>
                                                 <td>Descripcion</td>
                                                 <td>
-                                                    <Form.Control plaintext readOnly defaultValue={props.task.description} />
+                                                    <Form.Control plaintext readOnly value={props.task.description===null ? 'No tiene descripcion' : props.task.description} style={textareaStyle} as="textarea" rows={row}/>
                                                 </td>
                                             </tr>
                                             : 

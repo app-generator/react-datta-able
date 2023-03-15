@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Table, Modal, CloseButton } from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
-import { Link } from 'react-router-dom';
-import PriorityButton from '../../../../components/Button/PriorityButton';
-import FormGetName from '../../../../components/Form/FormGetName';
+import { Row, Col, Card, Modal, CloseButton } from 'react-bootstrap';
 import { putTask } from '../../../../api/services/tasks';
 import FormCreateTask from '../Form/FormCreateTask';
 

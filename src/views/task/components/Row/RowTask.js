@@ -1,13 +1,11 @@
 import React from 'react';
-import { Badge } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getTask, deleteTask } from '../../../../api/services/tasks';
 import PriorityButton from '../../../../components/Button/PriorityButton';
-import FormGetName from '../../../../components/Form/FormGetName';
 import ModalDetailTask from '../Modal/ModalDetailTask';
 import ModalConfirm from '../../../../components/Modal/ModalConfirm';
 import CrudButton from '../../../../components/Button/CrudButton';
-import { Link } from 'react-router-dom';
 import ModalEditTask from '../Modal/ModalEditTask';
 
 const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskUpdated 
@@ -19,12 +17,14 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
     const [modalEdit, setModalEdit] = useState(false)
     const [modalDelete, setModalDelete] = useState(false)
 
+    const [row, setRow] = useState(1); //tamano del textarea
+
     useEffect(() => {
 
         showTaskData(props.url)
         
     }, [props.url, props.taskDeleted]);
-    
+
     //Read Task
     const showTaskData = (url) => {
         console.log('show task url: '+ url)
@@ -33,6 +33,7 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
         .then((response) => {
             console.log(response.data)
             setTask(response.data)
+            setRow(response.data.description.length / 40);
         })
         .catch((error) => {
             console.log(error)
@@ -40,6 +41,8 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
         });
     }
 
+
+    
     //Delete Task
     const removeTask = (url)=> {
         console.log('remove task url: '+ url)
@@ -57,18 +60,28 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
             })
     };
 
+    const textareaStyle = {
+        resize:"none", 
+        backgroundColor:"transparent", 
+        border:"none", 
+        boxShadow: "none"
+    }
+
+
 return (
         task && 
         <React.Fragment>
             <tr key={task.url}>
                 <th scope="row">{props.key}</th>
                 <td>{task.name}</td>
-                <td><PriorityButton url={task.priority}/></td>
-                <td>{task.url}</td>                                    
+                <td>
+                    <PriorityButton url={task.priority}/>
+                </td>
+                <td>
+                    <Form.Control readOnly value={task.description === null ? "No tiene descripcion" : task.description} style={textareaStyle} as="textarea" rows={row}/>
+                </td>                                    
                 <td>
                     <CrudButton type='read' onClick={() => setModalShow(true)} />
-                    {/*<Link to={{pathname:'/task/edit', state: task}} >
-                    </Link>*/}
                     <CrudButton type='edit' onClick={() => setModalEdit(true)}/>
                     <CrudButton type='delete' onClick={() => setModalDelete(true)} />
                 </td>

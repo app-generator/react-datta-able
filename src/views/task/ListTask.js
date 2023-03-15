@@ -3,7 +3,6 @@ import { Button, Card, CloseButton, Col, Collapse, Modal, Row, Table} from 'reac
 import { getPlaybook } from '../../api/services/playbooks';
 import Alert from '../../components/Alert/Alert';
 import CrudButton from '../../components/Button/CrudButton';
-import TableTask from './components/Table/TableTask';
 import FormCreateTask from './components/Form/FormCreateTask';
 import { postTask } from '../../api/services/tasks';
 import RowTask from './components/Row/RowTask';
