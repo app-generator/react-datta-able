@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 import { postTaxonomy } from '../../api/services/taxonomy';
 import { validateName, validateDescription } from './components/ValidatorTaxonomy';
-import { getTaxonomies } from '../../api/services/taxonomy';
-import Navigation from '../../components/navigation/navigation'
+import { getAllTaxonomies } from '../../api/services/taxonomy';
+import Navigation from '../../components/Navigation/Navigation'
 
 const NewTaxonomy = () => {
 
@@ -18,28 +18,12 @@ const NewTaxonomy = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {  
-        let currentPage = 1  
-        let results = []        
-        getAllTaxonomies(currentPage, results)       
-        
+       
+        getAllTaxonomies().then((response) => {setTaxonomies(response)})    
+               
     }, []);    
 
-    const getAllTaxonomies = (currentPage, results)=> {         
-        getTaxonomies(currentPage)
-        .then((response) => {
-            results = [...results, ...response.data.results]                                    
-            if(response.data.next != undefined){                                
-                getAllTaxonomies(++currentPage, results)
-            }
-            else{
-                setTaxonomies([...taxonomies, ...results])     
-            }         
-                
-        })
-        .catch((error) => {
-            setError(error);            
-        })                   
-    };
+   
 
     const createTaxonomy = ()=> {
         let active = true

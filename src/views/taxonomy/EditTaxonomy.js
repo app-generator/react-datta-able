@@ -4,8 +4,8 @@ import DropdownState from '../taxonomy/components/DropdownState';
 import { useLocation } from "react-router-dom";
 import { putTaxonomy } from '../../api/services/taxonomy';
 import { validateName, validateDescription } from './components/ValidatorTaxonomy';
-import { getTaxonomies } from '../../api/services/taxonomy';
-import Navigation from '../../components/navigation/navigation'
+import { getAllTaxonomies } from '../../api/services/taxonomy';
+import Navigation from '../../components/Navigation/Navigation'
 
 const EditTaxonomy = () => {
     const location = useLocation();
@@ -23,28 +23,10 @@ const EditTaxonomy = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {  
-        let currentPage = 1  
-        let results = []        
-        getAllTaxonomies(currentPage, results)       
-        
-    }, []);    
-
-    const getAllTaxonomies = (currentPage, results)=> {         
-        getTaxonomies(currentPage)
-        .then((response) => {
-            results = [...results, ...response.data.results]                                    
-            if(response.data.next != undefined){                                
-                getAllTaxonomies(++currentPage, results)
-            }
-            else{
-                setTaxonomies([...taxonomies, ...results])     
-            }         
-                
-        })
-        .catch((error) => {
-            setError(error);            
-        })                   
-    };
+       
+        getAllTaxonomies().then((response) => {setTaxonomies(response)})    
+               
+    }, []);  
 
     const changeTaxonomy = ()=> {        
         putTaxonomy(taxonomy.url, slug, type, name, description, active, parent).then((response) => {

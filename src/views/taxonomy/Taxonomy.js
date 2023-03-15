@@ -8,7 +8,7 @@ import ButtonState from './components/ButtonState';
 import ButtonDelete from './components/ButtonDelete';
 import Alert from '../../components/Alert/Alert';
 import Pagination from '../../components/Pagination/Pagination';
-import Navigation from '../../components/navigation/navigation'
+import Navigation from '../../components/Navigation/Navigation'
 
 const ListTaxonomies = () => {
     
