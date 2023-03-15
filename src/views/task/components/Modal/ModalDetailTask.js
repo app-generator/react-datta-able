@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Table, Modal, CloseButton } from 'react-bootstrap';
 import CrudButton from '../../../../components/Button/CrudButton';
 import { Link } from 'react-router-dom';
@@ -8,9 +8,23 @@ import { getPlaybook } from '../../../../api/services/playbooks';
 
 const ModalDetailTask = (props) => {
     
-    useEffect(()=>{
+    const [created, setCreated] = useState('');
+    const [modified, setModified] = useState('');
 
-    },[])
+    useEffect(()=>{
+        if(props.task){
+
+            formatDate(props.task.created, setCreated)
+            formatDate(props.task.modified, setModified)
+        }
+    },[props.task])
+
+
+    const formatDate = (datetime, set) => {
+        datetime = datetime.split('T')
+        let format = datetime[0] + ' ' + datetime[1].slice(0,8); 
+        set(format)
+    }
 
     return (
         <React.Fragment>
@@ -26,9 +40,9 @@ const ModalDetailTask = (props) => {
                                             <span className="d-block m-t-5">Detalle de la tarea</span>
                                         </Col>
                                         <Col sm={12} lg={2}>                       
-                                            <Link to={{pathname:'/task/edit', state: props.task}} >
+                                            {/*<Link to={{pathname:'/task/edit', state: props.task}} >
+                                            </Link>*/}
                                                 <CrudButton type='edit'/>
-                                            </Link>
                                             <CloseButton aria-label='Cerrar' onClick={props.onHide} />
                                         </Col>
                                     </Row>
@@ -56,7 +70,7 @@ const ModalDetailTask = (props) => {
                                             : 
                                             <></>
                                         } 
-                                        {props.task.playbook ? 
+                                        {/*props.task.playbook ? 
                                             <tr>
                                                 <td>Playbook</td>
                                                 <td>
@@ -65,7 +79,7 @@ const ModalDetailTask = (props) => {
                                             </tr>
                                             : 
                                             <></>
-                                        }  
+                                    */}  
                                         {props.task.description ? 
                                             <tr>
                                                 <td>Descripcion</td>
@@ -79,13 +93,13 @@ const ModalDetailTask = (props) => {
                                         <tr>
                                             <td>Fecha de creación</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={props.task.created} />
+                                                <Form.Control plaintext readOnly defaultValue={created} />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Ultima actualización</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={props.task.modified} />
+                                                <Form.Control plaintext readOnly defaultValue={modified} />
                                             </td>
                                         </tr>
                                     </tbody>

@@ -9,12 +9,8 @@ import { validateSpace, validateAlphanumeric } from '../../../../components/Vali
 
 const FormCreateTask = (props) => { 
 
-    //Dropdowns
-    const [playbookOption, setPlaybookOption] = useState([])
+    //Dropdown
     const [priorityOption, setPriorityOption] = useState([])
-    
-    //Renderizar
-    const [playbookCreated, setPlaybookCreated] = useState('') //si se pueden crear playbooks desde esta vista
     
     const [error, setError] = useState(false)
 
@@ -29,28 +25,11 @@ const FormCreateTask = (props) => {
                 setError(error)
             })
 
-        getAllPlaybooks()
-            .then((response) => {
-                setPlaybookOption(Object.values(response.data.results))
-                console.log(response.data.results)
-            })
-            .catch((error)=>{
-                setError(error)
-            })
-
-        },[playbookCreated])
+        },[])
     
     return (
         <React.Fragment>
             <Form>
-                <Row>
-                    <Col sm={12} lg={12}>
-                        <Form.Group controlId="Form.Task.Playbook" >
-                            <Form.Label>Playbook</Form.Label>
-                            <Form.Control plaintext readOnly defaultValue={props.playbook.url}/>
-                        </Form.Group>
-                    </Col>
-                </Row>
                 <Row>
                     <Col sm={12} lg={12}>
                         <Form.Group controlId="Form.Task.Name">

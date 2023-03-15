@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, CloseButton, Col, Collapse, Row, Modal} from 'react-bootstrap';
-import { getAllTasks } from '../../api/services/tasks';
+import { Button, Card, CloseButton, Col, Collapse, Modal, Row, Table} from 'react-bootstrap';
+import { getPlaybook } from '../../api/services/playbooks';
 import Alert from '../../components/Alert/Alert';
 import CrudButton from '../../components/Button/CrudButton';
 import TableTask from './components/Table/TableTask';
 import FormCreateTask from './components/Form/FormCreateTask';
 import { postTask } from '../../api/services/tasks';
-
+import RowTask from './components/Row/RowTask';
 
 const ListTask = (props) => { 
 
@@ -18,42 +18,46 @@ const ListTask = (props) => {
     const [modalCreate, setModalCreate] = useState(false)
     const [name, setName] = useState(''); //required
     const [priority, setPriority] = useState('0'); //required
-    const [playbook, setPlaybook] = useState('0'); //required
-    const [description, setDescription] = useState(null);
+    const [description, setDescription] = useState('');
+    
+    //Si table task elimina una tarea
+    const [taskCreated, setTaskCreated] = useState(null);
+    const [taskDeleted, setTaskDeleted] = useState(null);
+    const [taskUpdated, setTaskUpdated] = useState(null);
+
+    const [playbook, setPlaybook] = useState(null); //required
 
     useEffect( ()=> {
+        getPlaybook(props.urlPlaybook)
+        .then((response) => {
+            setPlaybook(response.data)
+            setTasks(response.data.tasks)
+            console.log(response.data.tasks)
+        })
+        .catch(setError);
 
-        getAllTasks()
-            .then((response) => {
-                setTasks(response.data.results);
-            })
-            .catch((error) => {
-                setError(error)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
-
-        setPlaybook({url: 'url', name: 'playbook'})
-    }, [])
+    }, [ taskCreated, taskUpdated, taskDeleted ]) //si hago un post o delete
 
     if (error) {
         console.log(error);
-        return <p>Ups! Se produjo un error al buscar los contactos.</p>
+        return <p>Ups! Se produjo un error al buscar las tareas.</p>
     }
 
     const createTask = () => { //refactorizar al FormContact
 
-        postTask (name, description, priority, playbook)
+        postTask (name, description, priority, props.urlPlaybook)
             .then((response) => { 
                 console.log(response)
+                console.log('se creo una tarea')
+                setTaskCreated(response)
+                setName('')
+                setPriority('0')
+                setDescription('')
+                setModalCreate(false)
             })
             .catch((error) => {
                 setError(error)
                 console.log(error)
-            })
-            .finally(() => {
-                setModalCreate(true)
             })
     };
 
@@ -81,15 +85,24 @@ const ListTask = (props) => {
                     <Collapse in={props.sectionAddTask}>
                         <div id="basic-collapse">
                             <Card.Body>
-                                <TableTask list={tasks} loading={loading} />
-                                {/*
-                                <Row>
-                                    <Col sm={12} lg={9} />
-                                    <Col sm={12} lg={3}>
-                                        <CrudButton type='create' name='Tarea' onClick={() => setModalCreate(true)} />
-                                    </Col> 
-                                </Row>
-                                    */}
+                                <Table responsive hover>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Prioridad</th>
+                                            <th>Descripcion</th>
+                                            <th>Accion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {tasks ? tasks.map((urlTask, index) => {
+                                            return (
+                                                <RowTask url={urlTask} key={index+1} taskDeleted={taskDeleted} setTaskDeleted={setTaskDeleted} setTaskUpdated={setTaskUpdated} />)
+                                            }) : <></>
+                                        }
+                                    </tbody>
+                                </Table>
                             </Card.Body>
                         </div>
                     </Collapse>

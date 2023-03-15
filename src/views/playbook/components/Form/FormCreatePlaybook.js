@@ -89,7 +89,7 @@ const FormCreateNetwork = (props) => {
                             { validateAlphanumeric(props.name) && (props.taxonomy.length > 0) ? // 
                                 <><Button variant="primary" onClick={props.ifConfirm}>Crear</Button></>
                                 : 
-                                <><Button variant="primary" disabled>Guardar</Button></> 
+                                <><Button variant="primary" disabled>Crear</Button></> 
                             }
                             <Button variant="primary" href="/playbook/tables">Cancelar</Button>
                         </Form.Group>

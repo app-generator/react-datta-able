@@ -58,6 +58,8 @@ const CreatePlaybook = () => {
 */
     };
    
+    const url = 'http://localhost:8000/api/playbook/3/';
+    
     return (
     <React.Fragment>
         <Row>
@@ -80,9 +82,8 @@ const CreatePlaybook = () => {
                         </Card.Body>
                     </Card>
                     
-                    <ListTask sectionAddTask={sectionAddTask}/>
-                    
-                    
+                    <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
+
                     {/*<Alert />*/}
                 </Col>
             </Row>

@@ -16,7 +16,7 @@ const PriorityButton = (props) => {
     const showPriority = (url) => {
         getPriority(url)
         .then((response) => {
-            console.log(response)
+            //console.log(response)
             setPriority(response.data)
         })
         .catch();
