@@ -69,7 +69,7 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/app/feeds/new',
+                path: '/app/feeds/create',
                 component: lazy(() => import('./views/feeds/CreateFeed'))
             },
             {
@@ -79,13 +79,13 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/app/taxonomy',
-                component: lazy(() => import('./views/taxonomy/Taxonomy'))
+                path: '/app/taxonomies',
+                component: lazy(() => import('./views/taxonomy/ListTaxonomies'))
             },
             {
                 exact: true,
-                path: '/app/taxonomy/new',
-                component: lazy(() => import('./views/taxonomy/NewTaxonomy'))
+                path: '/app/taxonomy/create',
+                component: lazy(() => import('./views/taxonomy/CreateTaxonomy'))
             },
             {
                 exact: true,
@@ -95,7 +95,7 @@ const routes = [
             {
                 exact: true,
                 path: '/app/tlp',
-                component: lazy(() => import('./views/tlp/TLP'))
+                component: lazy(() => import('./views/tlp/ListTLP'))
             },
             {
                 exact: true,

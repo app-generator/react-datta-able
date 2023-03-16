@@ -90,7 +90,7 @@ const menuItems = {
                             id: 'taxonomy',
                             title: 'Taxonomia',
                             type: 'item',
-                            url: '/app/taxonomy',
+                            url: '/app/taxonomies',
                             icon: 'fas fa-server',
                             breadcrumbs: false
                         }   

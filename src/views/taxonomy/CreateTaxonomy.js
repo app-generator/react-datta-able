@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
-import { postTaxonomy } from '../../api/services/taxonomy';
+import { Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { postTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
 import { validateName, validateDescription } from './components/ValidatorTaxonomy';
-import { getAllTaxonomies } from '../../api/services/taxonomy';
 import Navigation from '../../components/Navigation/Navigation'
 
-const NewTaxonomy = () => {
+const CreateTaxonomy = () => {
 
     const[slug, setSlug] = useState ("");
     const [type, setType] = useState("");
@@ -29,7 +28,7 @@ const NewTaxonomy = () => {
         let active = true
         postTaxonomy(slug, type, name, description, active, parent).then((response) => {
             console.log(response);            
-            window.location.href = '/app/taxonomy';
+            window.location.href = '/app/taxonomies';
         })
         .catch((error) => {
             setError(error);            
@@ -40,7 +39,7 @@ const NewTaxonomy = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Agregar taxonomia" path="/app/taxonomy" index ="Taxonomia"/>
+                <Navigation actualPosition="Agregar taxonomia" path="/app/taxonomies" index ="Taxonomia"/>
             </Row>
             <Row>
                 <Col sm={12}>
@@ -88,7 +87,7 @@ const NewTaxonomy = () => {
                                     <Button variant="primary" disabled>Guardar</Button>                                    
                                 }                                 
 
-                                <Button variant="info" href='/app/taxonomy'>Cancelar</Button>
+                                <Button variant="info" href='/app/taxonomies'>Cancelar</Button>
                             </Form>
                         </Card.Body>
                     </Card>
@@ -98,4 +97,4 @@ const NewTaxonomy = () => {
     );
 };
 
-export default NewTaxonomy;
+export default CreateTaxonomy;

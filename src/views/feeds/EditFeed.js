@@ -19,7 +19,7 @@ const EditFeed = () => {
     const [error, setError] = useState(null);
 
     
-    const changeFeed = ()=> {
+    const editFeed = ()=> {
         putFeed(feed.url, slug, name, description, active).then((response) => {
             window.location.href = '/app/feeds';
         })
@@ -59,7 +59,7 @@ const EditFeed = () => {
                                 </Form.Group>                             
                                   
                                 { validateName(name) && validateDescription(description) ?
-                                    <Button variant="primary" onClick={changeFeed}>Guardar</Button>
+                                    <Button variant="primary" onClick={editFeed}>Guardar</Button>
                                     :
                                     <Button variant="primary" disabled>Guardar</Button>
                                     

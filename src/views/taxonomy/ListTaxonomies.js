@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Breadcrumb, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Table, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getTaxonomies } from '../../api/services/taxonomy';
+import { getTaxonomies } from '../../api/services/taxonomies';
 import ButtonView from './components/ButtonView';
 import CrudButton from '../../components/Button/CrudButton';
 import ButtonState from './components/ButtonState';
@@ -106,7 +106,7 @@ const ListTaxonomies = () => {
         <React.Fragment>
             <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
-                <Navigation actualPosition={'TAxonomia'}/>  
+                <Navigation actualPosition={'Taxonomia'}/>  
             </Row>
             <Row>
                 <Col>             
@@ -125,7 +125,7 @@ const ListTaxonomies = () => {
                                 </Col> 
                                 <Col sm={12} lg={3}>
                                     <React.Fragment>                                        
-                                        <Link to={{pathname:'./taxonomy/new'}} >
+                                        <Link to={{pathname:'./taxonomy/create'}} >
                                             <CrudButton type='create' name='Taxonomia' />
                                         </Link>
                                     </React.Fragment>                           

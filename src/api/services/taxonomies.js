@@ -64,7 +64,7 @@ const deleteTaxonomy = (url) => {
 }
 
 
-export { getTaxonomies, getTaxonomy, postTaxonomy, putTaxonomy, putActivationStatus, deleteTaxonomy,  getAllTaxonomies }
+export { getTaxonomies, getTaxonomy, getAllTaxonomies, postTaxonomy, putTaxonomy, putActivationStatus, deleteTaxonomy }
 
 
 

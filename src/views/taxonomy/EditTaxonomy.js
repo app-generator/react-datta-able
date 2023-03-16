@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
+import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import DropdownState from '../taxonomy/components/DropdownState';
 import { useLocation } from "react-router-dom";
-import { putTaxonomy } from '../../api/services/taxonomy';
+import { putTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
 import { validateName, validateDescription } from './components/ValidatorTaxonomy';
-import { getAllTaxonomies } from '../../api/services/taxonomy';
 import Navigation from '../../components/Navigation/Navigation'
 
 const EditTaxonomy = () => {
@@ -28,10 +27,10 @@ const EditTaxonomy = () => {
                
     }, []);  
 
-    const changeTaxonomy = ()=> {        
+    const editTaxonomy = ()=> {        
         putTaxonomy(taxonomy.url, slug, type, name, description, active, parent).then((response) => {
             console.log(response);            
-            window.location.href = '/app/taxonomy';
+            window.location.href = '/app/taxonomies';
         })
         .catch((error) => {
             setError(error);            
@@ -42,7 +41,7 @@ const EditTaxonomy = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Editar taxonomia" path="/app/taxonomy" index ="Taxonomia"/> 
+                <Navigation actualPosition="Editar taxonomia" path="/app/taxonomies" index ="Taxonomia"/> 
             </Row>
             <Row>
                 <Col sm={12}>
@@ -90,12 +89,12 @@ const EditTaxonomy = () => {
                       
 
                                 { validateName(name) && validateDescription(description) ?
-                                    <Button variant="primary" onClick={changeTaxonomy}>Guardar</Button>                                    
+                                    <Button variant="primary" onClick={editTaxonomy}>Guardar</Button>                                    
                                     : 
                                     <Button variant="primary" disabled>Guardar</Button>                                    
                                 }                                 
 
-                                <Button variant="info" href='/app/taxonomy'>Cancelar</Button>
+                                <Button variant="info" href='/app/taxonomies'>Cancelar</Button>
                             </Form>
                         </Card.Body>
                     </Card>

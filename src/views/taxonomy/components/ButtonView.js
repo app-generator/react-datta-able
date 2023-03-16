@@ -3,7 +3,7 @@ import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from '
 import { Link } from 'react-router-dom';
 import ActiveButton from '../../../components/Button/ActiveButton';
 import CrudButton from '../../../components/Button/CrudButton';
-import { getTaxonomy } from '../../../api/services/taxonomy';
+import { getTaxonomy } from '../../../api/services/taxonomies';
 
 function ButtonView({taxonomy}) {
   const [show, setShow] = useState(false);

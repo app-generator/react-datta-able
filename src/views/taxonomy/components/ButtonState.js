@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ActiveButton from '../../../components/Button/ActiveButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
-import { putActivationStatus } from '../../../api/services/taxonomy';
+import { putActivationStatus } from '../../../api/services/taxonomies';
 
 function ButtonState({taxonomy}) {    
     const [show, setShow] = useState(false);
@@ -12,7 +12,7 @@ function ButtonState({taxonomy}) {
     const changeState = (taxonomy)=> {        
         putActivationStatus(taxonomy.url, !taxonomy.active, taxonomy.name).then((response) => {
             console.log(response);
-            window.location.href = '/app/taxonomy';
+            window.location.href = '/app/taxonomies';
         })
         .catch((error) => {
             setError(error);           

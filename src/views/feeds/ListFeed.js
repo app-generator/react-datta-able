@@ -11,7 +11,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import Navigation from '../../components/Navigation/Navigation';
 
 
-const ListFeeds = () => {
+const ListFeed = () => {
     
     const [feeds, setFeeds] = useState([]);
     const [error, setError] = useState(null);
@@ -125,7 +125,7 @@ const ListFeeds = () => {
                                 </Col>
                                 <Col sm={12} lg={3}>
                                     <React.Fragment>                                        
-                                        <Link to={{pathname:'./feeds/new'}} >
+                                        <Link to={{pathname:'./feeds/create'}} >
                                             <CrudButton type='create' name='Fuente' />
                                         </Link>
                                     </React.Fragment>                           
@@ -178,4 +178,4 @@ const ListFeeds = () => {
     );
 };
 
-export default ListFeeds;
+export default ListFeed;
