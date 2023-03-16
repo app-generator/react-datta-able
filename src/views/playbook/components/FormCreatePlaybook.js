@@ -11,7 +11,7 @@ const animatedComponents = makeAnimated();
 
 
 const FormCreatePlaybook = (props) => { 
-    // props: ifConfirm name setName taxonomy setTaxonomy taxonomiesOption setTaxonomyCreated
+    // props:  name setName taxonomy setTaxonomy taxonomiesOption ifConfirm
     
     const [error, setError] = useState(null)
 

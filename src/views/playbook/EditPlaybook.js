@@ -26,16 +26,23 @@ const EditPlaybook = () => {
 
         getAllTaxonomies()
             .then((response) => {
-                setTaxonomiesOption(response.data.results)
+                let listTaxonomies = []
+                response.data.results.map((taxonomyItem)=>{
+                    listTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
+                })
+                setTaxonomiesOption(listTaxonomies)
                 console.log(response.data.results)
             })
             .catch((error)=>{
                 setError(error)
             })
 
-        },[taxonomyCreated])
+        },[])
 
-
+    const labelTaxonomy = {
+        vulnerability : 'Vulnerabilidad',
+        incident : 'Incidente',
+    };
 
     const editPlaybook = () => {
 
@@ -68,7 +75,7 @@ const EditPlaybook = () => {
                              <FormCreatePlaybook
                                 name={name} setName={setName}
                                 taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
-                                taxonomiesOption={taxonomiesOption} setTaxonomyCreated={setTaxonomyCreated}
+                                taxonomiesOption={taxonomiesOption}
                                 ifConfirm={editPlaybook} />
                         </Card.Body>
                     </Card>

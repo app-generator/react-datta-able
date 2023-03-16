@@ -193,7 +193,7 @@ const FormCreateNetwork = (props) => {
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
                                 isMulti
-                                hasValue={props.contacts}
+                                defaultValue={props.contacts}
                                 onChange={(e)=>selectContacts(e)}
                                 options={props.contactsOption}
                                 />
