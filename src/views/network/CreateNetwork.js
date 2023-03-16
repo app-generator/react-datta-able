@@ -3,7 +3,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/Form/FormCreateNetwork';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 
 const CreateNetwork = () => {
     const [children, setChildren] = useState(null);

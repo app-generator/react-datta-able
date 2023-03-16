@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table, Breadcrumb, Form, Spinner } from 'react-bootstrap';
 import { getTLP } from '../../api/services/tlp';
 import Alert from '../../components/Alert/Alert';
+import Navigation from '../../components/Navigation/Navigation'
+
 
 const ListTLP = () => {
 
@@ -61,14 +63,7 @@ const ListTLP = () => {
         <React.Fragment>
             <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href='/app/dhasboard/default'>
-                        <i className="fas fa-home" />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item active>
-                        <b>Protocolo de Semaforo</b>
-                    </Breadcrumb.Item>
-                </Breadcrumb>    
+                <Navigation actualPosition="TLP"/>
             </Row>
             <Row>
                 <Col>             

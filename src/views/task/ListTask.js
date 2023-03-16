@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { getTasks } from '../../api/services/tasks';
 import Alert from '../../components/Alert/Alert';
 import CrudButton from '../../components/Button/CrudButton';
-import Navigation from '../../components/navigation/navigation';
-import Search from '../../components/search/search';
+import Navigation from '../../components/Navigation/Navigation';
+import Search from '../../components/Search/Search';
 import TableTask from './components/Table/TableTask';
 
 const ListTask = () => {

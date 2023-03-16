@@ -5,6 +5,24 @@ const getFeeds = (currentPage) => {
     return apiInstance.get(COMPONENT_URL.feed + PAGE + currentPage);
 }
 
+const getAllFeeds = (currentPage = 1, results = [], limit = 100) => {
+            
+    return apiInstance.get(COMPONENT_URL.feed, { params: { page: currentPage, page_size: limit } })       
+        .then((response) => {
+            let res = [...results, ...response.data.results]                                    
+            if(response.data.next != undefined){                                
+                return getAllFeeds(++currentPage, res, limit)
+            }
+            else{
+                return res;     
+            }                  
+        })
+        .catch((error) => {
+            return Promise.reject(error);            
+        })   
+
+}
+
 const postFeed = (slug, name, description, active) => {
     return apiInstance.post(COMPONENT_URL.feed, {
         slug: slug, 
@@ -36,4 +54,4 @@ const deleteFeed = (url) => {
     return apiInstance.delete(url);
 }
 
-export { getFeeds, postFeed, putFeed, putActivationStatus, deleteFeed };
+export { getFeeds, getAllFeeds, postFeed, putFeed, putActivationStatus, deleteFeed };

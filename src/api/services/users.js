@@ -10,6 +10,24 @@ const getUser = (url) => {
     return apiInstance.get(url);
 }
 
+const getAllUsers = (currentPage = 1, results = [], limit = 100) => {
+            
+    return apiInstance.get(COMPONENT_URL.user, { params: { page: currentPage, page_size: limit } })       
+        .then((response) => {
+            let res = [...results, ...response.data.results]                                    
+            if(response.data.next != undefined){                                
+                return getAllUsers(++currentPage, res, limit)
+            }
+            else{
+                return res;     
+            }                  
+        })
+        .catch((error) => {
+            return Promise.reject(error);            
+        })   
+
+}
+
 const postUser = (username, first_name, last_name, email, priority, is_active) => {
 
     console.log(first_name)
@@ -44,4 +62,4 @@ const deleteUser = (url) => {
     return apiInstance.delete(url);
 }
 
-export { getUsers, getUser, postUser, putUser, deleteUser, isActive };
+export { getUsers, getUser, getAllUsers, postUser, putUser, deleteUser, isActive };

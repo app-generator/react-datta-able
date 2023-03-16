@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {Button, Col, Row, Form} from 'react-bootstrap';
 import { getPriorities } from '../../../../api/services/priorities';
-import { validateSpace, validateAlphanumeric  } from '../../../../components/Validator/validators'; 
+import { validateSpace, validateAlphanumeric  } from '../../../../components/Validator/Validator'; 
 import FormContactPriority from './FormContactPriority';
 
 const FormContact = (props) => { 
@@ -15,7 +15,6 @@ const FormContact = (props) => {
         getPriorities()
             .then((response) => {
                 setPriorities(Object.values(response.data.results))
-                console.log(response.data.results)
             })
             .catch((error)=>{
                 setError(error)

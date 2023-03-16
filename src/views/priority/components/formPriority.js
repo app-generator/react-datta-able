@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Card, Form, Button,Col } from 'react-bootstrap'
-import { validateFieldText, validateNumber} from '../../../components/Validator/validators';
+import { validateFieldText, validateNumber} from '../../../components/Validator/Validator';
 
 const FormPriority = ({body, setBody, createPriority}) => {
        
@@ -8,7 +8,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
         setBody({...body,
             [event.target.name] : event.target.value}
         )     
-        console.log(event.target.value)  
     }
     const activateBooton = (body)=>{
         if (!validateFieldText(body.name)){

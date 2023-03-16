@@ -4,6 +4,7 @@ import DropdownState from './components/DropdownState';
 import { postFeed } from '../../api/services/feeds';
 import Alert from '../../components/Alert/Alert';
 import { validateName, validateDescription } from './components/ValidatorFeed';
+import Navigation from '../../components/Navigation/Navigation'
 
 const NewFeed = () => {
 
@@ -31,7 +32,6 @@ const NewFeed = () => {
 
     const createFeed = ()=> {
         postFeed(slug, name, description, active).then((response) => {
-            console.log(response);            
             window.location.href = '/app/feeds';
         })
         .catch((error) => {
@@ -43,17 +43,7 @@ const NewFeed = () => {
         <React.Fragment>
             <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href='/app/dhasboard/default'>
-                        <i className="fas fa-home" />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='/app/feeds'>
-                        Fuentes de Informacion
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='#' active>
-                        <b>Crear fuente de informacion</b> 
-                    </Breadcrumb.Item>
-                </Breadcrumb>    
+                <Navigation actualPosition="Agregar fuente de información" path="/app/feeds" index ="Fuentes de Información"/>
             </Row>
             <Row>
                 <Col sm={12}>

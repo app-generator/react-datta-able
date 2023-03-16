@@ -19,7 +19,7 @@ const setup = (store) => {
         const token = state.account.token;
 
         if (token) {
-            request.headers.Authorization = `${token}`;
+            request.headers.Authorization = `Bearer ${token}`;
         }
 
         return request;
@@ -58,13 +58,15 @@ const setup = (store) => {
         },(error) => {
 
             const originalConfig = error.config;
-    
-            // falta redefinir status esperado en caso de que falle el access token
-            if (error.response.status === 555 && !originalConfig._retry) {
+
+            // verificar error.response.code
+            if (error.response.code === 'token_not_valid' && !originalConfig._retry) {
+
                 originalConfig._retry = true;   
-    
+
                 refreshToken()
                     .then((res) => {
+
                         const accessToken = res.data.access;
 
                         dispatch({
@@ -72,7 +74,14 @@ const setup = (store) => {
                             payload: { token: accessToken }
                         });
 
-                        return apiInstance(originalConfig);
+                        return apiInstance(originalConfig)
+                                    .catch(error => {
+                                        if (error.response.code === 'token_not_valid') {
+                                            dispatch({
+                                                type: LOGOUT
+                                            });
+                                        }
+                                    });
                        
                     })
                     .catch((err) => {
@@ -83,7 +92,7 @@ const setup = (store) => {
 
                     });
             }
-    
+
             return Promise.reject(error);
         }
     );

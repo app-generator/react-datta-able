@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Row, Card } from 'react-bootstrap';
 import FormPriority from './components/formPriority'
 
-import Navigation from '../../components/navigation/navigation'
+import Navigation from '../../components/Navigation/Navigation'
 import { putPriority} from "../../api/services/priorities";
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
@@ -53,11 +53,9 @@ const EditPriority = () => {
 
         putPriority(body.url, body.name,body.color,body.severity, attendDeadline, solveDeadline)
         .then((response) => { 
-            console.log(response)
             window.location.href = "/list-Priorities"
         }).catch((error) => {
             setError(error)
-            console.log(error)
             setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
             setTimeout(() => {
                 setAlert(null)

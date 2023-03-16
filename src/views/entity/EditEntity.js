@@ -4,7 +4,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putEntity } from '../../api/services/entities';
 import FormEntity from './components/Form/FormEntity';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 
 const EditEntity = () => {
     const entity = useLocation().state;
@@ -25,12 +25,10 @@ const EditEntity = () => {
         let slug = slugify(name); //backend
         putEntity(entity.url, name, slug, entity.active)
         .then((response) => { 
-            console.log(response)
             window.location.href = "/entity/tables"
         })
         .catch((error) => {
             setError(error)
-            console.log(error)
         });    
     };
 

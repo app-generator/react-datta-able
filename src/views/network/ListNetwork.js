@@ -6,8 +6,8 @@ import Pagination from "../../components/Pagination/Pagination";
 import Alert from "../../components/Alert/Alert";
 import { getNetworks } from '../../api/services/networks';
 import TableNetwork from './components/Table/TableNetwork';
-import Navigation from '../../components/navigation/navigation';
-import Search from '../../components/search/search';
+import Navigation from '../../components/Navigation/Navigation';
+import Search from '../../components/Search/Search';
 
 const ListNetwork = () => {
     const [network, setNetwork] = useState('')

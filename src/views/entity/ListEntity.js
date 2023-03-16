@@ -6,8 +6,8 @@ import Pagination from '../../components/Pagination/Pagination';
 import TableEntity from './components/Table/TableEntity'; 
 import { getEntities } from '../../api/services/entities';
 import { Link } from 'react-router-dom';
-import Navigation from '../../components/navigation/navigation';
-import Search from '../../components/search/search';
+import Navigation from '../../components/Navigation/Navigation';
+import Search from '../../components/Search/Search';
 
 const ListEntity = () => {
     const [entities, setEntities] = useState([])
@@ -21,14 +21,11 @@ const ListEntity = () => {
     const [arrayPages, setArrayPages] = useState([])
   
     useEffect( ()=> {
-        console.log('useEffect')
         setCurrentPage(currentPage )//?
 
-        console.log('CURRENT '+currentPage)
         getEntities('?page='+currentPage) //error al borrar el ultimo elemento de la pagina
             .then((response) => {
                 //Pagination
-                console.log('use effect')
                 setPages(arrayWithPages(response.data.count,response.data.results.length))
                 setEntities(response.data.results)
             })
@@ -42,12 +39,8 @@ const ListEntity = () => {
         
     //Pagination
     function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
-        console.log('funcion arrayWithPages')
-
-        console.log(numberOfItems);
-        console.log(numberOfElementsOnAPage);
+     
         const numberOfPages= Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage 
-        console.log(numberOfPages)
         const complementUrl ="?page="
         const arrayLinks=[]
         for (var i = 1; i <= numberOfPages; i++) {
@@ -58,7 +51,6 @@ const ListEntity = () => {
     }
 
     if (error) {
-        console.log(error);
         return <p>Ups! Se produjo un error al buscar las entidades.</p>
     }
 
@@ -77,31 +69,24 @@ const ListEntity = () => {
     }
 
     const callbackBackend = (lastItem) => {
-        console.log('funcion callbackBackend')
         setLoading(true)
         if(lastItem) {
-            console.log('if lastItem')
             setCurrentPage(currentPage-1) //ir a la pagina anterior, no se queda en azul la current page
             setArrayPages(arrayPages.slice(0, -1)) 
             //CambioDepagina(arrayPages[currentPage-1])
-        }
-        else {
-            console.log('else lastItem')
         }
         setPages(0)//
     }
 
     //Pagination
     function CambioDepagina(page){
-        console.log('funcion cambio de pagina')
         if (jumpPage){
-            console.log('CambioDepagina if jumpPage')
-            console.log(page)
+            
             setLoading(true)
             setjumpPage(false)
 
             const fetchPosts = async () => {
-            console.log('funcion fetchPosts')
+            
             getEntities(page).then((response) => {
                 setEntities(response.data.results)
             })
@@ -111,7 +96,6 @@ const ListEntity = () => {
         }
     }
 
-    console.log('array ' + arrayPages)
     CambioDepagina(arrayPages[currentPage-1])
     const currentPosts = entities// lo que se muestra
  

@@ -6,8 +6,8 @@ import {
 import Pagination from '../../components/Pagination/Pagination'
 import Alert from '../../components/Alert/Alert';
 
-import Navigation from '../../components/navigation/navigation'
-import Search from '../../components/search/search'
+import Navigation from '../../components/Navigation/Navigation'
+import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
 import { getPriorities} from "../../api/services/priorities";
 import TablePriorities from './components/tablePriorities';
@@ -50,7 +50,6 @@ const ListPriorities = () => {
       setLoading(true)
       getPriorities().then((response) => {
           setPriorities(response.data.results)
-          console.log(response.data.results)
           setPages(arrayWithPages(response.data.count,response.data.results.length)) 
       }).catch((error)=>{
          setError(error)
@@ -66,14 +65,11 @@ const ListPriorities = () => {
 
     if (jumpPage){
       setjumpPage(false)
-      console.log(url)
 
       const fetchPosts = async () => {
-        console.log(url)
         setLoading(true)
         getPriorities(url).then((response) => {
           setPriorities(response.data.results)
-          console.log(response.data.results)
           
       })
         setLoading(false)
@@ -113,7 +109,10 @@ const ListPriorities = () => {
     <div>
     
     <Alert alert={alert} stateAlert={stateAlert} />
-    <Navigation actualPosition="Prioridades"/>
+    <Row>
+      <Navigation actualPosition="Prioridades"/>
+    </Row>
+    
       <Card>
         <Card.Header>
           
