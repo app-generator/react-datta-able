@@ -9,4 +9,8 @@ const validateDescription = (description) =>{
     return (!isEmpty(description))
 }
 
-export {validateName, validateDescription}
+const validateType = (description) =>{
+    return (validateLength(description, 250) && !isEmpty(description))
+}
+
+export {validateName, validateDescription, validateType}

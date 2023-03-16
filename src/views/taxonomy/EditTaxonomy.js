@@ -3,7 +3,7 @@ import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import DropdownState from '../taxonomy/components/DropdownState';
 import { useLocation } from "react-router-dom";
 import { putTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
-import { validateName, validateDescription } from './components/ValidatorTaxonomy';
+import { validateName, validateDescription, validateType } from './components/ValidatorTaxonomy';
 import Navigation from '../../components/Navigation/Navigation'
 
 const EditTaxonomy = () => {
@@ -51,13 +51,14 @@ const EditTaxonomy = () => {
                         </Card.Header>
                         <Card.Body>
                             <Form>
-                                <Form.Group as={Col}>
+                            <Form.Group as={Col}>
                                     <Form.Label>Tipo</Form.Label>
-                                    <Form.Control type="choice" as="select" value={type} onChange={(e) => setType(e.target.value)} isInvalid={type === ''} isValid={type !== ''} >
+                                    <Form.Control type="choice" as="select" value={type} onChange={(e) => setType(e.target.value)} isValid={validateType(type)} isInvalid={!validateType(type)} >                                                                     
                                         <option key={0} value=''>Seleccione</option>
                                         <option key={1} value='vulnerability'>Vulnerabilidad</option>
                                         <option key={2} value='incident'>Incidente</option>
                                     </Form.Control>
+                                    {validateType(type) ? '' : <div className="invalid-feedback">Ingrese un tipo de taxonomia</div>} 
                                 </Form.Group>
                                                                 
                                 <Form.Group as={Col}>
@@ -79,16 +80,16 @@ const EditTaxonomy = () => {
                                
                                 <Form.Group as={Col}>
                                     <Form.Label>Padre</Form.Label>
-                                    <Form.Control type="choice" as="select" value={parent} onChange={(e) => setParent(e.target.value)} isInvalid={parent === ''} isValid={parent !== ''} >
-                                        <option key={0} value=''>Seleccione</option>
-                                            {taxonomies.sort((a, b) => (a.name < b.name ? -1 : 1)).map((taxonomy, i) => (
-                                                <option  key={i+1} value={taxonomy.url} > {taxonomy.name} </option>
-                                            ))} 
+                                    <Form.Control type="choice" as="select" value={parent} onChange={(e) => setParent(e.target.value)} >
+                                        <option key={0} value=''>Sin padre</option>
+                                        {taxonomies.sort((a, b) => (a.name < b.name ? -1 : 1)).map((taxonomy, i) => (
+                                            <option  key={i+1} value={taxonomy.url} > {taxonomy.name} </option>
+                                        ))} 
                                     </Form.Control>
                                 </Form.Group>
                       
 
-                                { validateName(name) && validateDescription(description) ?
+                                { validateType(type) && validateName(name) && validateDescription(description) ?
                                     <Button variant="primary" onClick={editTaxonomy}>Guardar</Button>                                    
                                     : 
                                     <Button variant="primary" disabled>Guardar</Button>                                    
