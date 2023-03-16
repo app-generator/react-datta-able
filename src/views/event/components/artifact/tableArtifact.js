@@ -1,15 +1,11 @@
-import React,{ useState} from 'react'
+import React from 'react'
 import {
-  Button,Card, Table , Modal, Row,Col, Form, CloseButton, Spinner
-} from 'react-bootstrap';
-import {Link} from 'react-router-dom'
-import { deletePriority } from "../../../api/services/priorities";
-import CrudButton from '../../../components/Button/CrudButton';
-import ModalConfirm from '../../../components/Modal/ModalConfirm';
+    Button,Card, Table , Modal, Row,Col, Form, CloseButton, Spinner
+  } from 'react-bootstrap';
+  import {Link} from 'react-router-dom'
+  import CrudButton from '../../../../components/Button/CrudButton';
 
-
-const TablePriorities = ({events, taxonomy, loading}) => {
-    console.log(taxonomy)
+const TableArtifact = ({loading, artefacts}) => {
     if (loading) {
         return (
             <Row className='justify-content-md-center'>
@@ -28,27 +24,24 @@ const TablePriorities = ({events, taxonomy, loading}) => {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Fecha</th>
-                            <th>TLP</th>
-                            <th>Taxonimia </th>
-                            <th>Fuente de Informacion</th>
-                            <th>Opciones</th>
+                            <th>Tipo</th>
+                            <th>valor</th>
+                            <th>Relacionado </th>
                         </tr>
                    </thead>
                     <tbody>
-                    {events.map((event, index) => {
+                    {artefacts.map((artefact, index) => {
                         return (
                             <tr>
                                 <th >{index + 1 }</th>
-                                <td>{event.date}</td>
-                                <td>{event.tlp}</td>
-                                <td>{taxonomy.get(event.taxonomy)}</td>
-                                <td>{event.feed}</td>
+                                <td>{artefact.tipe}</td>
+                                <td>{artefact.value}</td>
+                                <td>{artefact.related}</td>
                                 
                                 <td>
                                 <CrudButton  type='read' onClick="" />
                                 
-                                <Link to={{pathname:"./edit-Priority", state: {event}}} >
+                                <Link to="" >
                                     <CrudButton  type='edit' />
                                 </Link>
                                     <CrudButton  type='delete' onClick="" />
@@ -67,4 +60,4 @@ const TablePriorities = ({events, taxonomy, loading}) => {
   )
 }
 
-export default TablePriorities
+export default TableArtifact
