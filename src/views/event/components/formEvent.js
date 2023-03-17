@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import { Row, Card, Form, Button,Col } from 'react-bootstrap'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import Search from '../../../components/search/search'
+import Search from '../../../components/Search/Search'
 import {Link} from 'react-router-dom'
 import CrudButton from '../../../components/Button/CrudButton';
 import { getArtefacts} from "../../../api/services/artifact";

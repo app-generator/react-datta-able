@@ -6,8 +6,8 @@ import {
 import Pagination from '../../components/Pagination/Pagination'
 import Alert from '../../components/Alert/Alert';
 
-import Navigation from '../../components/navigation/navigation'
-import Search from '../../components/search/search'
+import Navigation from '../../components/Navigation/Navigation'
+import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
 import { getEvents} from "../../api/services/events";
 import { getTaxonomy} from "../../api/services/taxonomy";
@@ -16,6 +16,7 @@ import TablePriorities from './components/tableEvents';
 const ListEvent = () => {
   const [events, setEvents] = useState([])
   const [taxonomy, setTaxonomy] = useState(new Map())
+  const [loadingTaxonomy, setLoadingTaxonomy] = useState(true)
   const [alert, setAlert] = useState(null)
   const [stateAlert, setStateAlert] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -46,21 +47,19 @@ const ListEvent = () => {
         return numberOfPages
     }
     const getElementsForList=(listEvent)=>{
- 
-      var taxonomia= new Map()
-      listEvent.map((event, index) => {
-        const fetchElements = async () => {
+      
+      
+        var taxonomia= new Map()
+        listEvent.map((event, index) => {
+         
           getTaxonomy(event.taxonomy).then((response) => {
-            taxonomia.set(response.data.url, response.data.name)
-            
-            
-          })   
-        }
-        setTaxonomy(taxonomia)
+            taxonomia.set(response.data.url, response.data.name)  
+            setTaxonomy(taxonomia)
+          })  
+        //
+        })
         
-        fetchElements() 
-      })
-
+        
     }
 
     const fetchEvents = async () => {
@@ -73,14 +72,14 @@ const ListEvent = () => {
       }).catch((error)=>{
          setError(error)
       }).finally(() => {
-         setLoading(false)
+        setLoading(false)
       })
 
     }
 
     fetchEvents()
   }, [])
-  console.log(taxonomy)
+ 
   
   const action = () => {
       console.log("llamada backend")
@@ -98,7 +97,7 @@ const ListEvent = () => {
             </Link>
           </Row>                                 
         </Card.Header>
-        <TablePriorities events={events} taxonomy={taxonomy} loading={loading}/> 
+        <TablePriorities events={events} taxonomy={taxonomy} loading={loading} loadingTaxonomy={loadingTaxonomy}/> 
 
       </Card>            
     </div>

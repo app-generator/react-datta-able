@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Card } from 'react-bootstrap';
 import FormEvent from './components/formEvent'
-import Navigation from '../../components/navigation/navigation'
+import Navigation from '../../components/Navigation/Navigation'
 import { postEvent} from "../../api/services/events";
 import { getTLP } from "../../api/services/tlp";
 import { getAllTaxonomies } from "../../api/services/taxonomy";

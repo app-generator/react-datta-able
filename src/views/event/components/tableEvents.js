@@ -8,7 +8,7 @@ import CrudButton from '../../../components/Button/CrudButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 
 
-const TablePriorities = ({events, taxonomy, loading}) => {
+const TablePriorities = ({events, taxonomy, loading, loadingTaxonomy}) => {
     console.log(taxonomy)
     if (loading) {
         return (
@@ -42,7 +42,10 @@ const TablePriorities = ({events, taxonomy, loading}) => {
                                 <th >{index + 1 }</th>
                                 <td>{event.date}</td>
                                 <td>{event.tlp}</td>
-                                <td>{taxonomy.get(event.taxonomy)}</td>
+                                {/*loadingTaxonomy ? <Row className='justify-content-md-center'>
+                <Spinner animation='border' variant='primary' size='sm' />
+                        </Row>: <td>{taxonomy.get(event.taxonomy)}</td>*/}
+                        <td>{taxonomy.get(event.taxonomy)}</td>
                                 <td>{event.feed}</td>
                                 
                                 <td>
