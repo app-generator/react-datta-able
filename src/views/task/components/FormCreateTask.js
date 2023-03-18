@@ -81,14 +81,17 @@ const FormCreateTask = (props) => {
                                 rows={4} 
                                 value={props.description} 
                                 onChange={(e) => props.setDescription(e.target.value)}  
+                                isInvalid={!validateSpace(props.description)}
+                                isValid={validateSpace(props.description)}
                                 />
+                            {validateSpace(props.description) ? '' : <div className="invalid-feedback">Ingrese una descripcion de la tarea</div>}
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
                     <Form.Group>
                         {(!validateSpace(props.name) || !validateAlphanumeric(props.name) 
-                        || (props.priority == '0' ) ) ? 
+                        || (props.priority == '0' ) || !validateSpace(props.description) ) ? 
                         <><Button variant="primary" disabled>Guardar</Button></> 
                         : 
                             <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>

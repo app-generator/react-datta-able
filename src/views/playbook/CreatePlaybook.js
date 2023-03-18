@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Col, Collapse, Row } from 'react-bootstrap'; 
+import { Button, Card, Col, Collapse, Row } from 'react-bootstrap'; 
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/navigation/navigation';
-import { postPlaybook } from '../../api/services/playbooks';
+import { postPlaybook, putPlaybook } from '../../api/services/playbooks';
 import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomy';
 import ListTask from '../task/ListTask';
-import CardPlaybookCreated from './components/CardPlaybookCreated';
 
 const CreatePlaybook = () => {
 
@@ -15,12 +14,10 @@ const CreatePlaybook = () => {
     const [taxonomy, setTaxonomy] = useState([]);
     
     //Renderizar
-    const [taxonomiesOption, setTaxonomiesOption] = useState([]) //lista con formato para multiselect value, label
+    const [allTaxonomies, setTaxonomies] = useState([]) //lista con formato para multiselect value, label
 
     //Collapse
     const [sectionAddTask, setSectionAddTask] = useState(false);
-
-    const [playbookCreated, setPlaybookCreated] = useState(null) //el pb que se creo
 
     const [error, setError] = useState(null);
 
@@ -32,7 +29,7 @@ const CreatePlaybook = () => {
                 response.data.results.map((taxonomyItem)=>{
                     listTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
                 })
-                setTaxonomiesOption(listTaxonomies)
+                setTaxonomies(listTaxonomies)
                 console.log(response.data.results)
             })
             .catch((error)=>{
@@ -45,10 +42,23 @@ const CreatePlaybook = () => {
         postPlaybook (name, taxonomy)
         .then((response) => { 
             console.log(response.data)
-            setPlaybookCreated(response.data) //guardo el playbook
+            
             setUrl(response.data.url) // y la url
             console.log('create playbook - Abrir Tareas')
             setSectionAddTask(true)
+        })
+        .catch((error) => {
+            setError(error)
+            console.log(error)
+        })
+    };
+
+    const editPlaybook = () => {
+        putPlaybook (url, name, taxonomy)
+            .then((response) => { 
+            console.log(response)
+            
+            console.log('edit playbook - post .then')
         })
         .catch((error) => {
             setError(error)
@@ -80,18 +90,40 @@ const CreatePlaybook = () => {
                                         name={name} setName={setName}
                                         taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
                                         ifConfirm={createPlaybook} 
-                                        taxonomiesOption={taxonomiesOption} />
+                                        allTaxonomies={allTaxonomies} 
+                                        save='POST' />
                                 </Card.Body>
                             </Card>
                         </div>
                     </Collapse>
 
-                        <CardPlaybookCreated playbook={playbookCreated} sectionAddTask={sectionAddTask} />
+                    {/*<CardPutPlaybook playbook={playbookCreated} sectionAddTask={sectionAddTask} setSectionAddTask={setSectionAddTask} />*/}
+                
+                    <Collapse in={sectionAddTask}>
+                        <div id="basic-collapse">
+                            <Card>
+                                <Card.Header>
+                                    <Card.Title as="h5">Playbook</Card.Title>
+                                    <span className="d-block m-t-5">Editar Playbook</span>
+                                </Card.Header>
+                                <Card.Body>
+                                    <FormCreatePlaybook
+                                        name={name} setName={setName}
+                                        taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
+                                        ifConfirm={editPlaybook} 
+                                        allTaxonomies={allTaxonomies}
+                                        save='PUT' />
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    </Collapse>
 
                     
-                        <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
+                    <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
 
                     {/*<Alert />*/}
+                    <Button variant="primary" href="/playbook/tables">Volver</Button>
+
                 </Col>
             </Row>
     </React.Fragment>

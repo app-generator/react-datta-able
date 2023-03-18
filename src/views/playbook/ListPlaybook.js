@@ -109,7 +109,7 @@ const ListPlaybook = () => {
         </Row>
         <Row>
             <Col>
-                <Card>
+                <Card className="text-center">
                     <Card.Header>
                         <Row>
                             <Search type="playbook" action={action} />

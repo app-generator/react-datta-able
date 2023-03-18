@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {Button, Card, CloseButton, Col, Row, Form, Modal} from 'react-bootstrap';
-import CrudButton from '../../../components/Button/CrudButton';
+import React, { useEffect } from 'react';
+import { Button, Col, Row, Form } from 'react-bootstrap';
 import { validateAlphanumeric, validateSpace } from '../../../utils/validators'; 
 import Alert from '../../../components/Alert/Alert';
 import Select from 'react-select';
@@ -9,24 +8,29 @@ import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
 
-
 const FormCreatePlaybook = (props) => { 
-    // props:  name setName taxonomy setTaxonomy taxonomiesOption ifConfirm
+    // props:  ifConfirm name setName taxonomy setTaxonomy allTaxonomies
+    //taxonomiesDefaultValue: las del playbook 
     
-    const [error, setError] = useState(null)
-
     useEffect(()=> {
-        
-        },[props.taxonomiesOption])
+
+    }
+        ,[props.taxonomy])
 
     //Multiselect    
     const selectTaxonomies=(event)=>{ 
         props.setTaxonomy(
             event.map((e)=>{
                 return e.value
+                //return e.value + e.label
             })
             )
         }
+
+console.log('props.taxonomy: '+ props.taxonomy)
+console.log('props.allTaxonomies: '+ props.allTaxonomies)
+const defaultValue = [{value: 'nombre', label: 'label'}, {value: 'nombre2', label: 'label2'}]
+console.log('defaultValue: '+ defaultValue)
 
     return (
         <React.Fragment>
@@ -55,27 +59,27 @@ const FormCreatePlaybook = (props) => {
                         <Form.Group controlId="Form.Playbook.Taxonomy.Multiselect">
                             <Form.Label>Taxonomias</Form.Label>
                             <Select
+                            
                                 placeholder='Seleccione Taxonomias'
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
                                 isMulti
-                                defaultValue={props.taxonomy}
+                                defaultValue={props.taxonomy} //defaultValue
                                 onChange={selectTaxonomies}
-                                options={props.taxonomiesOption}
+                                options={props.allTaxonomies}
                             />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={12} lg={9} />
+                    <Col sm={12} lg={10} />
                     <Col>
                         <Form.Group>
                             { validateAlphanumeric(props.name) && (props.taxonomy.length > 0) ? // 
-                                <><Button variant="primary" onClick={props.ifConfirm}>Crear</Button></>
+                                <><Button variant="primary" onClick={props.ifConfirm}>{props.save}</Button></>
                                 : 
-                                <><Button variant="primary" disabled>Crear</Button></> 
+                                <><Button variant="primary" disabled>{props.save}</Button></> 
                             }
-                            <Button variant="primary" href="/playbook/tables">Cancelar</Button>
                         </Form.Group>
                     </Col>
                 </Row>

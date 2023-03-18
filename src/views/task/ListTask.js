@@ -83,8 +83,8 @@ const ListTask = (props) => {
 
                     <Collapse in={props.sectionAddTask}>
                         <div id="basic-collapse">
-                            <Card.Body>
-                                <Table responsive hover>
+                        <Card.Body >
+                                <Table responsive hover className="text-center">
                                     <thead>
                                         <tr>
                                             <th>#</th>

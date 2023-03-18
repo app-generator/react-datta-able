@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Card, Col, Row } from 'react-bootstrap'; 
+import { Button, Card, Col, Collapse, Row } from 'react-bootstrap'; 
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/navigation/navigation';
 import { putPlaybook } from '../../api/services/playbooks';
 import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomy';
+import ListTask from '../task/ListTask';
 
 const EditPlaybook = () => {
 
@@ -13,12 +14,11 @@ const EditPlaybook = () => {
 
     const [url, setUrl] = useState(playbook.url);
     const [name, setName] = useState(playbook.name);
-    const [taxonomy, setTaxonomy] = useState(playbook.taxonomy);
+    const [taxonomy, setTaxonomy] = useState(playbook.taxonomy); //enviar con el formato value, label
 
     //Dropdown
-    const [taxonomiesOption, setTaxonomiesOption] = useState([])
-    //Renderizar
-    const [taxonomyCreated, setTaxonomyCreated] = useState(null)
+    const [allTaxonomies, setAllTaxonomies] = useState([])
+    const [taxonomiesDefaultValue, setTaxonomiesDefaultValue] = useState([])
 
     const [error, setError] = useState(null);
 
@@ -26,11 +26,18 @@ const EditPlaybook = () => {
 
         getAllTaxonomies()
             .then((response) => {
-                let listTaxonomies = []
+                //allTaxonomies
+                let listAllTaxonomies = []
                 response.data.results.map((taxonomyItem)=>{
-                    listTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
+                    listAllTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
                 })
-                setTaxonomiesOption(listTaxonomies)
+                setAllTaxonomies(listAllTaxonomies)
+                
+                //selected taxonomies 
+                let listDefaultTaxonomies = listAllTaxonomies.filter(elemento => taxonomy.includes(elemento.value))
+                .map(elemento => ({value: elemento.value, label: elemento.label}));
+                setTaxonomiesDefaultValue(listDefaultTaxonomies)
+            
                 console.log(response.data.results)
             })
             .catch((error)=>{
@@ -39,18 +46,19 @@ const EditPlaybook = () => {
 
         },[])
 
-    const labelTaxonomy = {
+        const labelTaxonomy = {
         vulnerability : 'Vulnerabilidad',
         incident : 'Incidente',
     };
+
 
     const editPlaybook = () => {
 
         putPlaybook (url, name, taxonomy)
             .then((response) => { 
             console.log(response)
+
             console.log('edit playbook - post .then')
-            //window.location.href = "/playbook/tables"
         })
         .catch((error) => {
             setError(error)
@@ -58,37 +66,43 @@ const EditPlaybook = () => {
         })
 
     };
+
+
+    //console.log('Edit Playbook')
+    //console.log(taxonomy)
+    //console.log(allTaxonomies)
+    //console.log(taxonomiesDefaultValue)
    
     return (
     <React.Fragment>
         <Row>
             <Navigation actualPosition="Editar Playbook" path="/playbook/tables" index ="Playbook"/>
         </Row>
+
             <Row>
-                <Col sm={12}>
+                <Col>
                     <Card>
                         <Card.Header>
                             <Card.Title as="h5">Playbook</Card.Title>
                             <span className="d-block m-t-5">Editar Playbook</span>
                         </Card.Header>
                         <Card.Body>
-                             <FormCreatePlaybook
+                            <FormCreatePlaybook
                                 name={name} setName={setName}
-                                taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
-                                taxonomiesOption={taxonomiesOption}
-                                ifConfirm={editPlaybook} />
+                                taxonomy={taxonomiesDefaultValue} setTaxonomy={setTaxonomy} 
+                                ifConfirm={editPlaybook} 
+                                allTaxonomies={allTaxonomies}
+                                save='PUT' />
                         </Card.Body>
                     </Card>
-                    <Card>
-                        <Card.Header>
-                            <Card.Title as="h5">Tareas</Card.Title>
-                            <span className="d-block m-t-5">Lista de Tareas</span>
-                        </Card.Header>
-                    </Card>
+                    
+                    <ListTask urlPlaybook={url} sectionAddTask={true}/>
+
                     {/*<Alert />*/}
+                    <Button variant="primary" href="/playbook/tables">Volver</Button>
                 </Col>
             </Row>
     </React.Fragment>
 )}
 
-export default EditPlaybook; 
+export default EditPlaybook;    

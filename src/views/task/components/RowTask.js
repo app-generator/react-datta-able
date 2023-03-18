@@ -33,15 +33,13 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
         .then((response) => {
             console.log(response.data)
             setTask(response.data)
-            setRow(response.data.description.length / 40);
+            setRow(response.data.description.length / 20);
         })
         .catch((error) => {
             console.log(error)
             setError(error)
         });
     }
-
-
     
     //Delete Task
     const removeTask = (url)=> {
