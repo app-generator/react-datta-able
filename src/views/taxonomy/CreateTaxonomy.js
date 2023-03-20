@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
+import Select from 'react-select';
 import { postTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
 import { validateName, validateDescription, validateType } from './components/ValidatorTaxonomy';
 import Navigation from '../../components/Navigation/Navigation'
 
 const CreateTaxonomy = () => {
 
-    const[slug, setSlug] = useState ("");
+    const[slug, setSlug] = useState ("gusano");
     const [type, setType] = useState("");
     const [name, setName] = useState("");    
     const [description, setDescription] = useState("");
@@ -17,8 +18,11 @@ const CreateTaxonomy = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {  
-       
-        getAllTaxonomies().then((response) => {setTaxonomies(response)})    
+        var listTaxonomies = []
+
+        getAllTaxonomies().then((response) => {response.map((taxonomy) => {listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})})})
+    
+        setTaxonomies(listTaxonomies)
                
     }, []);    
 
@@ -70,15 +74,10 @@ const CreateTaxonomy = () => {
                                     <Form.Control as="textarea" rows={3} placeholder="Descripcion" onChange={(e) => setDescription(e.target.value)}  isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
                                     {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
                                 </Form.Group>
-                               
+                                
                                 <Form.Group as={Col}>
                                     <Form.Label>Padre</Form.Label>
-                                    <Form.Control type="choice" as="select" value={parent} onChange={(e) => setParent(e.target.value)} >
-                                        <option key={0} value=''>Seleccione</option>
-                                            {taxonomies.sort((a, b) => (a.name < b.name ? -1 : 1)).map((taxonomy, i) => (
-                                                <option  key={i+1} value={taxonomy.url} > {taxonomy.name} </option>
-                                            ))} 
-                                    </Form.Control>
+                                    <Select options={taxonomies} onChange={(e) => setParent(e.value)} />
                                 </Form.Group>
                       
 
