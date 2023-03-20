@@ -7,7 +7,7 @@ import Navigation from '../../components/Navigation/Navigation'
 
 const CreateTaxonomy = () => {
 
-    const[slug, setSlug] = useState ("gusano");
+    const[slug, setSlug] = useState ("");
     const [type, setType] = useState("");
     const [name, setName] = useState("");    
     const [description, setDescription] = useState("");

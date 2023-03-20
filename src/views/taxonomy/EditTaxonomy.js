@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import DropdownState from '../taxonomy/components/DropdownState';
 import { useLocation } from "react-router-dom";
+import Select from 'react-select';
 import { putTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
 import { validateName, validateDescription, validateType } from './components/ValidatorTaxonomy';
 import Navigation from '../../components/Navigation/Navigation'
@@ -23,7 +24,11 @@ const EditTaxonomy = () => {
 
     useEffect(() => {  
        
-        getAllTaxonomies().then((response) => {setTaxonomies(response)})    
+        var listTaxonomies = []
+
+        getAllTaxonomies().then((response) => {response.map((taxonomy) => {listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})})})
+    
+        setTaxonomies(listTaxonomies)   
                
     }, []);  
 
@@ -79,13 +84,8 @@ const EditTaxonomy = () => {
                                 </Form.Group> 
                                
                                 <Form.Group as={Col}>
-                                    <Form.Label>Padre</Form.Label>
-                                    <Form.Control type="choice" as="select" value={parent} onChange={(e) => setParent(e.target.value)} >
-                                        <option key={0} value=''>Sin padre</option>
-                                        {taxonomies.sort((a, b) => (a.name < b.name ? -1 : 1)).map((taxonomy, i) => (
-                                            <option  key={i+1} value={taxonomy.url} > {taxonomy.name} </option>
-                                        ))} 
-                                    </Form.Control>
+                                    <Form.Label>Padre</Form.Label>                                   
+                                    <Select options={taxonomies} onChange={(e) => setParent(e.value)} />
                                 </Form.Group>
                       
 
