@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Breadcrumb, Form, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Table, Form, Spinner } from 'react-bootstrap';
 import { getTLP } from '../../api/services/tlp';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation'
@@ -11,8 +11,7 @@ const ListTLP = () => {
     const [error, setError] = useState(null);    
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true)
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
+    const [showAlert, setShowAlert] = useState(true)
 
     const textareaStyle = {
         resize:"none", 
@@ -23,13 +22,10 @@ const ListTLP = () => {
 
     useEffect(() => {
         getTLP().then((response) => {
-            setTLP(response.data.results);
-            setError(null);
+            setTLP(response.data.results)         
         })
         .catch((error)=>{
-            if (error) {      
-                setAlert({name:`Ups! Se produjo un error al buscar el protocolo de semaforo`, type:0})
-            }
+           setError(error)
         })
         .finally(() => {
             setLoading(false)
@@ -39,6 +35,10 @@ const ListTLP = () => {
     //valores ingresados
     const searcher = (e) => {
         setSearch(e.target.value) //actualizar
+    }
+
+    const resetShowAlert = () => {
+        setShowAlert(false);
     }
 
     //filtro
@@ -61,7 +61,7 @@ const ListTLP = () => {
 
     return (
         <React.Fragment>
-            <Alert alert={alert} stateAlert={stateAlert} />
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
                 <Navigation actualPosition="TLP"/>
             </Row>
