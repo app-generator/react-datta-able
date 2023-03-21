@@ -11,24 +11,29 @@ const EditTaxonomy = () => {
     const location = useLocation();
     const taxonomy = location.state.taxonomy;
 
-    const[slug, setSlug] = useState (taxonomy.slug);
+    const [slug, setSlug] = useState (taxonomy.slug);
     const [type, setType] = useState(taxonomy.type);
     const [name, setName] = useState(taxonomy.name);    
     const [description, setDescription] = useState(taxonomy.description);
     const [parent, setParent] = useState(taxonomy.parent);
     const [active, setActive] = useState(+taxonomy.active);
     const [taxonomies, setTaxonomies] = useState([]);      
+    const [currentParent, setCurrentParent] = useState("pepe")
 
 
     const [error, setError] = useState(null);
 
     useEffect(() => {  
        
-        var listTaxonomies = []
+        let listTaxonomies = []
 
         getAllTaxonomies().then((response) => {response.map((taxonomy) => {listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})})})
     
         setTaxonomies(listTaxonomies)   
+
+        setCurrentParent(taxonomies.find(item => {return item.value === parent}))
+
+        console.log(currentParent)
                
     }, []);  
 

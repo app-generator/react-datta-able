@@ -7,7 +7,7 @@ import Navigation from '../../components/Navigation/Navigation'
 
 const CreateTaxonomy = () => {
 
-    const[slug, setSlug] = useState ("");
+    const [slug, setSlug] = useState("");
     const [type, setType] = useState("");
     const [name, setName] = useState("");    
     const [description, setDescription] = useState("");
@@ -18,7 +18,7 @@ const CreateTaxonomy = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {  
-        var listTaxonomies = []
+        let listTaxonomies = []
 
         getAllTaxonomies().then((response) => {response.map((taxonomy) => {listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})})})
     
