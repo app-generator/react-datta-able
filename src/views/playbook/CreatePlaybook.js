@@ -97,8 +97,6 @@ const CreatePlaybook = () => {
                         </div>
                     </Collapse>
 
-                    {/*<CardPutPlaybook playbook={playbookCreated} sectionAddTask={sectionAddTask} setSectionAddTask={setSectionAddTask} />*/}
-                
                     <Collapse in={sectionAddTask}>
                         <div id="basic-collapse">
                             <Card>
@@ -118,7 +116,6 @@ const CreatePlaybook = () => {
                         </div>
                     </Collapse>
 
-                    
                     <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
 
                     {/*<Alert />*/}

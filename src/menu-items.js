@@ -54,7 +54,22 @@ const menuItems = {
                 }
             ]
         },
-         
+        {
+            id: 'case',
+            title: 'Casos',
+            type: 'group',
+            icon: 'icon-ui',
+            children: [
+                {
+                id: 'case',
+                title: 'Casos',
+                type: 'item',
+                url: '/case/tables',
+                icon: 'feather icon-sidebar',
+                breadcrumbs: false,
+                }
+            ]
+        },
         {
             id: 'config',
             title: 'Configuración',

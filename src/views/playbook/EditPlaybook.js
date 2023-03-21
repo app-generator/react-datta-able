@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Card, Col, Collapse, Row } from 'react-bootstrap'; 
+import { Button, Card, Col, Row } from 'react-bootstrap'; 
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/navigation/navigation';
 import { putPlaybook } from '../../api/services/playbooks';
@@ -19,6 +19,7 @@ const EditPlaybook = () => {
     //Dropdown
     const [allTaxonomies, setAllTaxonomies] = useState([])
     const [taxonomiesDefaultValue, setTaxonomiesDefaultValue] = useState([])
+    const [indexes, setIndexes] = useState([]);
 
     const [error, setError] = useState(null);
 
@@ -37,7 +38,17 @@ const EditPlaybook = () => {
                 let listDefaultTaxonomies = listAllTaxonomies.filter(elemento => taxonomy.includes(elemento.value))
                 .map(elemento => ({value: elemento.value, label: elemento.label}));
                 setTaxonomiesDefaultValue(listDefaultTaxonomies)
-            
+/*               
+                //index de taxonomias seleccionadas
+                const indexOfTaxonomiesSelected = getIndex(listAllTaxonomies, taxonomy);
+                setIndexes(indexOfTaxonomiesSelected); 
+
+                let listaIndex = [];
+                indexOfTaxonomiesSelected.map((index)=>{
+                    listaIndex.push(listAllTaxonomies[index])
+                })
+                setTaxonomiesDefaultValue(listaIndex)
+*/
                 console.log(response.data.results)
             })
             .catch((error)=>{
@@ -45,6 +56,10 @@ const EditPlaybook = () => {
             })
 
         },[])
+
+        const getIndex = (allTaxonomies, selectedTaxonomies) => {
+            return selectedTaxonomies.map((url) => allTaxonomies.findIndex((tax) => tax.value === url));
+        }
 
         const labelTaxonomy = {
         vulnerability : 'Vulnerabilidad',
@@ -66,12 +81,6 @@ const EditPlaybook = () => {
         })
 
     };
-
-
-    //console.log('Edit Playbook')
-    //console.log(taxonomy)
-    //console.log(allTaxonomies)
-    //console.log(taxonomiesDefaultValue)
    
     return (
     <React.Fragment>
@@ -89,7 +98,7 @@ const EditPlaybook = () => {
                         <Card.Body>
                             <FormCreatePlaybook
                                 name={name} setName={setName}
-                                taxonomy={taxonomiesDefaultValue} setTaxonomy={setTaxonomy} 
+                                taxonomy={taxonomiesDefaultValue} setTaxonomy={setTaxonomiesDefaultValue} 
                                 ifConfirm={editPlaybook} 
                                 allTaxonomies={allTaxonomies}
                                 save='PUT' />

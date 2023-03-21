@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Form } from 'react-bootstrap';
 import { validateAlphanumeric, validateSpace } from '../../../utils/validators'; 
 import Alert from '../../../components/Alert/Alert';
@@ -9,28 +9,26 @@ import makeAnimated from 'react-select/animated';
 const animatedComponents = makeAnimated();
 
 const FormCreatePlaybook = (props) => { 
-    // props:  ifConfirm name setName taxonomy setTaxonomy allTaxonomies
-    //taxonomiesDefaultValue: las del playbook 
+    // props:  ifConfirm name setName taxonomy setTaxonomy allTaxonomies save
     
     useEffect(()=> {
-
+       
     }
         ,[props.taxonomy])
 
     //Multiselect    
     const selectTaxonomies=(event)=>{ 
+        console.log(event)
+        console.log(props.taxonomy)
         props.setTaxonomy(
             event.map((e)=>{
-                return e.value
-                //return e.value + e.label
+                console.log(e)
+                return e.value 
             })
             )
+            console.log(props.taxonomy)       
+        
         }
-
-console.log('props.taxonomy: '+ props.taxonomy)
-console.log('props.allTaxonomies: '+ props.allTaxonomies)
-const defaultValue = [{value: 'nombre', label: 'label'}, {value: 'nombre2', label: 'label2'}]
-console.log('defaultValue: '+ defaultValue)
 
     return (
         <React.Fragment>
@@ -59,12 +57,11 @@ console.log('defaultValue: '+ defaultValue)
                         <Form.Group controlId="Form.Playbook.Taxonomy.Multiselect">
                             <Form.Label>Taxonomias</Form.Label>
                             <Select
-                            
+                                value={props.taxonomy}
                                 placeholder='Seleccione Taxonomias'
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
                                 isMulti
-                                defaultValue={props.taxonomy} //defaultValue
                                 onChange={selectTaxonomies}
                                 options={props.allTaxonomies}
                             />
