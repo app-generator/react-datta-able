@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { getTaxonomies } from '../../api/services/taxonomies';
 import ButtonView from './components/ButtonView';
 import CrudButton from '../../components/Button/CrudButton';
 import ButtonState from './components/ButtonState';
@@ -9,15 +8,15 @@ import ButtonDelete from './components/ButtonDelete';
 import Alert from '../../components/Alert/Alert';
 import Pagination from '../../components/Pagination/Pagination';
 import Navigation from '../../components/Navigation/Navigation'
+import { getTaxonomies } from '../../api/services/taxonomies';
 
 const ListTaxonomies = () => {
     
-    const [taxonomy, setTaxonomy] = useState([]);
+    const [taxonomies, setTaxonomies] = useState([]);
     const [error, setError] = useState(null);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true)
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
+    const [showAlert, setShowAlert] = useState(false)
 
     const [currentPage, setCurrentPage] = useState(1)
     const [jumpPage, setjumpPage] = useState(false)
@@ -40,42 +39,37 @@ const ListTaxonomies = () => {
             setLoading(true)
             setjumpPage(false)
 
-            const fetchTaxonomy = async () => {            
+            const fetchTaxonomies = async () => {            
             getTaxonomies(page).then((response) => {
-                setTaxonomy(response.data.results)
+                setTaxonomies(response.data.results)
             })
             setLoading(false)
             }
 
-            fetchTaxonomy();
+            fetchTaxonomies();
         }
     }
     
     useEffect(() => {        
-        if(sessionStorage.getItem('Alerta')) {
-            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
-            setAlert(storage)
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                    sessionStorage.clear()
-                }, 5000);
-        }
         setCurrentPage(currentPage)        
         getTaxonomies(currentPage)
         .then((response) => {
             setPages(arrayWithPages(response.data.count))
-            setTaxonomy(response.data.results)
-            setError(null)
+            setTaxonomies(response.data.results)
         })
         .catch((error)=>{
             setError(error)
+            setShowAlert(true)            
         })
         .finally(() => {
             setLoading(false)
         })
-    }, [pages]);    
-   
+    }, [pages]); 
+    
+    
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }
     
     //valores ingresados
     const searcher = (e) => {
@@ -85,9 +79,9 @@ const ListTaxonomies = () => {
     //filtro
     let list = []
     if (!search) {
-        list = taxonomy
+        list = taxonomies
     } else {
-        list = taxonomy.filter( (item) => 
+        list = taxonomies.filter( (item) => 
             item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
@@ -104,7 +98,7 @@ const ListTaxonomies = () => {
     
     return (
         <React.Fragment>
-            <Alert alert={alert} stateAlert={stateAlert} />
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
                 <Navigation actualPosition={'Taxonomia'}/>  
             </Row>

@@ -1,9 +1,16 @@
 import  apiInstance  from "../api";
 import { COMPONENT_URL, PAGE } from '../../config/constant';
+import setAlert from '../../utils/setAlert';
 
 
 const getTaxonomies = (currentPage) => {
-    return apiInstance.get(COMPONENT_URL.taxonomy + PAGE + currentPage);
+    return apiInstance.get(COMPONENT_URL.taxonomy + PAGE + currentPage)
+    .then(response => {        
+        return response;
+    }).catch( error => { 
+        setAlert("No se pudo recuperar la informacion de las taxonimias", "error");
+        return Promise.reject(error);
+    });
 }
 
 const getTaxonomy = (url) => { 

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table, Form, Spinner } from 'react-bootstrap';
-import { getTLP } from '../../api/services/tlp';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation'
-
+import { getTLP } from '../../api/services/tlp';
 
 const ListTLP = () => {
 
@@ -11,7 +10,7 @@ const ListTLP = () => {
     const [error, setError] = useState(null);    
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true)
-    const [showAlert, setShowAlert] = useState(true)
+    const [showAlert, setShowAlert] = useState(false)
 
     const textareaStyle = {
         resize:"none", 
@@ -26,20 +25,21 @@ const ListTLP = () => {
         })
         .catch((error)=>{
            setError(error)
+           setShowAlert(true)
         })
         .finally(() => {
             setLoading(false)
         })
     }, []);
 
-    //valores ingresados
-    const searcher = (e) => {
-        setSearch(e.target.value) //actualizar
-    }
-
     const resetShowAlert = () => {
         setShowAlert(false);
     }
+
+    //valores ingresados
+    const searcher = (e) => {
+        setSearch(e.target.value) //actualizar
+    }    
 
     //filtro
     let list = []
