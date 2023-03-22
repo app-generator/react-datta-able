@@ -102,7 +102,7 @@ const TableEntity = ({callback, list, loading }) => {
     
     return (
             <React.Fragment>
-                <Table responsive hover>
+                <Table responsive hover className="text-center">
                     <thead>
                         <tr>
                             <th>#</th>

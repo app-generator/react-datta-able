@@ -101,7 +101,7 @@ const TableNetwork = ({callback, list, loading }) => {
 console.log(network.network_entity)
     return (
             <React.Fragment>
-                <Table responsive hover>
+                <Table responsive hover className="text-center">
                     <thead>
                         <tr>
                             <th>#</th>

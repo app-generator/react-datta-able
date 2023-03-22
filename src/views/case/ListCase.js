@@ -111,7 +111,7 @@ return (
         </Row>
         <Row>
             <Col>
-                <Card className="text-center">
+                <Card>
                     <Card.Header>
                         <Row>
                             <Search type="caso" action={action} />
