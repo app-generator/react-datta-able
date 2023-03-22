@@ -8,6 +8,10 @@ import { getTLP } from '../../../api/services/tlp';
 import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import BadgeItem from '../../../components/Button/BadgeItem';
+import { getStates } from '../../../api/services/states';
+import FormGetName from '../../../components/Form/FormGetName';
+import { getUser } from '../../../api/services/users';
+import GetUserName from './GetUserName';
 
 const TableCase = ({callback, list, loading }) => {
     
@@ -23,30 +27,27 @@ const TableCase = ({callback, list, loading }) => {
     const [date, setDate] = useState(null) 
 
 
-    const [prioritiesOption, setPrioritiesOption] = useState([]) //op 1
-    const [prioritiesOption2, setPrioritiesOption2] = useState([]) //op 2
+    const [prioritiesOption, setPrioritiesOption] = useState({}) 
     const [tlpOption, setTlpOption] = useState({}) 
+    const [stateOption, setStateOption] = useState({}) 
 
     useEffect(() => {
 
         getPriorities()
             .then((response) => {
                 console.log(response.data.results)
-                //op 1
-                setPrioritiesOption(response.data.results)
 
-                //op 2
                 let priorityOp = {}
                 response.data.results.map((item) => {
                     priorityOp[item.url] = {name: item.name, color: item.color}
                 })
-                setPrioritiesOption2(priorityOp)
+                setPrioritiesOption(priorityOp)
             })
             .catch((error)=>{
                 setError(error)
             })
         
-            getTLP()
+        getTLP()
             .then((response) => {
                 console.log(response.data.results)
                 let tlpOp = {}
@@ -54,6 +55,19 @@ const TableCase = ({callback, list, loading }) => {
                     tlpOp[item.url] = {name: item.name, color: item.color}
                 })
                 setTlpOption(tlpOp)
+            })
+            .catch((error)=>{
+                setError(error)
+            })
+
+        getStates()
+            .then((response) => {
+                console.log(response.data.results)
+                let stateOp = {}
+                response.data.results.map((item) => {
+                    stateOp[item.url] = {name: item.name}
+                })
+                setStateOption(stateOp)
             })
             .catch((error)=>{
                 setError(error)
@@ -134,13 +148,22 @@ const TableCase = ({callback, list, loading }) => {
                                     <th scope="row">{idItem}</th>
                                     <td>{fecha}</td>
                                     <td>
-                                        <BadgeItem item={prioritiesOption2[caseItem.priority]}/>
+                                        <BadgeItem item={prioritiesOption[caseItem.priority]}/>
                                     </td>
                                     <td>
                                         <BadgeItem item={tlpOption[caseItem.tlp]}/>
                                     </td>
-                                    <td>{caseItem.state}</td>
-                                    <td>{caseItem.assigned ? caseItem.assigned : 'Aun no fue asignado'}</td>
+                                    <td>{stateOption[caseItem.state].name}</td>
+                                    {caseItem.assigned ? 
+                                        <td>
+                                            <GetUserName form={false} get={getUser} url={caseItem.assigned} key={index} />
+                                        </td>
+                                        :
+                                        <td>
+                                            Sin asignar
+                                        </td> 
+                                    }
+                            
                                     <td>
                                         <CrudButton type='read' onClick={() => showCase(caseItem.url)} />
                                         <Link to={{pathname:'/case/edit', state: caseItem, callback: callback}} >
@@ -193,7 +216,7 @@ const TableCase = ({callback, list, loading }) => {
                                             <tr>
                                                 <td>Prioridad</td>
                                                 <td>
-                                                    <BadgeItem item={prioritiesOption2[cases.priority]}/>
+                                                    <BadgeItem item={prioritiesOption[cases.priority]}/>
                                                 </td>
                                             </tr>
                                             <tr>
