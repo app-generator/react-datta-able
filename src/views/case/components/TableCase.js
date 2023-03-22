@@ -114,7 +114,7 @@ const TableCase = ({callback, list, loading }) => {
                 <Table responsive hover>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>Id</th>
                             <th>Fecha</th>
                             <th>Prioridad</th>
                             <th>Prioridad2</th>
@@ -127,11 +127,11 @@ const TableCase = ({callback, list, loading }) => {
                         {list.map((caseItem, index) => {
                             let datetime = caseItem.date.split('T');
                             let fecha = datetime[0] + ' ' + datetime[1].slice(0,8)
-                            
+                            let idItem = caseItem.url.split('/')[(caseItem.url.split('/')).length-2] 
                             return (
                                 list &&
                                 <tr key={caseItem.url}>
-                                    <th scope="row">{index+1}</th>
+                                    <th scope="row">{idItem}</th>
                                     <td>{fecha}</td>
                                     
                                     <td>

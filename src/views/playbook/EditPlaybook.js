@@ -18,8 +18,6 @@ const EditPlaybook = () => {
 
     //Dropdown
     const [allTaxonomies, setAllTaxonomies] = useState([])
-    const [taxonomiesDefaultValue, setTaxonomiesDefaultValue] = useState([])
-    const [indexes, setIndexes] = useState([]);
 
     const [error, setError] = useState(null);
 
@@ -27,29 +25,13 @@ const EditPlaybook = () => {
 
         getAllTaxonomies()
             .then((response) => {
+                console.log(response.data.results)
                 //allTaxonomies
                 let listAllTaxonomies = []
                 response.data.results.map((taxonomyItem)=>{
                     listAllTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
                 })
                 setAllTaxonomies(listAllTaxonomies)
-                
-                //selected taxonomies 
-                let listDefaultTaxonomies = listAllTaxonomies.filter(elemento => taxonomy.includes(elemento.value))
-                .map(elemento => ({value: elemento.value, label: elemento.label}));
-                setTaxonomiesDefaultValue(listDefaultTaxonomies)
-/*               
-                //index de taxonomias seleccionadas
-                const indexOfTaxonomiesSelected = getIndex(listAllTaxonomies, taxonomy);
-                setIndexes(indexOfTaxonomiesSelected); 
-
-                let listaIndex = [];
-                indexOfTaxonomiesSelected.map((index)=>{
-                    listaIndex.push(listAllTaxonomies[index])
-                })
-                setTaxonomiesDefaultValue(listaIndex)
-*/
-                console.log(response.data.results)
             })
             .catch((error)=>{
                 setError(error)
@@ -98,7 +80,7 @@ const EditPlaybook = () => {
                         <Card.Body>
                             <FormCreatePlaybook
                                 name={name} setName={setName}
-                                taxonomy={taxonomiesDefaultValue} setTaxonomy={setTaxonomiesDefaultValue} 
+                                taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
                                 ifConfirm={editPlaybook} 
                                 allTaxonomies={allTaxonomies}
                                 save='PUT' />

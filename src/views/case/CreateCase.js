@@ -1,31 +1,26 @@
 import React, { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
-import { postEntity } from '../../api/services/entities';
+import { postCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/navigation/navigation';
 
 const CreateCase = () => {
-    const [name, setName] = useState('')
-    const active = 1; //se crea activo por defecto
+    const [date, setDate] = useState(null) //
+    const [lifecycle, setLifecycle] = useState(null) //
+    const [parent, setParent] = useState(null)
+    const [priority, setPriority] = useState(null) //
+    const [tlp, setTlp] = useState(null) //
+    const [assigned, setAssigned] = useState(null)
+    const [state, setState] = useState(null) //
     const [error, setError] = useState(null)
 
-    const slugify = (str) => {
-        return str
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/[\s_-]+/g, '_')
-      .replace(/^-+|-+$/g, '')
-    }
-
     //Create
-    const addEntity = () => {
-        let slug = slugify(name);
-        postEntity(name, slug, active)
+    const addCase = () => {
+        postCase(date, lifecycle, parent, priority, tlp, assigned, state)
         .then((response) => { 
             console.log(response)
-            window.location.href = "/entity/tables"
+            //window.location.href = "/case/tables"
         })
         .catch((error) => {
             setError(error)
@@ -36,21 +31,20 @@ const CreateCase = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Crear Entidad" path="/entity/tables" index ="Entidades"/>
+                <Navigation actualPosition="Crear Caso" path="/case/tables" index ="Casos"/>
             </Row>
             <Row>
                 <Col sm={12}>
                     <Card>
                         <Card.Header>
-                            <Card.Title as="h5">Entidades</Card.Title>
-                            <span className="d-block m-t-5">Agregar Entidad</span>
+                            <Card.Title as="h5">Casos</Card.Title>
+                            <span className="d-block m-t-5">Agregar Caso</span>
                         </Card.Header>
                         <Card.Body>
                             <Row>
                                 <Col sm={12} lg={12}>
                                     <FormCase 
-                                        name={name} setName={setName} 
-                                        ifConfirm={addEntity} edit={false} />
+                                        ifConfirm={addCase} edit={false} />
                                 </Col>
                             </Row>
                         </Card.Body>

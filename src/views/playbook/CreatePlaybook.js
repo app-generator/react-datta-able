@@ -36,7 +36,7 @@ const CreatePlaybook = () => {
                 setError(error)
             })
 
-        },[])
+        },[sectionAddTask])
 
     const createPlaybook = () => {
         postPlaybook (name, taxonomy)
@@ -44,7 +44,6 @@ const CreatePlaybook = () => {
             console.log(response.data)
             
             setUrl(response.data.url) // y la url
-            console.log('create playbook - Abrir Tareas')
             setSectionAddTask(true)
         })
         .catch((error) => {
@@ -57,8 +56,6 @@ const CreatePlaybook = () => {
         putPlaybook (url, name, taxonomy)
             .then((response) => { 
             console.log(response)
-            
-            console.log('edit playbook - post .then')
         })
         .catch((error) => {
             setError(error)
@@ -78,43 +75,20 @@ const CreatePlaybook = () => {
         </Row>
             <Row>
                 <Col sm={12}>
-                    <Collapse in={!sectionAddTask}>
-                        <div id="basic-collapse">
-                            <Card>
-                                <Card.Header>
-                                    <Card.Title as="h5">Playbook</Card.Title>
-                                    <span className="d-block m-t-5">Agregar Playbook</span>
-                                </Card.Header>
-                                <Card.Body>
-                                    <FormCreatePlaybook
-                                        name={name} setName={setName}
-                                        taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
-                                        ifConfirm={createPlaybook} 
-                                        allTaxonomies={allTaxonomies} 
-                                        save='POST' />
-                                </Card.Body>
-                            </Card>
-                        </div>
-                    </Collapse>
-
-                    <Collapse in={sectionAddTask}>
-                        <div id="basic-collapse">
-                            <Card>
-                                <Card.Header>
-                                    <Card.Title as="h5">Playbook</Card.Title>
-                                    <span className="d-block m-t-5">Editar Playbook</span>
-                                </Card.Header>
-                                <Card.Body>
-                                    <FormCreatePlaybook
-                                        name={name} setName={setName}
-                                        taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
-                                        ifConfirm={editPlaybook} 
-                                        allTaxonomies={allTaxonomies}
-                                        save='PUT' />
-                                </Card.Body>
-                            </Card>
-                        </div>
-                    </Collapse>
+                    <Card>
+                        <Card.Header>
+                            <Card.Title as="h5">Playbook</Card.Title>
+                            <span className="d-block m-t-5">Agregar Playbook</span>
+                        </Card.Header>
+                        <Card.Body>
+                            <FormCreatePlaybook
+                                name={name} setName={setName}
+                                taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
+                                ifConfirm={!sectionAddTask ? createPlaybook : editPlaybook} 
+                                allTaxonomies={allTaxonomies} 
+                                save= {!sectionAddTask ? 'POST' : 'PUT'} />
+                        </Card.Body>
+                    </Card>
 
                     <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
 

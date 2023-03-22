@@ -10,24 +10,36 @@ const animatedComponents = makeAnimated();
 
 const FormCreatePlaybook = (props) => { 
     // props:  ifConfirm name setName taxonomy setTaxonomy allTaxonomies save
-    
+    const [taxonomiesDefaultValue, setTaxonomiesDefaultValue] = useState([])
+    const [indexes, setIndexes] = useState([]);
+
     useEffect(()=> {
        
+                //selected taxonomies 
+                let listDefaultTaxonomies = props.allTaxonomies.filter(elemento => props.taxonomy.includes(elemento.value))
+                .map(elemento => ({value: elemento.value, label: elemento.label}));
+                setTaxonomiesDefaultValue(listDefaultTaxonomies)
+/*               
+                //index de taxonomias seleccionadas
+                const indexOfTaxonomiesSelected = getIndex(listAllTaxonomies, taxonomy);
+                setIndexes(indexOfTaxonomiesSelected); 
+
+                let listaIndex = [];
+                indexOfTaxonomiesSelected.map((index)=>{
+                    listaIndex.push(listAllTaxonomies[index])
+                })
+                setTaxonomiesDefaultValue(listaIndex)
+*/
     }
-        ,[props.taxonomy])
+        ,[props.allTaxonomies, props.taxonomy])
 
     //Multiselect    
     const selectTaxonomies=(event)=>{ 
-        console.log(event)
-        console.log(props.taxonomy)
         props.setTaxonomy(
             event.map((e)=>{
-                console.log(e)
                 return e.value 
             })
             )
-            console.log(props.taxonomy)       
-        
         }
 
     return (
@@ -57,7 +69,7 @@ const FormCreatePlaybook = (props) => {
                         <Form.Group controlId="Form.Playbook.Taxonomy.Multiselect">
                             <Form.Label>Taxonomias</Form.Label>
                             <Select
-                                value={props.taxonomy}
+                                value={taxonomiesDefaultValue}
                                 placeholder='Seleccione Taxonomias'
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}

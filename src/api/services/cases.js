@@ -20,13 +20,13 @@ const getCase = (url) => {
 
 const postCase = (date, lifecycle, parent, priority, tlp, assigned, state) => {
     return apiInstance.post(COMPONENT_URL.case, {
-        date: date, 
+        date: date, //
         lifecycle: lifecycle, 
         parent: parent,
-        priority: priority,
-        tlp: tlp,
+        priority: priority, //
+        tlp: tlp, //
         assigned: assigned,
-        state: state  
+        state: state //  
     }, 
     {
         validateStatus: function (status) {
