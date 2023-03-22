@@ -53,6 +53,6 @@ register: "register/",
 checkSession: "checkSession/",
 login: "login/",
 logout: "logout/",
-//case: "search/case/"
+searchCase: "search/case/"
 
 };

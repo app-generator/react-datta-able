@@ -117,9 +117,9 @@ const TableCase = ({callback, list, loading }) => {
                             <th>Id</th>
                             <th>Fecha</th>
                             <th>Prioridad</th>
-                            <th>Prioridad2</th>
                             <th>TLP</th>
                             <th>Estado</th>
+                            <th>Asignado</th>
                             <th>Accion</th>
                         </tr>
                     </thead>
@@ -133,19 +133,14 @@ const TableCase = ({callback, list, loading }) => {
                                 <tr key={caseItem.url}>
                                     <th scope="row">{idItem}</th>
                                     <td>{fecha}</td>
-                                    
-                                    <td>
-                                        <BadgeItem item={prioritiesOption.find(el => el.url === caseItem.priority)}/>
-                                    </td>
-                                    
                                     <td>
                                         <BadgeItem item={prioritiesOption2[caseItem.priority]}/>
                                     </td>
-                                    
                                     <td>
                                         <BadgeItem item={tlpOption[caseItem.tlp]}/>
                                     </td>
                                     <td>{caseItem.state}</td>
+                                    <td>{caseItem.assigned ? caseItem.assigned : 'Aun no fue asignado'}</td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showCase(caseItem.url)} />
                                         <Link to={{pathname:'/case/edit', state: caseItem, callback: callback}} >

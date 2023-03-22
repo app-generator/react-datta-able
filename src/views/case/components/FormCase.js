@@ -3,7 +3,7 @@ import {Button, Form} from 'react-bootstrap';
 import DropdownState from '../../../components/Dropdown/DropdownState';
 import { validateAlphanumeric, validateSpace } from '../../../utils/validators'
 
-const FormCase = (props) => { // date, lifecycle, parent, priority, tlp, assigned, state
+const FormCase = (props) => { // date, lifecycle, parent, priority, tlp, assigned, state, ifConfirm, save
 
     return (
         <React.Fragment>
@@ -39,7 +39,8 @@ const FormCase = (props) => { // date, lifecycle, parent, priority, tlp, assigne
                 <Button variant="primary" href="/entity/tables">Cancelar</Button>
             </Form>  
             */}
-            <Button onClick={props.ifConfirm}>CREAR</Button>
+            <Button onClick={props.ifConfirm}>{props.save}</Button>
+            <Button variant="primary" href="/case/tables">Volver</Button>
         </React.Fragment>
     );
 };

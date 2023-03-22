@@ -8,12 +8,13 @@ import Navigation from '../../components/navigation/navigation';
 const CreateCase = () => {
     const [date, setDate] = useState(null) //
     const [lifecycle, setLifecycle] = useState(null) //
-    const [parent, setParent] = useState(null)
+    const [parent, setParent] = useState(null) //no
     const [priority, setPriority] = useState(null) //
     const [tlp, setTlp] = useState(null) //
     const [assigned, setAssigned] = useState(null)
     const [state, setState] = useState(null) //
     const [error, setError] = useState(null)
+// commentarios, evidencia, artefacto, solve_date, attend_date, eventos
 
     //Create
     const addCase = () => {
@@ -44,7 +45,7 @@ const CreateCase = () => {
                             <Row>
                                 <Col sm={12} lg={12}>
                                     <FormCase 
-                                        ifConfirm={addCase} edit={false} />
+                                        ifConfirm={addCase} edit={false} save='POST'/>
                                 </Col>
                             </Row>
                         </Card.Body>
