@@ -83,7 +83,7 @@ const CreateNetwork = () => {
                                 network_entity={network_entity} setNetwork_entity={setNetwork_entity}
                                 contacts={contacts} setContacts={setContacts}
                                 ifConfirm={createNetwork} edit={false}
-                                contactsOption={contactsOption}
+                                allContacts={contactsOption}
                                 setContactsCreated={setContactsCreated} />                          
                         </Card.Body>
                     </Card>

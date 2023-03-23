@@ -82,22 +82,6 @@ const TableCase = ({callback, list, loading }) => {
             </Row>
         );    
     }
-    
-    //Read Case
-    const showCase = (url)=> {
-        setId(url.split('/')[(url.split('/')).length-2]);
-        setUrl(url)
-        setCases('')
-        getCase(url)
-        .then((response) => {
-            console.log(response.data)
-            setCases(response.data)
-            let datetime = response.data.date.split('T')
-            setDate(datetime[0] + ' ' + datetime[1].slice(0,8))
-            setModalShow(true)
-        })
-        .catch(setError);
-    };
 
     //Remove Case
     const Delete = (url) => {
@@ -107,7 +91,6 @@ const TableCase = ({callback, list, loading }) => {
     }
     
     const removeCase = (url)=> {
-        console.log('Elimna ultimo elemento? '+ lastItem)
         deleteCase(url)
             .then((response) => {
                 console.log(response);
@@ -140,13 +123,14 @@ const TableCase = ({callback, list, loading }) => {
                     <tbody>
                         {list.map((caseItem, index) => {
                             let datetime = caseItem.date.split('T');
-                            let fecha = datetime[0] + ' ' + datetime[1].slice(0,8)
-                            let idItem = caseItem.url.split('/')[(caseItem.url.split('/')).length-2] 
+                            datetime = datetime[0] + ' ' + datetime[1].slice(0,8)
+                            let idItem = caseItem.url.split('/')[(caseItem.url.split('/')).length-2]
+                             
                             return (
                                 list &&
                                 <tr key={caseItem.url}>
                                     <th scope="row">{idItem}</th>
-                                    <td>{fecha}</td>
+                                    <td>{datetime}</td>
                                     <td>
                                         <BadgeItem item={prioritiesOption[caseItem.priority]}/>
                                     </td>
@@ -165,7 +149,9 @@ const TableCase = ({callback, list, loading }) => {
                                     }
                             
                                     <td>
-                                        <CrudButton type='read' onClick={() => showCase(caseItem.url)} />
+                                        <Link to={{pathname:'/case/read', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
+                                            <CrudButton type='read'/>
+                                        </Link>
                                         <Link to={{pathname:'/case/edit', state: caseItem, callback: callback}} >
                                             <CrudButton type='edit'/>
                                         </Link>
@@ -176,66 +162,7 @@ const TableCase = ({callback, list, loading }) => {
                         })}
                     </tbody>
                 </Table>
-
-                <Modal size='lg' show={modalShow} onHide={() => setModalShow(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
-                <Modal.Body>
-                    <Row>    
-                        <Col>                 
-                            <Card>
-                                <Card.Header> 
-                                    <Row>
-                                        <Col>
-                                            <Card.Title as="h5">Casos</Card.Title>
-                                            <span className="d-block m-t-5">Detalle del caso</span>
-                                        </Col>
-                                        <Col sm={12} lg={3}>                       
-                                            <Link to={{pathname:'/case/edit', state:cases}} >
-                                                <CrudButton type='edit'/>
-                                            </Link>
-                                            <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
-                                        </Col>
-                                    </Row>
-                                </Card.Header>
-                                <Card.Body>
-                                    <Table responsive >
-                                        <tbody>
-                                            <tr>
-                                                <td>Id del sistema</td>
-                                                <td>
-                                                    <Form.Control plaintext readOnly defaultValue={id} />
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Fecha</td>
-                                                <td>
-                                                    <Form.Control plaintext readOnly defaultValue={date} />
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>Prioridad</td>
-                                                <td>
-                                                    <BadgeItem item={prioritiesOption[cases.priority]}/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>TLP</td>
-                                                <td>
-                                                    <BadgeItem item={tlpOption[cases.tlp]}/>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </Table>
-                                </Card.Body>
-                            </Card>
-                        </Col> 
-                    </Row>
-                </Modal.Body>
-            </Modal>
-            
             <ModalConfirm type='delete' component='Caso' name='el caso' showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeCase(url)}/>
-
         </React.Fragment> 
   );
 };

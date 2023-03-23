@@ -266,6 +266,11 @@ const routes = [
                 component: lazy(() => import('./views/case/EditCase'))
             },
             {
+                exact: true,
+                path: '/case/read',
+                component: lazy(() => import('./views/case/ReadCase'))
+            },
+            {
                 path: '*',
                 exact: true,
                 component: () => <Redirect to={BASE_URL} />

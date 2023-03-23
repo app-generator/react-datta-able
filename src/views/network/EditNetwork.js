@@ -14,13 +14,13 @@ const EditNetwork = () => {
     const network = useLocation().state;
     const [url, setUrl] = useState(network.url);///
     const [children, setChildren] = useState(network.children);
-    const [cidr, setCidr] = useState(network.cidr); //* 
+    const [cidr, setCidr] = useState(network.cidr===null ? '' : network.cidr); //* 
     const [domain, setDomain] = useState(network.domain===null ? '' : network.domain); // null 
     const [active, setActive] = useState(network.active); //* true 
     const [type, setType] = useState(network.type); //* internal external
     const [parent, setParent] = useState(network.parent);
     const [network_entity, setNetwork_entity] = useState(network.network_entity);
-    const [contacts, setContacts] = useState([...network.contacts]); //* 
+    const [contacts, setContacts] = useState(network.contacts); //* 
     const [error, setError] = useState(null);
     const [modalState, setModalState] = useState(false);
 
@@ -110,10 +110,10 @@ const EditNetwork = () => {
                                 type={type} setType={setType}
                                 parent={parent} setParent={setParent}
                                 network_entity={network_entity} setNetwork_entity={setNetwork_entity}
+                                active={active} setActive={setActive} 
+                                ifConfirm={editNetwork} edit={true} 
                                 contacts={contacts} setContacts={setContacts}
-                                ifConfirm={editNetwork} 
-                                active={active} setActive={setActive} edit={true} 
-                                contactsOption={contactsOption}
+                                allContacts={contactsOption}
                                 setContactsCreated={setContactsCreated} />                          
                         </Card.Body>
                     </Card>

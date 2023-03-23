@@ -18,12 +18,16 @@ const animatedComponents = makeAnimated();
 const FormCreateNetwork = (props) => { 
     // props: ifConfirm children setChildren cidr setCidr domain setDomain active setActive 
     // type setType parent setParent network_entity setNetwork_entity contacts setContactss 
-    // {edit:false | true -> active, setActive} !!contactsOption
+    // {edit:false | true -> active, setActive} !!allContacts
     
     //Dropdown
     const [entitiesOption, setEntitiesOption] = useState([])
     const [networksOption, setNetworksOption] = useState([])
     const [error, setError] = useState(null)
+
+    //Multiselect
+    const [contactsValueLabel, setContactsValueLabel] = useState([])
+
 
     //Create Contact
     const [modalCreate, setModalCreate] = useState(false)
@@ -35,6 +39,11 @@ const FormCreateNetwork = (props) => {
     const [selectType, setSelectType] = useState('0');
 
     useEffect(()=> {
+        
+        //selected contacts 
+        let listDefaultContact = props.allContacts.filter(elemento => props.contacts.includes(elemento.value))
+        .map(elemento => ({value: elemento.value, label: elemento.label}));
+        setContactsValueLabel(listDefaultContact)
         
         getAllEntities()
             .then((response) => {
@@ -54,7 +63,7 @@ const FormCreateNetwork = (props) => {
                 setError(error)
             })
         
-        },[props.contactsOption])
+        },[props.contacts, props.allContacts])
 
     //Multiselect    
     const selectContacts=(event)=>{ 
@@ -193,9 +202,9 @@ const FormCreateNetwork = (props) => {
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
                                 isMulti
-                                defaultValue={props.contacts}
-                                onChange={(e)=>selectContacts(e)}
-                                options={props.contactsOption}
+                                value={contactsValueLabel}
+                                onChange={selectContacts}
+                                options={props.allContacts}
                                 />
                         </Form.Group>
                     </Col>
@@ -217,7 +226,7 @@ const FormCreateNetwork = (props) => {
                 :
                 <></>}
                 <Row>
-                    <Col sm={12} lg={9} />
+                    <Col sm={12} lg={8} />
                     <Col>
                         <Form.Group>
                             { validateCidr(props.cidr) && (validateURL(props.domain) || props.domain==='') && 
