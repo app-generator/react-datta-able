@@ -9,7 +9,7 @@ const CreateCase = () => {
     const [date, setDate] = useState(null) //
     const [lifecycle, setLifecycle] = useState(null) //
     const [parent, setParent] = useState(null) //no
-    const [priority, setPriority] = useState(null) //
+    const [priority, setPriority] = useState('0') //
     const [tlp, setTlp] = useState(null) //
     const [assigned, setAssigned] = useState(null)
     const [state, setState] = useState(null) //
@@ -45,8 +45,10 @@ const CreateCase = () => {
                             <Row>
                                 <Col sm={12} lg={12}>
                                     <FormCase 
+                                        priority={priority} setPriority={setPriority}
                                         ifConfirm={addCase} edit={false} save='POST'/>
                                 </Col>
+
                             </Row>
                         </Card.Body>
                     </Card>
