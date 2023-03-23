@@ -3,9 +3,11 @@ import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import DropdownState from '../taxonomy/components/DropdownState';
 import { useLocation } from "react-router-dom";
 import Select from 'react-select';
-import { putTaxonomy, getTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
-import { validateName, validateDescription, validateType } from './components/ValidatorTaxonomy';
+import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation'
+import { validateName, validateDescription, validateType } from './components/ValidatorTaxonomy';
+import { putTaxonomy, getTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
+
 
 const EditTaxonomy = () => {
     const location = useLocation();
@@ -19,9 +21,8 @@ const EditTaxonomy = () => {
     const [active, setActive] = useState(+taxonomy.active);
     const [taxonomies, setTaxonomies] = useState([]);      
     const [currentParent, setCurrentParent] = useState("")
-
-
     const [error, setError] = useState(null);
+    const [showAlert, setShowAlert] = useState(false) 
 
     useEffect(() => {  
                
@@ -53,13 +54,19 @@ const EditTaxonomy = () => {
         })
         .catch((error) => {
             setError(error);            
-        })        
+        })
+        .finally(() => {
+            setShowAlert(true) 
+        })         
     };
 
-    
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }     
     
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
                 <Navigation actualPosition="Editar taxonomia" path="/app/taxonomies" index ="Taxonomia"/> 
             </Row>

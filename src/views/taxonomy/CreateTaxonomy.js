@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import Select from 'react-select';
-import { postTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
-import { validateName, validateDescription, validateType } from './components/ValidatorTaxonomy';
+import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation'
+import { validateName, validateDescription, validateType } from './components/ValidatorTaxonomy';
+import { postTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
 
 const CreateTaxonomy = () => {
 
@@ -13,9 +14,8 @@ const CreateTaxonomy = () => {
     const [description, setDescription] = useState("");
     const [parent, setParent] = useState("");
     const [taxonomies, setTaxonomies] = useState([]);      
-
-
     const [error, setError] = useState(null);
+    const [showAlert, setShowAlert] = useState(false)    
 
     useEffect(() => {  
         let listTaxonomies = []
@@ -25,7 +25,6 @@ const CreateTaxonomy = () => {
         setTaxonomies(listTaxonomies)
                
     }, []);    
-
    
 
     const createTaxonomy = ()=> {
@@ -36,12 +35,20 @@ const CreateTaxonomy = () => {
         })
         .catch((error) => {
             setError(error);            
+        })
+        .finally(() => {
+            setShowAlert(true) 
         })        
     };
+
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }    
 
 
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
                 <Navigation actualPosition="Agregar taxonomia" path="/app/taxonomies" index ="Taxonomia"/>
             </Row>

@@ -58,10 +58,10 @@ const ListTaxonomies = () => {
             setTaxonomies(response.data.results)
         })
         .catch((error)=>{
-            setError(error)
-            setShowAlert(true)            
+            setError(error)                        
         })
         .finally(() => {
+            setShowAlert(true)
             setLoading(false)
         })
     }, [pages]); 

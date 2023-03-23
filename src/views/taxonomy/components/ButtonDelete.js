@@ -6,10 +6,8 @@ import { deleteTaxonomy } from '../../../api/services/taxonomies';
 
 function ButtonDelete({taxonomy}) {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   const [error, setError] = useState(null);
 
   const removeTaxonomy = (taxonomy)=> {
