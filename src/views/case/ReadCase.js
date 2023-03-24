@@ -7,7 +7,8 @@ import GetUserName from './components/GetUserName';
 import { getUser } from '../../api/services/users';
 import BadgeItem from '../../components/Button/BadgeItem';
 
-const ReadCase = () => { // commentarios, evidencia, artefacto, solve_date, attend_date, eventos
+const ReadCase = () => { 
+    //attend_date: por defecto +3horas 
 
     const caseItem = useLocation().item;
     const prioritiesOption = useLocation().priority;
