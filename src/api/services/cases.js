@@ -10,15 +10,30 @@ const getAllCases = () => {
     return apiInstance.get(COMPONENT_URL.case);
 }
 
-const getOrderingCases = (id) => {
-    return apiInstance.get(COMPONENT_URL.case + '?ordering=' + id)
+const getOrderingCases = (currentPage = 1, results = [], limit = 10, id) => {
+            
+    return apiInstance.get(COMPONENT_URL.case , { params: { page: currentPage, page_size: limit, ordering : id } })       
+        .then((response) => {
+            let res = [...results, ...response.data.results]                                    
+            if(response.data.next != undefined){                                
+                return getOrderingCases(++currentPage, res, limit, id)
+            }
+            else{
+                return res;     
+            }                  
+        })
+        .catch((error) => {
+            return Promise.reject(error);            
+        })   
+
 }
+
 
 const getCase = (url) => { 
     return apiInstance.get(url);
 }
 
-const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, events, attend_date, solve_date) => {
+const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, events, attend_date, solve_date) => {
     return apiInstance.post(COMPONENT_URL.case, {
         date: date, //
         lifecycle: lifecycle, 
@@ -27,6 +42,8 @@ const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, event
         tlp: tlp, //
         assigned: assigned,
         state: state, //
+        comments: comments,
+        evidence: evidence,
         events: events,
         attend_date: attend_date,
         solve_date: solve_date  
@@ -46,16 +63,21 @@ const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, event
     });
 }
 
-const putCase = (url, date, lifecycle, parent, priority, tlp, assigned, state) => {
+const putCase = (url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, events, attend_date, solve_date) => {
     return apiInstance.put(url,
     {
-        date: date, 
+        date: date, //
         lifecycle: lifecycle, 
         parent: parent,
-        priority: priority,
-        tlp: tlp,
+        priority: priority, //
+        tlp: tlp, //
         assigned: assigned,
-        state: state  
+        state: state, //
+        comments: comments,
+        evidence: evidence,
+        events: events,
+        attend_date: attend_date,
+        solve_date: solve_date  
     }, 
     {
         validateStatus: function (status) {

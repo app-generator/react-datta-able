@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card } from 'react-bootstrap';
+import { Button, Row, Col, Card } from 'react-bootstrap';
+
 import Alert from '../../components/Alert/Alert';
 import { postCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
@@ -45,7 +46,7 @@ const CreateCase = () => {
 
     //Create
     const addCase = () => {
-        postCase(date, lifecycle, parent, priority, tlp, assigned, state, events, attend_date, solve_date)
+        postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, events, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
             window.location.href = "/case/tables"
@@ -56,7 +57,7 @@ const CreateCase = () => {
         });    
     };
 
-    console.log(date + ' ' + lifecycle + ' ' + parent + ' ' + priority + ' ' + tlp + ' ' + assigned + ' ' + state)
+    console.log(date + ' \n ' + lifecycle + ' \n ' + parent + ' \n ' + priority + ' \n ' + tlp + ' \n ' + assigned + ' \n ' + state + ' \n ' + comments + ' \n ' + evidence + ' \n ' + events + ' \n ' + attend_date + ' \n ' + solve_date)
        
     return (
         <React.Fragment>

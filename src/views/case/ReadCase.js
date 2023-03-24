@@ -115,7 +115,7 @@ const ReadCase = () => {
                                         <td>Eventos</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={caseItem.events.map(item => {
-                                                <tr>item</tr>
+                                                <tr>{item}</tr>
                                             })} />
                                         </td>
                                     </tr>

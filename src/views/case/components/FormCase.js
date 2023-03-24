@@ -86,6 +86,8 @@ const [error, setError] = useState(false)
             display_name: "Auto close"
         }
     ]
+    
+    console.log(props.state);
 
     //Multiselect    
     const selectEvents=(event)=>{ 
@@ -106,8 +108,9 @@ const [error, setError] = useState(false)
             <Form>
                 <Form.Group controlId="Form.Case.Date">
                     <Form.Label>Fecha</Form.Label>
-                    <Form.Control type="datetime-local"
-                        value={props.date}
+                    <Form.Control type="datetime-local" //2023-03-24T01:40:14.181622Z 
+                        value={props.date} //yyyy-mm-ddThh:mm
+                        min="2000-01-01T00:00" max="2030-01-01T00:00" 
                         isInvalid={props.date == null}
                         isValid={props.date !== null}
                         onChange={(e) =>  props.setDate(e.target.value)}/>
@@ -236,40 +239,23 @@ const [error, setError] = useState(false)
                 <Form.Group controlId="Form.Case.Attend_date">
                     <Form.Label>Fecha de atencion</Form.Label>
                     <Form.Control type="datetime-local"
-                        value={props.attend_date}
+                        value={props.attend_date} //yyyy-mm-ddThh:mm
+                        min="2000-01-01T00:00" max="2030-01-01T00:00" 
                         onChange={(e) =>  props.setAttend_date(e.target.value)}/>
                 </Form.Group> 
 
                 <Form.Group controlId="Form.Case.Solve_date">
                     <Form.Label>Fecha de resolucion</Form.Label>
                     <Form.Control type="datetime-local"
-                        value={props.solve_date}
+                        value={props.solve_date} //yyyy-mm-ddThh:mm
+                        min="2000-01-01T00:00" max="2030-01-01T00:00" 
                         onChange={(e) =>  props.setSolve_date(e.target.value)}/>
                 </Form.Group> 
-            {/*
-                <Form.Group controlId="Form.Entity.Name">
-                    <Form.Label>Nombre</Form.Label>
-                    <Form.Control 
-                        type="nombre" 
-                        placeholder="Nombre" 
-                        maxlength="100"
-                        value={props.name} 
-                        onChange={(e) => props.setName(e.target.value)} 
-                        isInvalid={!validateAlphanumeric(props.name) || !validateSpace(props.name)}
-                        isValid={validateAlphanumeric(props.name) && validateSpace(props.name)}
-                        />
-                    {validateSpace(props.name) ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
-                    {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
-                
-                </Form.Group>
-                {!validateSpace(props.name) || !validateAlphanumeric(props.name) ? 
-                    <><Button variant="primary" disabled>Guardar</Button></> 
+                {!props.date || !props.lifecycle || !props.priority || !props.tlp || !props.state ? 
+                    <><Button variant="primary" disabled>{props.save}</Button></> 
                     : 
-                    <><Button variant="primary" onClick={props.ifConfirm}>Guardar</Button></>}
-                <Button variant="primary" href="/entity/tables">Cancelar</Button>
-                */}
-            <Button onClick={props.ifConfirm}>{props.save}</Button>
-            <Button variant="primary" href="/case/tables">Volver</Button>
+                    <><Button variant="primary" onClick={props.ifConfirm}>{props.save}</Button></>}
+                <Button variant="primary" href="/case/tables">Cancelar</Button>
             </Form>  
         </React.Fragment>
     );

@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import Navigation from '../../components/navigation/navigation';
 import Search from '../../components/search/search';
 
-const ListCase = () => {
+const ListCase2 = () => {
     const [cases, setCases] = useState([]) //lista de casos
     const [error, setError] = useState(null)
 
@@ -139,4 +139,4 @@ return (
     </React.Fragment>
 )}
 
-export default ListCase; 
+export default ListCase2; 

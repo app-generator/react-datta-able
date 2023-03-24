@@ -73,7 +73,7 @@ const TableCase = ({callback, list, loading }) => {
                 setError(error)
             })
 
-    },[]);
+    },[list]);
 
     if (loading) {
         return (
