@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getEvents } from '../../api/services/events';
+import { getState } from '../../api/services/states';
 import { putCase } from '../../api/services/cases';
 import { Row, Col, Card } from 'react-bootstrap';
 import FormCase from './components/FormCase';
@@ -19,7 +20,7 @@ const CreateCase = () => {
     const [tlp, setTlp] = useState(caseItem.tlp) //required
     const [assigned, setAssigned] = useState(caseItem.assigned)
     const [state, setState] = useState(caseItem.state) //required
-    
+
     const [comments, setComments] = useState(caseItem.comments) // lista de que ??
     const [evidence, setEvidence] = useState(caseItem.evidence) // como se muestra
 
@@ -84,13 +85,13 @@ const CreateCase = () => {
                                         priority={priority} setPriority={setPriority}
                                         tlp={tlp} setTlp={setTlp}
                                         assigned={assigned} setAssigned={setAssigned}
-                                        state={state} setState={setState}
+                                        state={state} setState={setState} 
                                         events={events} setEvents={setEvents} allEvents={allEvents}
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
 
-                                        ifConfirm={editCase} edit={false} save='PUT'/>
+                                        ifConfirm={editCase} edit={true} save='PUT'/>
 
                                 </Col>
 

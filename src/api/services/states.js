@@ -38,4 +38,9 @@ const isActive = (url, active) =>{
         active: active
     } );
 }
-export {getStates, postState, putState, deleteState, isActive}
+
+const getState = (url) => { 
+    return apiInstance.get(url);
+}
+
+export {getStates, postState, putState, deleteState, isActive, getState}

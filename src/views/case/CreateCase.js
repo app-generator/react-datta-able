@@ -6,6 +6,7 @@ import { postCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/navigation/navigation';
 import { getEvents } from '../../api/services/events';
+import { getStates } from '../../api/services/states';
 
 const CreateCase = () => {
     const [date, setDate] = useState(null) //required
@@ -80,7 +81,8 @@ const CreateCase = () => {
                                         priority={priority} setPriority={setPriority}
                                         tlp={tlp} setTlp={setTlp}
                                         assigned={assigned} setAssigned={setAssigned}
-                                        state={state} setState={setState}
+                                        state={state} setState={setState} 
+
                                         events={events} setEvents={setEvents} allEvents={allEvents}
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}

@@ -3,7 +3,7 @@ import {Button, Form, FormControl, Row} from 'react-bootstrap';
 import { getPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { getUsers } from '../../../api/services/users';
-import { getStates } from '../../../api/services/states';
+import { getState, getStates } from '../../../api/services/states';
 import { validateAlphanumeric, validateSpace } from '../../../utils/validators'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -20,11 +20,41 @@ const [allPriorities, setPrioritiesOption] = useState([])
 const [allTlp, setAllTlp] = useState([])
 const [allUsers, setAllUsers] = useState([])
 const [allStates, setAllStates] = useState([])
+const [supportedStates, setsupportedStates] = useState([]) // state.children
 const [eventsValueLabel, setEventsValueLabel] = useState([])
 const [error, setError] = useState(false)
 
+
     useEffect(()=> {
         
+        getStates()
+            .then((response) => {
+                setAllStates(response.data.results)
+                console.log(response.data.results)
+                if(props.edit) { //supportedStates
+                    //supported states para el state actual
+                    getState(props.state)
+                    .then((response) => {
+                        console.log('suported states')
+                        console.log('response.date.children' + response.date.children)
+                        let listSupportedStates = allStates.filter(item =>response.date.children.includes(item.url));
+                        listSupportedStates.push(props.state)
+                        console.log('listSupportedStates' + listSupportedStates)
+                        setsupportedStates(listSupportedStates)
+            
+                    })
+                    .catch((error)=>{
+                        setError(error)
+                    })
+                
+                }
+            })
+            .catch((error)=>{
+                setError(error)
+            })
+
+
+
         getPriorities()
         .then((response) => {
             setPrioritiesOption(Object.values(response.data.results))
@@ -46,15 +76,6 @@ const [error, setError] = useState(false)
         getUsers()
         .then((response) => {
             setAllUsers(response.data.results)
-            console.log(response.data.results)
-        })
-        .catch((error)=>{
-            setError(error)
-        })
-
-        getStates()
-        .then((response) => {
-            setAllStates(response.data.results)
             console.log(response.data.results)
         })
         .catch((error)=>{
@@ -204,11 +225,20 @@ const [error, setError] = useState(false)
                             isValid={props.state !== '0'}
                             onChange={(e) =>  props.setState(e.target.value)}>
                             <option value='0'>Seleccione</option>
-                            {allStates.map((stateItem, index) => {                
+                            {props.edit ?
+                            supportedStates.map((stateItem, index) => {                
                                 return (
                                     <option key={index} value={stateItem.url}>{stateItem.name}</option>
                                 );
-                            })}
+                            })
+                        :
+                        
+                        
+                        allStates.map((stateItem, index) => {                
+                            return (
+                                <option key={index} value={stateItem.url}>{stateItem.name}</option>
+                            );
+                        })}
                         </Form.Control>
                         {props.state ? '' : <div className="invalid-feedback">Seleccione el estado</div>}
                 </Form.Group>
