@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { Card } from 'react-bootstrap';
-import FormState from './components/formState'
+import FormState from './components/FormState'
 import Navigation from '../../components/Navigation/Navigation'
 import { postState} from "../../api/services/states";
 import { useLocation } from 'react-router-dom';

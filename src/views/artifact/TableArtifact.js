@@ -3,18 +3,10 @@ import {
     Button,Card, Table , Modal, Row,Col, Form, CloseButton, Spinner
   } from 'react-bootstrap';
   import {Link} from 'react-router-dom'
-  import CrudButton from '../../../../components/Button/CrudButton';
+  import CrudButton from '../../components/Button/CrudButton';
 
-const TableArtifact = ({loading, artefacts}) => {
-    if (loading) {
-        return (
-            <Row className='justify-content-md-center'>
-                <Spinner animation='border' variant='primary' size='sm' />
-            </Row>
-        );    
-    }
-   
-    
+const TableArtifact = ({artifact}) => {
+
   return (
     <div>
          <Card>
@@ -30,7 +22,7 @@ const TableArtifact = ({loading, artefacts}) => {
                         </tr>
                    </thead>
                     <tbody>
-                    {artefacts.map((artefact, index) => {
+                    {artifact.map((artefact, index) => {
                         return (
                             <tr>
                                 <th >{index + 1 }</th>

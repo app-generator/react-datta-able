@@ -76,6 +76,7 @@ const TableStates = ({states, callback, loading}) => {
        
       }
       
+      
   return (
     <div>
         <Card>

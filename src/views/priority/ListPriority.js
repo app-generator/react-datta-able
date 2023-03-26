@@ -10,7 +10,7 @@ import Navigation from '../../components/Navigation/Navigation'
 import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
 import { getPriorities} from "../../api/services/priorities";
-import TablePriorities from './components/tablePriorities';
+import TablePriorities from './components/TablePriorities';
 
 const ListPriorities = () => {
   const [priorities, setPriorities] = useState([])

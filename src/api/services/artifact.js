@@ -5,6 +5,12 @@ const getArtefacts = (page="") => {//el parametro es para completar la url con e
     
     return apiInstance.get(COMPONENT_URL.artifact+page);
 }
+const postArtifact = (type, value) => {//el parametro es para completar la url con el numero de pagina
+    
+    return apiInstance.post(COMPONENT_URL.artifact,{
+        type:type, value:value
+    });
+}
 
 
-export { getArtefacts};
+export { getArtefacts, postArtifact};

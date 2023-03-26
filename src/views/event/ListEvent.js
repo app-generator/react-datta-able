@@ -11,7 +11,7 @@ import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
 import { getEvents} from "../../api/services/events";
 import { getTaxonomy} from "../../api/services/taxonomy";
-import TablePriorities from './components/tableEvents';
+import TableEvents from './components/TableEvents';
 
 const ListEvent = () => {
   const [events, setEvents] = useState([])
@@ -97,7 +97,7 @@ const ListEvent = () => {
             </Link>
           </Row>                                 
         </Card.Header>
-        <TablePriorities events={events} taxonomy={taxonomy} loading={loading} loadingTaxonomy={loadingTaxonomy}/> 
+        <TableEvents events={events} taxonomy={taxonomy} loading={loading} loadingTaxonomy={loadingTaxonomy}/> 
 
       </Card>            
     </div>

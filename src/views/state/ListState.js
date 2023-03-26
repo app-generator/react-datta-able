@@ -7,7 +7,7 @@ import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation'
 import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
-import TableStates from './components/tableStates'
+import TableStates from './components/TableStates'
 
 const ListState = () => {
     const [loading, setLoading] = useState(true)

@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react'
 import { Card, Form, Breadcrumb } from 'react-bootstrap';
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
-import FormState from './components/formState'
+import FormState from './components/FormState'
 import Navigation from '../../components/Navigation/Navigation'
 import { putState} from "../../api/services/states";
 
