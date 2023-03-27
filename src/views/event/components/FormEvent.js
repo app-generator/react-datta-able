@@ -19,6 +19,7 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
         type:"-1",
         value:""
     })
+    console.log(body.evidence)
 
     useEffect(()=> {
 
@@ -33,6 +34,11 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
         console.log(event.target.value)
         setBody({...body,
             [event.target.name] : event.target.value}
+        )       
+    }
+    const completeFieldFiles=(event)=>{ 
+        setBody({...body,
+            [event.target.name] : event.target.files}
         )       
     }
 
@@ -262,18 +268,35 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
                 <Card.Title as="h5">Evidencias</Card.Title>
             </Card.Header>
         <Card.Body>
-            <Form>
-
-                
+            <Form>   
                 <Form.Group controlId="formGridAddress1">
                 <Form.Label>Evidencia</Form.Label>
-                <Form.Control 
+                    
+                    <Form.Control 
+                    type="file"
                     placeholder="Ingrese " 
                     maxlength="150" 
-                    value ={body.evidence} 
-                    onChange={(e)=>completeField(e)}
+                    multiple
+                    onChange={(e)=>completeFieldFiles(e)}
                     name="evidence"/>
-                </Form.Group>    
+                </Form.Group>   
+
+                {/*<Form.Group controlId="formGridAddress1">
+                <Form.Label>Evidencia</Form.Label>
+                <div className="custom-file">
+                <Form.Control
+                    type="file"
+                    className="custom-file-input"
+                     id="validatedCustomFile"
+                    multiple
+                    value ={body.evidence}
+                    name="evidence"
+                    onChange={(e) => completeField(e)}/>
+                <Form.Label className="custom-file-label" htmlFor="validatedCustomFile">
+                    Choose file...
+                </Form.Label>
+                </div>
+            </Form.Group>*/}
 
                 
 

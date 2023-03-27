@@ -18,10 +18,9 @@ const CreateEvent = () => {
     todos: [],
     artifacts: [], 
     comments: null, 
-    cidr: null,
+    cidr: "",
     domain: ".com", //cuidado con cargar "" , si o si tiene que ser requerido me lo pide por que no tine un atributo filter
     date: "",
-    evidence_file_path: null, //cuidado con cargar ""
     notes: null, //cuidado con cargar ""
     parent: null,
     priority: null,
@@ -106,15 +105,6 @@ const CreateEvent = () => {
             setLoading(false)
         })
 
-        getArtefacts().then((response) => { //se hardcodea las paginas
-          
-
-        })
-        .catch((error) => {
-            setError(error)
-            
-        })
-
         getArtefacts()
         .then((response) => {
           var list= []
@@ -134,9 +124,38 @@ const CreateEvent = () => {
 
   const createEvent=()=>{
     console.log(body)
-    postEvent(body.evidence, body.children, body.todos, body.artifacts, body.comments, body.cidr, 
+    const f = new FormData();
+
+    const fecha = new Date(body.date)
+    //console.log(fecha.toISOString())//YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]
+
+    f.append("date", body.date+ "T00:00:00Z")// tengo que hacer esto porque solo me acepta este formato, ver a futuro
+    //f.append("date", fecha.toISOString())
+    f.append("priority",body.priority)
+    f.append("tlp", body.tlp)
+    f.append("taxonomy", body.taxonomy)
+    f.append("feed", body.feed)
+    f.append("domain", body.domain)
+    f.append("todos", body.todos)
+    f.append("comments", body.comments)
+    f.append("cidr", body.cidr)// 'null' does not appear to be an IPv4 or IPv6 network"
+    f.append("notes", body.notes)
+    f.append("parent", body.parent) //"Invalid hyperlink - No URL match."]
+    f.append("reporter", body.reporter)
+    f.append("case", body.case) //"Invalid hyperlink - No URL match.
+    f.append("tasks", body.tasks)
+    if (body.evidence !== null){
+      for (let index=0; index< body.evidence.length  ; index++){
+        f.append("evidence", body.evidence[index])
+        console.log(body.evidence[index])
+      }
+    }else{
+      f.append("evidence", body.evidence)
+    }
+    postEvent(f)
+    /*postEvent(f, body.children, body.todos, body.artifacts, body.comments, body.cidr, 
       body.domain, body.date, body.evidence_file_path, body.notes, body.parent, body.priority, body.tlp, 
-      body.taxonomy, body.feed, body.reporter, body.case, body.tasks)
+      body.taxonomy, body.feed, body.reporter, body.case, body.tasks)*/
     .then((response) => { 
         sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
         window.location.href = "/list-event"
