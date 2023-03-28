@@ -13,7 +13,8 @@ const animatedComponents = makeAnimated();
 const FormCase = (props) => { 
 // props: ifConfirm, save, date, setDate, lifecycle, setLifecycle, priority, setPriority, tlp, setTlp
 // state, setState
-// commentarios, evidencia, artefacto, solve_date, attend_date, eventos
+// put: commentarios, 
+// evidencia (fran) artefacto?, solve_date, attend_date, eventos
 
 //select
 const [allPriorities, setPrioritiesOption] = useState([])
