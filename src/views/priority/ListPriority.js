@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom'
-import {
-     Card,Row
-} from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 import Pagination from '../../components/Pagination/Pagination'
 import Alert from '../../components/Alert/Alert';
 
@@ -117,10 +115,14 @@ const ListPriorities = () => {
         <Card.Header>
           
           <Row>
-            <Search type="Prioridad" action={action} />
-            <Link to={"/add-Priority"} >
+            <Col sm={12} lg={9}>
+              <Search type="Prioridad" action={action} />
+            </Col>
+            <Col sm={12} lg={3}>
+              <Link to={"/add-Priority"} >
                 <CrudButton type='create' name='Prioridad' /> 
-            </Link>
+              </Link>
+            </Col>
           </Row>                                 
         </Card.Header>
         <TablePriorities Priorities={priorities} callback ={callbackBackend} loading={loading} /> 
