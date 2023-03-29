@@ -76,6 +76,7 @@ const TableStates = ({states, callback, loading}) => {
        
       }
       
+      
   return (
     <div>
         <Card>
@@ -134,7 +135,6 @@ const TableStates = ({states, callback, loading}) => {
                                         <Link to={{pathname:"./edit-user/", state: {state}}} >
                                             <CrudButton  type='edit' />
                                         </Link>
-                                        <ActiveButton active={+state.active} onClick={() => changeState()} />
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
                                     </Col>
                                 </Row>         
@@ -160,6 +160,18 @@ const TableStates = ({states, callback, loading}) => {
                                             <Form.Control plaintext readOnly defaultValue={state.solved} />
                                         </td>
                                     </tr>
+                                    
+                                    <tr>
+                                        <td>activo</td>
+                                        <td>
+                                        <Button 
+                                            className="btn-icon btn-rounded" 
+                                            variant={state.active ? 'outline-success' : 'outline-danger'} 
+                                            title={state.active ? 'Activo' : 'Inactivo'}>
+                                                <i className={state.active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
+                                        </Button>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>Descripcion</td>
                                         <td>
@@ -175,13 +187,13 @@ const TableStates = ({states, callback, loading}) => {
                                     <tr>
                                         <td>Creado</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={state.created} />
+                                            <Form.Control plaintext readOnly defaultValue={state.created ? state.created.slice(0,10) : ""} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>modificado</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={state.modified} />
+                                            <Form.Control plaintext readOnly defaultValue={state.modified ? state.modified.slice(0,10) : ""} />
                                         </td>
                                     </tr>
                                     

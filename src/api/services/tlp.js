@@ -12,6 +12,8 @@ const getTLP = () => {
         return Promise.reject(error);
     });
 }
+const getTLPSpecific = (url) => {
+    return apiInstance.get(url);
+}
 
-
-export { getTLP };
+export { getTLP, getTLPSpecific };

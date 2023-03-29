@@ -223,32 +223,47 @@ const routes = [
             {
                 exact: true,
                 path: '/list-user',
-                component: lazy(() => import('./views/user/listUser'))
+                component: lazy(() => import('./views/user/ListUser'))
             },
             {
                 exact: true,
                 path: '/add-user',
-                component: lazy(() => import('./views/user/addUser'))
+                component: lazy(() => import('./views/user/CreateUser'))
             },
             {
                 exact: true,
                 path: "/edit-user",
-                component: lazy(() => import('./views/user/editUser'))
+                component: lazy(() => import('./views/user/EditUser'))
             },
             {
                 exact: true,
                 path: "/list-states",
-                component: lazy(() => import('./views/state/listState'))
+                component: lazy(() => import('./views/state/ListState'))
             },
             {
                 exact: true,
                 path: "/add-state",
-                component: lazy(() => import('./views/state/addState'))
+                component: lazy(() => import('./views/state/CreateState'))
             },
             {
                 exact: true,
                 path: "/edit-state",
-                component: lazy(() => import('./views/state/editState'))
+                component: lazy(() => import('./views/state/EditState'))
+            },
+            {
+                exact: true,
+                path: "/list-event",
+                component: lazy(() => import('./views/event/ListEvent'))
+            },
+            {
+                exact: true,
+                path: "/add-event",
+                component: lazy(() => import('./views/event/CreateEvent'))
+            },
+            {
+                exact: true,
+                path: "/edit-event",
+                component: lazy(() => import('./views/event/EditEvent'))
             },
             {
                 exact: true,
@@ -279,6 +294,21 @@ const routes = [
                 exact: true,
                 path: '/task/edit',
                 component: lazy(() => import('./views/task/EditTask'))
+            },
+            {
+                exact: true,
+                path: '/list-template',
+                component: lazy(() => import('./views/template/ListTemplate'))
+            },
+            {
+                exact: true,
+                path: '/add-template',
+                component: lazy(() => import('./views/template/CreateTemplate'))
+            },
+            {
+                exact: true,
+                path: '/edit-template',
+                component: lazy(() => import('./views/template/EditTemplate'))
             },
             {
                 path: '*',

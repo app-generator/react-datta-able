@@ -4,7 +4,7 @@ import { putUser} from "../../api/services/users";
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import { getPriorities } from "../../api/services/priorities";
-import FormUser from './components/formUser'
+import FormUser from './components/FormUser'
 import Navigation from '../../components/Navigation/Navigation'
 
 

@@ -125,8 +125,45 @@ const menuItems = {
                 breadcrumbs: false,
             }
             ]
-         
+
         },
+        {
+            id: 'Eventos',
+            title: 'Eventos',
+            type: 'group',
+            icon: 'icon-ui',
+            children: [
+            {
+                id: 'Eventos',
+                title: 'Eventos',
+                type: 'item',
+                url: '/list-event',
+                classes: '',
+                icon: '',
+                breadcrumbs: false,
+            }
+            ]
+        },
+        {
+            id: 'Plantilla',
+            title: 'Plantilla',
+            type: 'group',
+            icon: 'icon-ui',
+            children: [
+            {
+                id: 'Plantilla',
+                title: 'Plantilla',
+                type: 'item',
+                url: '/list-template',
+                classes: '',
+                icon: '',
+                breadcrumbs: false,
+            }
+            ]
+        },
+         
+         
+    
         {
             id: 'new',
             title: 'Nuevo',

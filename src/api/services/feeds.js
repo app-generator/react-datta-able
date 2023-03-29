@@ -53,5 +53,8 @@ const putActivationStatus= (url, state) => {
 const deleteFeed = (url) => {
     return apiInstance.delete(url);
 }
+const getFeed = (url) => {
+    return apiInstance.get(url);
+}
 
-export { getFeeds, getAllFeeds, postFeed, putFeed, putActivationStatus, deleteFeed };
+export { getFeeds, getAllFeeds, postFeed, putFeed, putActivationStatus, deleteFeed, getFeed };

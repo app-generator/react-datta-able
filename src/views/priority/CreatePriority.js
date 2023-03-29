@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Card } from 'react-bootstrap';
-import FormPriority from './components/formPriority'
+import FormPriority from './components/FormPriority'
 import Navigation from '../../components/Navigation/Navigation'
 import { postPriority} from "../../api/services/priorities";
 import Alert from '../../components/Alert/Alert';

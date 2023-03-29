@@ -3,7 +3,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import Pagination from '../../components/Pagination/Pagination'
 import Alert from '../../components/Alert/Alert';
-import TableUsers from './components/tableUsers'
+import TableUsers from './components/TableUsers'
 import Navigation from '../../components/Navigation/Navigation'
 import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
