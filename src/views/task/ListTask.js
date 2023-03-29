@@ -105,6 +105,9 @@ const ListTask = (props) => {
                             </Card.Body>
                         </div>
                     </Collapse>
+                        <Card.Footer className="text-right">
+                            <Button variant="primary" href="/playbook/tables">Volver</Button>
+                        </Card.Footer>
                 </Card>
             {/*<Alert/>*/}
             </Col>

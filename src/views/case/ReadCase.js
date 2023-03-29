@@ -53,7 +53,7 @@ const ReadCase = () => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Fecha</td>
+                                        <td>Fecha (date)</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={date} />
                                         </td>
@@ -120,20 +120,35 @@ const ReadCase = () => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Fecha de atencion</td>
+                                        <td>Fecha de atencion (attend_date)</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={caseItem.attend_date} />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Fecha de resolucion</td>
+                                        <td>Fecha de resolucion (solve_date)</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={caseItem.solve_date} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha de creacion (create)</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={caseItem.created} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha de modificacion (modified)</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={caseItem.modified} />
                                         </td>
                                     </tr>
                                 </tbody>
                             </Table>
                         </Card.Body>
+                        <Card.Footer className="text-right">
+                            <Button variant="primary" href="/case/tables">Volver</Button>
+                        </Card.Footer>
                     </Card>
                 {/*<Alert/>*/}
                 </Col>

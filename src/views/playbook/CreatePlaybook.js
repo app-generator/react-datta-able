@@ -93,8 +93,6 @@ const CreatePlaybook = () => {
                     <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
 
                     {/*<Alert />*/}
-                    <Button variant="primary" href="/playbook/tables">Volver</Button>
-
                 </Col>
             </Row>
     </React.Fragment>

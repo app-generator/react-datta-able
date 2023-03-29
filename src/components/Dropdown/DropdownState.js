@@ -6,7 +6,9 @@ const options = ["Activo", "Inactivo"];
 
 function DropdownState({state, setActive}) {
     const [selected, setSelected] = useState(options[+!state]);
+
     setActive(+!options.indexOf(selected));
+    
     return (
       <Dropdown >
         <Dropdown.Toggle variant="secondary">

@@ -219,7 +219,7 @@ const FormCreateNetwork = (props) => {
                     <Col>
                         <Form.Group>
                             <Form.Label>Estado</Form.Label>
-                                <DropdownState state={props.active} setActive={props.setActive}></DropdownState>
+                                <DropdownState state={props.active===1} setActive={props.setActive}></DropdownState>
                         </Form.Group>
                     </Col>
                 </Row>
