@@ -23,10 +23,6 @@ const NavRight = () => {
     const [listOpen, setListOpen] = useState(false);
 
     const { dispatch } = store;
-    const state = store.getState();
-    const user = JSON.stringify(state.account.user);
-
-    console.log(user);
 
     const resetShowAlert = () => {
         setShowAlert(false);
@@ -34,30 +30,14 @@ const NavRight = () => {
 
     const handleLogout = () => {
 
-        logout(user).then((response) => {
-            console.log('Se pudo desloguear');
+        logout().then((response) => {
             dispatch({
                 type: LOGOUT,
             });
         })
         .catch((error) => {
-            console.log('No se pudo desloguear');
             setShowAlert(true);
         });
-        /*
-        axios
-            .post(API_SERVER + 'logout/', {}, { headers: { Authorization: `${account.token}` } })
-            .then(function (response) {
-                // Force the LOGOUT
-                //if (response.data.success) {
-                dispatcher({ type: LOGOUT });
-                //} else {
-                //    console.log('response - ', response.data.msg);
-                //}
-            })
-            .catch(function (error) {
-                console.log('error - ', error);
-            });*/
         
     };
 
@@ -65,7 +45,7 @@ const NavRight = () => {
         <React.Fragment>
             <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <ListGroup as="ul" bsPrefix=" " className="navbar-nav ml-auto" id="navbar-right">
-                <ListGroup.Item as="li" bsPrefix=" ">
+                {/* <ListGroup.Item as="li" bsPrefix=" ">
                     <Dropdown>
                         <Dropdown.Toggle as={Link} variant="link" to="#" id="dropdown-basic">
                             <i className="feather icon-bell icon" />
@@ -163,30 +143,29 @@ const NavRight = () => {
                         </Dropdown.Toggle>
                     </Dropdown>
                 </ListGroup.Item>
+                */}
                 <ListGroup.Item as="li" bsPrefix=" ">
                     <Dropdown className="drp-user">
                         <Dropdown.Toggle as={Link} variant="link" to="#" id="dropdown-basic">
                             <i className="icon feather icon-settings" />
                         </Dropdown.Toggle>
                         <Dropdown.Menu alignRight className="profile-notification">
+                            {/* 
                             <div className="pro-head">
-                                <img src={avatar1} className="img-radius" alt="User Profile" />
+                               <img src={avatar3} className="img-radius" alt="User Profile" /> 
                                 <span>
-                                    User Menu
+                                    Menú de Usuario
                                 </span>
                                 <Link to="#" className="dud-logout" onClick={handleLogout} title="Logout">
                                     <i className="feather icon-log-out" />
                                 </Link>
                             </div>
+                            */}
                             <ListGroup as="ul" bsPrefix=" " variant="flush" className="pro-body">
+                                {/*
                                 <ListGroup.Item as="li" bsPrefix=" ">
                                     <Link to="#" className="dropdown-item">
                                         <i className="feather icon-settings" /> Settings
-                                    </Link>
-                                </ListGroup.Item>
-                                <ListGroup.Item as="li" bsPrefix=" ">
-                                    <Link to="#" className="dropdown-item">
-                                        <i className="feather icon-user" /> Profile
                                     </Link>
                                 </ListGroup.Item>
                                 <ListGroup.Item as="li" bsPrefix=" ">
@@ -197,6 +176,12 @@ const NavRight = () => {
                                 <ListGroup.Item as="li" bsPrefix=" ">
                                     <Link to="#" className="dropdown-item">
                                         <i className="feather icon-lock" /> Lock Screen
+                                    </Link>
+                                </ListGroup.Item>
+                                */}
+                                <ListGroup.Item as="li" bsPrefix=" ">
+                                    <Link to="#" className="dropdown-item">
+                                        <i className="feather icon-user" /> Mi perfil
                                     </Link>
                                 </ListGroup.Item>
                                 <ListGroup.Item as="li" bsPrefix=" ">

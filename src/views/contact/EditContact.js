@@ -4,7 +4,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putContact } from '../../api/services/contacts';
 import FormCreateContact from './components/FormCreateContact';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 
 const EditContact = () => {
     const contact = useLocation().state;
@@ -20,12 +20,10 @@ const EditContact = () => {
     const editContact = () => {
         putContact (contact.url, supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
-            console.log(response)
             window.location.href = "/contact/tables"
         })
         .catch((error) => {
             setError(error)
-            console.log(error)
         });    
     };
 

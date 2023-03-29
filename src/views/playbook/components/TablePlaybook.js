@@ -4,9 +4,9 @@ import CrudButton from '../../../components/Button/CrudButton';
 import { getPlaybook, deletePlaybook } from '../../../api/services/playbooks';
 import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
-import ModalDetailPlaybook from './ModalDetailPlaybook'; 
+import ModalDetailPlaybook from './ModalDetailPlaybook';
 import FormGetName from '../../../components/Form/FormGetName';
-import { getTaxonomy } from '../../../api/services/taxonomy';
+import { getTaxonomy } from '../../../api/services/taxonomies';
 
 
 const TablePlaybook = ({callback, list, loading }) => {

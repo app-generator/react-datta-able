@@ -22,9 +22,6 @@ const TableEntity = ({callback, list, loading }) => {
     const [active,setActive] = useState(null) 
     const state = ['Inactiva', 'Activa']
 
-    useEffect(() => {
-
-    },[]);
 
     if (loading) {
         return (
@@ -51,7 +48,7 @@ const TableEntity = ({callback, list, loading }) => {
         .catch(setError);
     };
 
-    //Remove Entity
+    // Remove Entity
     const Delete = (url, name) => {
         setLastItem(list.length === 1)
         setUrl(url)
@@ -63,11 +60,10 @@ const TableEntity = ({callback, list, loading }) => {
         console.log('Elimna ultimo elemento? '+ lastItem)
         deleteEntity(url)
             .then((response) => {
-                console.log(response);
-                callback(lastItem)
+                window.location.href = "/entity/tables"
+                //callback(lastItem)
             })
             .catch((error) => {
-                console.log(error)
                 setError(error)
                 callback(false)
             })

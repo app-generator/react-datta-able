@@ -4,7 +4,7 @@ import Alert from '../../components/Alert/Alert';
 import { getAllContacts } from '../../api/services/contacts';
 import { postNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/FormCreateNetwork';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 
 const CreateNetwork = () => {
     const [cidr, setCidr] = useState(''); //required

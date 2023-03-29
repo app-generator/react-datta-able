@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Form, Row, Table } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 import { useLocation } from 'react-router-dom';
 import GetUserName from './components/GetUserName';
 import { getUser } from '../../api/services/users';

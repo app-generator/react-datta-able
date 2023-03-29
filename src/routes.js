@@ -65,22 +65,37 @@ const routes = [
             {
                 exact: true,
                 path: '/app/feeds',
-                component: lazy(() => import('./views/feeds/Feeds'))
+                component: lazy(() => import('./views/feeds/ListFeed'))
             },
             {
                 exact: true,
-                path: '/app/feeds/new',
-                component: lazy(() => import('./views/feeds/NewFeed'))
+                path: '/app/feeds/create',
+                component: lazy(() => import('./views/feeds/CreateFeed'))
             },
             {
                 exact: true,
                 path: '/app/feeds/edit',
                 component: lazy(() => import('./views/feeds/EditFeed'))
+            },
+            {
+                exact: true,
+                path: '/app/taxonomies',
+                component: lazy(() => import('./views/taxonomy/ListTaxonomies'))
+            },
+            {
+                exact: true,
+                path: '/app/taxonomy/create',
+                component: lazy(() => import('./views/taxonomy/CreateTaxonomy'))
+            },
+            {
+                exact: true,
+                path: '/app/taxonomy/edit',
+                component: lazy(() => import('./views/taxonomy/EditTaxonomy'))
             },            
             {
                 exact: true,
                 path: '/app/tlp',
-                component: lazy(() => import('./views/tlp/TLP'))
+                component: lazy(() => import('./views/tlp/ListTLP'))
             },
             {
                 exact: true,
@@ -193,47 +208,62 @@ const routes = [
             {
                 exact: true,
                 path: '/list-Priorities',
-                component: lazy(() => import('./views/priorities/listPriorities'))
+                component: lazy(() => import('./views/priority/ListPriority'))
             },
             {
                 exact: true,
                 path: '/add-Priority',
-                component: lazy(() => import('./views/priorities/addPriority'))
+                component: lazy(() => import('./views/priority/CreatePriority'))
             },
             {
                 exact: true,
                 path: '/edit-Priority',
-                component: lazy(() => import('./views/priorities/editPriority'))
+                component: lazy(() => import('./views/priority/EditPriority'))
             },
             {
                 exact: true,
                 path: '/list-user',
-                component: lazy(() => import('./views/user/listUser'))
+                component: lazy(() => import('./views/user/ListUser'))
             },
             {
                 exact: true,
                 path: '/add-user',
-                component: lazy(() => import('./views/user/addUser'))
+                component: lazy(() => import('./views/user/CreateUser'))
             },
             {
                 exact: true,
                 path: "/edit-user",
-                component: lazy(() => import('./views/user/editUser'))
+                component: lazy(() => import('./views/user/EditUser'))
             },
             {
                 exact: true,
                 path: "/list-states",
-                component: lazy(() => import('./views/state/listState'))
+                component: lazy(() => import('./views/state/ListState'))
             },
             {
                 exact: true,
                 path: "/add-state",
-                component: lazy(() => import('./views/state/addState'))
+                component: lazy(() => import('./views/state/CreateState'))
             },
             {
                 exact: true,
                 path: "/edit-state",
-                component: lazy(() => import('./views/state/editState'))
+                component: lazy(() => import('./views/state/EditState'))
+            },
+            {
+                exact: true,
+                path: "/list-event",
+                component: lazy(() => import('./views/event/ListEvent'))
+            },
+            {
+                exact: true,
+                path: "/add-event",
+                component: lazy(() => import('./views/event/CreateEvent'))
+            },
+            {
+                exact: true,
+                path: "/edit-event",
+                component: lazy(() => import('./views/event/EditEvent'))
             },
             {
                 exact: true,
@@ -269,6 +299,21 @@ const routes = [
                 exact: true,
                 path: '/case/read',
                 component: lazy(() => import('./views/case/ReadCase'))
+            },
+            {
+                exact: true,
+                path: '/list-template',
+                component: lazy(() => import('./views/template/ListTemplate'))
+            },
+            {
+                exact: true,
+                path: '/add-template',
+                component: lazy(() => import('./views/template/CreateTemplate'))
+            },
+            {
+                exact: true,
+                path: '/edit-template',
+                component: lazy(() => import('./views/template/EditTemplate'))
             },
             {
                 path: '*',

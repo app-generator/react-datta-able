@@ -5,7 +5,7 @@ import { getState } from '../../api/services/states';
 import { putCase } from '../../api/services/cases';
 import { Row, Col, Card } from 'react-bootstrap';
 import FormCase from './components/FormCase';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 import Alert from '../../components/Alert/Alert';
 
 const CreateCase = () => {

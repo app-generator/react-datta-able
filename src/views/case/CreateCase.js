@@ -4,7 +4,7 @@ import { Button, Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 import { getEvents } from '../../api/services/events';
 import { getStates } from '../../api/services/states';
 

@@ -8,8 +8,7 @@ import { getTLP } from '../../../api/services/tlp';
 import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import BadgeItem from '../../../components/Button/BadgeItem';
-import { getStates } from '../../../api/services/states';
-import FormGetName from '../../../components/Form/FormGetName';
+import { getStates } from '../../../api/services/states'; 
 import { getUser } from '../../../api/services/users';
 import GetUserName from './GetUserName';
 
@@ -60,7 +59,7 @@ const TableCase = ({callback, list, loading }) => {
                 setError(error)
             })
 
-        getStates()
+            getStates('?page=1')
             .then((response) => {
                 console.log(response.data.results)
                 let stateOp = {}
@@ -74,6 +73,9 @@ const TableCase = ({callback, list, loading }) => {
             })
 
     },[list]);
+
+    console.log(list)
+
 
     if (loading) {
         return (

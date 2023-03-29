@@ -6,8 +6,8 @@ import Pagination from '../../components/Pagination/Pagination';
 import TableCase from './components/TableCase'; 
 import { getCases } from '../../api/services/cases';
 import { Link } from 'react-router-dom';
-import Navigation from '../../components/navigation/navigation';
-import Search from '../../components/search/search';
+import Navigation from '../../components/Navigation/Navigation';
+import Search from '../../components/Search/Search';
 
 const ListCase2 = () => {
     const [cases, setCases] = useState([]) //lista de casos
@@ -22,12 +22,10 @@ const ListCase2 = () => {
     const [arrayPages, setArrayPages] = useState([])
   
     useEffect( ()=> {
-        setCurrentPage(currentPage )//?
 
-        getCases('?page='+currentPage) //error al borrar el ultimo elemento de la pagina
+        getCases('?page=1') //error al borrar el ultimo elemento de la pagina
             .then((response) => {
-                //Pagination
-                setPages(arrayWithPages(response.data.count,response.data.results.length))
+                console.log(response.data.results)
                 setCases(response.data.results)
             })
             .catch((error) => {
@@ -36,20 +34,11 @@ const ListCase2 = () => {
             .finally(() => {
                 setLoading(false)
             })
-    }, [pages])
-        
-    //Pagination
-    function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
-        const numberOfPages= Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage 
-        const complementUrl ="?page="
-        const arrayLinks=[]
-        for (var i = 1; i <= numberOfPages; i++) {
-            arrayLinks.push(complementUrl+i)
-        }
-        setArrayPages(arrayLinks)
-        return numberOfPages
-    }
 
+    }, []);
+
+    console.log(cases);
+        
     if (error) {
         console.log(error);
         return <p>Ups! Se produjo un error al buscar los casos.</p>
@@ -81,24 +70,7 @@ const ListCase2 = () => {
         setPages(0)//
     }
 
-    //Pagination
-    function CambioDepagina(page){
-        if (jumpPage){
-            setLoading(true)
-            setjumpPage(false)
 
-            const fetchPosts = async () => {
-            getCases(page).then((response) => {
-                setCases(response.data.results)
-            })
-            setLoading(false)
-            }
-            fetchPosts();
-        }
-    }
-
-    CambioDepagina(arrayPages[currentPage-1])
-    const currentPosts = cases// lo que se muestra
  
     const action = () => {
         console.log("llamada backend")
@@ -123,8 +95,10 @@ return (
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableCase callback={callbackBackend} list={currentPosts} loading={loading} />
+                        <TableCase callback={callbackBackend} list={cases} loading={loading} />
                     </Card.Body>
+                    {/*
+                    
                     <Card.Footer >
                         <Row className="justify-content-md-center">
                             <Col md="auto"> 
@@ -132,6 +106,9 @@ return (
                             </Col>
                         </Row>
                     </Card.Footer>
+                            */
+        
+                            }
                 </Card>
                 {/*<Alert/>*/}
                 </Col>

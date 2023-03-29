@@ -52,7 +52,8 @@ announcement: "announcement/",
 register: "register/",
 checkSession: "checkSession/",
 login: "login/",
-logout: "logout/",
-searchCase: "search/case/"
-
+searchCase: "search/case/",
+logout: "ctoken/logout/",
+cookieToken: "ctoken/",
+refreshCookieToken: "ctoken/refresh/",
 };

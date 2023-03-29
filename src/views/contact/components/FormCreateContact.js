@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {Button, Col, Row, Form} from 'react-bootstrap';
-import { getPriorities } from '../../../api/services/priorities';
 import { validateSpace, validateAlphanumeric  } from '../../../utils/validators'; 
 import FormContactSelectUsername from './FormContactSelectUSername';
+import { getPriorities } from '../../../api/services/priorities';
 
 const FormCreateContact = (props) => { 
     // props: name, setName, role, setRole, priority, setPriority, type, setType, contact, setContact, keypgp, setKey, ifConfirm, ifCancel

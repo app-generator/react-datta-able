@@ -3,10 +3,10 @@ import { Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Alert from '../../components/Alert/Alert';
 import CrudButton from '../../components/Button/CrudButton';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 import Pagination from '../../components/Pagination/Pagination';
-import Search from '../../components/search/search';
 import TablePlaybook from './components/TablePlaybook';
+import Search from '../../components/Search/Search';
 import { getPlaybooks } from '../../api/services/playbooks';
 
 const ListPlaybook = () => {

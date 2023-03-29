@@ -10,7 +10,8 @@ const menuItems = {
                     title: 'Métricas',
                     type: 'item',
                     url: '/app/dashboard/default',
-                    icon: 'feather icon-home'
+                    icon: 'feather icon-home',
+                    breadcrumbs: false
                 },
                 {
                     id: 'feeds',
@@ -19,7 +20,24 @@ const menuItems = {
                     url: '/app/feeds',
                     icon: 'fas fa-globe',
                     breadcrumbs: false
-                }              
+                },
+                {
+                    id: 'Eventos',
+                    title: 'Eventos',
+                    type: 'item',
+                    url: '/list-event',
+                    classes: '',
+                    icon: '',
+                    breadcrumbs: false,
+                },
+                {
+                    id: 'case',
+                    title: 'Casos',
+                    type: 'item',
+                    url: '/case/tables',
+                    icon: 'feather icon-sidebar',
+                    breadcrumbs: false,
+                }
             ]
         },
         {
@@ -33,7 +51,7 @@ const menuItems = {
                     title: 'Entidades',
                     type: 'item',
                     url: '/entity/tables',
-                    icon: 'fas fa-network-wired',
+                    icon: 'feather icon-box',
                     breadcrumbs: false
                 },
                 {
@@ -41,7 +59,7 @@ const menuItems = {
                     title: 'Redes',
                     type: 'item',
                     url: '/network/tables',
-                    icon: 'feather icon-sidebar',
+                    icon: 'fas fa-network-wired',
                     breadcrumbs: false
                 },
                 {
@@ -55,22 +73,6 @@ const menuItems = {
             ]
         },
         {
-            id: 'case',
-            title: 'Casos',
-            type: 'group',
-            icon: 'icon-ui',
-            children: [
-                {
-                id: 'case',
-                title: 'Casos',
-                type: 'item',
-                url: '/case/tables',
-                icon: 'feather icon-sidebar',
-                breadcrumbs: false,
-                }
-            ]
-        },
-        {
             id: 'config',
             title: 'Configuración',
             type: 'group',
@@ -80,7 +82,7 @@ const menuItems = {
                     id: 'platform',
                     title: 'Plataforma',
                     type: 'collapse',
-                    icon: 'feather icon-box',
+                    icon: 'feather icon-settings',
                     children: [
                         {
                             id: 'tlp',
@@ -107,10 +109,35 @@ const menuItems = {
                             url: '/playbook/tables',
                             icon: 'fas fa-stream',
                             breadcrumbs: false
+                        },
+                        {
+                            id: 'taxonomy',
+                            title: 'Taxonomia',
+                            type: 'item',
+                            url: '/app/taxonomies',
+                            icon: 'fas fa-server',
+                            breadcrumbs: false
+                        },
+                        {
+                            id: 'Estados',
+                            title: 'Estados',
+                            type: 'item',
+                            url: '/list-states',
+                            classes: '',
+                            icon: '',
+                            breadcrumbs: false,
+                        },
+                        {
+                            id: 'Plantilla',
+                            title: 'Plantilla',
+                            type: 'item',
+                            url: '/list-template',
+                            classes: '',
+                            icon: '',
+                            breadcrumbs: false,
                         }
                     ]
                 },
-                
                 {
                     id: 'users',
                     title: 'Usuarios',
@@ -122,24 +149,6 @@ const menuItems = {
                 }
             ]
         
-        },
-        {
-            id: 'Estados',
-            title: 'Estados',
-            type: 'group',
-            icon: 'icon-ui',
-            children: [
-            {
-                id: 'Estados',
-                title: 'Estados',
-                type: 'item',
-                url: '/list-states',
-                classes: '',
-                icon: '',
-                breadcrumbs: false,
-            }
-            ]
-         
         },
         {
             id: 'ui-element',

@@ -3,7 +3,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postEntity } from '../../api/services/entities';
 import FormEntity from './components/FormEntity';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/Navigation/Navigation';
 
 const CreateEntity = () => {
     const [name, setName] = useState('')
@@ -24,12 +24,10 @@ const CreateEntity = () => {
         let slug = slugify(name);
         postEntity(name, slug, active)
         .then((response) => { 
-            console.log(response)
             window.location.href = "/entity/tables"
         })
         .catch((error) => {
             setError(error)
-            console.log(error)
         });    
     };
        

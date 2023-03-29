@@ -6,8 +6,8 @@ import Pagination from "../../components/Pagination/Pagination";
 import { getContacts } from '../../api/services/contacts';
 import Alert from "../../components/Alert/Alert";
 import { Link } from 'react-router-dom';
-import Navigation from '../../components/navigation/navigation';
-import Search from '../../components/search/search';
+import Navigation from '../../components/Navigation/Navigation';
+import Search from '../../components/Search/Search';
 
 const ListContact = () => {
     const [contacts, setContacts] = useState([])
@@ -40,12 +40,8 @@ const ListContact = () => {
 
     //Pagination
     function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
-        console.log('funcion arrayWithPages')
 
-        console.log(numberOfItems);
-        console.log(numberOfElementsOnAPage);
         const numberOfPages= Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage 
-        console.log(numberOfPages)
         const complementUrl ="?page="
         const arrayLinks=[]
         for (var i = 1; i <= numberOfPages; i++) {
@@ -56,7 +52,6 @@ const ListContact = () => {
     }
 
     if (error) {
-        console.log(error);
         return <p>Ups! Se produjo un error al buscar los contactos.</p>
     }
     
@@ -77,28 +72,21 @@ const ListContact = () => {
     const callbackBackend = (lastItem) => {
             setLoading(true)
             if(lastItem) {
-                console.log('if lastItem')
                 setCurrentPage(currentPage-1) //ir a la pagina anterior, no se queda en azul la current page
                 setArrayPages(arrayPages.slice(0, -1)) 
                 //CambioDepagina(arrayPages[currentPage-1])
-            }
-            else {
-                console.log('else lastItem')
             }
             setPages(0)//
     }
 
     //Pagination
     function CambioDepagina(page){
-        console.log('funcion cambio de pagina')
         if (jumpPage){
-            console.log('CambioDepagina if jumpPage')
-            console.log(page)
+            
             setLoading(true)
             setjumpPage(false)
 
             const fetchPosts = async () => {
-            console.log('funcion fetchPosts')
             getContacts(page).then((response) => {
                 setContacts(response.data.results)
             })
@@ -108,7 +96,6 @@ const ListContact = () => {
         }
     }
 
-    console.log('array ' + arrayPages)
     CambioDepagina(arrayPages[currentPage-1])
     const currentPosts = contacts// lo que se muestra
     
@@ -126,7 +113,9 @@ const ListContact = () => {
                 <Card>
                     <Card.Header>
                         <Row>
-                            <Search type="contacto" action={action} />
+                            <Col sm={12} lg={9}>
+                                <Search type="contacto" action={action} />
+                            </Col>
                             <Col sm={12} lg={3}>
                                 <Link to={{pathname:'/contact/create'}} >
                                     <CrudButton type='create' name='Contacto' />

@@ -4,6 +4,8 @@ import DropdownState from './components/DropdownState';
 import { useLocation } from "react-router-dom";
 import { putFeed } from '../../api/services/feeds';
 import { validateName, validateDescription } from './components/ValidatorFeed';
+import Navigation from '../../components/Navigation/Navigation';
+
 
 const EditFeed = () => {
     const location = useLocation();
@@ -17,9 +19,8 @@ const EditFeed = () => {
     const [error, setError] = useState(null);
 
     
-    const changeFeed = ()=> {
+    const editFeed = ()=> {
         putFeed(feed.url, slug, name, description, active).then((response) => {
-            console.log(response);            
             window.location.href = '/app/feeds';
         })
         .catch((error) => {
@@ -30,17 +31,7 @@ const EditFeed = () => {
     return (
         <React.Fragment>
             <Row>
-                <Breadcrumb>
-                    <Breadcrumb.Item href='/app/dhasboard/default'>
-                        <i className="fas fa-home" />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href='/app/feeds'>
-                        Fuentes de Informacion
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item active>
-                        <b>Editar fuente de informacion</b> 
-                    </Breadcrumb.Item>
-                </Breadcrumb>    
+                <Navigation actualPosition="Editar fuente de información" path="/app/feeds" index ="Fuentes de Información"/> 
             </Row>
             <Row>
                 <Col sm={12}>
@@ -68,7 +59,7 @@ const EditFeed = () => {
                                 </Form.Group>                             
                                   
                                 { validateName(name) && validateDescription(description) ?
-                                    <Button variant="primary" onClick={changeFeed}>Guardar</Button>
+                                    <Button variant="primary" onClick={editFeed}>Guardar</Button>
                                     :
                                     <Button variant="primary" disabled>Guardar</Button>
                                     
