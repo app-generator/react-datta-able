@@ -5,8 +5,8 @@ import Alert from '../../components/Alert/Alert';
 import CrudButton from '../../components/Button/CrudButton';
 import Navigation from '../../components/Navigation/Navigation';
 import Pagination from '../../components/Pagination/Pagination';
+import TablePlaybook from './components/TablePlaybook';
 import Search from '../../components/Search/Search';
-import TablePlaybook from './components/Table/TablePlaybook';
 import { getPlaybooks } from '../../api/services/playbooks';
 
 const ListPlaybook = () => {

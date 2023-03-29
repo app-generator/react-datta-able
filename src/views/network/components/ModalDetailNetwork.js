@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, Form, Table, Modal, CloseButton } from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
+import CrudButton from '../../../components/Button/CrudButton';
 import { Link } from 'react-router-dom';
-import FormCidr from '../Form/FormCidr';
-import FormContact from '../Form/FormContact';
+import FormNetworkLabelCidr from './FormNetworkLabelCidr';
+import BadgeNetworkLabelContact from './BadgeNetworkLabelContact';
+import ActiveButton from '../../../components/Button/ActiveButton';
 
 
 const ModalDetailNetwork = (props) => {
@@ -12,10 +13,11 @@ const ModalDetailNetwork = (props) => {
     const [modified, setModified] = useState('');
 
     useEffect(()=>{
+        if(props.network){
 
-        setCreated(props.network.created)
-        setModified(props.network.modified)
-
+            formatDate(props.network.created, setCreated)
+            formatDate(props.network.modified, setModified)
+        }
     },[props.network])
 
     const formatDate = (datetime, set) => {
@@ -60,9 +62,9 @@ const ModalDetailNetwork = (props) => {
                                             <></>
                                         }
                                         <tr>
-                                            <td>Estado</td>
+                                            <td>Activa</td>
                                             <td>
-                                                <Form.Control plaintext readOnly defaultValue={props.network.active ? 'Activa' : 'Inactiva'} />
+                                                <ActiveButton active={props.network.active} />
                                             </td>
                                         </tr>
                                         {props.network.domain ? 
@@ -79,7 +81,7 @@ const ModalDetailNetwork = (props) => {
                                             <tr>
                                                 <td>Red Padre</td>
                                                 <td>
-                                                    <FormCidr url={props.network.parent} />
+                                                    <FormNetworkLabelCidr url={props.network.parent} />
                                                 </td>
                                             </tr>
                                             : 
@@ -91,7 +93,7 @@ const ModalDetailNetwork = (props) => {
                                                 <td>
                                                     {Object.values(props.network.children).map((net, index)=>{
                                                         return (
-                                                            <FormCidr url={net} key={index}/>
+                                                            <FormNetworkLabelCidr url={net} key={index}/>
                                                         )})
                                                     }
                                                 </td>
@@ -105,7 +107,7 @@ const ModalDetailNetwork = (props) => {
                                                 <td>
                                                     {Object.values(props.network.contacts).map((contactItem, index)=>{
                                                         return (
-                                                            <FormContact url={contactItem} key={index} />
+                                                            <BadgeNetworkLabelContact url={contactItem} key={index} />
                                                         )})
                                                     }
                                                 </td>

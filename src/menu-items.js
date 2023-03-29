@@ -20,7 +20,24 @@ const menuItems = {
                     url: '/app/feeds',
                     icon: 'fas fa-globe',
                     breadcrumbs: false
-                }            
+                },
+                {
+                    id: 'Eventos',
+                    title: 'Eventos',
+                    type: 'item',
+                    url: '/list-event',
+                    classes: '',
+                    icon: '',
+                    breadcrumbs: false,
+                },
+                {
+                    id: 'case',
+                    title: 'Casos',
+                    type: 'item',
+                    url: '/case/tables',
+                    icon: 'feather icon-sidebar',
+                    breadcrumbs: false,
+                }
             ]
         },
         {
@@ -55,7 +72,6 @@ const menuItems = {
                 }
             ]
         },
-         
         {
             id: 'config',
             title: 'Configuración',
@@ -87,16 +103,41 @@ const menuItems = {
             
                         },
                         {
+                            id: 'playbook',
+                            title: 'Playbook',
+                            type: 'item',
+                            url: '/playbook/tables',
+                            icon: 'fas fa-stream',
+                            breadcrumbs: false
+                        },
+                        {
                             id: 'taxonomy',
                             title: 'Taxonomia',
                             type: 'item',
                             url: '/app/taxonomies',
                             icon: 'fas fa-server',
                             breadcrumbs: false
-                        }   
+                        },
+                        {
+                            id: 'Estados',
+                            title: 'Estados',
+                            type: 'item',
+                            url: '/list-states',
+                            classes: '',
+                            icon: '',
+                            breadcrumbs: false,
+                        },
+                        {
+                            id: 'Plantilla',
+                            title: 'Plantilla',
+                            type: 'item',
+                            url: '/list-template',
+                            classes: '',
+                            icon: '',
+                            breadcrumbs: false,
+                        }
                     ]
                 },
-                
                 {
                     id: 'users',
                     title: 'Usuarios',
@@ -108,85 +149,6 @@ const menuItems = {
                 }
             ]
         
-        },
-        {
-            id: 'Estados',
-            title: 'Estados',
-            type: 'group',
-            icon: 'icon-ui',
-            children: [
-            {
-                id: 'Estados',
-                title: 'Estados',
-                type: 'item',
-                url: '/list-states',
-                classes: '',
-                icon: '',
-                breadcrumbs: false,
-            }
-            ]
-
-        },
-        {
-            id: 'Eventos',
-            title: 'Eventos',
-            type: 'group',
-            icon: 'icon-ui',
-            children: [
-            {
-                id: 'Eventos',
-                title: 'Eventos',
-                type: 'item',
-                url: '/list-event',
-                classes: '',
-                icon: '',
-                breadcrumbs: false,
-            }
-            ]
-        },
-        {
-            id: 'Plantilla',
-            title: 'Plantilla',
-            type: 'group',
-            icon: 'icon-ui',
-            children: [
-            {
-                id: 'Plantilla',
-                title: 'Plantilla',
-                type: 'item',
-                url: '/list-template',
-                classes: '',
-                icon: '',
-                breadcrumbs: false,
-            }
-            ]
-        },
-         
-         
-    
-        {
-            id: 'new',
-            title: 'Nuevo',
-            type: 'group',
-            icon: 'fas fa-network-wired',
-            children: [
-                {
-                    id: 'playbook',
-                    title: 'Playbook',
-                    type: 'item',
-                    url: '/playbook/tables',
-                    icon: 'fas fa-network-wired',
-                    breadcrumbs: false
-                },
-                {
-                    id: 'task',
-                    title: 'Tareas',
-                    type: 'item',
-                    url: '/task/tables',
-                    icon: 'feather icon-sidebar',
-                    breadcrumbs: false
-                }
-            ]
         },
         {
             id: 'ui-element',

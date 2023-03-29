@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { getNetwork } from '../../../../api/services/networks';
+import { getNetwork } from '../../../api/services/networks';
 
-const FormCidr = (props) => { //TODO refactorizar los Form
+const FormNetworkLabelCidr = (props) => { //TODO refactorizar los Form
     const [network, setNetwork] = useState('');
 
     useEffect(() => {
@@ -28,4 +28,4 @@ return (
     );
 };
 
-export default FormCidr; 
+export default FormNetworkLabelCidr; 

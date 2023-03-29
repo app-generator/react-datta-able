@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Row, Col, Card, Form, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
-import { getNetwork, deleteNetwork, isActive } from '../../../../api/services/networks';
+import { Row, Table, Spinner } from 'react-bootstrap';
+import CrudButton from '../../../components/Button/CrudButton';
+import { getNetwork, deleteNetwork, isActive } from '../../../api/services/networks';
 import { Link } from 'react-router-dom';
-import ModalConfirm from '../../../../components/Modal/ModalConfirm';
-import ActiveButton from '../../../../components/Button/ActiveButton';
-import ModalDetailNetwork from '../Modal/ModalDetailNetwork';
-import { getEntity } from '../../../../api/services/entities';
-import FormGetName from '../../../../components/Form/FormGetName';
+import ModalConfirm from '../../../components/Modal/ModalConfirm';
+import ActiveButton from '../../../components/Button/ActiveButton';
+import ModalDetailNetwork from './ModalDetailNetwork';
+import { getEntity } from '../../../api/services/entities';
+import FormGetName from '../../../components/Form/FormGetName';
 
 const TableNetwork = ({callback, list, loading }) => {
     const [network, setNetwork] = useState('')
@@ -101,7 +101,7 @@ const TableNetwork = ({callback, list, loading }) => {
 console.log(network.network_entity)
     return (
             <React.Fragment>
-                <Table responsive hover>
+                <Table responsive hover className="text-center">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -120,7 +120,7 @@ console.log(network.network_entity)
                                     <td>{network.cidr}</td>
                                     <td>{network.type === 'internal' ? 'Interna' : 'Externa'}</td>
                                     <td>
-                                        <ActiveButton active={+network.active} onClick={() => pressActive(network.domain, network.active, network.url)} />
+                                        <ActiveButton active={network.active} onClick={() => pressActive(network.domain, network.active, network.url)} />
                                     </td>
                                     <td>
                                         <FormGetName form={false} get={getEntity} url={network.network_entity} key={index} />

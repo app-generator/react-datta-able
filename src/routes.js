@@ -282,18 +282,23 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/task/tables',
-                component: lazy(() => import('./views/task/ListTask'))
+                path: '/case/tables',
+                component: lazy(() => import('./views/case/ListCase'))
             },
             {
                 exact: true,
-                path: '/task/create',
-                component: lazy(() => import('./views/task/CreateTask'))
+                path: '/case/create',
+                component: lazy(() => import('./views/case/CreateCase'))
             },
             {
                 exact: true,
-                path: '/task/edit',
-                component: lazy(() => import('./views/task/EditTask'))
+                path: '/case/edit',
+                component: lazy(() => import('./views/case/EditCase'))
+            },
+            {
+                exact: true,
+                path: '/case/read',
+                component: lazy(() => import('./views/case/ReadCase'))
             },
             {
                 exact: true,

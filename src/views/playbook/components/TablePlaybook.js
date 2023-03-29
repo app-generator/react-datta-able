@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Row, Table, Spinner } from 'react-bootstrap';
-import CrudButton from '../../../../components/Button/CrudButton';
-import { getPlaybook, deletePlaybook } from '../../../../api/services/playbooks';
+import CrudButton from '../../../components/Button/CrudButton';
+import { getPlaybook, deletePlaybook } from '../../../api/services/playbooks';
 import { Link } from 'react-router-dom';
-import ModalConfirm from '../../../../components/Modal/ModalConfirm';
-import ModalDetailPlaybook from '../Modal/ModalDetailPlaybook'; 
-import FormGetName from '../../../../components/Form/FormGetName';
-import { getTask } from '../../../../api/services/tasks';
-import { getTaxonomy } from '../../../../api/services/taxonomies';
+import ModalConfirm from '../../../components/Modal/ModalConfirm';
+import ModalDetailPlaybook from './ModalDetailPlaybook';
+import FormGetName from '../../../components/Form/FormGetName';
+import { getTaxonomy } from '../../../api/services/taxonomies';
 
 
 const TablePlaybook = ({callback, list, loading }) => {
@@ -18,6 +17,7 @@ const TablePlaybook = ({callback, list, loading }) => {
     const [modalShow, setModalShow] = useState(false)
 
     const [url, setUrl] = useState(null)
+    const [name, setName] = useState(null)
 
     const [lastItem, setLastItem] = useState(null);
 
@@ -43,9 +43,10 @@ const TablePlaybook = ({callback, list, loading }) => {
     };
 
     //Remove Playbook
-    const Delete = (url) => {
+    const Delete = (url, name) => {
         setLastItem(list.length === 1)
         setUrl(url);
+        setName(name);
         setModalDelete(true)
     }
 
@@ -53,7 +54,7 @@ const TablePlaybook = ({callback, list, loading }) => {
         console.log(url)
         deletePlaybook(url)
             .then((response) => {
-                console.log(response)
+                console.log(response.data)
                 callback(lastItem)
             })
             .catch((error) => {
@@ -73,12 +74,11 @@ const TablePlaybook = ({callback, list, loading }) => {
 
     return (
             <React.Fragment>
-                <Table responsive hover>
+                <Table responsive hover className="text-center">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
-                            <th>Tareas</th>
                             <th>Taxonomias</th>
                             <th>Accion</th>
                         </tr>
@@ -90,20 +90,9 @@ const TablePlaybook = ({callback, list, loading }) => {
                                     <th scope="row">{index+1}</th>
                                     <td>{book.name}</td>
                                     <td>
-                                        {Object.values(book.tasks).map((taskItem, index)=>{
-                                            return (
-                                                
-                                                    <><FormGetName form={false} get={getTask} url={taskItem} key={index} /><br/></>
-                                                    
-                                            )})
-                                        }
-                                    </td>
-                                    <td>
                                         {Object.values(book.taxonomy).map((taxonomyItem, index)=>{
                                             return (
-                                               
                                                 <><FormGetName form={false} get={getTaxonomy} url={taxonomyItem} key={index} /><br/></>
-                                                
                                             )})
                                         }
                                     </td>
@@ -112,7 +101,7 @@ const TablePlaybook = ({callback, list, loading }) => {
                                         <Link to={{pathname:'/playbook/edit', state: book}} >
                                             <CrudButton type='edit'/>
                                         </Link>
-                                        <CrudButton type='delete' onClick={() => Delete(book.url)} />
+                                        <CrudButton type='delete' onClick={() => Delete(book.url, book.name)} />
                                     </td>
                                 </tr>
                             );
@@ -120,7 +109,7 @@ const TablePlaybook = ({callback, list, loading }) => {
                     </tbody>
                 </Table>
             <ModalDetailPlaybook show={modalShow} playbook={playbook} onHide={() => setModalShow(false)}/>
-            <ModalConfirm type='delete' component='Playbook' name={'nombre del playbook'} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removePlaybook(url)}/>
+            <ModalConfirm type='delete' component='Playbook' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removePlaybook(url)}/>
 
         </React.Fragment> 
   );

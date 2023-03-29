@@ -1,11 +1,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
-import ActiveButton from '../../../../components/Button/ActiveButton';
-import CrudButton from '../../../../components/Button/CrudButton';
-import { getEntity, deleteEntity, isActive } from '../../../../api/services/entities';
+import ActiveButton from '../../../components/Button/ActiveButton';
+import CrudButton from '../../../components/Button/CrudButton';
+import { getEntity, deleteEntity, isActive } from '../../../api/services/entities';
 import { Link } from 'react-router-dom';
-import ModalConfirm from '../../../../components/Modal/ModalConfirm';
+import ModalConfirm from '../../../components/Modal/ModalConfirm';
 
 const TableEntity = ({callback, list, loading }) => {
     const [entity, setEntity] = useState('') 
@@ -98,7 +98,7 @@ const TableEntity = ({callback, list, loading }) => {
     
     return (
             <React.Fragment>
-                <Table responsive hover>
+                <Table responsive hover className="text-center">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -116,7 +116,7 @@ const TableEntity = ({callback, list, loading }) => {
                                     <th scope="row">{index+1}</th>
                                     <td>{entity.name}</td>
                                     <td>
-                                        <ActiveButton active={entity.active} onClick={() => pressActive(entity.name, entity.active, entity.url)} />
+                                        <ActiveButton active={entity.active === 1} onClick={() => pressActive(entity.name, entity.active, entity.url)} />
                                     </td>
                                     <td>5</td>
                                     <td>
@@ -168,9 +168,9 @@ const TableEntity = ({callback, list, loading }) => {
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Estado</td>
+                                                <td>Activa</td>
                                                 <td>
-                                                    <Form.Control plaintext readOnly defaultValue={state[entity.active]} />
+                                                    <ActiveButton active={entity.active === 1} />
                                                 </td>
                                             </tr>
                                             <tr>

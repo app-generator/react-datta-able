@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
-import { validateSpace, validateEmail, validateAlphanumeric, validateNumbers, validateURL } from '../../../../components/Validator/Validator'; 
+import { validateSpace, validateEmail, validateAlphanumeric, validateNumbers, validateURL } from '../../../utils/validators'; 
 
-const FormContactPriority = (props) => { 
+const FormContactSelectUsername = (props) => { 
     // props: selectedType, contact, setContact, setValidContact
     useEffect( ()=> {
 if(username){
@@ -84,5 +84,5 @@ if(username){
     }
 };
             
-export default FormContactPriority;
-                   
+export default FormContactSelectUsername;
+ 

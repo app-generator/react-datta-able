@@ -3,7 +3,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert'; 
 import CrudButton from '../../components/Button/CrudButton'; 
 import Pagination from '../../components/Pagination/Pagination'; 
-import TableEntity from './components/Table/TableEntity'; 
+import TableEntity from './components/TableEntity'; 
 import { getAllEntities, getEntities } from '../../api/services/entities';
 import { Link } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';

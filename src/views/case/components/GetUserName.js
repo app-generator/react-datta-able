@@ -3,8 +3,9 @@ import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 
 
-const FormGetName = (props) => { // url, get, key, Form: true o false
-    const [item, setItem] = useState('');
+const GetUserName = (props) => { // url, get, key, Form: true o false
+    
+    const [user, setUser] = useState('');
 
     useEffect(() => {
 
@@ -16,19 +17,19 @@ const FormGetName = (props) => { // url, get, key, Form: true o false
         props.get(url)
         .then((response) => {
             console.log(response)
-            setItem(response.data)
+            setUser(response.data)
         })
         .catch();
     }
 return (
-        item && 
+        user && 
         <React.Fragment>
-            {props.form ? <Form.Control plaintext readOnly defaultValue={item.name} key={props.key} />
+            {props.form ? <Form.Control plaintext readOnly defaultValue={`${user.first_name} ${user.last_name} - ${user.username}`} key={props.key} />
             :
-            <>{item.name}</>
+            <>{user.username}</>
             }
         </React.Fragment>
     );
 };
 
-export default FormGetName; 
+export default GetUserName; 

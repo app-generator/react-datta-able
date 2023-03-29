@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postEntity } from '../../api/services/entities';
-import FormEntity from './components/Form/FormEntity';
+import FormEntity from './components/FormEntity';
 import Navigation from '../../components/Navigation/Navigation';
 
 const CreateEntity = () => {
     const [name, setName] = useState('')
+    const active = 1; //se crea activo por defecto
     const [error, setError] = useState(null)
 
     const slugify = (str) => {
@@ -21,7 +22,7 @@ const CreateEntity = () => {
     //Create
     const addEntity = () => {
         let slug = slugify(name);
-        postEntity(name, slug, 1)
+        postEntity(name, slug, active)
         .then((response) => { 
             window.location.href = "/entity/tables"
         })
@@ -45,7 +46,9 @@ const CreateEntity = () => {
                         <Card.Body>
                             <Row>
                                 <Col sm={12} lg={12}>
-                                    <FormEntity name={name} setName={setName} ifConfirm={addEntity}/>
+                                    <FormEntity 
+                                        name={name} setName={setName} 
+                                        ifConfirm={addEntity} edit={false} />
                                 </Col>
                             </Row>
                         </Card.Body>

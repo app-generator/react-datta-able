@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { getEntity } from '../../../../api/services/entities';
+import { getEntity } from '../../../api/services/entities';
 
 const BadgeNetwork_Entity = (props) => { //TODO
     const [entity, setEntity] = useState('');

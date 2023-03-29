@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putContact } from '../../api/services/contacts';
-import FormContact from './components/Form/FormContact';
+import FormCreateContact from './components/FormCreateContact';
 import Navigation from '../../components/Navigation/Navigation';
 
 const EditContact = () => {
@@ -40,14 +40,14 @@ const EditContact = () => {
                             <span className="d-block m-t-5">Editar Contacto</span>
                         </Card.Header>
                         <Card.Body>
-                        <FormContact 
+                        <FormCreateContact 
                                 name={supportedName} setName= {setSupportedName} 
                                 role={selectRol} setRole={setSelectRol} 
                                 priority={supportedPriority} setPriority={setSupportedPriority} 
                                 type={selectType} setType={setSelectType} 
                                 contact={supportedContact} setContact={setSupportedContact} 
-                                key={supportedKey} setKey={setSupportedKey} 
-                                ifConfirm={editContact} />
+                                keypgp={supportedKey} setKey={setSupportedKey} 
+                                ifConfirm={editContact} ifCancel={() => {window.location.href = "/contact/tables"}}/>
                         </Card.Body>
                     </Card>
                     {/*<Alert/>*/}
