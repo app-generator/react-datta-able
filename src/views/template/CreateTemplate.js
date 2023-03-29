@@ -4,7 +4,7 @@ import FormTemplate from './components/FormTemplate'
 import Navigation from '../../components/Navigation/Navigation'
 import { postTemplate} from "../../api/services/templates";
 import { getTLP } from "../../api/services/tlp";
-import { getAllTaxonomies } from "../../api/services/taxonomy";
+import { getAllTaxonomies } from "../../api/services/taxonomies";
 import { getFeeds } from "../../api/services/feeds";
 import { getPriorities } from "../../api/services/priorities";
 import { getStates } from "../../api/services/states";

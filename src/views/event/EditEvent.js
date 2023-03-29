@@ -6,7 +6,7 @@ import { putEvent} from "../../api/services/events";
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import { getTLP } from "../../api/services/tlp";
-import { getAllTaxonomies } from "../../api/services/taxonomy";
+import { getAllTaxonomies } from "../../api/services/taxonomies";
 import { getFeeds } from "../../api/services/feeds";
 import { getPriorities } from "../../api/services/priorities";
 import { getUsers } from "../../api/services/users";

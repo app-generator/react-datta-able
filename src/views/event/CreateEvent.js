@@ -4,7 +4,7 @@ import FormEvent from './components/FormEvent'
 import Navigation from '../../components/Navigation/Navigation'
 import { postEvent} from "../../api/services/events";
 import { getTLP } from "../../api/services/tlp";
-import { getAllTaxonomies } from "../../api/services/taxonomy";
+import { getAllTaxonomies } from "../../api/services/taxonomies";
 import { getFeeds } from "../../api/services/feeds";
 import { getPriorities } from "../../api/services/priorities";
 import { getUsers } from "../../api/services/users";

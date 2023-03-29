@@ -7,7 +7,7 @@ import { deletePriority } from "../../../api/services/priorities";
 import CrudButton from '../../../components/Button/CrudButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import PriorityButton from './PriorityButton'; 
-import { getTaxonomy } from '../../../api/services/taxonomy';
+import { getTaxonomy } from '../../../api/services/taxonomies';
 import { getPriority } from '../../../api/services/priorities';
 import { getTLPSpecific } from '../../../api/services/tlp';
 import { getFeed } from '../../../api/services/feeds';

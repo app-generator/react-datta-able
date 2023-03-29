@@ -10,7 +10,7 @@ import Navigation from '../../components/Navigation/Navigation'
 import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
 import { getEvents} from "../../api/services/events";
-import { getTaxonomy} from "../../api/services/taxonomy";
+import { getTaxonomy} from "../../api/services/taxonomies";
 import TableEvents from './components/TableEvents';
 
 const ListEvent = () => {
