@@ -127,7 +127,9 @@ const ListNetwork = () => {
                 <Card>
                     <Card.Header>
                         <Row>
-                            <Search type="red" action={action} />
+                            <Col sm={12} lg={9}>
+                                <Search type="red" action={action} />
+                            </Col>
                             <Col sm={12} lg={3}>
                                 <Link to={{pathname:'/network/create'}} >
                                     <CrudButton type='create' name='Red' />

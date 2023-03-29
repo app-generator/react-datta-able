@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './Pagination.css'
 
 function Pagination({ pages , setCurrentPage , setjumpPage}) {
+
   // Current active button number
   const [currentButton, setCurrentButton] = useState(1)
   const [jump, setJump] = useState(false)
-  const [arrOfCurrButtons, setArrOfCurrButtons] = useState([]) // Array of buttons what we see on the page
+  // Array of buttons what we see on the page
+  const [arrOfCurrButtons, setArrOfCurrButtons] = useState([]) 
 
   useEffect(() => {
     let tempNumberOfPages = [...arrOfCurrButtons]
