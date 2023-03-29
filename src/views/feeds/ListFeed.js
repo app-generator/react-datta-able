@@ -7,75 +7,36 @@ import ButtonDelete from './components/ButtonDelete';
 import ButtonState from './components/ButtonState';
 import CrudButton from '../../components/Button/CrudButton';
 import Alert from '../../components/Alert/Alert';
-import Pagination from '../../components/Pagination/Pagination';
 import Navigation from '../../components/Navigation/Navigation';
+import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 
 
-const ListFeeds = () => {
+const ListFeed = () => {
     
     const [feeds, setFeeds] = useState([]);
-    const [error, setError] = useState(null);
     const [search, setSearch] = useState("");
-    const [loading, setLoading] = useState(true)
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
-
+    const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1)
-    const [jumpPage, setjumpPage] = useState(false)
-    const [pages, setPages] = useState(0)
-    const [arrayPages, setArrayPages] = useState([])
+    const [countItems, setCountItems] = useState(0);
 
 
-    function arrayWithPages(numberOfItems) {
-        const numberOfPages = Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage        
-        const arrayNumberOfPages=[]
-        for (var i = 1; i <= numberOfPages; i++) {
-            arrayNumberOfPages.push(i)
-        }
-        setArrayPages(arrayNumberOfPages)
-        return numberOfPages
-    }
-
-    function changePage(page){
-        if (jumpPage){
-            setLoading(true)
-            setjumpPage(false)
-
-            const fetchFeeds = async () => {            
-            getFeeds(page).then((response) => {
-                setFeeds(response.data.results)
-            })
-            setLoading(false)
-            }
-
-            fetchFeeds();
-        }
+    function updatePage(chosenPage){
+        setCurrentPage(chosenPage);
     }
     
-    useEffect(() => {        
-        if(sessionStorage.getItem('Alerta')) {
-            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
-            setAlert(storage)
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                    sessionStorage.clear()
-                }, 5000);
-        }
-        setCurrentPage(currentPage)        
+    useEffect(() => {                
         getFeeds(currentPage)
         .then((response) => {
-            setPages(arrayWithPages(response.data.count))
+            setCountItems(response.data.count)
             setFeeds(response.data.results)
-            setError(null)
         })
         .catch((error)=>{
-            setError(error)
+            // show alert
         })
         .finally(() => {
             setLoading(false)
         })
-    }, [pages]);  
+    }, [countItems, currentPage]);  
     
     //valores ingresados
     const searcher = (e) => {
@@ -99,12 +60,9 @@ const ListFeeds = () => {
             </Row>
         );    
     }
-    
-    changePage(arrayPages[currentPage-1])
-    
+        
     return (
         <React.Fragment>
-            <Alert alert={alert} stateAlert={stateAlert} />
             <Row>
                 <Navigation actualPosition={'Fuentes de Información'}/>
             </Row>
@@ -125,7 +83,7 @@ const ListFeeds = () => {
                                 </Col>
                                 <Col sm={12} lg={3}>
                                     <React.Fragment>                                        
-                                        <Link to={{pathname:'./feeds/new'}} >
+                                        <Link to={{pathname:'./feeds/create'}} >
                                             <CrudButton type='create' name='Fuente' />
                                         </Link>
                                     </React.Fragment>                           
@@ -167,7 +125,7 @@ const ListFeeds = () => {
                         <Card.Footer >
                             <Row className="justify-content-md-center">
                                 <Col md="auto"> 
-                                    <Pagination pages={pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
                                 </Col>
                             </Row>
                         </Card.Footer>
@@ -178,4 +136,4 @@ const ListFeeds = () => {
     );
 };
 
-export default ListFeeds;
+export default ListFeed;

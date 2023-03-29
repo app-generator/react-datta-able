@@ -129,8 +129,9 @@ function ListUser() {
       <Card>
         <Card.Header>
           <Row>
-              <Search type="usuario" action={action} />
-
+              <Col sm={12} lg={9}>
+                <Search type="usuario" action={action} />
+              </Col>
               <Col sm={12} lg={3}>
               <Link to={{pathname:'/add-user'}} >
                   <CrudButton type='create' name='Usuario' />

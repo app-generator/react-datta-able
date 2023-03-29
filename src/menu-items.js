@@ -20,7 +20,7 @@ const menuItems = {
                     url: '/app/feeds',
                     icon: 'fas fa-globe',
                     breadcrumbs: false
-                }              
+                }            
             ]
         },
         {
@@ -85,7 +85,15 @@ const menuItems = {
                             icon: 'fa fa-exclamation-triangle',
                             breadcrumbs: false
             
-                        }
+                        },
+                        {
+                            id: 'taxonomy',
+                            title: 'Taxonomia',
+                            type: 'item',
+                            url: '/app/taxonomies',
+                            icon: 'fas fa-server',
+                            breadcrumbs: false
+                        }   
                     ]
                 },
                 

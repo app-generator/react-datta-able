@@ -4,7 +4,7 @@ import CrudButton from '../../../../components/Button/CrudButton';
 import { Link } from 'react-router-dom';
 import FormGetName from '../../../../components/Form/FormGetName';
 import { getTask } from '../../../../api/services/tasks';
-import { getTaxonomy } from '../../../../api/services/taxonomy';
+import { getTaxonomy } from '../../../../api/services/taxonomies';
 
 const ModalDetailPlaybook = (props) => {
     

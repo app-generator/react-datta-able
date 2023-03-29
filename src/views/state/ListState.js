@@ -88,14 +88,15 @@ const ListState = () => {
       <Card>
         <Card.Header>
           <Row>
-              <Search type="Estado" action={action} />
-
-              <Col sm={12} lg={3}>
+            <Col sm={12} lg={9}>
+                <Search type="Estado" action={action} />
+            </Col>
+            <Col sm={12} lg={3}>
                 <Link to={{pathname:'/add-state', state:states}} >
                     <CrudButton type='create' name='estado' />
                 </Link>
           
-              </Col> 
+            </Col> 
           </Row>                                 
           </Card.Header>
           <TableStates states={states} callback={callbackBackend} loading={loading} /> 
