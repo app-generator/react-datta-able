@@ -11,7 +11,7 @@ import Navigation from '../../components/Navigation/Navigation';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 
 
-const ListFeeds = () => {
+const ListFeed = () => {
     
     const [feeds, setFeeds] = useState([]);
     const [search, setSearch] = useState("");
@@ -83,7 +83,7 @@ const ListFeeds = () => {
                                 </Col>
                                 <Col sm={12} lg={3}>
                                     <React.Fragment>                                        
-                                        <Link to={{pathname:'./feeds/new'}} >
+                                        <Link to={{pathname:'./feeds/create'}} >
                                             <CrudButton type='create' name='Fuente' />
                                         </Link>
                                     </React.Fragment>                           
@@ -136,4 +136,4 @@ const ListFeeds = () => {
     );
 };
 
-export default ListFeeds;
+export default ListFeed;

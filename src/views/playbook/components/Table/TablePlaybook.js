@@ -7,7 +7,7 @@ import ModalConfirm from '../../../../components/Modal/ModalConfirm';
 import ModalDetailPlaybook from '../Modal/ModalDetailPlaybook'; 
 import FormGetName from '../../../../components/Form/FormGetName';
 import { getTask } from '../../../../api/services/tasks';
-import { getTaxonomy } from '../../../../api/services/taxonomy';
+import { getTaxonomy } from '../../../../api/services/taxonomies';
 
 
 const TablePlaybook = ({callback, list, loading }) => {

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
+import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import DropdownState from './components/DropdownState';
 import { postFeed } from '../../api/services/feeds';
 import Alert from '../../components/Alert/Alert';
 import { validateName, validateDescription } from './components/ValidatorFeed';
 import Navigation from '../../components/Navigation/Navigation'
 
-const NewFeed = () => {
+const CreateFeed = () => {
 
     const[slug, setSlug] = useState ("");
     const [name, setName] = useState("");
@@ -86,4 +86,4 @@ const NewFeed = () => {
     );
 };
 
-export default NewFeed;
+export default CreateFeed;

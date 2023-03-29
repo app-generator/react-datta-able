@@ -6,7 +6,11 @@ const validateName = (name) =>{
 
 
 const validateDescription = (description) =>{
+    return (!isEmpty(description))
+}
+
+const validateType = (description) =>{
     return (validateLength(description, 250) && !isEmpty(description))
 }
 
-export {validateName, validateDescription}
+export {validateName, validateDescription, validateType}

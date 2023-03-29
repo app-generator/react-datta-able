@@ -69,18 +69,33 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/app/feeds/new',
+                path: '/app/feeds/create',
                 component: lazy(() => import('./views/feeds/CreateFeed'))
             },
             {
                 exact: true,
                 path: '/app/feeds/edit',
                 component: lazy(() => import('./views/feeds/EditFeed'))
+            },
+            {
+                exact: true,
+                path: '/app/taxonomies',
+                component: lazy(() => import('./views/taxonomy/ListTaxonomies'))
+            },
+            {
+                exact: true,
+                path: '/app/taxonomy/create',
+                component: lazy(() => import('./views/taxonomy/CreateTaxonomy'))
+            },
+            {
+                exact: true,
+                path: '/app/taxonomy/edit',
+                component: lazy(() => import('./views/taxonomy/EditTaxonomy'))
             },            
             {
                 exact: true,
                 path: '/app/tlp',
-                component: lazy(() => import('./views/tlp/TLP'))
+                component: lazy(() => import('./views/tlp/ListTLP'))
             },
             {
                 exact: true,
