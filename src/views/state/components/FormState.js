@@ -8,6 +8,7 @@ const animatedComponents = makeAnimated();
 
 
 const FormState = ({body, setBody, createState, childernes}) => {
+    
 
     const completeField=(event)=>{ 
         setBody({...body,

@@ -22,13 +22,13 @@ const CreateEvent = () => {
     domain: ".com", //cuidado con cargar "" , si o si tiene que ser requerido me lo pide por que no tine un atributo filter
     date: "",
     notes: null, //cuidado con cargar ""
-    parent: null,
+    parent: [],
     priority: null,
     tlp: null,
     taxonomy: null,
     feed: null,
-    reporter: null,
-    case: null,
+    reporter: [],
+    case: [],
     tasks:[]
   }
   
@@ -138,11 +138,11 @@ const CreateEvent = () => {
     f.append("domain", body.domain)
     f.append("todos", body.todos)
     f.append("comments", body.comments)
-    f.append("cidr", body.cidr)// 'null' does not appear to be an IPv4 or IPv6 network"
+    f.append("cidr", body.cidr)
     f.append("notes", body.notes)
-    f.append("parent", body.parent) //"Invalid hyperlink - No URL match."]
+    f.append("parent", body.parent)
     f.append("reporter", body.reporter)
-    f.append("case", body.case) //"Invalid hyperlink - No URL match.
+    f.append("case", body.case) 
     f.append("tasks", body.tasks)
     if (body.evidence !== null){
       for (let index=0; index< body.evidence.length  ; index++){

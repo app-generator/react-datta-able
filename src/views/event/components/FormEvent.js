@@ -96,14 +96,14 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
                     name="tlp" 
                     value ={body.tlp} 
                     onChange={(e)=>completeField(e)} isInvalid={body.tlp === "-1"}
-                    isValid={body.priority !== "-1"}>
+                    isValid={body.tlp !== "-1"}>
                     <option value="-1">Seleccione un tlp</option>
                     {tlp.map((tlp, index) => {
                         return(<option value={tlp.url}> {tlp.name} </option>)
                     })}
                  
                 </Form.Control>
-                {(body.tlp !== "-1") ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
+                {(body.tlp !== "-1") ? '' : <div className="invalid-feedback">Seleccione un tlp</div>}
                 </Form.Group>
                     
 
@@ -156,13 +156,13 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
                     value ={body.priority} 
                     onChange={(e)=>completeField(e)} isInvalid={body.priority === "-1"}
                     isValid={body.priority !== "-1"}>
-                    <option value="-1">Seleccione una Fuente de Informacion</option>
+                    <option value="-1">Seleccione una Prioridad</option>
                     {priorities.map((priority, index) => {
                         return(<option value={priority.url}> {priority.name} </option>)
                     })}
                  
                 </Form.Control>
-                {(body.feed !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Fuente de Informacion</div>}
+                {(body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Prioridad</div>}
                 </Form.Group>
 
                 <Form.Group controlId="exampleForm.ControlSelect1">

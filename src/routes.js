@@ -281,6 +281,21 @@ const routes = [
                 component: lazy(() => import('./views/task/EditTask'))
             },
             {
+                exact: true,
+                path: '/list-template',
+                component: lazy(() => import('./views/template/ListTemplate'))
+            },
+            {
+                exact: true,
+                path: '/add-template',
+                component: lazy(() => import('./views/template/CreateTemplate'))
+            },
+            {
+                exact: true,
+                path: '/edit-template',
+                component: lazy(() => import('./views/template/EditTemplate'))
+            },
+            {
                 path: '*',
                 exact: true,
                 component: () => <Redirect to={BASE_URL} />

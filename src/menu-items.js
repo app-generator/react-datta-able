@@ -136,6 +136,23 @@ const menuItems = {
             }
             ]
         },
+        {
+            id: 'Plantilla',
+            title: 'Plantilla',
+            type: 'group',
+            icon: 'icon-ui',
+            children: [
+            {
+                id: 'Plantilla',
+                title: 'Plantilla',
+                type: 'item',
+                url: '/list-template',
+                classes: '',
+                icon: '',
+                breadcrumbs: false,
+            }
+            ]
+        },
          
          
     
