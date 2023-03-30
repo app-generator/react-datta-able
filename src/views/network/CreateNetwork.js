@@ -10,8 +10,8 @@ const CreateNetwork = () => {
     const [cidr, setCidr] = useState(''); //required
     const [type, setType] = useState('0'); //required
     const [contacts, setContacts] = useState([]); //required 
-    const [active, setActive] = useState(true); //required: true 
-    const [children, setChildren] = useState(null); //?
+    const active = true; //required: true 
+    const children = useState(null); //?
     const [domain, setDomain] = useState(''); // null 
     const [parent, setParent] = useState(null);
     const [network_entity, setNetwork_entity] = useState(null);
