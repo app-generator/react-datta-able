@@ -14,7 +14,7 @@ const EditPlaybook = () => {
 
     const [url, setUrl] = useState(playbook.url);
     const [name, setName] = useState(playbook.name);
-    const [taxonomy, setTaxonomy] = useState(playbook.taxonomy); //enviar con el formato value, label
+    const [taxonomy, setTaxonomy] = useState(playbook.taxonomy); 
 
     //Dropdown
     const [allTaxonomies, setAllTaxonomies] = useState([])
