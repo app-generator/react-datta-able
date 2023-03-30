@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
-import { getAllContacts } from '../../api/services/contacts';
+import { getContacts } from '../../api/services/contacts';
 import { putNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/FormCreateNetwork';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
@@ -32,7 +32,7 @@ const EditNetwork = () => {
     useEffect(()=> {
         
         //multiselect all options 
-        getAllContacts()
+        getContacts()
             .then((response) => {
                 let listContact = []
                 response.data.results.map((contactsItem)=>{
@@ -45,7 +45,7 @@ const EditNetwork = () => {
                 setError(error)
             })  
         
-        },[active, contactCreated])
+        },[])
 
     const labelRole = {
         technical : 'Tecnico',

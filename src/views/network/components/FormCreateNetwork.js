@@ -11,9 +11,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import DropdownState from '../../../components/Dropdown/DropdownState';
 
-
 const animatedComponents = makeAnimated();
-
 
 const FormCreateNetwork = (props) => { 
     // props: ifConfirm children setChildren cidr setCidr domain setDomain active setActive 
@@ -27,7 +25,6 @@ const FormCreateNetwork = (props) => {
 
     //Multiselect
     const [contactsValueLabel, setContactsValueLabel] = useState([])
-
 
     //Create Contact
     const [modalCreate, setModalCreate] = useState(false)
@@ -73,7 +70,10 @@ const FormCreateNetwork = (props) => {
             })
             )
         }
-            
+    
+        console.log(contactsValueLabel);
+        console.log(props.allContacts);
+
     //Create Contact
     const createContact = () => { //refactorizar al FormContact
 
@@ -89,12 +89,6 @@ const FormCreateNetwork = (props) => {
             console.log(error)
         });    
     };
-    console.log('cidr: '+ props.cidr)
-    console.log('type: '+ props.type)
-    console.log('domain: '+ props.domain)
-    console.log('parent: '+ props.parent)
-    console.log('network_entity: '+ props.network_entity)
-    console.log('contacts: '+ props.contacts)
 
     return (
         <React.Fragment>
@@ -198,11 +192,11 @@ const FormCreateNetwork = (props) => {
                         <Form.Group controlId="Form.Network.Contacts.Multiselect">
                             <Form.Label>Contactos Relacionados</Form.Label>
                             <Select
+                                value={contactsValueLabel}
                                 placeholder='Seleccione Contactos'
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
                                 isMulti
-                                value={contactsValueLabel}
                                 onChange={selectContacts}
                                 options={props.allContacts}
                                 />
