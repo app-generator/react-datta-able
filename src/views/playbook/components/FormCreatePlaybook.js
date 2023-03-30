@@ -11,7 +11,6 @@ const animatedComponents = makeAnimated();
 const FormCreatePlaybook = (props) => { 
     // props:  ifConfirm name setName taxonomy setTaxonomy allTaxonomies save
     const [taxonomiesDefaultValue, setTaxonomiesDefaultValue] = useState([])
-    const [indexes, setIndexes] = useState([]);
 
     useEffect(()=> {
                 //selected taxonomies: value-label

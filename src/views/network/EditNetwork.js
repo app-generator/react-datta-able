@@ -30,7 +30,8 @@ const EditNetwork = () => {
     
 
     useEffect(()=> {
-
+        
+        //multiselect all options 
         getAllContacts()
             .then((response) => {
                 let listContact = []
@@ -43,7 +44,6 @@ const EditNetwork = () => {
             .catch((error)=>{
                 setError(error)
             })  
-        
         
         },[active, contactCreated])
 
