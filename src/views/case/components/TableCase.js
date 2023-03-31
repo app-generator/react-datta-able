@@ -59,7 +59,7 @@ const TableCase = ({callback, list, loading }) => {
                 setError(error)
             })
 
-            getStates('?page=1')
+        getStates('?page=1')
             .then((response) => {
                 console.log(response.data.results)
                 let stateOp = {}
@@ -96,12 +96,10 @@ const TableCase = ({callback, list, loading }) => {
         deleteCase(url)
             .then((response) => {
                 console.log(response);
-                callback(lastItem)
             })
             .catch((error) => {
                 console.log(error)
                 setError(error)
-                callback(false)
             })
             .finally(() => {
                 setModalDelete(false)

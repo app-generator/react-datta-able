@@ -144,7 +144,7 @@ const TableContact = ({callback, list, loading }) => {
                                             <Card.Title as="h5">Contactos</Card.Title>
                                             <span className="d-block m-t-5">Detalle de contacto</span>
                                         </Col>
-                                        <Col sm={12} lg={2}>                       
+                                        <Col sm={2} lg={2}>                       
                                             <Link to={{pathname:'/contact/edit', state: contact}} >
                                                 <CrudButton type='edit'/>
                                             </Link>

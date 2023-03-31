@@ -21,6 +21,7 @@ const ListCase2 = () => {
     const [pages, setPages] = useState(0)
     const [arrayPages, setArrayPages] = useState([])
   
+    
     useEffect( ()=> {
 
         getCases('?page=1') //error al borrar el ultimo elemento de la pagina
@@ -35,7 +36,7 @@ const ListCase2 = () => {
                 setLoading(false)
             })
 
-    }, []);
+    }, [pages]);
 
     console.log(cases);
         
@@ -59,15 +60,6 @@ const ListCase2 = () => {
     }
 
     const callbackBackend = (lastItem) => {
-        setLoading(true)
-        if(lastItem) {
-            setCurrentPage(currentPage-1) 
-            setArrayPages(arrayPages.slice(0, -1)) 
-        }
-        else {
-            console.log('else lastItem')
-        }
-        setPages(0)//
     }
 
 
@@ -97,7 +89,7 @@ return (
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableCase callback={callbackBackend} list={cases} loading={loading} />
+                        <TableCase callback={setPages} list={cases} loading={loading} />
                     </Card.Body>
                     {/*
                     <Card.Footer >

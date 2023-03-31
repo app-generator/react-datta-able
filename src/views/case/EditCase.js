@@ -14,7 +14,7 @@ const EditCase = () => {
     const caseItem = useLocation().state;
 
     const [url, setUrl] = useState(caseItem.url) //required
-    const [date, setDate] = useState(caseItem.date) //required
+    const [date, setDate] = useState(caseItem.date  != null ? caseItem.date.substr(0,16) : '') //required
     const [lifecycle, setLifecycle] = useState(caseItem.lifecycle) //required
     const [parent, setParent] = useState(caseItem.parent) 
     const [priority, setPriority] = useState(caseItem.priority) //required
@@ -32,8 +32,8 @@ const EditCase = () => {
     const [events, setEvents] = useState(caseItem.events)
     const [allEvents, setAllEvents] = useState([]) //multiselect
 
-    const [attend_date, setAttend_date] = useState(caseItem.attend_date) //imprime la hora actual +3horas
-    const [solve_date, setSolve_date] = useState(caseItem.solve_date)
+    const [attend_date, setAttend_date] = useState(caseItem.attend_date != null ? caseItem.attend_date.substr(0,16) : '') //imprime la hora actual +3horas
+    const [solve_date, setSolve_date] = useState(caseItem.solve_date!= null ? caseItem.solve_date.substr(0,16) : '')
 
     const [error, setError] = useState(null)
 
@@ -92,18 +92,19 @@ const EditCase = () => {
             console.log(error)
         });    
     };
-       
+    console.log(date)
+
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Crear Caso" path="/case/tables" index ="Casos"/>
+                <Navigation actualPosition="Editar Caso" path="/case/tables" index ="Casos"/>
             </Row>
             <Row>
                 <Col sm={12}>
                     <Card>
                         <Card.Header>
                             <Card.Title as="h5">Casos</Card.Title>
-                            <span className="d-block m-t-5">Agregar Caso</span>
+                            <span className="d-block m-t-5">Editar Caso</span>
                         </Card.Header>
                         <Card.Body>
                             <Row>

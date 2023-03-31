@@ -113,10 +113,10 @@ const ListContact = () => {
                 <Card>
                     <Card.Header>
                         <Row>
-                            <Col sm={12} lg={9}>
+                            <Col>
                                 <Search type="contacto" action={action} />
                             </Col>
-                            <Col sm={12} lg={3}>
+                            <Col sm={3} lg={3}>
                                 <Link to={{pathname:'/contact/create'}} >
                                     <CrudButton type='create' name='Contacto' />
                                 </Link>

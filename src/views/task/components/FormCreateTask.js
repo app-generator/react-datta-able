@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Button, Col, Row, Form} from 'react-bootstrap';
 import { getPriorities } from '../../../api/services/priorities';
-import { getAllPlaybooks } from '../../../api/services/playbooks';
 import { validateSpace, validateAlphanumeric } from '../../../utils/validators'; 
 
 // props: name, setName, priority, setPriority, playbook, setPlaybook,

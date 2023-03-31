@@ -4,7 +4,7 @@ import { Button, Card, Col, Row } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putPlaybook } from '../../api/services/playbooks';
 import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
-import { getAllTaxonomies } from '../../api/services/taxonomies';
+import { getTaxonomies, getAllTaxonomies } from '../../api/services/taxonomies';
 import ListTask from '../task/ListTask';
 import Navigation from '../../components/Navigation/Navigation';
 
@@ -22,8 +22,8 @@ const EditPlaybook = () => {
     const [error, setError] = useState(null);
 
     useEffect(()=> {
-
-        getAllTaxonomies()
+        getTaxonomies(1)
+        //getAllTaxonomies()
             .then((response) => {
                 console.log(response.data.results)
                 //allTaxonomies

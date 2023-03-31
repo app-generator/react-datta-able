@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Button, Form, FormControl, Row} from 'react-bootstrap';
+import {Button, Col, Form, Row} from 'react-bootstrap';
 import { getPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { getUsers } from '../../../api/services/users';
@@ -115,159 +115,182 @@ const [error, setError] = useState(false)
     return (
         <React.Fragment>
             <Form>
-                <Form.Group controlId="Form.Case.Date">
-                    <Form.Label>Fecha</Form.Label>
-                    <Form.Control type="datetime-local" //2023-03-24T01:40:14.181622Z 
-                        value={props.date} //yyyy-mm-ddThh:mm
-                        min="2000-01-01T00:00" max="2030-01-01T00:00" 
-                        isInvalid={props.date == null}
-                        isValid={props.date !== null}
-                        onChange={(e) =>  props.setDate(e.target.value)}/>
-                </Form.Group> 
-
-                <Form.Group controlId="Form.Case.Lifecycle">
-                    <Form.Label>Ciclo de vida</Form.Label>
-                        <Form.Control
-                            name="lifecycle"
-                            type="choice"                                            
-                            as="select"
-                            value={props.lifecycle}
-                            isInvalid={props.lifecycle == '0'}
-                            isValid={props.lifecycle !== '0'}
-                            onChange={(e) =>  props.setLifecycle(e.target.value)}>
-                            <option value='0'>Seleccione</option>
-                            {allLifecycles.map((lifecycleItem, index) => {                
+                <Row>
+                    <Col sm={12} lg={4}>
+                        <Form.Group controlId="Form.Case.Date">
+                            <Form.Label>Fecha</Form.Label>
+                            <Form.Control type="datetime-local" //2023-03-24T01:40:14.181622Z 
+                                value={props.date} //yyyy-mm-ddThh:mm
+                                min="2000-01-01T00:00" max="2030-01-01T00:00" 
+                                isInvalid={props.date == null}
+                                isValid={props.date !== null}
+                                onChange={(e) =>  props.setDate(e.target.value)}/>
+                        </Form.Group> 
+                    </Col>
+                    <Col sm={12} lg={4}>
+                        <Form.Group controlId="Form.Case.Attend_date">
+                            <Form.Label>Fecha de atencion</Form.Label>
+                            <Form.Control type="datetime-local"
+                                value={props.attend_date} //yyyy-mm-ddThh:mm
+                                min="2000-01-01T00:00" max="2030-01-01T00:00" 
+                                onChange={(e) =>  props.setAttend_date(e.target.value)}/>
+                        </Form.Group> 
+                    </Col>
+                    <Col sm={12} lg={4}>
+                        <Form.Group controlId="Form.Case.Solve_date">
+                            <Form.Label>Fecha de resolucion</Form.Label>
+                            <Form.Control type="datetime-local"
+                                value={props.solve_date} //yyyy-mm-ddThh:mm
+                                min="2000-01-01T00:00" max="2030-01-01T00:00" 
+                                onChange={(e) =>  props.setSolve_date(e.target.value)}/>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                
+                <Row>
+                    <Col sm={12} lg={3}>
+                        <Form.Group controlId="Form.Case.Lifecycle">
+                            <Form.Label>Ciclo de vida</Form.Label>
+                            <Form.Control
+                                name="lifecycle"
+                                type="choice"                                            
+                                as="select"
+                                value={props.lifecycle}
+                                isInvalid={props.lifecycle == '0'}
+                                isValid={props.lifecycle !== '0'}
+                                onChange={(e) =>  props.setLifecycle(e.target.value)}>
+                                <option value='0'>Seleccione</option>
+                                {allLifecycles.map((lifecycleItem, index) => {                
+                                    return (
+                                        <option key={index} value={lifecycleItem.value}>{lifecycleItem.display_name}</option>
+                                    );
+                                })}
+                            </Form.Control>
+                            {props.lifecycle ? '' : <div className="invalid-feedback">Seleccione el ciclo de vida</div>}
+                        </Form.Group>
+                    </Col>
+                    <Col sm={12} lg={3}>
+                        <Form.Group controlId="Form.Case.Priority">
+                            <Form.Label>Prioridad</Form.Label>
+                                <Form.Control
+                                    name="priority"
+                                    type="choice"                                            
+                                    as="select"
+                                    value={props.priority}
+                                    isInvalid={props.priority == '0'}
+                                    isValid={props.priority !== '0'}
+                                    onChange={(e) =>  props.setPriority(e.target.value)}>
+                                    <option value='0'>Seleccione</option>
+                                    {allPriorities.map((priorityItem, index) => {                
+                                        return (
+                                            <option key={index} value={priorityItem.url}>{priorityItem.name}</option>
+                                        );
+                                    })}
+                                </Form.Control>
+                                {props.priority ? '' : <div className="invalid-feedback">Seleccione la prioridad</div>}
+                        </Form.Group>
+                    </Col>
+                    <Col sm={12} lg={3}>
+                        <Form.Group controlId="Form.Case.Tlp">
+                        <Form.Label>TLP</Form.Label>
+                            <Form.Control
+                                name="tlp"
+                                type="choice"                                            
+                                as="select"
+                                value={props.tlp}
+                                isInvalid={props.tlp == '0'}
+                                isValid={props.tlp !== '0'}
+                                onChange={(e) =>  props.setTlp(e.target.value)}>
+                                <option value='0'>Seleccione</option>
+                                {allTlp.map((tlpItem, index) => {                
+                                    return (
+                                        <option key={index} value={tlpItem.url}>{tlpItem.name}</option>
+                                    );
+                                })}
+                            </Form.Control>
+                            {props.tlp ? '' : <div className="invalid-feedback">Seleccione</div>}
+                        </Form.Group>
+                    </Col>
+                    <Col sm={12} lg={3}>
+                        <Form.Group controlId="Form.Case.State">
+                        <Form.Label>Estado</Form.Label>
+                            <Form.Control
+                                name="state"
+                                type="choice"                                            
+                                as="select"
+                                value={props.state}
+                                isInvalid={props.state == '0'}
+                                isValid={props.state !== '0'}
+                                onChange={(e) =>  props.setState(e.target.value)}>
+                                <option value='0'>Seleccione</option>
+                                {props.allStates.map((stateItem, index) => {                
                                 return (
-                                    <option key={index} value={lifecycleItem.value}>{lifecycleItem.display_name}</option>
+                                    <option key={index} value={stateItem.value}>{stateItem.label}</option>
                                 );
                             })}
-                        </Form.Control>
-                        {props.lifecycle ? '' : <div className="invalid-feedback">Seleccione el ciclo de vida</div>}
-                </Form.Group>
+                            </Form.Control>
+                            {props.state ? '' : <div className="invalid-feedback">Seleccione el estado</div>}
+                        </Form.Group>
+                    </Col>
+                </Row>
 
-                <Form.Group controlId="Form.Case.Priority">
-                    <Form.Label>Prioridad</Form.Label>
-                        <Form.Control
-                            name="priority"
-                            type="choice"                                            
-                            as="select"
-                            value={props.priority}
-                            isInvalid={props.priority == '0'}
-                            isValid={props.priority !== '0'}
-                            onChange={(e) =>  props.setPriority(e.target.value)}>
-                            <option value='0'>Seleccione</option>
-                            {allPriorities.map((priorityItem, index) => {                
-                                return (
-                                    <option key={index} value={priorityItem.url}>{priorityItem.name}</option>
-                                );
-                            })}
-                        </Form.Control>
-                        {props.priority ? '' : <div className="invalid-feedback">Seleccione la prioridad</div>}
-                </Form.Group>
-
-                <Form.Group controlId="Form.Case.Tlp">
-                    <Form.Label>TLP</Form.Label>
-                        <Form.Control
-                            name="tlp"
-                            type="choice"                                            
-                            as="select"
-                            value={props.tlp}
-                            isInvalid={props.tlp == '0'}
-                            isValid={props.tlp !== '0'}
-                            onChange={(e) =>  props.setTlp(e.target.value)}>
-                            <option value='0'>Seleccione</option>
-                            {allTlp.map((tlpItem, index) => {                
-                                return (
-                                    <option key={index} value={tlpItem.url}>{tlpItem.name}</option>
-                                );
-                            })}
-                        </Form.Control>
-                        {props.tlp ? '' : <div className="invalid-feedback">Seleccione</div>}
-                </Form.Group>
-
-                <Form.Group controlId="Form.Case.Assigned">
-                    <Form.Label>Asignado</Form.Label>
-                        <Form.Control
-                            name="assigned"
-                            type="choice"                                            
-                            as="select"
-                            value={props.assigned}
-                            onChange={(e) =>  props.setAssigned(e.target.value)}>
-                            <option value={null}>Sin designar</option>
-                            {allUsers.map((userItem, index) => {                
-                                return (
-                                    <option key={index} value={userItem.url}>{userItem.username}</option>
-                                );
-                            })}
-                        </Form.Control>
-                </Form.Group>
-
-                <Form.Group controlId="Form.Case.State">
-                    <Form.Label>Estado</Form.Label>
-                        <Form.Control
-                            name="state"
-                            type="choice"                                            
-                            as="select"
-                            value={props.state}
-                            isInvalid={props.state == '0'}
-                            isValid={props.state !== '0'}
-                            onChange={(e) =>  props.setState(e.target.value)}>
-                            <option value='0'>Seleccione</option>
-                            {props.allStates.map((stateItem, index) => {                
-                            return (
-                                <option key={index} value={stateItem.value}>{stateItem.label}</option>
-                            );
-                        })}
-                        </Form.Control>
-                        {props.state ? '' : <div className="invalid-feedback">Seleccione el estado</div>}
-                </Form.Group>
-
-                <Form.Group controlId="Form.Case.Comments">
-                    <Form.Label>Comentarios ???</Form.Label>
-                <Form.Control placeholder="Comentarios" />
-                </Form.Group>
-
-                <Form.Group controlId="Form.Case.Evidences">
-                    <Form.Label>Evidencias</Form.Label>
-                    <Select
-                            value={evidencesValueLabel}
-                            placeholder='Seleccione Evidencias'
-                            closeMenuOnSelect={false}
-                            components={animatedComponents}
-                            isMulti
-                            onChange={selectEvidences}
-                            options={props.allEvidences}
-                        />
-                </Form.Group>
-
-                <Form.Group controlId="Form.Case.Events.Multiselect">
-                    <Form.Label>Eventos</Form.Label>
-                        <Select
-                            value={eventsValueLabel}
-                            placeholder='Seleccione Eventos'
-                            closeMenuOnSelect={false}
-                            components={animatedComponents}
-                            isMulti
-                            onChange={selectEvents}
-                            options={props.allEvents}
-                        />
-                </Form.Group>
-
-                <Form.Group controlId="Form.Case.Attend_date">
-                    <Form.Label>Fecha de atencion</Form.Label>
-                    <Form.Control type="datetime-local"
-                        value={props.attend_date} //yyyy-mm-ddThh:mm
-                        min="2000-01-01T00:00" max="2030-01-01T00:00" 
-                        onChange={(e) =>  props.setAttend_date(e.target.value)}/>
-                </Form.Group> 
-
-                <Form.Group controlId="Form.Case.Solve_date">
-                    <Form.Label>Fecha de resolucion</Form.Label>
-                    <Form.Control type="datetime-local"
-                        value={props.solve_date} //yyyy-mm-ddThh:mm
-                        min="2000-01-01T00:00" max="2030-01-01T00:00" 
-                        onChange={(e) =>  props.setSolve_date(e.target.value)}/>
-                </Form.Group> 
+                <Row>
+                    <Col sm={12} lg={6}>
+                        <Form.Group controlId="Form.Case.Assigned">
+                            <Form.Label>Asignado</Form.Label>
+                                <Form.Control
+                                    name="assigned"
+                                    type="choice"                                            
+                                    as="select"
+                                    value={props.assigned}
+                                    onChange={(e) =>  props.setAssigned(e.target.value)}>
+                                    <option value={null}>Sin designar</option>
+                                    {allUsers.map((userItem, index) => {                
+                                        return (
+                                            <option key={index} value={userItem.url}>{userItem.username}</option>
+                                        );
+                                    })}
+                                </Form.Control>
+                        </Form.Group>
+                    </Col>
+                    <Col sm={12} lg={6}>
+                        <Form.Group controlId="Form.Case.Comments">
+                            <Form.Label>Comentarios ???</Form.Label>
+                        <Form.Control placeholder="Comentarios" />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12} lg={6}>
+                        <Form.Group controlId="Form.Case.Evidences">
+                            <Form.Label>Evidencias</Form.Label>
+                            <Select
+                                    value={evidencesValueLabel}
+                                    placeholder='Seleccione Evidencias'
+                                    closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    isMulti
+                                    onChange={selectEvidences}
+                                    options={props.allEvidences}
+                                />
+                        </Form.Group>
+                    </Col>
+                    <Col sm={12} lg={6}>
+                        <Form.Group controlId="Form.Case.Events.Multiselect">
+                            <Form.Label>Eventos</Form.Label>
+                                <Select
+                                    value={eventsValueLabel}
+                                    placeholder='Seleccione Eventos'
+                                    closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    isMulti
+                                    onChange={selectEvents}
+                                    options={props.allEvents}
+                                />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                 
                 {!props.date || !props.lifecycle || !props.priority || !props.tlp || !props.state ? 
                     <><Button variant="primary" disabled>{props.save}</Button></> 
                     : 

@@ -17,6 +17,10 @@ const ReadCase = () => {
 
     const [id, setId] = useState('');
     const [date, setDate] = useState('');
+    const [attend_date, setAttend_Date] = useState('');
+    const [solve_date, setSolve_Date] = useState('');
+    const [created, setCreated] = useState('');
+    const [modified, setModified] = useState('');
     const [error, setError] = useState(null)
 
     useEffect (() => {
@@ -24,9 +28,26 @@ const ReadCase = () => {
         if(caseItem) {
             let idItem = caseItem.url.split('/')[(caseItem.url.split('/')).length-2]
             setId(idItem)
-            let datetime = caseItem.date.split('T');
-            setDate(datetime[0] + ' ' + datetime[1].slice(0,8))
+
+            let datetime = caseItem.created.split('T');
+            setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
+            datetime = caseItem.modified.split('T');
+            setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
+
+            if(caseItem.date){
+                let datetime = caseItem.date.split('T');
+                setDate(datetime[0] + ' ' + datetime[1].slice(0,8))
+            }
+            if(caseItem.attend_date){
+                let datetime = caseItem.attend_date.split('T');
+                setAttend_Date(datetime[0] + ' ' + datetime[1].slice(0,8))
+            }
+            if(caseItem.date){
+                let datetime = caseItem.solve_date.split('T');
+                setSolve_Date(datetime[0] + ' ' + datetime[1].slice(0,8))
+            }
         }
+        
         
     }, []) 
 
@@ -122,25 +143,25 @@ const ReadCase = () => {
                                     <tr>
                                         <td>Fecha de atencion (attend_date)</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.attend_date} />
+                                            <Form.Control plaintext readOnly defaultValue={attend_date} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Fecha de resolucion (solve_date)</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.solve_date} />
+                                            <Form.Control plaintext readOnly defaultValue={solve_date} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Fecha de creacion (create)</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.created} />
+                                            <Form.Control plaintext readOnly defaultValue={created} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Fecha de modificacion (modified)</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.modified} />
+                                            <Form.Control plaintext readOnly defaultValue={modified} />
                                         </td>
                                     </tr>
                                 </tbody>

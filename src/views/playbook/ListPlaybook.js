@@ -112,8 +112,10 @@ const ListPlaybook = () => {
                 <Card>
                     <Card.Header>
                         <Row>
-                            <Search type="playbook" action={action} />
-                            <Col sm={12} lg={3}>
+                            <Col>
+                                <Search type="playbook" action={action} />
+                            </Col>
+                            <Col sm={3} lg={3}>
                             <Link to={{pathname:'/playbook/create'}} >
                                     <CrudButton type='create' name='Playbook' />
                                 </Link>

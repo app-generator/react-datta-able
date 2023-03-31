@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Button, Card, CloseButton, Col, Row, Form, Modal} from 'react-bootstrap';
-import { getAllEntities } from '../../../api/services/entities';
-import { getAllNetworks } from '../../../api/services/networks';
+import { getEntities } from '../../../api/services/entities';
+import { getNetworks } from '../../../api/services/networks';
 import CrudButton from '../../../components/Button/CrudButton';
 import FormCreateContact from '../../contact/components/FormCreateContact';
 import { postContact } from '../../../api/services/contacts';
@@ -42,7 +42,7 @@ const FormCreateNetwork = (props) => {
         .map(elemento => ({value: elemento.value, label: elemento.label}));
         setContactsValueLabel(listDefaultContact)
         
-        getAllEntities()
+        getEntities()
             .then((response) => {
                 setEntitiesOption(response.data.results)
                 console.log(response.data.results)
@@ -51,7 +51,7 @@ const FormCreateNetwork = (props) => {
                 setError(error)
             })
     
-        getAllNetworks()
+        getNetworks()
             .then((response) => {
                 setNetworksOption(response.data.results)
                 console.log(response.data.results)
@@ -95,24 +95,7 @@ const FormCreateNetwork = (props) => {
             {/*<Alert/>*/}
             <Form>
                 <Row>
-                    <Col sm={12} lg={12}>
-                        <Form.Group controlId="Form.Network.Cidr">
-                            <Form.Label>Cidr</Form.Label>
-                            <Form.Control 
-                                type="cidr" 
-                                placeholder="CIDR" 
-                                maxlength="18"
-                                value={props.cidr} 
-                                isValid={ validateCidr(props.cidr) && validateSpace(props.cidr) }
-                                isInvalid={ !validateSpace(props.cidr) || !validateCidr(props.cidr) }
-                                onChange={(e) => props.setCidr(e.target.value)}
-                                />
-                            {!props.cidr || validateCidr(props.cidr) ? "" : <div className="invalid-feedback">Ingrese un cidr valido</div>}
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm={12} lg={12}>
+                    <Col sm={12} lg={3}>
                         <Form.Group controlId="Form.Network.Type">
                             <Form.Label>Tipo</Form.Label>
                             <Form.Control
@@ -130,26 +113,22 @@ const FormCreateNetwork = (props) => {
                             </Form.Control>
                         </Form.Group>
                     </Col>
-                </Row>
-                <Row>
-                    <Col sm={12} lg={12}>
-                        <Form.Group controlId="Form.Network.Domain">
-                            <Form.Label>Dominio</Form.Label>
+                    <Col sm={12} lg={5}>
+                        <Form.Group controlId="Form.Network.Cidr">
+                            <Form.Label>Cidr</Form.Label>
                             <Form.Control 
-                                type="domain" 
-                                placeholder="Dominio" 
-                                maxlength="100"
-                                value={ props.domain } 
-                                isValid={ validateURL(props.domain) || validateSpaces(props.domain) }
-                                isInvalid={ props.domain!='' && !validateURL(props.domain) }
-                                onChange={ (e) => props.setDomain(e.target.value) } 
-                            />
-                            {props.domain!='' && !validateURL(props.domain) ? <div className="invalid-feedback">Ingrese caracteres validos</div> : ''}
+                                type="cidr" 
+                                placeholder="CIDR" 
+                                maxlength="18"
+                                value={props.cidr} 
+                                isValid={ validateCidr(props.cidr) && validateSpace(props.cidr) }
+                                isInvalid={ !validateSpace(props.cidr) || !validateCidr(props.cidr) }
+                                onChange={(e) => props.setCidr(e.target.value)}
+                                />
+                            {!props.cidr || validateCidr(props.cidr) ? "" : <div className="invalid-feedback">Ingrese un cidr valido</div>}
                         </Form.Group>
                     </Col>
-                </Row>
-                <Row>
-                    <Col sm={12} lg={12}>
+                    <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Network.Parent">
                             <Form.Label>Red Padre</Form.Label>
                             <Form.Control
@@ -167,8 +146,24 @@ const FormCreateNetwork = (props) => {
                         </Form.Group>
                     </Col>
                 </Row>
+
                 <Row>
-                    <Col sm={12} lg={12}>
+                    <Col sm={12} lg={6}>
+                        <Form.Group controlId="Form.Network.Domain">
+                            <Form.Label>Dominio</Form.Label>
+                            <Form.Control 
+                                type="domain" 
+                                placeholder="Dominio" 
+                                maxlength="100"
+                                value={ props.domain } 
+                                isValid={ validateURL(props.domain) || validateSpaces(props.domain) }
+                                isInvalid={ props.domain!='' && !validateURL(props.domain) }
+                                onChange={ (e) => props.setDomain(e.target.value) } 
+                            />
+                            {props.domain!='' && !validateURL(props.domain) ? <div className="invalid-feedback">Ingrese caracteres validos</div> : ''}
+                        </Form.Group>
+                    </Col>
+                    <Col sm={12} lg={6}>
                         <Form.Group controlId="Form.Network.Entity">
                             <Form.Label>Entidad Relacionada</Form.Label>
                             <Form.Control

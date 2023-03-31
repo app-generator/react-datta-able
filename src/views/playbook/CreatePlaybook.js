@@ -3,7 +3,7 @@ import { Button, Card, Col, Collapse, Row } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postPlaybook, putPlaybook } from '../../api/services/playbooks';
 import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
-import { getAllTaxonomies } from '../../api/services/taxonomies';
+import { getTaxonomies, getAllTaxonomies } from '../../api/services/taxonomies';
 import ListTask from '../task/ListTask';
 import Navigation from '../../components/Navigation/Navigation';
 
@@ -23,7 +23,8 @@ const CreatePlaybook = () => {
 
     useEffect(()=> {
 
-        getAllTaxonomies()
+        getTaxonomies(1)
+        //getAllTaxonomies()
             .then((response) => {
                 let listTaxonomies = []
                 response.data.results.map((taxonomyItem)=>{
@@ -93,6 +94,7 @@ const CreatePlaybook = () => {
                     <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
 
                     {/*<Alert />*/}
+                    <Button variant="primary" href="/playbook/tables">Volver</Button>
                 </Col>
             </Row>
     </React.Fragment>
