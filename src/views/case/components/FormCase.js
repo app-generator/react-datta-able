@@ -22,40 +22,15 @@ const [allTlp, setAllTlp] = useState([])
 const [allUsers, setAllUsers] = useState([])
 const [allStates, setAllStates] = useState([])
 const [supportedStates, setsupportedStates] = useState([]) // state.children
+
 const [eventsValueLabel, setEventsValueLabel] = useState([])
+const [evidencesValueLabel, setEvidencesValueLabel] = useState([])
+
 const [error, setError] = useState(false)
 
 
     useEffect(()=> {
         
-        getStates()
-            .then((response) => {
-                setAllStates(response.data.results)
-                console.log(response.data.results)
-                if(props.edit) { //supportedStates
-                    //supported states para el state actual
-                    getState(props.state)
-                    .then((response) => {
-                        console.log('suported states')
-                        console.log('response.date.children' + response.date.children)
-                        let listSupportedStates = allStates.filter(item =>response.date.children.includes(item.url));
-                        listSupportedStates.push(props.state)
-                        console.log('listSupportedStates' + listSupportedStates)
-                        setsupportedStates(listSupportedStates)
-            
-                    })
-                    .catch((error)=>{
-                        setError(error)
-                    })
-                
-                }
-            })
-            .catch((error)=>{
-                setError(error)
-            })
-
-
-
         getPriorities()
         .then((response) => {
             setPrioritiesOption(Object.values(response.data.results))
@@ -88,6 +63,10 @@ const [error, setError] = useState(false)
         .map(elemento => ({value: elemento.value, label: elemento.label}));
         setEventsValueLabel(listDefaultEvents)
 
+        //selected events 
+        let listDefaultEvidences = props.allEvidences.filter(elemento => props.evidences.includes(elemento.value))
+        .map(elemento => ({value: elemento.value, label: elemento.label}));
+        setEvidencesValueLabel(listDefaultEvidences)
     },[])
 
     const allLifecycles = [
@@ -119,6 +98,14 @@ const [error, setError] = useState(false)
             })
             )
         }
+    const selectEvidences=(evidence)=>{ 
+        props.setEvidences(
+            evidence.map((e)=>{
+                return e.value 
+            })
+            )
+        }
+
 
     let today = new Date();
     let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -226,18 +213,9 @@ const [error, setError] = useState(false)
                             isValid={props.state !== '0'}
                             onChange={(e) =>  props.setState(e.target.value)}>
                             <option value='0'>Seleccione</option>
-                            {props.edit ?
-                            supportedStates.map((stateItem, index) => {                
-                                return (
-                                    <option key={index} value={stateItem.url}>{stateItem.name}</option>
-                                );
-                            })
-                        :
-                        
-                        
-                        allStates.map((stateItem, index) => {                
+                            {props.allStates.map((stateItem, index) => {                
                             return (
-                                <option key={index} value={stateItem.url}>{stateItem.name}</option>
+                                <option key={index} value={stateItem.value}>{stateItem.label}</option>
                             );
                         })}
                         </Form.Control>
@@ -250,8 +228,16 @@ const [error, setError] = useState(false)
                 </Form.Group>
 
                 <Form.Group controlId="Form.Case.Evidences">
-                    <Form.Label>Evidencias ???</Form.Label>
-                <Form.Control placeholder="Evidencias" />
+                    <Form.Label>Evidencias</Form.Label>
+                    <Select
+                            value={evidencesValueLabel}
+                            placeholder='Seleccione Evidencias'
+                            closeMenuOnSelect={false}
+                            components={animatedComponents}
+                            isMulti
+                            onChange={selectEvidences}
+                            options={props.allEvidences}
+                        />
                 </Form.Group>
 
                 <Form.Group controlId="Form.Case.Events.Multiselect">
@@ -265,7 +251,7 @@ const [error, setError] = useState(false)
                             onChange={selectEvents}
                             options={props.allEvents}
                         />
-                    </Form.Group>
+                </Form.Group>
 
                 <Form.Group controlId="Form.Case.Attend_date">
                     <Form.Label>Fecha de atencion</Form.Label>

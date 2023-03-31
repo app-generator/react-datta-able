@@ -86,7 +86,9 @@ return (
                 <Card>
                     <Card.Header>
                         <Row>
-                            <Search type="caso" action={action} />
+                            <Col>
+                                <Search type="caso" action={action} />
+                            </Col>
                             <Col sm={12} lg={3}>
                                 <Link to={{pathname:'/case/create'}} >
                                     <CrudButton type='create' name='Caso' />
@@ -98,7 +100,6 @@ return (
                         <TableCase callback={callbackBackend} list={cases} loading={loading} />
                     </Card.Body>
                     {/*
-                    
                     <Card.Footer >
                         <Row className="justify-content-md-center">
                             <Col md="auto"> 
@@ -106,9 +107,7 @@ return (
                             </Col>
                         </Row>
                     </Card.Footer>
-                            */
-        
-                            }
+                            */}
                 </Card>
                 {/*<Alert/>*/}
                 </Col>

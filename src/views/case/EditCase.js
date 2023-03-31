@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { getEvents } from '../../api/services/events';
-import { getState } from '../../api/services/states';
+import { Link, useLocation } from 'react-router-dom';
+import { Button, Row, Col, Card } from 'react-bootstrap';
+import Alert from '../../components/Alert/Alert';
 import { putCase } from '../../api/services/cases';
-import { Row, Col, Card } from 'react-bootstrap';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
-import Alert from '../../components/Alert/Alert';
+import { getEvents } from '../../api/services/events';
+import { getEvidences } from '../../api/services/evidences';
+import { getStates } from '../../api/services/states';
 
-const CreateCase = () => {
+const EditCase = () => {
 
     const caseItem = useLocation().state;
 
@@ -19,10 +20,14 @@ const CreateCase = () => {
     const [priority, setPriority] = useState(caseItem.priority) //required
     const [tlp, setTlp] = useState(caseItem.tlp) //required
     const [assigned, setAssigned] = useState(caseItem.assigned)
+
     const [state, setState] = useState(caseItem.state) //required
+    const [allStates, setAllStates] = useState([]) //multiselect
 
     const [comments, setComments] = useState(caseItem.comments) // lista de que ??
-    const [evidence, setEvidence] = useState(caseItem.evidence) // como se muestra
+    
+    const [evidences, setEvidences] = useState(caseItem.evidence) // como se muestra
+    const [allEvidences, setAllEvidences] = useState([]) //multiselect
 
     const [events, setEvents] = useState(caseItem.events)
     const [allEvents, setAllEvents] = useState([]) //multiselect
@@ -47,13 +52,37 @@ const CreateCase = () => {
                 setError(error)
             })
 
+        getEvidences()
+            .then((response) => {
+                let listEvidences = []
+                response.data.results.map((evidencesItem)=>{
+                    listEvidences.push({value:evidencesItem.url, label:evidencesItem.url})
+                })
+                setAllEvidences(listEvidences)
+                console.log(response.data.results)
+            })
+            .catch((error)=>{
+                setError(error)
+            })
+
+        getStates()
+            .then((response) => {
+                let listStates = []
+                response.data.results.map((stateItem)=>{
+                    listStates.push({value:stateItem.url, label:stateItem.name, childrenUrl:stateItem.children})
+                })
+                setAllStates(listStates)
+                console.log(response.data.results)
+            })
+            .catch((error)=>{
+                setError(error)
+            })
+
         },[])
-
-
 
     //Edit
     const editCase = () => {
-        putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, events, attend_date, solve_date)
+        putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, events, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
             //window.location.href = "/case/tables"
@@ -67,14 +96,14 @@ const CreateCase = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Editar Caso" path="/case/tables" index ="Casos"/>
+                <Navigation actualPosition="Crear Caso" path="/case/tables" index ="Casos"/>
             </Row>
             <Row>
                 <Col sm={12}>
                     <Card>
                         <Card.Header>
                             <Card.Title as="h5">Casos</Card.Title>
-                            <span className="d-block m-t-5">Editar Caso</span>
+                            <span className="d-block m-t-5">Agregar Caso</span>
                         </Card.Header>
                         <Card.Body>
                             <Row>
@@ -85,13 +114,15 @@ const CreateCase = () => {
                                         priority={priority} setPriority={setPriority}
                                         tlp={tlp} setTlp={setTlp}
                                         assigned={assigned} setAssigned={setAssigned}
-                                        state={state} setState={setState} 
+                                        state={state} setState={setState} allStates={allStates}
+                                        
+                                        evidences={evidences} setEvidences={setEvidences} allEvidences={allEvidences}
                                         events={events} setEvents={setEvents} allEvents={allEvents}
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
 
-                                        ifConfirm={editCase} edit={true} save='PUT'/>
+                                        ifConfirm={editCase} edit={false} save='PUT'/>
 
                                 </Col>
 
@@ -105,4 +136,4 @@ const CreateCase = () => {
     );
 };
 
-export default CreateCase;
+export default EditCase;
