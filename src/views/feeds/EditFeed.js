@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
 import DropdownState from './components/DropdownState';
 import { useLocation } from "react-router-dom";
+import Alert from '../../components/Alert/Alert';
 import { putFeed } from '../../api/services/feeds';
 import { validateName, validateDescription } from './components/ValidatorFeed';
 import Navigation from '../../components/Navigation/Navigation';
@@ -14,9 +15,9 @@ const EditFeed = () => {
     const[slug, setSlug] = useState (feed.slug);    
     const [name, setName] = useState(feed.name);
     const [active, setActive] = useState(feed.active);
-    const [description, setDescription] = useState(feed.description);  
-
+    const [description, setDescription] = useState(feed.description);
     const [error, setError] = useState(null);
+    const [showAlert, setShowAlert] = useState(false)
 
     
     const editFeed = ()=> {
@@ -25,11 +26,19 @@ const EditFeed = () => {
         })
         .catch((error) => {
             setError(error);           
-        })        
-    };    
+        })
+        .finally(() => {
+            setShowAlert(true) 
+        })         
+    };  
+    
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    } 
    
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
                 <Navigation actualPosition="Editar fuente de información" path="/app/feeds" index ="Fuentes de Información"/> 
             </Row>

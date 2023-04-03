@@ -16,32 +16,28 @@ const CreateFeed = () => {
     const [error, setError] = useState(null);
 
     const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
+    const [showAlert, setShowAlert] = useState(false)
 
-    useEffect( ()=> {
-        if(sessionStorage.getItem('Alerta')) {
-            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
-            setAlert(storage)
-                setTimeout(() => {
-                    setStateAlert(null)
-                    sessionStorage.removeItem('Alerta')
-                }, 5000);
-        }
-    },[]);
-
-
+   
     const createFeed = ()=> {
         postFeed(slug, name, description, active).then((response) => {
             window.location.href = '/app/feeds';
         })
         .catch((error) => {
             setError(error);            
-        })        
+        })  
+        .finally(() => {
+            setShowAlert(true) 
+        })      
     };
+
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }    
     
     return (
         <React.Fragment>
-            <Alert alert={alert} stateAlert={stateAlert} />
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
                 <Navigation actualPosition="Agregar fuente de información" path="/app/feeds" index ="Fuentes de Información"/>
             </Row>

@@ -14,8 +14,10 @@ import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 const ListFeed = () => {
     
     const [feeds, setFeeds] = useState([]);
+    const [error, setError] = useState(null)
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
+    const [showAlert, setShowAlert] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [countItems, setCountItems] = useState(0);
 
@@ -31,12 +33,17 @@ const ListFeed = () => {
             setFeeds(response.data.results)
         })
         .catch((error)=>{
-            // show alert
+            setError(error)
         })
         .finally(() => {
+            setShowAlert(true)
             setLoading(false)
         })
     }, [countItems, currentPage]);  
+
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }
     
     //valores ingresados
     const searcher = (e) => {
@@ -63,6 +70,7 @@ const ListFeed = () => {
         
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
                 <Navigation actualPosition={'Fuentes de Información'}/>
             </Row>
