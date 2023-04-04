@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
-import DropdownState from './components/DropdownState';
+import DropdownState from '../../components/Dropdown/DropdownState'
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import { putFeed } from '../../api/services/feeds';
@@ -10,9 +10,7 @@ import Navigation from '../../components/Navigation/Navigation';
 
 const EditFeed = () => {
     const location = useLocation();
-    const feed = location.state.feed;
- 
-    const[slug, setSlug] = useState (feed.slug);    
+    const feed = location.state.feed;       
     const [name, setName] = useState(feed.name);
     const [active, setActive] = useState(feed.active);
     const [description, setDescription] = useState(feed.description);
@@ -21,7 +19,8 @@ const EditFeed = () => {
 
     
     const editFeed = ()=> {
-        putFeed(feed.url, slug, name, description, active).then((response) => {
+        putFeed(feed.url, name, description, active)
+        .then(() => {
             window.location.href = '/app/feeds';
         })
         .catch((error) => {

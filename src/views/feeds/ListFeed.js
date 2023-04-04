@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Breadcrumb, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Table, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getFeeds } from '../../api/services/feeds';
 import ButtonView from './components/ButtonView';
@@ -11,8 +11,7 @@ import Navigation from '../../components/Navigation/Navigation';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 
 
-const ListFeed = () => {
-    
+const ListFeed = () => {    
     const [feeds, setFeeds] = useState([]);
     const [error, setError] = useState(null)
     const [search, setSearch] = useState("");
@@ -20,7 +19,6 @@ const ListFeed = () => {
     const [showAlert, setShowAlert] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [countItems, setCountItems] = useState(0);
-
 
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);

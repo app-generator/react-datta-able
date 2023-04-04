@@ -43,11 +43,10 @@ const getAllFeeds = (currentPage = 1, results = [], limit = 100) => {
 
 }
 
-const postFeed = (slug, name, description, active) => {
+const postFeed = (name, description, active) => {
     let messageSuccess = `La fuente de informacion ${name} se pudo crear correctamente`;
     let messageError = `La fuente de informacion ${name} no se pudo crear`;
     return apiInstance.post(COMPONENT_URL.feed, {
-        slug: slug, 
         name: name, 
         description: description,
         active: active
@@ -61,11 +60,10 @@ const postFeed = (slug, name, description, active) => {
 }
 
 
-const putFeed = (url, slug, name, description, active) => {
+const putFeed = (url, name, description, active) => {
     let messageSuccess = `La fuente de informacion ${name} se pudo editar correctamente`;
     let messageError = `La fuente de informacion ${name} no se pudo editar`;
     return apiInstance.put(url, {
-        slug: slug, 
         name: name, 
         description: description,
         active: active

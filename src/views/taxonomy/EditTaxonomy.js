@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
-import DropdownState from '../taxonomy/components/DropdownState';
+import DropdownState from '../../components/Dropdown/DropdownState'
 import { useLocation } from "react-router-dom";
 import Select from 'react-select';
 import Alert from '../../components/Alert/Alert';
@@ -11,9 +11,7 @@ import { putTaxonomy, getTaxonomy, getAllTaxonomies } from '../../api/services/t
 
 const EditTaxonomy = () => {
     const location = useLocation();
-    const taxonomy = location.state.taxonomy;
-
-    const [slug, setSlug] = useState(taxonomy.slug);
+    const taxonomy = location.state.taxonomy;    
     const [type, setType] = useState(taxonomy.type);
     const [name, setName] = useState(taxonomy.name);    
     const [description, setDescription] = useState(taxonomy.description);
@@ -24,32 +22,30 @@ const EditTaxonomy = () => {
     const [error, setError] = useState(null);
     const [showAlert, setShowAlert] = useState(false) 
 
-    useEffect(() => {  
-               
+    useEffect(() => {                 
         getAllTaxonomies()
         .then((response) => {
             let listTaxonomies = []
             listTaxonomies.push({value:"", label:"Sin padre"})
-            response.map((taxonomy) => {listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})})
+            response.map((taxonomy) => {
+                listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})
+            })
             setTaxonomies(listTaxonomies)             
         })    
         
         { (parent != undefined) ?
-
             getTaxonomy(parent)
             .then((response) => {
                 setCurrentParent(response.data.name)                
-            })  
-        
+            })          
             : setCurrentParent("Sin padre")    
-        }        
-               
+        }          
     }, []);      
     
 
     const editTaxonomy = ()=> {        
-        putTaxonomy(taxonomy.url, slug, type, name, description, active, parent).then((response) => {
-            console.log(response);            
+        putTaxonomy(taxonomy.url, type, name, description, active, parent)
+        .then(() => {                        
             window.location.href = '/app/taxonomies';
         })
         .catch((error) => {
@@ -78,7 +74,7 @@ const EditTaxonomy = () => {
                         </Card.Header>
                         <Card.Body>
                             <Form>
-                            <Form.Group as={Col}>
+                                <Form.Group as={Col}>
                                     <Form.Label>Tipo</Form.Label>
                                     <Form.Control type="choice" as="select" value={type} onChange={(e) => setType(e.target.value)} isValid={validateType(type)} isInvalid={!validateType(type)} >                                                                     
                                         <option key={0} value=''>Seleccione</option>

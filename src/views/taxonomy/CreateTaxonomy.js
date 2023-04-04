@@ -7,8 +7,6 @@ import { validateName, validateDescription, validateType } from './components/Va
 import { postTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
 
 const CreateTaxonomy = () => {
-
-    const [slug, setSlug] = useState("");
     const [type, setType] = useState("");
     const [name, setName] = useState("");    
     const [description, setDescription] = useState("");
@@ -17,20 +15,22 @@ const CreateTaxonomy = () => {
     const [error, setError] = useState(null);
     const [showAlert, setShowAlert] = useState(false)    
 
-    useEffect(() => {  
-        let listTaxonomies = []
-
-        getAllTaxonomies().then((response) => {response.map((taxonomy) => {listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})})})
-    
-        setTaxonomies(listTaxonomies)
-               
+    useEffect(() => {          
+        getAllTaxonomies()
+        .then((response) => {
+            let listTaxonomies = []
+            response.map((taxonomy) => {
+                listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})
+            })
+            setTaxonomies(listTaxonomies)
+        })                          
     }, []);    
    
 
     const createTaxonomy = ()=> {
         let active = true
-        postTaxonomy(slug, type, name, description, active, parent).then((response) => {
-            console.log(response);            
+        postTaxonomy(type, name, description, active, parent)
+        .then(() => {                       
             window.location.href = '/app/taxonomies';
         })
         .catch((error) => {

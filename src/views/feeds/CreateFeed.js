@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
-import DropdownState from './components/DropdownState';
+import DropdownState from '../../components/Dropdown/DropdownState'
 import { postFeed } from '../../api/services/feeds';
 import Alert from '../../components/Alert/Alert';
 import { validateName, validateDescription } from './components/ValidatorFeed';
 import Navigation from '../../components/Navigation/Navigation'
 
-const CreateFeed = () => {
-
-    const[slug, setSlug] = useState ("");
+const CreateFeed = () => {    
     const [name, setName] = useState("");
-    const [active, setActive] = useState(1);
+    const [active, setActive] = useState(true);
     const [description, setDescription] = useState("");
-
     const [error, setError] = useState(null);
-
-    const [alert, setAlert] = useState(null)
     const [showAlert, setShowAlert] = useState(false)
-
    
     const createFeed = ()=> {
-        postFeed(slug, name, description, active).then((response) => {
+        postFeed(name, description, active)
+        .then(() => {
             window.location.href = '/app/feeds';
         })
         .catch((error) => {

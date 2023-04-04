@@ -7,18 +7,13 @@ import { getTaxonomy } from '../../../api/services/taxonomies';
 
 function ButtonView({taxonomy}) {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  
+  const handleShow = () => setShow(true);  
   const [parent, setParent] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-
-    taxonomyParent()
-    
+    taxonomyParent()    
   }, [taxonomy]);
   
   const taxonomyParent = ()=> {

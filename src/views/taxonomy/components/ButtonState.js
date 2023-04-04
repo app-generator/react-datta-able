@@ -10,8 +10,8 @@ function ButtonState({taxonomy}) {
     const [error, setError] = useState(null);
 
     const changeState = (taxonomy)=> {        
-        putActivationStatus(taxonomy.url, !taxonomy.active, taxonomy.name).then((response) => {
-            console.log(response);
+        putActivationStatus(taxonomy.url, !taxonomy.active, taxonomy.name).
+        then(() => {           
             window.location.href = '/app/taxonomies';
         })
         .catch((error) => {

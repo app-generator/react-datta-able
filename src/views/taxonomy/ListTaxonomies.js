@@ -11,7 +11,6 @@ import Navigation from '../../components/Navigation/Navigation'
 import { getTaxonomies } from '../../api/services/taxonomies';
 
 const ListTaxonomies = () => {
-    
     const [taxonomies, setTaxonomies] = useState([]);
     const [error, setError] = useState(null);
     const [search, setSearch] = useState("");
