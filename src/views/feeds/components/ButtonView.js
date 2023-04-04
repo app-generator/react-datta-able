@@ -6,7 +6,6 @@ import ActiveButton from '../../../components/Button/ActiveButton';
 
 function ButtonView({feed}) {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
