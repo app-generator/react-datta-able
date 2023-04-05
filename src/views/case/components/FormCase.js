@@ -17,11 +17,9 @@ const FormCase = (props) => {
 // evidencia (fran) artefacto?, solve_date, attend_date, eventos
 
 //select
-const [allPriorities, setPrioritiesOption] = useState([])
+const [allPriorities, setAllPriorities ] = useState([])
 const [allTlp, setAllTlp] = useState([])
 const [allUsers, setAllUsers] = useState([])
-const [allStates, setAllStates] = useState([])
-const [supportedStates, setsupportedStates] = useState([]) // state.children
 
 const [eventsValueLabel, setEventsValueLabel] = useState([])
 const [evidencesValueLabel, setEvidencesValueLabel] = useState([])
@@ -33,7 +31,7 @@ const [error, setError] = useState(false)
         
         getPriorities()
         .then((response) => {
-            setPrioritiesOption(Object.values(response.data.results))
+            setAllPriorities (Object.values(response.data.results))
             console.log(response.data.results)
         })
         .catch((error)=>{
@@ -67,7 +65,8 @@ const [error, setError] = useState(false)
         let listDefaultEvidences = props.allEvidences.filter(elemento => props.evidences.includes(elemento.value))
         .map(elemento => ({value: elemento.value, label: elemento.label}));
         setEvidencesValueLabel(listDefaultEvidences)
-    },[])
+
+    },[props.evidences, props.events])
 
     const allLifecycles = [
         {
@@ -88,30 +87,28 @@ const [error, setError] = useState(false)
         }
     ]
     
-    console.log(props.state);
-
     //Multiselect    
     const selectEvents=(event)=>{ 
         props.setEvents(
             event.map((e)=>{
                 return e.value 
             })
-            )
-        }
-    const selectEvidences=(evidence)=>{ 
+        )
+    }
+    const selectEvidences=(event)=>{ 
         props.setEvidences(
-            evidence.map((e)=>{
+            event.map((e)=>{
                 return e.value 
             })
-            )
-        }
+        )
+    }
+    const completeFieldFiles=(event)=>{ 
+        console.log(event)
+        //props.setEvidences({...props.evidences,
+        //    [event.target.name] : event.target.files}
+        //)       
+    }
 
-
-    let today = new Date();
-    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    let time = today.getHours() + ":" + today.getMinutes();
-    let dateTime = date+' '+time;
-     
     return (
         <React.Fragment>
             <Form>
@@ -253,28 +250,31 @@ const [error, setError] = useState(false)
                                 </Form.Control>
                         </Form.Group>
                     </Col>
+                    {props.edit ? 
                     <Col sm={12} lg={6}>
                         <Form.Group controlId="Form.Case.Comments">
                             <Form.Label>Comentarios ???</Form.Label>
                         <Form.Control placeholder="Comentarios" />
                         </Form.Group>
                     </Col>
+                    : <></>}
+
                 </Row>
                 <Row>
-                    <Col sm={12} lg={6}>
-                        <Form.Group controlId="Form.Case.Evidences">
-                            <Form.Label>Evidencias</Form.Label>
-                            <Select
-                                    value={evidencesValueLabel}
-                                    placeholder='Seleccione Evidencias'
-                                    closeMenuOnSelect={false}
-                                    components={animatedComponents}
-                                    isMulti
-                                    onChange={selectEvidences}
-                                    options={props.allEvidences}
-                                />
-                        </Form.Group>
+                    <Col>
+                        <Form.Group controlId="Form.Case.Evidences.Drag&Drop">
+                        <Form.Label>Evidencia</Form.Label>
+                            <Form.Control 
+                            type="file"
+                            placeholder="Ingrese " 
+                            maxlength="150" 
+                            multiple
+                            onChange={(e)=>completeFieldFiles(e)}
+                            name="evidence"/>
+                        </Form.Group> 
                     </Col>
+                </Row>
+                <Row>
                     <Col sm={12} lg={6}>
                         <Form.Group controlId="Form.Case.Events.Multiselect">
                             <Form.Label>Eventos</Form.Label>

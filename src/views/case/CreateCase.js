@@ -21,7 +21,7 @@ const CreateCase = () => {
 
     const [comments, setComments] = useState([]) // lista de que ??
     
-    const [evidences, setEvidences] = useState([]) // como se muestra
+    const [evidences, setEvidences] = useState(null) // como se muestra
     const [allEvidences, setAllEvidences] = useState([]) //multiselect
 
     const [events, setEvents] = useState([])
@@ -67,6 +67,7 @@ const CreateCase = () => {
                     listStates.push({value:stateItem.url, label:stateItem.name, childrenUrl:stateItem.children})
                 })
                 setAllStates(listStates)
+
                 console.log(response.data.results)
             })
             .catch((error)=>{
@@ -87,7 +88,7 @@ const CreateCase = () => {
             console.log(error)
         });    
     };
-      
+      console.log(allEvidences)
     return (
         <React.Fragment>
             <Row>
@@ -116,8 +117,7 @@ const CreateCase = () => {
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
-
-                                        ifConfirm={addCase} edit={false} save='POST'/>
+                                        ifConfirm={addCase} edit={false} save='Crear'/>
 
                                 </Col>
 

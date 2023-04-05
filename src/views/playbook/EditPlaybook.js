@@ -4,7 +4,7 @@ import { Button, Card, Col, Row } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { putPlaybook } from '../../api/services/playbooks';
 import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
-import { getTaxonomies, getAllTaxonomies } from '../../api/services/taxonomies';
+import { getAllTaxonomies } from '../../api/services/taxonomies';
 import ListTask from '../task/ListTask';
 import Navigation from '../../components/Navigation/Navigation';
 
@@ -22,13 +22,12 @@ const EditPlaybook = () => {
     const [error, setError] = useState(null);
 
     useEffect(()=> {
-        getTaxonomies(1)
-        //getAllTaxonomies()
+        getAllTaxonomies()
             .then((response) => {
-                console.log(response.data.results)
+                console.log(response)
                 //allTaxonomies
                 let listAllTaxonomies = []
-                response.data.results.map((taxonomyItem)=>{
+                response.map((taxonomyItem)=>{
                     listAllTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
                 })
                 setAllTaxonomies(listAllTaxonomies)
@@ -38,10 +37,6 @@ const EditPlaybook = () => {
             })
 
         },[])
-
-        const getIndex = (allTaxonomies, selectedTaxonomies) => {
-            return selectedTaxonomies.map((url) => allTaxonomies.findIndex((tax) => tax.value === url));
-        }
 
         const labelTaxonomy = {
         vulnerability : 'Vulnerabilidad',

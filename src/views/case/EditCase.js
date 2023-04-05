@@ -7,7 +7,7 @@ import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
 import { getEvents } from '../../api/services/events';
 import { getEvidences } from '../../api/services/evidences';
-import { getStates } from '../../api/services/states';
+import { getState, getStates } from '../../api/services/states';
 
 const EditCase = () => {
 
@@ -22,7 +22,7 @@ const EditCase = () => {
     const [assigned, setAssigned] = useState(caseItem.assigned)
 
     const [state, setState] = useState(caseItem.state) //required
-    const [allStates, setAllStates] = useState([]) //multiselect
+    const [allStates, setSupportedStates] = useState([]) //multiselect
 
     const [comments, setComments] = useState(caseItem.comments) // lista de que ??
     
@@ -65,6 +65,31 @@ const EditCase = () => {
                 setError(error)
             })
 
+        let listStates =[]
+        getState(caseItem.state)
+        
+            .then((response) => {
+            console.log(response)
+            
+            listStates.push({value:response.data.url, label:response.data.name})
+            let children = response.data.children;
+            children.forEach((child)=>{
+                getState(child)
+                .then((responseChild)=>{
+                    console.log(responseChild)
+                    listStates.push({value:responseChild.data.url, label:responseChild.data.name})
+                })
+                .catch((error)=>{
+                    setError(error)
+                })
+            })
+            console.log(listStates);
+        })
+        .catch((error)=>{
+            setError(error)
+        })
+        setSupportedStates(listStates)
+            /*
         getStates()
             .then((response) => {
                 let listStates = []
@@ -72,13 +97,35 @@ const EditCase = () => {
                     listStates.push({value:stateItem.url, label:stateItem.name, childrenUrl:stateItem.children})
                 })
                 setAllStates(listStates)
-                console.log(response.data.results)
             })
             .catch((error)=>{
                 setError(error)
             })
-
+            */
         },[])
+
+//supported states => childrens
+    const getChildren = (url, listStates) => 
+        {
+            getState(url)
+            .then((response) => {
+                listStates.push({value:response.url, label:response.name})
+
+                response.children.map((child)=>{
+                    getState(child)
+                    .then((response)=>{
+                        listStates.push({value:response.url, label:response.name})
+                    })
+                    .catch((error)=>{
+                        setError(error)
+                    })
+                })
+                return listStates;
+            })
+            .catch((error)=>{
+                setError(error)
+            })
+        }
 
     //Edit
     const editCase = () => {
@@ -115,15 +162,14 @@ const EditCase = () => {
                                         priority={priority} setPriority={setPriority}
                                         tlp={tlp} setTlp={setTlp}
                                         assigned={assigned} setAssigned={setAssigned}
-                                        state={state} setState={setState} allStates={allStates}
+                                        state={state} setState={setState} allStates={allStates} 
                                         
                                         evidences={evidences} setEvidences={setEvidences} allEvidences={allEvidences}
                                         events={events} setEvents={setEvents} allEvents={allEvents}
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
-
-                                        ifConfirm={editCase} edit={false} save='PUT'/>
+                                        ifConfirm={editCase} edit={true} save='Guardar Cambios'/>
 
                                 </Col>
 

@@ -20,6 +20,7 @@ const ListPlaybook = () => {
     const [pages, setPages] = useState(0)
     const [arrayPages, setArrayPages] = useState([])
 
+
     useEffect( ()=> {
 
         setCurrentPage(currentPage )//?
@@ -36,6 +37,7 @@ const ListPlaybook = () => {
             .finally(() => {
                 setLoading(false)
             })
+        
     }, [pages])
 
     //Pagination
@@ -133,7 +135,7 @@ const ListPlaybook = () => {
                         </Row>
                     </Card.Footer>
                 </Card>
-            {/*<Alert/>*/}
+            <Alert/>
             </Col>
         </Row>
     </React.Fragment>

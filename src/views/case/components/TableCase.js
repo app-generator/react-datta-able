@@ -11,24 +11,18 @@ import BadgeItem from '../../../components/Button/BadgeItem';
 import { getStates } from '../../../api/services/states'; 
 import { getUser } from '../../../api/services/users';
 import GetUserName from './GetUserName';
+import Alert from '../../../components/Alert/Alert';
 
-const TableCase = ({callback, list, loading }) => {
+const TableCase = ({setIfModify, list, loading }) => {
     
-    const [cases, setCases] = useState('') 
-    const [error, setError] = useState(null) 
-
-    const [modalShow, setModalShow] = useState(false) 
-    const [modalDelete, setModalDelete] = useState(false) 
-    const [lastItem, setLastItem] = useState(null) 
-
     const [url, setUrl] = useState(null) 
-    const [id, setId] = useState(null) 
-    const [date, setDate] = useState(null) 
-
-
+    const [modalDelete, setModalDelete] = useState(false)
+        
     const [prioritiesOption, setPrioritiesOption] = useState({}) 
     const [tlpOption, setTlpOption] = useState({}) 
     const [stateOption, setStateOption] = useState({}) 
+    
+    const [error, setError] = useState(null) 
 
     useEffect(() => {
 
@@ -87,7 +81,6 @@ const TableCase = ({callback, list, loading }) => {
 
     //Remove Case
     const Delete = (url) => {
-        setLastItem(list.length === 1)
         setUrl(url)
         setModalDelete(true)
     }
@@ -95,6 +88,7 @@ const TableCase = ({callback, list, loading }) => {
     const removeCase = (url)=> {
         deleteCase(url)
             .then((response) => {
+                setIfModify(response)
                 console.log(response);
             })
             .catch((error) => {
@@ -105,9 +99,9 @@ const TableCase = ({callback, list, loading }) => {
                 setModalDelete(false)
             })
         };
-    
+
     return (
-            <React.Fragment>
+            <React.Fragment> 
                 <Table responsive hover className="text-center">
                     <thead>
                         <tr>
@@ -152,7 +146,7 @@ const TableCase = ({callback, list, loading }) => {
                                         <Link to={{pathname:'/case/read', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
                                             <CrudButton type='read'/>
                                         </Link>
-                                        <Link to={{pathname:'/case/edit', state: caseItem, callback: callback}} >
+                                        <Link to={{pathname:'/case/edit', state: caseItem}} >
                                             <CrudButton type='edit'/>
                                         </Link>
                                         <CrudButton type='delete' onClick={() => Delete(caseItem.url)} />

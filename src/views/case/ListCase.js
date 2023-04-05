@@ -16,10 +16,7 @@ const ListCase2 = () => {
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
 
-    const [currentPage, setCurrentPage] = useState(1)
-    const [jumpPage, setjumpPage] = useState(false)
-    const [pages, setPages] = useState(0)
-    const [arrayPages, setArrayPages] = useState([])
+    const [ifModify, setIfModify] = useState(null) 
   
     
     useEffect( ()=> {
@@ -36,7 +33,7 @@ const ListCase2 = () => {
                 setLoading(false)
             })
 
-    }, [pages]);
+    }, [ifModify]);
 
     console.log(cases);
         
@@ -49,6 +46,7 @@ const ListCase2 = () => {
     const searcher = (e) => {
         setSearch(e.target.value) 
         }
+
     //filtro
     let show = []
     if (!search) {
@@ -59,11 +57,6 @@ const ListCase2 = () => {
         )
     }
 
-    const callbackBackend = (lastItem) => {
-    }
-
-
- 
     const action = () => {
         console.log("llamada backend")
       }
@@ -89,7 +82,7 @@ return (
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableCase callback={setPages} list={cases} loading={loading} />
+                        <TableCase setIfModify={setIfModify} list={cases} loading={loading} />
                     </Card.Body>
                     {/*
                     <Card.Footer >

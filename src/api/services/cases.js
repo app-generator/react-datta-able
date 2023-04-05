@@ -10,7 +10,7 @@ const getAllCases = () => {
     return apiInstance.get(COMPONENT_URL.case);
 }
 
-const getOrderingCases = (currentPage = 1, results = [], limit = 10, id) => {
+const getOrderingCases = (currentPage = 1, results = [], limit = 10, id='+id') => {
             
     return apiInstance.get(COMPONENT_URL.case , { params: { page: currentPage, page_size: limit, ordering : id } })       
         .then((response) => {

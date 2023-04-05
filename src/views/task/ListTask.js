@@ -97,7 +97,7 @@ const ListTask = (props) => {
                                     <tbody>
                                         {tasks ? tasks.map((urlTask, index) => {
                                             return (
-                                                <RowTask url={urlTask} id={index+1} taskDeleted={taskDeleted} setTaskDeleted={setTaskDeleted} setTaskUpdated={setTaskUpdated} />)
+                                                <RowTask url={urlTask} id={index+1} taskDeleted={taskDeleted} setTaskDeleted={setTaskDeleted} taskUpdated={taskUpdated} setTaskUpdated={setTaskUpdated} />)
                                             }) : <></>
                                         }
                                     </tbody>

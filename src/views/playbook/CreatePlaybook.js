@@ -3,18 +3,22 @@ import { Button, Card, Col, Collapse, Row } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import { postPlaybook, putPlaybook } from '../../api/services/playbooks';
 import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
-import { getTaxonomies, getAllTaxonomies } from '../../api/services/taxonomies';
+import { getAllTaxonomies } from '../../api/services/taxonomies';
 import ListTask from '../task/ListTask';
 import Navigation from '../../components/Navigation/Navigation';
+import { useLocation } from 'react-router-dom';
+
 
 const CreatePlaybook = () => {
+
+    const taxonomies = useLocation().taxonomies;
 
     const [url, setUrl] = useState('');
     const [name, setName] = useState('');
     const [taxonomy, setTaxonomy] = useState([]);
     
     //Renderizar
-    const [allTaxonomies, setTaxonomies] = useState([]) //lista con formato para multiselect value, label
+    const [allTaxonomies, setAllTaxonomies] = useState([]) //lista con formato para multiselect value, label
 
     //Collapse
     const [sectionAddTask, setSectionAddTask] = useState(false);
@@ -22,20 +26,19 @@ const CreatePlaybook = () => {
     const [error, setError] = useState(null);
 
     useEffect(()=> {
-
-        getTaxonomies(1)
-        //getAllTaxonomies()
+        
+          getAllTaxonomies()// en TableCase
             .then((response) => {
+                console.log('taxonomias')
+                console.log(response)
+
                 let listTaxonomies = []
-                response.data.results.map((taxonomyItem)=>{
-                    listTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
+                response.map((taxonomyItem)=>{
+                listTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
+                setAllTaxonomies(listTaxonomies)
                 })
-                setTaxonomies(listTaxonomies)
-                console.log(response.data.results)
-            })
-            .catch((error)=>{
-                setError(error)
-            })
+
+            }).catch();
 
         },[sectionAddTask])
 
@@ -93,7 +96,6 @@ const CreatePlaybook = () => {
 
                     <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
 
-                    {/*<Alert />*/}
                     <Button variant="primary" href="/playbook/tables">Volver</Button>
                 </Col>
             </Row>

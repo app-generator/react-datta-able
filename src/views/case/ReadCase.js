@@ -42,7 +42,7 @@ const ReadCase = () => {
                 let datetime = caseItem.attend_date.split('T');
                 setAttend_Date(datetime[0] + ' ' + datetime[1].slice(0,8))
             }
-            if(caseItem.date){
+            if(caseItem.solve_date){
                 let datetime = caseItem.solve_date.split('T');
                 setSolve_Date(datetime[0] + ' ' + datetime[1].slice(0,8))
             }
@@ -120,7 +120,7 @@ const ReadCase = () => {
                                         <td>Comentarios</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={caseItem.comments.map(item => {
-                                                <tr>item</tr>
+                                                <tr>{item}</tr>
                                             })} />
                                         </td>
                                     </tr>
@@ -128,7 +128,7 @@ const ReadCase = () => {
                                         <td>Evidencia</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={caseItem.evidence.map(item => {
-                                                <tr>item</tr>
+                                                <tr>{item.url}</tr>
                                             })} />
                                         </td>
                                     </tr>
@@ -136,7 +136,7 @@ const ReadCase = () => {
                                         <td>Eventos</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={caseItem.events.map(item => {
-                                                <tr>{item}</tr>
+                                                <tr>{item.url}</tr>
                                             })} />
                                         </td>
                                     </tr>
