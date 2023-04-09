@@ -12,10 +12,11 @@ import { getStates } from '../../../api/services/states';
 import { getUser } from '../../../api/services/users';
 import GetUserName from './GetUserName';
 
-const TableCase = ({setIfModify, list, loading }) => {
+const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSelectedCases }) => {
     
     const [url, setUrl] = useState(null) 
     const [modalDelete, setModalDelete] = useState(false)
+    const [id, setId] = useState(null) 
         
     const [prioritiesOption, setPrioritiesOption] = useState({}) 
     const [tlpOption, setTlpOption] = useState({}) 
@@ -65,9 +66,6 @@ const TableCase = ({setIfModify, list, loading }) => {
 
     },[list]);
 
-    console.log(list)
-
-
     if (loading) {
         return (
             <Row className='justify-content-md-center'>
@@ -77,7 +75,8 @@ const TableCase = ({setIfModify, list, loading }) => {
     }
 
     //Remove Case
-    const Delete = (url) => {
+    const Delete = (url, id) => {
+        setId(id)
         setUrl(url)
         setModalDelete(true)
     }
@@ -97,11 +96,17 @@ const TableCase = ({setIfModify, list, loading }) => {
             })
         };
 
+    const checkbox = (event) => {
+        const { id, checked } = event.target;
+        setSelectedCases({ ...selectedCases, [id]: checked });
+    };
+
     return (
             <React.Fragment> 
                 <Table responsive hover className="text-center">
                     <thead>
                         <tr>
+                            {showMerge ? <th/> : ''}
                             <th>Id</th>
                             <th>Fecha</th>
                             <th>Prioridad</th>
@@ -120,7 +125,13 @@ const TableCase = ({setIfModify, list, loading }) => {
                             return (
                                 list &&
                                 <tr key={caseItem.url}>
+                                    {showMerge ? 
+                                        <td>
+                                            <Form.Group><Form.Check custom type="checkbox" id={caseItem.url} onChange={checkbox} checked={selectedCases[caseItem.url]} /></Form.Group>
+                                        </td>
+                                    : ''}
                                     <th scope="row">{idItem}</th>
+                                    
                                     <td>{datetime}</td>
                                     <td>
                                         <BadgeItem item={prioritiesOption[caseItem.priority]}/>
@@ -146,14 +157,14 @@ const TableCase = ({setIfModify, list, loading }) => {
                                         <Link to={{pathname:'/case/edit', state: caseItem}} >
                                             <CrudButton type='edit'/>
                                         </Link>
-                                        <CrudButton type='delete' onClick={() => Delete(caseItem.url)} />
+                                        <CrudButton type='delete' onClick={() => Delete(caseItem.url, idItem)} />
                                     </td>
                                 </tr>
                             );
                         })}
                     </tbody>
                 </Table>
-            <ModalConfirm type='delete' component='Caso' name='el caso' showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeCase(url)}/>
+            <ModalConfirm type='delete' component='Caso' name={`el caso ${id}`} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeCase(url)}/>
         </React.Fragment> 
   );
 };

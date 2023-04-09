@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import CrudButton from '../../components/Button/CrudButton'; 
 import TableCase from './components/TableCase'; 
 import { getCases } from '../../api/services/cases';
@@ -8,7 +8,7 @@ import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 
-const ListCase2 = () => {
+const ListCase = () => {
     const [cases, setCases] = useState([]) //lista de casos
     const [ifModify, setIfModify] = useState(null) 
 
@@ -17,6 +17,11 @@ const ListCase2 = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [countItems, setCountItems] = useState(0);
+
+    //merge
+    const [showMerge, setShowMerge] = useState(false) 
+    const [selectedCases, setSelectedCases] = useState({});
+
 
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
@@ -54,6 +59,12 @@ const ListCase2 = () => {
             item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
+    const merge = () => {
+        console.log('mergeando')
+        console.log(selectedCases)
+        const selectedUrls = Object.keys(selectedCases).filter((url) => selectedCases[url]);
+        console.log(selectedUrls);
+    }
 
 return (
     <React.Fragment>
@@ -66,17 +77,38 @@ return (
                     <Card.Header>
                         <Row>
                             <Col>
-                            <Search type="caso" action={action} search={search} setSearch={setSearch}/> 
+                                <Search type="caso" action={action} search={search} setSearch={setSearch}/> 
                             </Col>
-                            <Col sm={12} lg={3}>
+                            <Col sm={6} lg={3}>
                                 <Link to={{pathname:'/case/create'}} >
                                     <CrudButton type='create' name='Caso' />
                                 </Link>
                             </Col> 
+                        </Row>                        
+                        <Row>
+                            <Col>
+                                <Button 
+                                    size="sm"
+                                    className='text-capitalize'
+                                    variant='outline-secondary'
+                                    title='Mergear'
+                                    onClick={()=> setShowMerge(!showMerge)}>
+                                    <i class="fas fa-clipboard-list"/>
+                                    checkbox
+                                </Button>
+                                <Button 
+                                    size="sm"
+                                    className='text-capitalize'
+                                    variant='outline-danger'
+                                    title='Mergear'
+                                    onClick={()=> merge()}>
+                                    Merge
+                                </Button>
+                            </Col> 
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableCase setIfModify={setIfModify} list={cases} loading={loading} />
+                        <TableCase setIfModify={setIfModify} list={cases} loading={loading} showMerge={showMerge} selectedCases={selectedCases} setSelectedCases={setSelectedCases} />
                     </Card.Body>
                     <Card.Footer >
                         <Row className="justify-content-md-center">
@@ -91,4 +123,4 @@ return (
     </React.Fragment>
 )}
 
-export default ListCase2; 
+export default ListCase; 
