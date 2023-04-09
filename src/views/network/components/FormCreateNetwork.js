@@ -89,6 +89,24 @@ const FormCreateNetwork = (props) => {
             console.log(error)
         });    
     };
+    const domainIsValid = () => {
+        if(props.domain ===undefined) {
+            return true;
+        }
+        else {
+            return (validateURL(props.domain) || validateSpaces(props.domain));
+        }
+    };
+
+    const domainIsInvalid = () => {
+        if(props.domain ===undefined) {
+            return false;
+        }
+        else {
+            return (!validateURL(props.domain));
+        }
+    };
+
 
     return (
         <React.Fragment>
@@ -156,11 +174,11 @@ const FormCreateNetwork = (props) => {
                                 placeholder="Dominio" 
                                 maxlength="100"
                                 value={ props.domain } 
-                                isValid={ validateURL(props.domain) || validateSpaces(props.domain) }
-                                isInvalid={ props.domain!='' && !validateURL(props.domain) }
+                                isValid={ domainIsValid }
+                                isInvalid={ domainIsInvalid }
                                 onChange={ (e) => props.setDomain(e.target.value) } 
                             />
-                            {props.domain!='' && !validateURL(props.domain) ? <div className="invalid-feedback">Ingrese caracteres validos</div> : ''}
+                            {(!domainIsValid || domainIsInvalid) ? <div className="invalid-feedback">Ingrese caracteres validos</div> : ''}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={6}>

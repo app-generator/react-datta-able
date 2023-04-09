@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import PriorityButton from '../../../components/Button/PriorityButton';
 
-const TableContact = ({callback, list, loading }) => {
+const TableContact = ({setIsModify, list, loading }) => {
     const [contact, setContact] = useState('')
-    const [error, setError] = useState(null)
+
     const [modalShow, setModalShow] = useState(false)
     const [modalDelete, setModalDelete] = useState(false)
     const [url, setUrl] = useState(null)
@@ -18,8 +18,6 @@ const TableContact = ({callback, list, loading }) => {
     const [modified, setModified] = useState(null)
     const [type, setType] = useState(null)
     const [role, setRole] = useState(null)
-
-    const [lastItem, setLastItem] = useState(null);
 
     if (loading) {
         return (
@@ -47,12 +45,11 @@ const TableContact = ({callback, list, loading }) => {
             setType(type)
             setModalShow(true)
         })
-        .catch(setError);
+        .catch(console.log);
     };
 
     //Remove Contact
     const Delete = (url, name) => {
-        setLastItem(list.length === 1)
         setUrl(url);
         setName(name);
         setModalDelete(true)
@@ -61,25 +58,15 @@ const TableContact = ({callback, list, loading }) => {
     const removeContact = (url)=> {
         deleteContact(url)
             .then((response) => {
-                callback(lastItem)
+                setIsModify(response)
             })
             .catch((error) => {
-                setError(error)
-                callback(false) //error si no se puede eliminar el ultimo
+                console.log(error)
             })
             .finally(() => {
                 setModalDelete(false)
             })
     };
-
-    if (error) {
-        return <p>Ups! Se produjo un error al buscar el contacto.</p>
-    }
-
-    const Upper = (text) => {
-        let first = text.charAt(0).toUpperCase();
-        return (first+text.slice(1))
-    }
 
     const labelRole =
     {

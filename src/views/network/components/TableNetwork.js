@@ -9,21 +9,16 @@ import ModalDetailNetwork from './ModalDetailNetwork';
 import { getEntity } from '../../../api/services/entities';
 import FormGetName from '../../../components/Form/FormGetName';
 
-const TableNetwork = ({callback, list, loading }) => {
+const TableNetwork = ({setIsModify, list, loading }) => {
     const [network, setNetwork] = useState('')
-    const [error, setError] = useState(null)
 
     const [modalDelete, setModalDelete] = useState(false)
     const [modalState, setModalState] = useState(false)
     const [modalShow, setModalShow] = useState(false)
-    const [contacts, setContacts] = useState([''])
-
 
     const [url, setUrl] = useState(null)
     const [cidr, setCidr] = useState(null)
     const [active,setActive] = useState(null)
-
-    const [lastItem, setLastItem] = useState(null);
 
     if (loading) {
         return (
@@ -40,11 +35,12 @@ const TableNetwork = ({callback, list, loading }) => {
         getNetwork(url)
         .then((response) => {
             setNetwork(response.data)
-            setContacts(Object.keys(response.data.contacts))
             console.log(response.data.contacts)
             setModalShow(true)
         })
-        .catch(setError);
+        .catch((error) => {
+            console.log(error)
+        })
     };
 
     //Update Network
@@ -55,50 +51,41 @@ const TableNetwork = ({callback, list, loading }) => {
         setModalState(true)
     }
     const switchState = ()=> {
-        isActive(url, !active) //+!active si el estado es int
+        isActive(url, !active)
             .then((response) => {
                 console.log(response)
+                setIsModify(response)
             })
             .catch((error) => {
                 console.log(error)
-                setError(error)
             })
             .finally(() => {
-                callback(false)
                 setModalState(false)
                 setModalShow(false)
             })
     };
 
     //Remove Network
-    const Delete = (url) => {
-        setLastItem(list.length === 1)
+    const Delete = (url, cidr) => {
         setUrl(url);
+        setCidr(cidr)
         setModalDelete(true)
     }
 
     const removeNetwork = (url)=> {
-        console.log(url)
         deleteNetwork(url)
             .then((response) => {
                 console.log(response)
-                callback(lastItem)
+                setIsModify(response)
             })
             .catch((error) => {
                 console.log(error)
-                setError(error)
-                callback(false) //error si no se puede eliminar el ultimo
             })
             .finally(() => {
                 setModalDelete(false)
             })
     };
 
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar la red.</p>
-    }
-console.log(network.network_entity)
     return (
             <React.Fragment>
                 <Table responsive hover className="text-center">
@@ -120,7 +107,7 @@ console.log(network.network_entity)
                                     <td>{network.cidr}</td>
                                     <td>{network.type === 'internal' ? 'Interna' : 'Externa'}</td>
                                     <td>
-                                        <ActiveButton active={network.active} onClick={() => pressActive(network.domain, network.active, network.url)} />
+                                        <ActiveButton active={network.active} onClick={() => pressActive(network.cidr, network.active, network.url)} />
                                     </td>
                                     <td>
                                         <FormGetName form={false} get={getEntity} url={network.network_entity} key={index} />
@@ -130,7 +117,7 @@ console.log(network.network_entity)
                                         <Link to={{pathname:'/network/edit', state: network}} >
                                             <CrudButton type='edit'/>
                                         </Link>
-                                        <CrudButton type='delete' onClick={() => Delete(network.url)} />
+                                        <CrudButton type='delete' onClick={() => Delete(network.url, network.cidr)} />
                                     </td>
                                 </tr>
                             );

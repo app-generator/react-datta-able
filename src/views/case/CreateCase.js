@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
+import { Row, Col, Card } from 'react-bootstrap';
 import { postCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
@@ -30,8 +29,6 @@ const CreateCase = () => {
     const [attend_date, setAttend_date] = useState(null) //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(null)
 
-    const [error, setError] = useState(null)
-
     useEffect(()=> {
 
         getEvents()
@@ -44,7 +41,7 @@ const CreateCase = () => {
                 console.log(response.data.results)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
 
         getEvidences()
@@ -57,7 +54,7 @@ const CreateCase = () => {
                 console.log(response.data.results)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
 
         getStates()
@@ -71,24 +68,27 @@ const CreateCase = () => {
                 console.log(response.data.results)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
 
         },[])
 
     //Create
     const addCase = () => {
+        //postCase(date, lifecycle, parent, priority, tlp, assigned, state, ['comment1', 'comment2'], 
+        //['http://localhost:8000/api/evidence/1/'], ['http://localhost:8000/api/event/1/'], attend_date, solve_date)
+
         postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, events, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
-            window.location.href = "/case/tables"
+            //window.location.href = "/case/tables"
         })
         .catch((error) => {
-            setError(error)
+            console.log(error)
             console.log(error)
         });    
     };
-      console.log(allEvidences)
+
     return (
         <React.Fragment>
             <Row>
@@ -124,7 +124,6 @@ const CreateCase = () => {
                             </Row>
                         </Card.Body>
                     </Card>
-                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

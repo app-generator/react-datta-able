@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Button, Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
+import { useLocation } from 'react-router-dom';
+import { Row, Col, Card } from 'react-bootstrap';
 import { putCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
 import { getEvents } from '../../api/services/events';
 import { getEvidences } from '../../api/services/evidences';
-import { getState, getStates } from '../../api/services/states';
+import { getState } from '../../api/services/states';
 
 const EditCase = () => {
 
@@ -35,8 +34,6 @@ const EditCase = () => {
     const [attend_date, setAttend_date] = useState(caseItem.attend_date != null ? caseItem.attend_date.substr(0,16) : '') //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(caseItem.solve_date!= null ? caseItem.solve_date.substr(0,16) : '')
 
-    const [error, setError] = useState(null)
-
     useEffect(()=> {
 
         getEvents()
@@ -49,7 +46,7 @@ const EditCase = () => {
                 console.log(response.data.results)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
 
         getEvidences()
@@ -62,7 +59,7 @@ const EditCase = () => {
                 console.log(response.data.results)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
 
         let listStates =[]
@@ -80,66 +77,34 @@ const EditCase = () => {
                     listStates.push({value:responseChild.data.url, label:responseChild.data.name})
                 })
                 .catch((error)=>{
-                    setError(error)
+                    console.log(error)
                 })
             })
             console.log(listStates);
         })
         .catch((error)=>{
-            setError(error)
+            console.log(error)
         })
         setSupportedStates(listStates)
-            /*
-        getStates()
-            .then((response) => {
-                let listStates = []
-                response.data.results.map((stateItem)=>{
-                    listStates.push({value:stateItem.url, label:stateItem.name, childrenUrl:stateItem.children})
-                })
-                setAllStates(listStates)
-            })
-            .catch((error)=>{
-                setError(error)
-            })
-            */
+
         },[])
 
-//supported states => childrens
-    const getChildren = (url, listStates) => 
-        {
-            getState(url)
-            .then((response) => {
-                listStates.push({value:response.url, label:response.name})
-
-                response.children.map((child)=>{
-                    getState(child)
-                    .then((response)=>{
-                        listStates.push({value:response.url, label:response.name})
-                    })
-                    .catch((error)=>{
-                        setError(error)
-                    })
-                })
-                return listStates;
-            })
-            .catch((error)=>{
-                setError(error)
-            })
-        }
 
     //Edit
     const editCase = () => {
+        //putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, ['comment1', 'comment2'], 
+        //['http://localhost:8000/api/evidence/1/'], ['http://localhost:8000/api/event/1/'], attend_date, solve_date)
+
         putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, events, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
             //window.location.href = "/case/tables"
         })
         .catch((error) => {
-            setError(error)
+            console.log(error)
             console.log(error)
         });    
     };
-    console.log(date)
 
     return (
         <React.Fragment>
@@ -176,7 +141,6 @@ const EditCase = () => {
                             </Row>
                         </Card.Body>
                     </Card>
-                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

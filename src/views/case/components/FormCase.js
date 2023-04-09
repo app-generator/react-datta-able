@@ -3,8 +3,6 @@ import {Button, Col, Form, Row} from 'react-bootstrap';
 import { getPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { getUsers } from '../../../api/services/users';
-import { getState, getStates } from '../../../api/services/states';
-import { validateAlphanumeric, validateSpace } from '../../../utils/validators'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -20,12 +18,7 @@ const FormCase = (props) => {
 const [allPriorities, setAllPriorities ] = useState([])
 const [allTlp, setAllTlp] = useState([])
 const [allUsers, setAllUsers] = useState([])
-
 const [eventsValueLabel, setEventsValueLabel] = useState([])
-const [evidencesValueLabel, setEvidencesValueLabel] = useState([])
-
-const [error, setError] = useState(false)
-
 
     useEffect(()=> {
         
@@ -35,7 +28,7 @@ const [error, setError] = useState(false)
             console.log(response.data.results)
         })
         .catch((error)=>{
-            setError(error)
+            console.log(error)
         })
 
         getTLP()
@@ -44,7 +37,7 @@ const [error, setError] = useState(false)
             console.log(response.data.results)
         })
         .catch((error)=>{
-            setError(error)
+            console.log(error)
         })
 
         getUsers()
@@ -53,7 +46,7 @@ const [error, setError] = useState(false)
             console.log(response.data.results)
         })
         .catch((error)=>{
-            setError(error)
+            console.log(error)
         })
 
         //selected events 
@@ -61,12 +54,7 @@ const [error, setError] = useState(false)
         .map(elemento => ({value: elemento.value, label: elemento.label}));
         setEventsValueLabel(listDefaultEvents)
 
-        //selected events 
-        let listDefaultEvidences = props.allEvidences.filter(elemento => props.evidences.includes(elemento.value))
-        .map(elemento => ({value: elemento.value, label: elemento.label}));
-        setEvidencesValueLabel(listDefaultEvidences)
-
-    },[props.evidences, props.events])
+    },[props.events])
 
     const allLifecycles = [
         {
@@ -95,19 +83,22 @@ const [error, setError] = useState(false)
             })
         )
     }
-    const selectEvidences=(event)=>{ 
-        props.setEvidences(
-            event.map((e)=>{
-                return e.value 
-            })
-        )
-    }
-    const completeFieldFiles=(event)=>{ 
-        console.log(event)
-        //props.setEvidences({...props.evidences,
-        //    [event.target.name] : event.target.files}
-        //)       
-    }
+    //
+    const selectEvidences = (event) => {
+        const files = event.target.files;
+        console.log(files)
+        const evidences = [];
+        for (let i = 0; i < files.length; i++) {
+          evidences.push(files[i]);
+        }
+        props.setEvidences(evidences);
+      }
+
+      const selectEvidences2 = (event) => {
+        props.setEvidences(event.target.files)
+        console.log(props.evidences)
+        console.log(event.target.files)
+      }
 
     return (
         <React.Fragment>
@@ -269,7 +260,7 @@ const [error, setError] = useState(false)
                             placeholder="Ingrese " 
                             maxlength="150" 
                             multiple
-                            onChange={(e)=>completeFieldFiles(e)}
+                            onChange={(e)=>selectEvidences2(e)}
                             name="evidence"/>
                         </Form.Group> 
                     </Col>

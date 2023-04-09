@@ -12,7 +12,7 @@ const CreateNetwork = () => {
     const [contacts, setContacts] = useState([]); //required 
     const active = true; //required: true 
     const children = useState(null); //?
-    const [domain, setDomain] = useState(''); // null 
+    const [domain, setDomain] = useState(null); // null 
     const [parent, setParent] = useState(null);
     const [network_entity, setNetwork_entity] = useState(null);
     const [error, setError] = useState(null);
@@ -95,4 +95,3 @@ const CreateNetwork = () => {
 };
 
 export default CreateNetwork;
-//crear contacto

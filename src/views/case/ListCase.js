@@ -1,51 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert'; 
 import CrudButton from '../../components/Button/CrudButton'; 
-import Pagination from '../../components/Pagination/Pagination'; 
 import TableCase from './components/TableCase'; 
 import { getCases } from '../../api/services/cases';
 import { Link } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
+import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 
 const ListCase2 = () => {
     const [cases, setCases] = useState([]) //lista de casos
-    const [error, setError] = useState(null)
+    const [ifModify, setIfModify] = useState(null) 
 
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
 
-    const [ifModify, setIfModify] = useState(null) 
-  
+    const [currentPage, setCurrentPage] = useState(1);
+    const [countItems, setCountItems] = useState(0);
+
+    function updatePage(chosenPage){
+        setCurrentPage(chosenPage);
+    }  
     
     useEffect( ()=> {
 
-        getCases('?page=1') //error al borrar el ultimo elemento de la pagina
+        getCases('?page='+currentPage) 
             .then((response) => {
-                console.log(response.data.results)
                 setCases(response.data.results)
+                // Pagination
+                setCountItems(response.data.count);
+
             })
             .catch((error) => {
-                setError(error)
+                // Show alert
             })
             .finally(() => {
                 setLoading(false)
             })
 
-    }, [ifModify]);
+        }, [countItems, currentPage, ifModify])
 
-    console.log(cases);
-        
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar los casos.</p>
+    // ------- SEARCH --------
+    const action = () => {
+        console.log("llamada backend")
     }
-
-    //valores ingresados
-    const searcher = (e) => {
-        setSearch(e.target.value) 
-        }
 
     //filtro
     let show = []
@@ -56,10 +54,6 @@ const ListCase2 = () => {
             item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
-
-    const action = () => {
-        console.log("llamada backend")
-      }
 
 return (
     <React.Fragment>
@@ -72,7 +66,7 @@ return (
                     <Card.Header>
                         <Row>
                             <Col>
-                                <Search type="caso" action={action} />
+                            <Search type="caso" action={action} search={search} setSearch={setSearch}/> 
                             </Col>
                             <Col sm={12} lg={3}>
                                 <Link to={{pathname:'/case/create'}} >
@@ -84,18 +78,15 @@ return (
                     <Card.Body>
                         <TableCase setIfModify={setIfModify} list={cases} loading={loading} />
                     </Card.Body>
-                    {/*
                     <Card.Footer >
                         <Row className="justify-content-md-center">
                             <Col md="auto"> 
-                                <Pagination pages={pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+                                <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
                             </Col>
                         </Row>
                     </Card.Footer>
-                            */}
                 </Card>
-                {/*<Alert/>*/}
-                </Col>
+            </Col>
         </Row>
     </React.Fragment>
 )}

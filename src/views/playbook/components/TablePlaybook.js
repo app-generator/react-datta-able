@@ -9,17 +9,14 @@ import FormGetName from '../../../components/Form/FormGetName';
 import { getTaxonomy } from '../../../api/services/taxonomies';
 
 
-const TablePlaybook = ({callback, list, loading }) => {
+const TablePlaybook = ({setIsModify, list, loading }) => {
     const [playbook, setPlaybook] = useState('')
-    const [error, setError] = useState(null)
 
     const [modalDelete, setModalDelete] = useState(false)
     const [modalShow, setModalShow] = useState(false)
 
     const [url, setUrl] = useState(null)
     const [name, setName] = useState(null)
-
-    const [lastItem, setLastItem] = useState(null);
 
     if (loading) {
         return (
@@ -36,41 +33,34 @@ const TablePlaybook = ({callback, list, loading }) => {
         getPlaybook(url)
         .then((response) => {
             setPlaybook(response.data)
-            console.log(response.data.contacts)
+            console.log(response.data)
             setModalShow(true)
         })
-        .catch(setError);
+        .catch((error) => {
+            console.log(error)
+        })
     };
 
     //Remove Playbook
     const Delete = (url, name) => {
-        setLastItem(list.length === 1)
         setUrl(url);
         setName(name);
         setModalDelete(true)
     }
 
     const removePlaybook = (url)=> {
-        console.log(url)
         deletePlaybook(url)
             .then((response) => {
                 console.log(response.data)
-                callback(lastItem)
+                setIsModify(response)
             })
             .catch((error) => {
                 console.log(error)
-                setError(error)
-                callback(false) //error si no se puede eliminar el ultimo
             })
             .finally(() => {
                 setModalDelete(false)
             })
     };
-
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar la red.</p>
-    }
 
     return (
             <React.Fragment>

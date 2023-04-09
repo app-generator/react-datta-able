@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
 import CrudButton from '../../../components/Button/CrudButton';
-import { getCase, deleteCase } from '../../../api/services/cases';
+import { deleteCase } from '../../../api/services/cases';
 import { getPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,6 @@ import BadgeItem from '../../../components/Button/BadgeItem';
 import { getStates } from '../../../api/services/states'; 
 import { getUser } from '../../../api/services/users';
 import GetUserName from './GetUserName';
-import Alert from '../../../components/Alert/Alert';
 
 const TableCase = ({setIfModify, list, loading }) => {
     
@@ -22,8 +21,6 @@ const TableCase = ({setIfModify, list, loading }) => {
     const [tlpOption, setTlpOption] = useState({}) 
     const [stateOption, setStateOption] = useState({}) 
     
-    const [error, setError] = useState(null) 
-
     useEffect(() => {
 
         getPriorities()
@@ -37,7 +34,7 @@ const TableCase = ({setIfModify, list, loading }) => {
                 setPrioritiesOption(priorityOp)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
         
         getTLP()
@@ -50,7 +47,7 @@ const TableCase = ({setIfModify, list, loading }) => {
                 setTlpOption(tlpOp)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
 
         getStates('?page=1')
@@ -63,7 +60,7 @@ const TableCase = ({setIfModify, list, loading }) => {
                 setStateOption(stateOp)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
 
     },[list]);
@@ -93,7 +90,7 @@ const TableCase = ({setIfModify, list, loading }) => {
             })
             .catch((error) => {
                 console.log(error)
-                setError(error)
+                console.log(error)
             })
             .finally(() => {
                 setModalDelete(false)

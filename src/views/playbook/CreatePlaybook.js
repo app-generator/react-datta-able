@@ -11,8 +11,6 @@ import { useLocation } from 'react-router-dom';
 
 const CreatePlaybook = () => {
 
-    const taxonomies = useLocation().taxonomies;
-
     const [url, setUrl] = useState('');
     const [name, setName] = useState('');
     const [taxonomy, setTaxonomy] = useState([]);
