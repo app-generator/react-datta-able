@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import CrudButton from '../../components/Button/CrudButton'; 
 import TableCase from './components/TableCase'; 
-import { getCases } from '../../api/services/cases';
+import { getCases, mergeCase } from '../../api/services/cases';
 import { Link } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
@@ -20,7 +20,7 @@ const ListCase = () => {
 
     //merge
     const [showMerge, setShowMerge] = useState(false) 
-    const [selectedCases, setSelectedCases] = useState({});
+    const [selectedCases, setSelectedCases] = useState([]);
 
 
     function updatePage(chosenPage){
@@ -60,10 +60,11 @@ const ListCase = () => {
         )
     }
     const merge = () => {
-        console.log('mergeando')
-        console.log(selectedCases)
         const selectedUrls = Object.keys(selectedCases).filter((url) => selectedCases[url]);
-        console.log(selectedUrls);
+        const parent = selectedUrls.shift();
+        selectedUrls.forEach(child => {
+            mergeCase(parent, child).then(response => setIfModify(response)).catch(error => console.log(error));
+        });
     }
 
 return (
@@ -93,8 +94,8 @@ return (
                                     variant='outline-secondary'
                                     title='Mergear'
                                     onClick={()=> setShowMerge(!showMerge)}>
-                                    <i class="fas fa-clipboard-list"/>
-                                    checkbox
+                                    <i class="far fa-minus-square"/>
+                                    
                                 </Button>
                                 <Button 
                                     size="sm"
@@ -102,6 +103,7 @@ return (
                                     variant='outline-danger'
                                     title='Mergear'
                                     onClick={()=> merge()}>
+                                    <i class="fa fa-code-branch"/>
                                     Merge
                                 </Button>
                             </Col> 

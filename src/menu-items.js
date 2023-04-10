@@ -27,7 +27,7 @@ const menuItems = {
                     type: 'item',
                     url: '/list-event',
                     classes: '',
-                    icon: '',
+                    icon: 'fas fa-stream',
                     breadcrumbs: false,
                 },
                 {
@@ -35,7 +35,7 @@ const menuItems = {
                     title: 'Casos',
                     type: 'item',
                     url: '/case/tables',
-                    icon: 'feather icon-sidebar',
+                    icon: 'fas fa-stream',
                     breadcrumbs: false,
                 }
             ]
@@ -51,7 +51,7 @@ const menuItems = {
                     title: 'Entidades',
                     type: 'item',
                     url: '/entity/tables',
-                    icon: 'feather icon-box',
+                    icon: 'fas fa-cubes',
                     breadcrumbs: false
                 },
                 {
@@ -59,7 +59,7 @@ const menuItems = {
                     title: 'Redes',
                     type: 'item',
                     url: '/network/tables',
-                    icon: 'fas fa-network-wired',
+                    icon: 'fas fa-ethernet',
                     breadcrumbs: false
                 },
                 {
@@ -67,7 +67,7 @@ const menuItems = {
                     title: 'Contactos',
                     type: 'item',
                     url: '/contact/tables',
-                    icon: 'feather icon-sidebar',
+                    icon: 'far fa-address-book',
                     breadcrumbs: false
                 }
             ]
@@ -107,7 +107,7 @@ const menuItems = {
                             title: 'Playbook',
                             type: 'item',
                             url: '/playbook/tables',
-                            icon: 'fas fa-stream',
+                            icon: 'fas fa-tasks',
                             breadcrumbs: false
                         },
                         {
@@ -124,7 +124,7 @@ const menuItems = {
                             type: 'item',
                             url: '/list-states',
                             classes: '',
-                            icon: '',
+                            icon: 'fas fa-stream',
                             breadcrumbs: false,
                         },
                         {
@@ -133,7 +133,7 @@ const menuItems = {
                             type: 'item',
                             url: '/list-template',
                             classes: '',
-                            icon: '',
+                            icon: 'fas fa-stream',
                             breadcrumbs: false,
                         }
                     ]

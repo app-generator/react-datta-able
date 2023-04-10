@@ -111,4 +111,28 @@ const deleteCase = (url) => {
     });
 }
 
-export { getCases, getAllCases, getOrderingCases, getCase, postCase, putCase, deleteCase };
+const mergeCase = (urlParent, urlChildren) => {
+    return apiInstance.patch(urlChildren,
+    {
+        /*date:date,
+        priority:priority,
+        state:state,
+        tlp:tlp,*/
+        parent : urlParent
+    }, 
+    {
+        validateStatus: function (status) {
+            switch(status) {
+                case 200:
+                    setAlert(`Caso mergeado`, "success");
+                    break;
+                case 404: 
+                    setAlert(`No se pudo mergear`, "error");
+                    break;
+            }
+            return status;
+        }
+    });
+}
+
+export { getCases, getAllCases, getOrderingCases, getCase, postCase, putCase, deleteCase, mergeCase };

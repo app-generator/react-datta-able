@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
+import { Row, Button, Form, Table, Spinner } from 'react-bootstrap';
 import CrudButton from '../../../components/Button/CrudButton';
 import { deleteCase } from '../../../api/services/cases';
 import { getPriorities } from '../../../api/services/priorities';
@@ -97,7 +97,7 @@ const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSel
         };
 
     const checkbox = (event) => {
-        const { id, checked } = event.target;
+        const { id, checked } = event.target    ;
         setSelectedCases({ ...selectedCases, [id]: checked });
     };
 
@@ -158,6 +158,7 @@ const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSel
                                             <CrudButton type='edit'/>
                                         </Link>
                                         <CrudButton type='delete' onClick={() => Delete(caseItem.url, idItem)} />
+                                        
                                     </td>
                                 </tr>
                             );
