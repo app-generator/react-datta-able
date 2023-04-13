@@ -60,7 +60,7 @@ const CreateTaxonomy = () => {
                         </Card.Header>
                         <Card.Body>
                             <Form>
-                                <Form.Group as={Col}>
+                                <Form.Group as={Col} sm={6}>
                                     <Form.Label>Tipo</Form.Label>
                                     <Form.Control type="choice" as="select" value={type} onChange={(e) => setType(e.target.value)} isValid={validateType(type)} isInvalid={!validateType(type)} >                                                                     
                                         <option key={0} value=''>Seleccione</option>
@@ -70,19 +70,19 @@ const CreateTaxonomy = () => {
                                     {validateType(type) ? '' : <div className="invalid-feedback">Ingrese un tipo de taxonomia</div>} 
                                 </Form.Group>
                                                                 
-                                <Form.Group as={Col}>
+                                <Form.Group as={Col} sm={6}>
                                     <Form.Label>Nombre</Form.Label>
                                     <Form.Control type="text" placeholder="Nombre" onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)}/>
                                     {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
                                 </Form.Group>
 
-                                <Form.Group as={Col}>
+                                <Form.Group as={Col} sm={6}> 
                                     <Form.Label>Descripcion</Form.Label>
                                     <Form.Control as="textarea" rows={3} placeholder="Descripcion" onChange={(e) => setDescription(e.target.value)}  isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
                                     {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
                                 </Form.Group>
                                 
-                                <Form.Group as={Col}>
+                                <Form.Group as={Col} sm={6}>
                                     <Form.Label>Padre</Form.Label>
                                     <Select options={taxonomies} onChange={(e) => setParent(e.value)} />
                                 </Form.Group>
