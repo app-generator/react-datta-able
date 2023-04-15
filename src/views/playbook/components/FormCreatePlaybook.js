@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Form } from 'react-bootstrap';
 import { validateAlphanumeric, validateSpace } from '../../../utils/validators'; 
-import Alert from '../../../components/Alert/Alert';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -31,7 +30,6 @@ const FormCreatePlaybook = (props) => {
 
     return (
         <React.Fragment>
-            {/*<Alert/>*/}
             <Form>
                 <Row>
                     <Col sm={12} lg={12}>

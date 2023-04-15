@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
 import { getContacts } from '../../api/services/contacts';
 import { postNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/FormCreateNetwork';
@@ -87,7 +86,6 @@ const CreateNetwork = () => {
                                 setContactsCreated={setContactsCreated} />                          
                         </Card.Body>
                     </Card>
-                    <Alert />
                 </Col>
             </Row>
         </React.Fragment>

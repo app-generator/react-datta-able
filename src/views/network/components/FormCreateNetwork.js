@@ -6,7 +6,6 @@ import CrudButton from '../../../components/Button/CrudButton';
 import FormCreateContact from '../../contact/components/FormCreateContact';
 import { postContact } from '../../../api/services/contacts';
 import { validateSpace, validateCidr, validateURL, validateSpaces } from '../../../utils/validators'; 
-import Alert from '../../../components/Alert/Alert';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import DropdownState from '../../../components/Dropdown/DropdownState';
@@ -110,7 +109,6 @@ const FormCreateNetwork = (props) => {
 
     return (
         <React.Fragment>
-            {/*<Alert/>*/}
             <Form>
                 <Row>
                     <Col sm={12} lg={3}>

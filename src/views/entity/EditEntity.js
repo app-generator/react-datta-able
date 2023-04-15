@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
 import { putEntity } from '../../api/services/entities';
 import FormEntity from './components/FormEntity';
 import Navigation from '../../components/Navigation/Navigation';
@@ -56,7 +55,6 @@ const EditEntity = () => {
                             </Row>
                         </Card.Body>
                     </Card>
-                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

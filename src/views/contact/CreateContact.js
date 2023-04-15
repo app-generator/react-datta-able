@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card, Col, Row  } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
 import { postContact } from '../../api/services/contacts';
 import FormCreateContact from './components/FormCreateContact';
 import Navigation from '../../components/Navigation/Navigation';
@@ -48,7 +47,6 @@ const CreateContact = () => {
                                 ifConfirm={createContact} ifCancel={() => window.location.href = "/contact/tables"} />
                         </Card.Body>
                     </Card>
-                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

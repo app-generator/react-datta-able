@@ -81,7 +81,7 @@ const CreateCase = () => {
         postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, events, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
-            //window.location.href = "/case/tables"
+            window.location.href = "/case/tables"
         })
         .catch((error) => {
             console.log(error)

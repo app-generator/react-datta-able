@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Card, Col, Row } from 'react-bootstrap'; 
-import Alert from '../../components/Alert/Alert';
 import { putPlaybook } from '../../api/services/playbooks';
 import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomies';
@@ -84,7 +83,6 @@ const EditPlaybook = () => {
                     
                     <ListTask urlPlaybook={url} sectionAddTask={true}/>
 
-                    {/*<Alert />*/}
                     <Button variant="primary" href="/playbook/tables">Volver</Button>
                 </Col>
             </Row>

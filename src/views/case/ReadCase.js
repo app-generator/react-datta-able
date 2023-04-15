@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Form, Row, Table } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation';
 import { useLocation } from 'react-router-dom';
 import GetUserName from './components/GetUserName';
@@ -171,7 +170,6 @@ const ReadCase = () => {
                             <Button variant="primary" href="/case/tables">Volver</Button>
                         </Card.Footer>
                     </Card>
-                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, Col, Row } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Row } from 'react-bootstrap';
 import CrudButton from '../../components/Button/CrudButton'; 
 import TableCase from './components/TableCase'; 
 import { getCases, mergeCase } from '../../api/services/cases';
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
+import ModalConfirm from '../../components/Modal/ModalConfirm';
 
 const ListCase = () => {
     const [cases, setCases] = useState([]) //lista de casos
@@ -19,8 +20,10 @@ const ListCase = () => {
     const [countItems, setCountItems] = useState(0);
 
     //merge
-    const [showMerge, setShowMerge] = useState(false) 
     const [selectedCases, setSelectedCases] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedCasesId, setSelectedCasesId] = useState([]);
+
 
 
     function updatePage(chosenPage){
@@ -42,6 +45,11 @@ const ListCase = () => {
             .finally(() => {
                 setLoading(false)
             })
+        
+        const getId = (url) => {
+            let id = url.split('/')[(url.split('/')).length-2];
+            return id;
+        }
 
         }, [countItems, currentPage, ifModify])
 
@@ -59,15 +67,28 @@ const ListCase = () => {
             item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
+    //-----------------MERGE------------------------
+    
+    const mergeConfirm = () => {
+        //setId
+        setShowModal(true);
+    }
+
     const merge = () => {
-        const selectedUrls = Object.keys(selectedCases).filter((url) => selectedCases[url]);
-        const parent = selectedUrls.shift();
-        selectedUrls.forEach(child => {
-            mergeCase(parent, child).then(response => setIfModify(response)).catch(error => console.log(error));
+        const parent = selectedCases.shift();
+        selectedCases.forEach(child => {
+            console.log(`MERGE --> parent: ${parent} \n          child:${child} `)
+            mergeCase(parent, child)
+                .then(response => setIfModify(response))
+                .catch(error => console.log(error))
+                .finally(() => {
+                    setSelectedCases([])
+                    setShowModal(false)
+                })
         });
     }
 
-return (
+    return (
     <React.Fragment>
         <Row>
             <Navigation actualPosition={'Casos'}/>  
@@ -87,30 +108,26 @@ return (
                             </Col> 
                         </Row>                        
                         <Row>
-                            <Col>
+                            <Col> 
                                 <Button 
+                                    disabled={selectedCases.length > 1 ? false : true}
                                     size="sm"
                                     className='text-capitalize'
-                                    variant='outline-secondary'
+                                    variant='light'
                                     title='Mergear'
-                                    onClick={()=> setShowMerge(!showMerge)}>
-                                    <i class="far fa-minus-square"/>
-                                    
-                                </Button>
-                                <Button 
-                                    size="sm"
-                                    className='text-capitalize'
-                                    variant='outline-danger'
-                                    title='Mergear'
-                                    onClick={()=> merge()}>
-                                    <i class="fa fa-code-branch"/>
-                                    Merge
-                                </Button>
+                                    onClick={() => mergeConfirm()}>
+                                    <i variant='danger' class="fa fa-code-branch"/>
+                                        Merge&nbsp;
+                                    <Badge  
+                                        className="badge mr-1" >
+                                        {selectedCases.length} 
+                                    </Badge>
+                                </Button>                                
                             </Col> 
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableCase setIfModify={setIfModify} list={cases} loading={loading} showMerge={showMerge} selectedCases={selectedCases} setSelectedCases={setSelectedCases} />
+                        <TableCase setIfModify={setIfModify} list={cases} loading={loading} selectedCases={selectedCases} setSelectedCases={setSelectedCases} />
                     </Card.Body>
                     <Card.Footer >
                         <Row className="justify-content-md-center">
@@ -122,6 +139,8 @@ return (
                 </Card>
             </Col>
         </Row>
+        <ModalConfirm type='merge' component='casos' name={selectedCases} showModal={showModal} onHide={() => setShowModal(false)} ifConfirm={() => merge()}/>
+
     </React.Fragment>
 )}
 

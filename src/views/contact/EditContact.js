@@ -50,7 +50,6 @@ const EditContact = () => {
                                 ifConfirm={editContact} ifCancel={() => {window.location.href = "/contact/tables"}}/>
                         </Card.Body>
                     </Card>
-                    {/*<Alert/>*/}
                     </Col>
             </Row>
         </React.Fragment>

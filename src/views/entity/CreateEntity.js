@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
 import { postEntity } from '../../api/services/entities';
 import FormEntity from './components/FormEntity';
 import Navigation from '../../components/Navigation/Navigation';
@@ -53,7 +52,6 @@ const CreateEntity = () => {
                             </Row>
                         </Card.Body>
                     </Card>
-                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

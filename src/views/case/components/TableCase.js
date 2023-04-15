@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Row, Button, Form, Table, Spinner } from 'react-bootstrap';
+import { Row, Form, Table, Spinner } from 'react-bootstrap';
 import CrudButton from '../../../components/Button/CrudButton';
 import { deleteCase } from '../../../api/services/cases';
 import { getPriorities } from '../../../api/services/priorities';
@@ -12,7 +12,7 @@ import { getStates } from '../../../api/services/states';
 import { getUser } from '../../../api/services/users';
 import GetUserName from './GetUserName';
 
-const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSelectedCases }) => {
+const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases }) => {
     
     const [url, setUrl] = useState(null) 
     const [modalDelete, setModalDelete] = useState(false)
@@ -22,12 +22,14 @@ const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSel
     const [tlpOption, setTlpOption] = useState({}) 
     const [stateOption, setStateOption] = useState({}) 
     
+//checkbox
+    const [isCheckAll, setIsCheckAll] = useState(false);
+  
+  
     useEffect(() => {
 
         getPriorities()
             .then((response) => {
-                console.log(response.data.results)
-
                 let priorityOp = {}
                 response.data.results.map((item) => {
                     priorityOp[item.url] = {name: item.name, color: item.color}
@@ -40,7 +42,6 @@ const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSel
         
         getTLP()
             .then((response) => {
-                console.log(response.data.results)
                 let tlpOp = {}
                 response.data.results.map((item) => {
                     tlpOp[item.url] = {name: item.name, color: item.color}
@@ -53,7 +54,6 @@ const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSel
 
         getStates('?page=1')
             .then((response) => {
-                console.log(response.data.results)
                 let stateOp = {}
                 response.data.results.map((item) => {
                     stateOp[item.url] = {name: item.name}
@@ -63,7 +63,7 @@ const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSel
             .catch((error)=>{
                 console.log(error)
             })
-
+        
     },[list]);
 
     if (loading) {
@@ -96,17 +96,39 @@ const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSel
             })
         };
 
-    const checkbox = (event) => {
-        const { id, checked } = event.target    ;
-        setSelectedCases({ ...selectedCases, [id]: checked });
-    };
+    ////////////////////////////////////////////////////
+     
+    const handleSelectAll = e => {
+        setIsCheckAll(!isCheckAll);
+        setSelectedCases(list.filter(item => item.solve_date == null).map(li => li.url));
+        if (isCheckAll) {
+            setSelectedCases([]);
+        }
+      };
+    
+      const handleClick = e => { 
+        const { id, checked } = e.target;
+        setSelectedCases([...selectedCases, id]);
+        if (!checked) {
+          setSelectedCases(selectedCases.filter(item => item !== id));
+        }
+      };
+    
+      console.log(selectedCases);
+    
+      ////////////////////////////////////////////////////
 
     return (
-            <React.Fragment> 
+            <React.Fragment>
                 <Table responsive hover className="text-center">
                     <thead>
                         <tr>
-                            {showMerge ? <th/> : ''}
+                            <th>
+                                <Form.Group>
+                                    <Form.Check custom type="checkbox" id={"selectAll"} 
+                                        onChange={handleSelectAll} checked={selectedCases.length != 0 ? isCheckAll : false} /> {/*|| selectedCases == list.filter(item => item.solve_date == null).length */}
+                                </Form.Group>
+                            </th>
                             <th>Id</th>
                             <th>Fecha</th>
                             <th>Prioridad</th>
@@ -125,13 +147,14 @@ const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSel
                             return (
                                 list &&
                                 <tr key={caseItem.url}>
-                                    {showMerge ? 
-                                        <td>
-                                            <Form.Group><Form.Check custom type="checkbox" id={caseItem.url} onChange={checkbox} checked={selectedCases[caseItem.url]} /></Form.Group>
-                                        </td>
-                                    : ''}
+                                    <td>
+                                        <Form.Group>
+                                            <Form.Check disabled={caseItem.solve_date != null ? true : false} 
+                                                type="checkbox" id={caseItem.url} 
+                                                onChange={handleClick} checked={selectedCases.includes(caseItem.url)} />
+                                        </Form.Group>
+                                    </td>
                                     <th scope="row">{idItem}</th>
-                                    
                                     <td>{datetime}</td>
                                     <td>
                                         <BadgeItem item={prioritiesOption[caseItem.priority]}/>
@@ -149,7 +172,6 @@ const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSel
                                             Sin asignar
                                         </td> 
                                     }
-                            
                                     <td>
                                         <Link to={{pathname:'/case/read', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
                                             <CrudButton type='read'/>
@@ -158,7 +180,6 @@ const TableCase = ({setIfModify, list, loading, showMerge, selectedCases, setSel
                                             <CrudButton type='edit'/>
                                         </Link>
                                         <CrudButton type='delete' onClick={() => Delete(caseItem.url, idItem)} />
-                                        
                                     </td>
                                 </tr>
                             );

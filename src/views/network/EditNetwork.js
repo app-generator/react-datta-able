@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
 import { getContacts } from '../../api/services/contacts';
 import { putNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/FormCreateNetwork';
@@ -117,8 +116,7 @@ const EditNetwork = () => {
                                 setContactsCreated={setContactsCreated} />                          
                         </Card.Body>
                     </Card>
-                    <Alert />
-                </Col>
+                </Col> 
             </Row>
             <ModalConfirm type='editState' component='Red' name={cidr} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(url, active)}/>
         </React.Fragment>

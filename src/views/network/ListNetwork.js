@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
 import CrudButton from '../../components/Button/CrudButton';
-import Pagination from "../../components/Pagination/Pagination"; 
-import Alert from "../../components/Alert/Alert";
 import { getNetworks } from '../../api/services/networks';
 import TableNetwork from './components/TableNetwork';
 import Navigation from '../../components/Navigation/Navigation';

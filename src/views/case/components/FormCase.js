@@ -277,7 +277,17 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
                                     isMulti
                                     onChange={selectEvents}
                                     options={props.allEvents}
-                                />
+                                    />
+                                    {/*
+                                    styles={{
+                                        container: (base) => ({
+                                          ...base,
+                                          backgroundColor: 'red',
+                                          padding: 1,
+                                          borderRadius: '25% 25%',
+                                        }),
+                                      }}
+                                    */}
                         </Form.Group>
                     </Col>
                 </Row>

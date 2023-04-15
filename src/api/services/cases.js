@@ -114,10 +114,6 @@ const deleteCase = (url) => {
 const mergeCase = (urlParent, urlChildren) => {
     return apiInstance.patch(urlChildren,
     {
-        /*date:date,
-        priority:priority,
-        state:state,
-        tlp:tlp,*/
         parent : urlParent
     }, 
     {
