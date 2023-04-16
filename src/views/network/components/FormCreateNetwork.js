@@ -88,23 +88,13 @@ const FormCreateNetwork = (props) => {
             console.log(error)
         });    
     };
-    const domainIsValid = () => {
-        if(props.domain ===undefined) {
-            return true;
+    
+    const handlerDomain = (url) => {// Network.Domain permite valores nulos
+        if (url == null) {
+          return true; 
         }
-        else {
-            return (validateURL(props.domain) || validateSpaces(props.domain));
-        }
-    };
-
-    const domainIsInvalid = () => {
-        if(props.domain ===undefined) {
-            return false;
-        }
-        else {
-            return (!validateURL(props.domain));
-        }
-    };
+        return validateURL( url);
+      }
 
 
     return (
@@ -172,11 +162,11 @@ const FormCreateNetwork = (props) => {
                                 placeholder="Dominio" 
                                 maxlength="100"
                                 value={ props.domain } 
-                                isValid={ domainIsValid }
-                                isInvalid={ domainIsInvalid }
+                                isValid={(props.domain == null) || validateURL(props.domain)}
+                                isInvalid={(props.domain != null) && !validateURL(props.domain)}
                                 onChange={ (e) => props.setDomain(e.target.value) } 
                             />
-                            {(!domainIsValid || domainIsInvalid) ? <div className="invalid-feedback">Ingrese caracteres validos</div> : ''}
+                            {(!(validateURL(props.domain) || validateSpaces(props.domain)) || !validateURL(props.domain)) ? <div className="invalid-feedback">Ingrese caracteres validos</div> : ''}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={6}>
