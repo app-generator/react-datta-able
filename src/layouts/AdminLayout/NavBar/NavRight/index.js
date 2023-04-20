@@ -30,13 +30,10 @@ const NavRight = () => {
 
     const handleLogout = () => {
 
-        logout().then((response) => {
+        logout().finally(() => {
             dispatch({
                 type: LOGOUT,
             });
-        })
-        .catch((error) => {
-            setShowAlert(true);
         });
         
     };

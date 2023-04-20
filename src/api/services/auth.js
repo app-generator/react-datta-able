@@ -18,27 +18,12 @@ const register = (username, password, email) => {
     });
 }
 
-const getCookieJWT = (username, password) => {
-    return apiInstance.post(COMPONENT_URL.cookieToken, {
-        username: username,  
-        password: password, 
-    });
-}
-
 const login = (username, password) => {
     return apiInstance.post(COMPONENT_URL.login, {
         username: username,
         password: password, 
-    }).then(response => {
-       return getCookieJWT(username, password)
-        .then(res => {
-            return response;
-        }).catch(err => {
-            setAlert("No se pudo realizar el login", "error");
-            return Promise.reject(err);
-        });
     }).catch( error => { 
-        if (error.response.data.msg === "Wrong credentials") {
+        if (error.response.data.detail === "La combinación de credenciales no tiene una cuenta activa") {
             setAlert("Las credenciales de acceso son inválidas", "error");
         }  else {
             setAlert("No se pudo realizar el login", "error");
@@ -59,4 +44,4 @@ const logout = () => {
         });
 }
 
-export { register, getCookieJWT, login, refreshToken, logout };
+export { register, login, refreshToken, logout };
