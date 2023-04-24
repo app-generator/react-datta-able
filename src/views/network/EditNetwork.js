@@ -61,7 +61,7 @@ const EditNetwork = () => {
             .then((response) => { 
                 console.log(response)
                 console.log('create network - put .then')
-                window.location.href = "/network/tables"
+                //window.location.href = "/network/tables"
             })
             .catch((error) => {
                 setError(error)

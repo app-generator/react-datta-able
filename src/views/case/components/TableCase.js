@@ -177,7 +177,7 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                                             <CrudButton type='read'/>
                                         </Link>
                                         <Link to={{pathname:'/case/edit', state: caseItem}} >
-                                            <CrudButton type='edit'/>
+                                            <CrudButton disabled={caseItem.solve_date != null ? true : false} type='edit'/>
                                         </Link>
                                         <CrudButton type='delete' onClick={() => Delete(caseItem.url, idItem)} />
                                     </td>

@@ -71,7 +71,7 @@ const FormCreateNetwork = (props) => {
         }
     
         console.log(contactsValueLabel);
-        console.log(props.allContacts);
+        console.log(props.network_entity);
 
     //Create Contact
     const createContact = () => { //refactorizar al FormContact
@@ -181,7 +181,7 @@ const FormCreateNetwork = (props) => {
                                     {props.edit ? '' : <option key={0} value={null}> </option>}
                                     {entitiesOption.map((entityItem, index) => {                
                                         return (
-                                            <option key={index} value={entityItem.value}>{entityItem.name}</option>
+                                            <option key={index} value={entityItem.url}>{entityItem.name}</option>
                                         );
                                     })}
                             </Form.Control>

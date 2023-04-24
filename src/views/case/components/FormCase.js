@@ -265,32 +265,6 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
                         </Form.Group> 
                     </Col>
                 </Row>
-                <Row>
-                    <Col sm={12} lg={6}>
-                        <Form.Group controlId="Form.Case.Events.Multiselect">
-                            <Form.Label>Eventos</Form.Label>
-                                <Select
-                                    value={eventsValueLabel}
-                                    placeholder='Seleccione Eventos'
-                                    closeMenuOnSelect={false}
-                                    components={animatedComponents}
-                                    isMulti
-                                    onChange={selectEvents}
-                                    options={props.allEvents}
-                                    />
-                                    {/*
-                                    styles={{
-                                        container: (base) => ({
-                                          ...base,
-                                          backgroundColor: 'red',
-                                          padding: 1,
-                                          borderRadius: '25% 25%',
-                                        }),
-                                      }}
-                                    */}
-                        </Form.Group>
-                    </Col>
-                </Row>
                  
                 {!props.date || !props.lifecycle || !props.priority || !props.tlp || !props.state ? 
                     <><Button variant="primary" disabled>{props.save}</Button></> 
