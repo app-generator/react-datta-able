@@ -72,7 +72,7 @@ const CreatePlaybook = () => {
     return (
     <React.Fragment>
         <Row>
-            <Navigation actualPosition="Agregar Playbook" path="/playbook/tables" index ="Playbook"/>
+            <Navigation actualPosition="Agregar Playbook" path="/playbooks" index ="Playbook"/>
         </Row>
             <Row>
                 <Col sm={12}>
@@ -93,7 +93,7 @@ const CreatePlaybook = () => {
 
                     <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
 
-                    <Button variant="primary" href="/playbook/tables">Volver</Button>
+                    <Button variant="primary" href="/playbooks">Volver</Button>
                 </Col>
             </Row>
     </React.Fragment>

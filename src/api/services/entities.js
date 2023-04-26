@@ -28,10 +28,9 @@ const getAllEntities = (currentPage = 1, results = [], limit = 100) => {
 
 }
 
-const postEntity = (name, slug, active) => {
+const postEntity = (name, active) => {
     return apiInstance.post(COMPONENT_URL.entity, {
         name: name, 
-        slug: slug, 
         active: active 
     }, 
     {
@@ -49,11 +48,10 @@ const postEntity = (name, slug, active) => {
     });
 }
 
-const putEntity = (url, name, slug, active) => {
+const putEntity = (url, name, active) => {
     return apiInstance.put(url,
     {
         name: name, 
-        slug: slug, 
         active: active 
     }, 
     {

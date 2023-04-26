@@ -70,7 +70,7 @@ const ListContact = () => {
                                 <Search type="contacto" action={action} search={search} setSearch={setSearch}/> 
                             </Col>
                             <Col sm={3} lg={3}>
-                                <Link to={{pathname:'/contact/create'}} >
+                                <Link to={{pathname:'/contacts/create'}} >
                                     <CrudButton type='create' name='Contacto' />
                                 </Link>
                             </Col> 

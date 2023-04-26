@@ -79,7 +79,6 @@ const FormCreateNetwork = (props) => {
         postContact (supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
             console.log(response)
-            //window.location.href = "/contact/tables"
             props.setContactsCreated(response) //
             setModalCreate(false) //
         })
@@ -214,7 +213,7 @@ const FormCreateNetwork = (props) => {
                     <Col>
                         <Form.Group>
                             <Form.Label>Estado</Form.Label>
-                                <DropdownState state={props.active===1} setActive={props.setActive}></DropdownState>
+                                <DropdownState state={props.active} setActive={props.setActive}></DropdownState>
                         </Form.Group>
                     </Col>
                 </Row>
@@ -230,7 +229,7 @@ const FormCreateNetwork = (props) => {
                                 : 
                                 <><Button variant="primary" disabled>Guardar</Button></> 
                             }
-                            <Button variant="primary" href="/network/tables">Cancelar</Button>
+                            <Button variant="primary" href="/networks">Cancelar</Button>
                         </Form.Group>
                     </Col>
                 </Row>

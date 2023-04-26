@@ -270,7 +270,7 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
                     <><Button variant="primary" disabled>{props.save}</Button></> 
                     : 
                     <><Button variant="primary" onClick={props.ifConfirm}>{props.save}</Button></>}
-                <Button variant="primary" href="/case/tables">Cancelar</Button>
+                <Button variant="primary" href="/cases">Cancelar</Button>
             </Form>  
         </React.Fragment>
     );

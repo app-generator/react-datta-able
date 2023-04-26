@@ -81,7 +81,7 @@ const CreateCase = () => {
         postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, events, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
-            window.location.href = "/case/tables"
+            window.location.href = "/cases"
         })
         .catch((error) => {
             console.log(error)
@@ -92,7 +92,7 @@ const CreateCase = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Crear Caso" path="/case/tables" index ="Casos"/>
+                <Navigation actualPosition="Crear Caso" path="/cases" index ="Casos"/>
             </Row>
             <Row>
                 <Col sm={12}>

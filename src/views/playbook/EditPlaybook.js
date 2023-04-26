@@ -61,7 +61,7 @@ const EditPlaybook = () => {
     return (
     <React.Fragment>
         <Row>
-            <Navigation actualPosition="Editar Playbook" path="/playbook/tables" index ="Playbook"/>
+            <Navigation actualPosition="Editar Playbook" path="/playbooks" index ="Playbook"/>
         </Row>
 
             <Row>
@@ -83,7 +83,7 @@ const EditPlaybook = () => {
                     
                     <ListTask urlPlaybook={url} sectionAddTask={true}/>
 
-                    <Button variant="primary" href="/playbook/tables">Volver</Button>
+                    <Button variant="primary" href="/playbooks">Volver</Button>
                 </Col>
             </Row>
     </React.Fragment>

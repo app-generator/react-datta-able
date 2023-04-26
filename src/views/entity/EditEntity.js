@@ -11,21 +11,11 @@ const EditEntity = () => {
     const [active, setActive] = useState(entity.active);
     const [error, setError] = useState(null);
 
-    const slugify = (str) => {
-        return str
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/[\s_-]+/g, '_')
-      .replace(/^-+|-+$/g, '')
-    }
-
     //Update
     const editEntity = () => {
-        let slug = slugify(name); //backend
-        putEntity(entity.url, name, slug, active)
+        putEntity(entity.url, name, active)
         .then((response) => { 
-            window.location.href = "/entity/tables"
+            window.location.href = "/entities"
         })
         .catch((error) => {
             setError(error)
@@ -35,7 +25,7 @@ const EditEntity = () => {
     return (
         <React.Fragment>          
             <Row>
-                <Navigation actualPosition="Editar Entidad" path="/entity/tables" index ="Entidades"/>
+                <Navigation actualPosition="Editar Entidad" path="/entities" index ="Entidades"/>
             </Row>
             <Row>
                 <Col sm={12}>

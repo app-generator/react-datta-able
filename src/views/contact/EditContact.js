@@ -20,7 +20,7 @@ const EditContact = () => {
     const editContact = () => {
         putContact (contact.url, supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
-            window.location.href = "/contact/tables"
+            window.location.href = "/contacts"
         })
         .catch((error) => {
             setError(error)
@@ -30,7 +30,7 @@ const EditContact = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Editar Contacto" path="/contact/tables" index ="Contactos"/>
+                <Navigation actualPosition="Editar Contacto" path="/contacts" index ="Contactos"/>
             </Row>
             <Row>
                 <Col sm={12}>
@@ -47,7 +47,7 @@ const EditContact = () => {
                                 type={selectType} setType={setSelectType} 
                                 contact={supportedContact} setContact={setSupportedContact} 
                                 keypgp={supportedKey} setKey={setSupportedKey} 
-                                ifConfirm={editContact} ifCancel={() => {window.location.href = "/contact/tables"}}/>
+                                ifConfirm={editContact} ifCancel={() => {window.location.href = "/contacts"}}/>
                         </Card.Body>
                     </Card>
                     </Col>

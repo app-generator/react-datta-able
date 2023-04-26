@@ -22,9 +22,6 @@ const ListCase = () => {
     //merge
     const [selectedCases, setSelectedCases] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [selectedCasesId, setSelectedCasesId] = useState([]);
-
-
 
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
@@ -46,11 +43,6 @@ const ListCase = () => {
                 setLoading(false)
             })
         
-        const getId = (url) => {
-            let id = url.split('/')[(url.split('/')).length-2];
-            return id;
-        }
-
         }, [countItems, currentPage, ifModify])
 
     // ------- SEARCH --------
@@ -102,7 +94,7 @@ const ListCase = () => {
                                 <Search type="caso" action={action} search={search} setSearch={setSearch}/> 
                             </Col>
                             <Col sm={6} lg={3}>
-                                <Link to={{pathname:'/case/create'}} >
+                                <Link to={{pathname:'/cases/create'}} >
                                     <CrudButton type='create' name='Caso' />
                                 </Link>
                             </Col> 

@@ -57,12 +57,11 @@ const ReadCase = () => {
         caseItem &&
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Detalle" path="/case/tables" index ="Casos"/>
+                <Navigation actualPosition="Detalle" path="/cases/view" index ="Casos"/>
             </Row>
             <Row>
                 <Col sm={12}>
-                    
-<Card>
+                    <Card>
                         <Card.Header>
                             <Card.Title as="h5">Principal</Card.Title>
                         </Card.Header>
@@ -106,9 +105,8 @@ const ReadCase = () => {
                                 </tbody>
                             </Table>
                         </Card.Body>
-                        </Card>
-<Card>
-
+                    </Card>
+                    <Card>
                         <Card.Header>
                             <Card.Title as="h5">Fechas</Card.Title>
                         </Card.Header>
@@ -149,8 +147,7 @@ const ReadCase = () => {
                                 </Col>
 
                             </Row>
-                            */}
-                            <Table responsive >
+                            */}                            <Table responsive >
                                 <tbody>
                                     <tr>
                                         <td>date?</td>
@@ -181,6 +178,8 @@ const ReadCase = () => {
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={modified} />
                                         </td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </Table>
@@ -209,76 +208,75 @@ const ReadCase = () => {
                                 </Row>
                             </Card.Body>
                         :
+                        <Card.Body>
                             <Form.Control className="text-center" plaintext readOnly defaultValue='No se han cargado evidencias?' />
+
+                            </Card.Body>
                         }
                         </Card>
                         <Card>
-                            
-                        <Card.Header>
-                            <Card.Title as="h5">Eventos</Card.Title>
-                        </Card.Header>
-                        {caseItem.events.length > 0 
-                        ?
+                            <Card.Header>
+                                <Card.Title as="h5">Eventos</Card.Title>
+                            </Card.Header>
+                            {caseItem.events.length > 0 ?
+                                <Card.Body> 
+                                    <Row>
+                                        <Col sm={6} lg={3}>Link</Col>
+                                        <Col><Form.Control plaintext readOnly defaultValue={caseItem.events}/></Col>
+                                        <Col sm={6} lg={2}>
+                                            <Button 
+                                                size="sm"
+                                                className='text-capitalize'
+                                                variant='light'
+                                                title='Ir'
+                                                onClick={() => setModalShowEvent(true)}>
+                                                <i class="fas fa-external-link-alt"/>
+                                            </Button> 
+                                        </Col>
+                                    </Row>
+                                </Card.Body> 
+                            :
+                                <Card.Body>
+                                    <Form.Control className="text-center" plaintext readOnly defaultValue='No se han cargado eventos?' />
+                                </Card.Body>
+                            }
+                            </Card>
+                            <Card>
+                                
+                            <Card.Header>
+                                <Card.Title as="h5">Informacion Adicional</Card.Title>
+                            </Card.Header>
                             <Card.Body> 
                                 <Row>
-                                    <Col sm={6} lg={3}>Link</Col>
-                                    <Col><Form.Control plaintext readOnly defaultValue={caseItem.events}/></Col>
-                                    <Col sm={6} lg={2}>
-                                        <Button 
-                                            size="sm"
-                                            className='text-capitalize'
-                                            variant='light'
-                                            title='Ir'
-                                            onClick={() => setModalShowEvent(true)}>
-                                            <i class="fas fa-external-link-alt"/>
-                                        </Button> 
+                                    <Col sm={6} lg={3}>
+                                        Comentarios
+                                    </Col>
+                                    <Col>
+                                        <Form.Control plaintext readOnly defaultValue={caseItem.comments} />
                                     </Col>
                                 </Row>
-                            </Card.Body> 
-                        :
-                            <Form.Control className="text-center" plaintext readOnly defaultValue='No se han cargado eventos?' />
-                        }
+                            </Card.Body>
+                            </Card>
+                            <Card>
+                            <Card.Header>
+                                <Card.Title as="h5">Children</Card.Title>
+                            </Card.Header>
+                            {caseItem.children.length > 0 ?                        
+                                <Card.Body> 
+                                    <Row>
+                                        <Col sm={6} lg={3}>Children</Col>
+                                        <Col>
+                                            <Form.Control plaintext readOnly defaultValue={caseItem.children}/>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            :
+                                <Card.Body>
+                                    <Form.Control className="text-center" plaintext readOnly defaultValue='No posee children?'/>
+                                </Card.Body>
+                            }
                         </Card>
-                        <Card>
-                            
-                        <Card.Header>
-                            <Card.Title as="h5">Informacion Adicional</Card.Title>
-                        </Card.Header>
-                        <Card.Body> 
-                            <Row>
-                                <Col sm={6} lg={3}>
-                                    Comentarios
-                                </Col>
-                                <Col>
-                                    <Form.Control plaintext readOnly defaultValue={caseItem.comments} />
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                        </Card>
-                        <Card>
-                        <Card.Header>
-                            <Card.Title as="h5">Children</Card.Title>
-                        </Card.Header>
-                        {caseItem.children.length > 0 ?
-                        
-                        <Card.Body> 
-                            <Row>
-                                <Col sm={6} lg={3}>
-                                    Children
-                                </Col>
-                                <Col>
-                                    <Form.Control plaintext readOnly defaultValue={caseItem.children}/>
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                        :
-                        <Form.Control className="text-center" plaintext readOnly defaultValue='No posee children?'/>
-                        }
-                        </Card>
-                        
-                            <Button variant="primary" href="/case/tables">Volver</Button>
-
-                    
+                        <Button variant="primary" href="/cases">Volver</Button>
                 </Col>
             </Row>
             

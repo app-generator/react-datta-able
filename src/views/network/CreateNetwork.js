@@ -51,8 +51,7 @@ const CreateNetwork = () => {
         postNetwork (children, cidr, domain, active, type, parent, network_entity, contacts) 
             .then((response) => { 
             console.log(response)
-            console.log('create network - post .then')
-            //window.location.href = "/network/tables"
+            window.location.href = "/networks"
         })
         .catch((error) => {
             setError(error)
@@ -64,7 +63,7 @@ const CreateNetwork = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Crear Red" path="/network/tables" index ="Redes"/>
+                <Navigation actualPosition="Crear Red" path="/networks" index ="Redes"/>
             </Row>
             <Row>
                 <Col sm={12}>

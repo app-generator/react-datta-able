@@ -61,7 +61,7 @@ const EditNetwork = () => {
             .then((response) => { 
                 console.log(response)
                 console.log('create network - put .then')
-                //window.location.href = "/network/tables"
+                window.location.href = "/networks"
             })
             .catch((error) => {
                 setError(error)
@@ -89,7 +89,7 @@ const EditNetwork = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Editar Red" path="/network/tables" index ="Redes"/>
+                <Navigation actualPosition="Editar Red" path="/networks" index ="Redes"/>
             </Row>
             <Row>
                 <Col sm={12}>

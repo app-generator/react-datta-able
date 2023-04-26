@@ -58,7 +58,7 @@ const ListPlaybook = () => {
                                 <Search type="playbook" action={action} search={search} setSearch={setSearch}/> 
                             </Col>
                             <Col sm={3} lg={3}>
-                            <Link to={{pathname:'/playbook/create'}} >
+                            <Link to={{pathname:'/playbooks/create'}} >
                                     <CrudButton type='create' name='Playbook' />
                                 </Link>
                             </Col> 

@@ -109,7 +109,7 @@ const TableContact = ({setIsModify, list, loading }) => {
                                 <td><PriorityButton url={contact.priority}/></td>
                                 <td>
                                     <CrudButton type='read' onClick={() => showContact(contact.url)} />
-                                    <Link to={{pathname:'/contact/edit', state: contact}} >
+                                    <Link to={{pathname:'/contacts/edit', state: contact}} >
                                         <CrudButton type='edit'/>
                                     </Link>
                                     <CrudButton type='delete' onClick={() => Delete(contact.url, contact.name)} />
@@ -132,7 +132,7 @@ const TableContact = ({setIsModify, list, loading }) => {
                                             <span className="d-block m-t-5">Detalle de contacto</span>
                                         </Col>
                                         <Col sm={2} lg={2}>                       
-                                            <Link to={{pathname:'/contact/edit', state: contact}} >
+                                            <Link to={{pathname:'/contacts/edit', state: contact}} >
                                                 <CrudButton type='edit'/>
                                             </Link>
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />

@@ -34,7 +34,7 @@ const menuItems = {
                     id: 'case',
                     title: 'Casos',
                     type: 'item',
-                    url: '/case/tables',
+                    url: '/cases',
                     icon: 'fas fa-stream',
                     breadcrumbs: false,
                 }
@@ -50,7 +50,7 @@ const menuItems = {
                     id: 'entity',
                     title: 'Entidades',
                     type: 'item',
-                    url: '/entity/tables',
+                    url: '/entities',
                     icon: 'fas fa-cubes',
                     breadcrumbs: false
                 },
@@ -58,7 +58,7 @@ const menuItems = {
                     id: 'networks',
                     title: 'Redes',
                     type: 'item',
-                    url: '/network/tables',
+                    url: '/networks',
                     icon: 'fas fa-ethernet',
                     breadcrumbs: false
                 },
@@ -66,7 +66,7 @@ const menuItems = {
                     id: 'contacts',
                     title: 'Contactos',
                     type: 'item',
-                    url: '/contact/tables',
+                    url: '/contacts',
                     icon: 'far fa-address-book',
                     breadcrumbs: false
                 }
@@ -104,9 +104,9 @@ const menuItems = {
                         },
                         {
                             id: 'playbook',
-                            title: 'Playbook',
+                            title: 'Playbooks',
                             type: 'item',
-                            url: '/playbook/tables',
+                            url: '/playbooks',
                             icon: 'fas fa-tasks',
                             breadcrumbs: false
                         },

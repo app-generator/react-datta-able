@@ -114,7 +114,7 @@ const TableNetwork = ({setIsModify, list, loading }) => {
                                     </td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showNetwork(network.url)} />
-                                        <Link to={{pathname:'/network/edit', state: network}} >
+                                        <Link to={{pathname:'/networks/edit', state: network}} >
                                             <CrudButton type='edit'/>
                                         </Link>
                                         <CrudButton type='delete' onClick={() => Delete(network.url, network.cidr)} />

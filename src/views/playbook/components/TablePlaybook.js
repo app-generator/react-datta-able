@@ -88,7 +88,7 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
                                     </td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showPlaybook(book.url)} />
-                                        <Link to={{pathname:'/playbook/edit', state: book}} >
+                                        <Link to={{pathname:'/playbooks/edit', state: book}} >
                                             <CrudButton type='edit'/>
                                         </Link>
                                         <CrudButton type='delete' onClick={() => Delete(book.url, book.name)} />

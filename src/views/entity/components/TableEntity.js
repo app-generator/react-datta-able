@@ -56,7 +56,6 @@ const TableEntity = ({setIsModify, list, loading }) => {
     const removeEntity = (url)=> {
         deleteEntity(url)
             .then((response) => {
-                //window.location.href = "/entity/tables"
                 setIsModify(response)
             })
             .catch((error) => {
@@ -115,7 +114,7 @@ const TableEntity = ({setIsModify, list, loading }) => {
                                     <td>5</td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showEntity(entity.url)} />
-                                        <Link to={{pathname:'/entity/edit', state: entity}}> 
+                                        <Link to={{pathname:'/entities/edit', state: entity}}> 
                                             <CrudButton type='edit'/>
                                         </Link>
                                         <CrudButton type='delete' onClick={() => Delete(entity.url, entity.name)} />
@@ -138,7 +137,7 @@ const TableEntity = ({setIsModify, list, loading }) => {
                                             <span className="d-block m-t-5">Detalle de entidad</span>
                                         </Col>
                                         <Col sm={12} lg={3}>                       
-                                            <Link to={{pathname:'/entity/edit', state: entity}} >
+                                            <Link to={{pathname:'/entities/edit', state: entity}} >
                                                 <CrudButton type='edit'/>
                                             </Link>
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />

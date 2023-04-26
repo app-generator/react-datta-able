@@ -79,7 +79,7 @@ return (
                                 <Search type="entidad" action={action} search={search} setSearch={setSearch}/> 
                             </Col>
                             <Col sm={12} lg={3}>
-                                <Link to={{pathname:'/entity/create'}} >
+                                <Link to={{pathname:'/entities/create'}} >
                                     <CrudButton type='create' name='Entidad' />
                                 </Link>
                             </Col> 

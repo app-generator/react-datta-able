@@ -70,7 +70,7 @@ const ListNetwork = () => {
                                 <Search type="red" action={action} search={search} setSearch={setSearch}/> 
                             </Col>
                             <Col sm={12} lg={3}>
-                                <Link to={{pathname:'/network/create'}} >
+                                <Link to={{pathname:'/networks/create'}} >
                                     <CrudButton type='create' name='Red' />
                                 </Link>
                             </Col> 
