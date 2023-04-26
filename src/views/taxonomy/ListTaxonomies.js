@@ -90,7 +90,7 @@ const ListTaxonomies = () => {
                                 </Col> 
                                 <Col sm={12} lg={3}>
                                     <React.Fragment>                                        
-                                        <Link to={{pathname:'./taxonomy/create'}} >
+                                        <Link to={{pathname:'./taxonomies/create'}} >
                                             <CrudButton type='create' name='Taxonomia' />
                                         </Link>
                                     </React.Fragment>                           
@@ -119,7 +119,7 @@ const ListTaxonomies = () => {
                                             <td>{taxonomy.reports.length}</td>
                                             <td>
                                                 <ButtonView taxonomy={taxonomy}></ButtonView> 
-                                                <Link to={{pathname:"./taxonomy/edit", state:{taxonomy}}} >
+                                                <Link to={{pathname:"./taxonomies/edit", state:{taxonomy}}} >
                                                     <CrudButton type="edit" />                                                    
                                                 </Link>                                                
                                                 <ButtonDelete taxonomy={taxonomy}></ButtonDelete>                                                 

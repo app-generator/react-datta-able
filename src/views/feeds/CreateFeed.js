@@ -51,19 +51,21 @@ const CreateFeed = () => {
                                             <Form.Control type="text" placeholder="Nombre" onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)}/>
                                             {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
                                         </Form.Group>
-                                    </Col>
-                                    <Col sm={12} lg={7}>
+                                    </Col>      
+                                    <Col sm={12} lg={1}>
+                                        <Form.Group>
+                                            <Form.Label>Estado Inicial</Form.Label>
+                                            <DropdownState state={active} setActive={setActive}></DropdownState>
+                                        </Form.Group>   
+                                    </Col>                             
+                                    <Col sm={12} lg={6}>
                                         <Form.Group>
                                             <Form.Label>Descripcion</Form.Label>
                                             <Form.Control as="textarea" rows={3} placeholder="Descripcion" onChange={(e) => setDescription(e.target.value)}  isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
                                             {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
                                         </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label>Estado Inicial</Form.Label>
-                                    <DropdownState state={active} setActive={setActive}></DropdownState>
-                                </Form.Group>   
+                                    </Col>                                    
+                                </Row>                                
                                 <Form.Group as={Col}>
                                     { validateName(name) && validateDescription(description) ?
                                         <Button variant="primary" onClick={createFeed}>Guardar</Button>                                    

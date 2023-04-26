@@ -57,18 +57,20 @@ const EditFeed = () => {
                                             {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
                                         </Form.Group>
                                     </Col>
-                                    <Col sm={12} lg={7}>
+                                    <Col sm={12} lg={1}>
+                                        <Form.Group>
+                                            <Form.Label>Estado</Form.Label>
+                                            <DropdownState state={feed.active} setActive={setActive}></DropdownState>
+                                        </Form.Group>   
+                                    </Col>
+                                    <Col sm={12} lg={6}>
                                         <Form.Group>
                                             <Form.Label>Descripcion</Form.Label>
                                             <Form.Control as="textarea" rows={3} defaultValue={feed.description} onChange={(e) => setDescription(e.target.value)} isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
                                             {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
                                         </Form.Group>
                                     </Col>
-                                </Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label>Estado</Form.Label>
-                                    <DropdownState state={feed.active} setActive={setActive}></DropdownState>
-                                </Form.Group>                             
+                                </Row>                                                         
                                 <Form.Group as={Col}>
                                     { validateName(name) && validateDescription(description) ?
                                         <Button variant="primary" onClick={editFeed}>Guardar</Button>
