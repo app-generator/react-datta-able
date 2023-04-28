@@ -267,6 +267,11 @@ const routes = [
             },
             {
                 exact: true,
+                path: "/event/read",
+                component: lazy(() => import('./views/event/ReadEvent'))
+            },
+            {
+                exact: true,
                 path: '/playbooks',
                 component: lazy(() => import('./views/playbook/ListPlaybook'))
             },

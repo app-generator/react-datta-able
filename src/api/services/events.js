@@ -1,5 +1,6 @@
 import  apiInstance  from "../api";
 import { COMPONENT_URL } from '../../config/constant';
+import setAlert from '../../utils/setAlert';
 
 const getEvents = (page="") => {//el parametro es para completar la url con el numero de pagina
     
@@ -36,5 +37,24 @@ const putEvent = (url,f) => {//el parametro es para completar la url con el nume
 const deleteEvent = (url) => {
     return apiInstance.delete(url);
 }
+const mergeEvent = (urlParent, urlChildren) => {
+    return apiInstance.patch(urlChildren,
+    {
+        parent : urlParent
+    }, 
+    {
+        validateStatus: function (status) {
+            switch(status) {
+                case 200:
+                    setAlert(`Caso mergeado`, "success");
+                    break;
+                case 404: 
+                    setAlert(`No se pudo mergear`, "error");
+                    break;
+            }
+            return status;
+        }
+    });
+}
 
-export { getEvents , postEvent, putEvent, deleteEvent};
+export { getEvents , postEvent, putEvent, deleteEvent, mergeEvent};

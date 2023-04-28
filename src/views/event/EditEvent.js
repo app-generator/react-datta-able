@@ -13,8 +13,11 @@ import { getUsers } from "../../api/services/users";
 import { getArtefacts } from "../../api/services/artifact";
 
 const EditEvent = () => {
+  //const [date, setDate] = useState(caseItem.date  != null ? caseItem.date.substr(0,16) : '') //required
     const location = useLocation();
     const event = location.state.event;
+    
+
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
     const [error,setError]=useState()
@@ -29,6 +32,9 @@ const EditEvent = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect( ()=> {
+    event.date = event.date.substr(0,16)
+    setBody(event)
+
     const fetchPosts = async () => {
         setLoading(true)
         getTLP().then((response) => { 
@@ -43,8 +49,8 @@ const EditEvent = () => {
         })
 
         getAllTaxonomies().then((response) => { 
-          console.log(response.data.results)
-          setTaxonomy(response.data.results)
+          console.log(response)
+          setTaxonomy(response)
         })
         .catch((error) => {
             setError(error)
@@ -106,7 +112,6 @@ const EditEvent = () => {
     const editEvent=()=>{
       const f = new FormData();
 
-      const fecha = new Date(body.date)
       //console.log(fecha.toISOString())//YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]
   
       f.append("date", body.date)// tengo que hacer esto porque solo me acepta este formato, ver a futuro
@@ -133,10 +138,6 @@ const EditEvent = () => {
         f.append("evidence", body.evidence)
       }
       putEvent(body.url,f)
-        /*console.log(body)
-        putEvent(body.url, body.evidence, body.children, body.todos, body.artifacts, body.comments, body.cidr, 
-          body.domain, body.date, body.evidence_file_path, body.notes, body.parent, body.priority, body.tlp, 
-          body.taxonomy, body.feed, body.reporter, body.case, body.tasks)*/
         .then((response) => { 
             sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
             window.location.href = "/list-event"

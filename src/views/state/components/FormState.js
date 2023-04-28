@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Card, Form, Button, ButtonGroup, Badge} from 'react-bootstrap'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { validateCidr} from '../../../components/Validator/Validator';
 
 
 const animatedComponents = makeAnimated();
