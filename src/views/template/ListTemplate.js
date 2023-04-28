@@ -7,7 +7,7 @@ import TableTemplete from './components/TableTemplete';
 import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search'
 import { getTemplates } from '../../api/services/templates';
-
+import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 
 const ListTemplete = () => {
   const[templete, setTemplete] = useState([])
@@ -18,15 +18,17 @@ const ListTemplete = () => {
   const [jumpPage, setjumpPage] = useState(false)
   const [pages, setPages] = useState(0)
   const [arrayPages, setArrayPages] = useState([])
+    const [countItems, setCountItems] = useState(0);
+    function updatePage(chosenPage){
+        setCurrentPage(chosenPage);
+    }
 
   useEffect( ()=> {
 
-    setCurrentPage(currentPage )//?
 
     getTemplates()
         .then((response) => {
-            //Pagination
-            setPages(arrayWithPages(response.data.count,response.data.results.length))                 
+            setCountItems(response.data.count)    
             setTemplete(response.data.results);
         })
         .catch((error) => {
@@ -35,24 +37,9 @@ const ListTemplete = () => {
         .finally(() => {
             setLoading(false)
         })
-}, [pages])
+}, [countItems, currentPage])
 
-//Pagination
-function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
-    console.log('funcion arrayWithPages')
 
-    console.log(numberOfItems);
-    console.log(numberOfElementsOnAPage);
-    const numberOfPages= Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage 
-    console.log(numberOfPages)
-    const complementUrl ="?page="
-    const arrayLinks=[]
-    for (var i = 1; i <= numberOfPages; i++) {
-        arrayLinks.push(complementUrl+i)
-    }
-    setArrayPages(arrayLinks)
-    return numberOfPages
-}
 
 console.log(templete)
   return (
@@ -76,6 +63,13 @@ console.log(templete)
                     <Card.Body>
                         <TableTemplete list={templete} loading={loading} />
                     </Card.Body>
+                    <Card.Footer >
+                            <Row className="justify-content-md-center">
+                                <Col md="auto"> 
+                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+                                </Col>
+                            </Row>
+                        </Card.Footer>
                 </Card>
                 {/*<Alert/>*/}
                 </Col>

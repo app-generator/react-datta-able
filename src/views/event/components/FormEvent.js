@@ -5,13 +5,16 @@ import makeAnimated from 'react-select/animated';
 import CrudButton from '../../../components/Button/CrudButton';
 import FormArtifact from '../../artifact/components/FormArtifact'
 import { postArtifact } from "../../../api/services/artifact";
+import { validateCidr, validateURL, validateSpaces} from '../../../components/Validator/Validator';
+import FileUpload from './FileUpload'
+
 
 
 //import TableArtifact from './artifact/tableArtifact';
 
 const animatedComponents = makeAnimated();
-
-const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities, users, listArtifact, setContactsCreated}) => {
+//{createEvent, setBody, body, feeds, taxonomy, tlp, priorities, users, listArtifact, setContactsCreated}
+const FormEvent = (props) => {
     const [artifactsValueLabel, setArtifactsValueLabel] = useState([])
     const [modalCreate, setModalCreate] = useState(false)
     const [error,setError]=useState()
@@ -19,50 +22,61 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
         type:"-1",
         value:""
     })
-    console.log(body.evidence)
 
     useEffect(()=> {
 
-        let listDefaultArtifact = listArtifact.filter(elemento => body.artifacts.includes(elemento.value))
+        let listDefaultArtifact = props.listArtifact.filter(elemento => props.body.artifacts.includes(elemento.value))
         .map(elemento => ({value: elemento.value, label:elemento.label}))
 
         setArtifactsValueLabel(listDefaultArtifact)
     
-    },[body.artifacts, listArtifact])
+    },[props.body.artifacts, props.listArtifact])
 
     const completeField=(event)=>{ 
         console.log(event.target.value)
-        setBody({...body,
+        props.setBody({...props.body,
             [event.target.name] : event.target.value}
         )       
     }
     const completeFieldFiles=(event)=>{ 
-        setBody({...body,
+        console.log(event.target.files)
+        props.setBody({...props.body,
             [event.target.name] : event.target.files}
-        )       
+        ) 
+       
+        console.log(props.body.evidence)
+        
+
     }
 
     const selectArtefact=(event)=>{ 
-        setBody({...body,
+        props.setBody({...props.body,
             ["artifacts"] : event.map((e)=>{
                 return e.value
             })}
         )
-        console.log(body.artifacts)
+    }
+
+    const deleteFiles=(event)=>{
+    
+        props.setBody({...props.body,
+            ["evidence"] : Object.values(props.body.evidence).filter(file => file.name !== event)}
+        ) 
     }
     
     
     const createArtifact = () => {
-        console.log(body.value)
+    
         postArtifact(bodyArtifact.type, Math.floor(bodyArtifact.value))
         .then((response) => { 
-            setContactsCreated(response) //
+            props.setContactsCreated(response) //
             setModalCreate(false) //
         })
         .catch((error) => {
             setError(error)
         }); 
     }
+
     
 
   return (
@@ -74,121 +88,139 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
         
         
             <Card.Body>
-                <Form>
-                    <th></th>
-                    <Form.Group controlId="formGridAddress1">
-                    <Form.Label>Fecha </Form.Label>
-                    <Form.Control 
-                        type ="date"
-                        placeholder="Ingrese" 
-                        maxlength="150" 
-                        value ={body.date.slice(0,10)} 
-                        onChange={(e)=>completeField(e)}
-                        name="date"/>
-                    </Form.Group>
+            <Form>
+                <Row>
 
-                   
-                <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>TLP</Form.Label>
-                <Form.Control  
-                    type="choice"
-                    as="select" 
-                    name="tlp" 
-                    value ={body.tlp} 
-                    onChange={(e)=>completeField(e)} isInvalid={body.tlp === "-1"}
-                    isValid={body.tlp !== "-1"}>
-                    <option value="-1">Seleccione un tlp</option>
-                    {tlp.map((tlp, index) => {
-                        return(<option value={tlp.url}> {tlp.name} </option>)
-                    })}
-                 
-                </Form.Control>
-                {(body.tlp !== "-1") ? '' : <div className="invalid-feedback">Seleccione un tlp</div>}
-                </Form.Group>
+                    <Col sm={12} lg={4}>
+                        
+                            <th></th>
+                            <Form.Group controlId="formGridAddress1">
+                            <Form.Label>Fecha </Form.Label>
+                            <Form.Control 
+                                type ="datetime-local"
+
+                                maxlength="150" 
+                                value ={props.body.date} 
+                                onChange={(e)=>completeField(e)}
+                                isInvalid={props.body.date === ""}
+                                isValid={props.body.date !== ""}
+                                name="date"/>
+                            </Form.Group>
+                    </Col>
+                    <Col sm={12} lg={4}>
+                        <Form.Group controlId="exampleForm.ControlSelect1">
+                        <Form.Label>TLP</Form.Label>
+                        <Form.Control  
+                            type="choice"
+                            as="select" 
+                            name="tlp" 
+                            value ={props.body.tlp} 
+                            onChange={(e)=>completeField(e)} isInvalid={props.body.tlp === "-1"}
+                            isValid={props.body.tlp !== "-1"}>
+                            <option value="-1">Seleccione un tlp</option>
+                            {props.tlp.map((tlp, index) => {
+                                return(<option value={tlp.url}> {tlp.name} </option>)
+                            })}
+                        
+                        </Form.Control>
+                        {(props.body.tlp !== "-1") ? '' : <div className="invalid-feedback">Seleccione un tlp</div>}
+                        </Form.Group>
+                    </Col>
+                    <Col sm={12} lg={4}>
+                        <Form.Group controlId="exampleForm.ControlSelect1">
+                        <Form.Label>Taxonomia</Form.Label>
+                        <Form.Control  
+                            type="choice"
+                            as="select" 
+                            name="taxonomy" 
+                            value ={props.body.taxonomy} 
+                            onChange={(e)=>completeField(e)} isInvalid={props.body.taxonomy === "-1"}
+                            isValid={props.body.taxonomy !== "-1"}>
+                            <option value="-1">Seleccione una taxonomia</option>
+                            {props.taxonomy.map((taxonomy, index) => {
+                                return(<option value={taxonomy.url}> {taxonomy.name} </option>)
+                            })}
+                        
+                        </Form.Control>
+                        {(props.body.taxonomy !== "-1") ? '' : <div className="invalid-feedback">Seleccione una taxonomia</div>}
+                        
+                        </Form.Group>
+                    </Col>
+                </Row>
+                    
+                <Row>
+                <Col sm={12} lg={4}>
+                    <Form.Group controlId="exampleForm.ControlSelect1">
+                    <Form.Label>Fuente de Informacion</Form.Label>
+                    <Form.Control  
+                        type="choice"
+                        as="select" 
+                        name="feed" 
+                        value ={props.body.feed} 
+                        onChange={(e)=>completeField(e)} isInvalid={props.body.feed === "-1"}
+                        isValid={props.body.feed !== "-1"}>
+                        <option value="-1">Seleccione una Fuente de Informacion</option>
+                        {props.feeds.map((feed, index) => {
+                            return(<option value={feed.url}> {feed.name} </option>)
+                        })}
+                    
+                    </Form.Control>
+                    {(props.body.feed !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Fuente de Informacion</div>}
+                    </Form.Group>
+                </Col>
+                <Col sm={12} lg={4}>
                     
 
-                <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Taxonomia</Form.Label>
-                <Form.Control  
-                    type="choice"
-                    as="select" 
-                    name="taxonomy" 
-                    value ={body.taxonomy} 
-                    onChange={(e)=>completeField(e)} isInvalid={body.taxonomy === "-1"}
-                    isValid={body.taxonomy !== "-1"}>
-                    <option value="-1">Seleccione una taxonomia</option>
-                    {taxonomy.map((taxonomy, index) => {
-                        return(<option value={taxonomy.url}> {taxonomy.name} </option>)
-                    })}
-                 
-                </Form.Control>
-                {(body.taxonomy !== "-1") ? '' : <div className="invalid-feedback">Seleccione una taxonomia</div>}
+                    <Form.Group controlId="exampleForm.ControlSelect1">
+                    <Form.Label>Prioridades</Form.Label>
+                    <Form.Control  
+                        type="choice"
+                        as="select" 
+                        name="priority" 
+                        value ={props.body.priority} 
+                        onChange={(e)=>completeField(e)} isInvalid={props.body.priority === "-1"}
+                        isValid={props.body.priority !== "-1"}>
+                        <option value="-1">Seleccione una Prioridad</option>
+                        {props.priorities.map((priority, index) => {
+                            return(<option value={priority.url}> {priority.name} </option>)
+                        })}
+                    
+                    </Form.Control>
+                    {(props.body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Prioridad</div>}
+                    </Form.Group>
+                    </Col>
+                    <Col sm={12} lg={4}>
+                    <Form.Group controlId="exampleForm.ControlSelect1">
+                    <Form.Label>Usuario que reporta</Form.Label>
+                    <Form.Control  
+                        type="choice"
+                        as="select" 
+                        name="reporter" 
+                        value ={props.body.reporter} 
+                        onChange={(e)=>completeField(e)} 
+                        isValid={props.body.reporter}>
+                        <option value="-1">Seleccione al usuario que reporta</option>
+                        {props.users.map((user, index) => {
+                            return(<option value={user.url}> {user.username} </option>)
+                        })}
+                    
+                    </Form.Control>
+                    {(props.body.reporter !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Fuente de Informacion</div>}
+                    </Form.Group>
+                    </Col>
+                </Row>
                 
-                </Form.Group>
 
                   
-                    <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Fuente de Informacion</Form.Label>
-                <Form.Control  
-                    type="choice"
-                    as="select" 
-                    name="feed" 
-                    value ={body.feed} 
-                    onChange={(e)=>completeField(e)} isInvalid={body.feed === "-1"}
-                    isValid={body.feed !== "-1"}>
-                    <option value="-1">Seleccione una Fuente de Informacion</option>
-                    {feeds.map((feed, index) => {
-                        return(<option value={feed.url}> {feed.name} </option>)
-                    })}
-                 
-                </Form.Control>
-                {(body.feed !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Fuente de Informacion</div>}
-                </Form.Group>
-
-                
-
-                 <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Prioridades</Form.Label>
-                <Form.Control  
-                    type="choice"
-                    as="select" 
-                    name="priority" 
-                    value ={body.priority} 
-                    onChange={(e)=>completeField(e)} isInvalid={body.priority === "-1"}
-                    isValid={body.priority !== "-1"}>
-                    <option value="-1">Seleccione una Prioridad</option>
-                    {priorities.map((priority, index) => {
-                        return(<option value={priority.url}> {priority.name} </option>)
-                    })}
-                 
-                </Form.Control>
-                {(body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Prioridad</div>}
-                </Form.Group>
-
-                <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Usuario que reporta</Form.Label>
-                <Form.Control  
-                    type="choice"
-                    as="select" 
-                    name="reporter" 
-                    value ={body.reporter} 
-                    onChange={(e)=>completeField(e)} isInvalid={body.reporter === "-1"}
-                    isValid={body.priority !== "-1"}>
-                    <option value="-1">Seleccione al usuario que reporta</option>
-                    {users.map((user, index) => {
-                        return(<option value={user.url}> {user.username} </option>)
-                    })}
-                 
-                </Form.Control>
-                {(body.reporter !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Fuente de Informacion</div>}
-                </Form.Group>
+                    
 
                 <Form.Group controlId="formGridAddress1">
                 <Form.Label>Notas</Form.Label>
                 <Form.Control 
                     placeholder="Ingrese " 
                     maxlength="150" 
-                    value ={body.notes} 
+                    value ={props.body.notes} 
+                    isValid={props.body.notes}
                     onChange={(e)=>completeField(e)}
                     name="notes"/>
                 </Form.Group>
@@ -212,7 +244,7 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
                                     isMulti
                                     value={artifactsValueLabel}
                                     onChange={selectArtefact}
-                                    options={listArtifact}
+                                    options={props.listArtifact}
                                     />
                         </Col>
                         <Col sm={12} lg={3}>
@@ -237,9 +269,11 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
                 <Form.Control 
                     placeholder="Ingrese " 
                     maxlength="150" 
-                    value ={body.cidr} 
+                    value ={props.body.cidr} 
                     onChange={(e)=>completeField(e)}
-                    name="cidr"/>
+                    name="cidr"
+                    isInvalid={!validateCidr(props.body.cidr)  && props.body.cidr !== null}
+                    isValid={validateCidr(props.body.cidr) || props.body.cidr == null}/>
                 </Form.Group>  
 
                 <Form.Group controlId="formGridAddress1">
@@ -247,7 +281,9 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
                 <Form.Control 
                     placeholder="Ingrese" 
                     maxlength="150"
-                    value ={body.domain} 
+                    value ={props.body.domain} 
+                    isValid={ validateURL(props.body.domain) || validateSpaces(props.body.domain) }
+                    isInvalid={ props.body.domain !=='' && !validateURL(props.body.domain) }
                     onChange={(e)=>completeField(e)} 
                     name="domain"/>
                 </Form.Group> 
@@ -268,18 +304,28 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
                 <Card.Title as="h5">Evidencias</Card.Title>
             </Card.Header>
         <Card.Body>
+        
+            {/*props.users.map((user, index) => {
+                            return(<option value={user.url}> {user.username} </option>)
+                        })*/}
             <Form>   
                 <Form.Group controlId="formGridAddress1">
                 <Form.Label>Evidencia</Form.Label>
                     
                     <Form.Control 
                     type="file"
-                    placeholder="Ingrese " 
                     maxlength="150" 
                     multiple
                     onChange={(e)=>completeFieldFiles(e)}
                     name="evidence"/>
+                    {
+                Object.values(props.body.evidence) &&
+                Object.values(props.body.evidence).map((f )=> {return (<Button name={f.name} onclick={deleteFiles(f.name)}>{f.name}</Button>)})
+                    }
+                    
+                    
                 </Form.Group>   
+                
 
                 {/*<Form.Group controlId="formGridAddress1">
                 <Form.Label>Evidencia</Form.Label>
@@ -335,18 +381,17 @@ const FormEvent = ({createEvent, setBody, body, feeds, taxonomy, tlp, priorities
                     </Row>
                 </Modal.Body>
             </Modal>
-        </Card.Body>
-        </Card>
-            <Card>
+        
             
-            <Card.Body>
-            
-                <Button variant="primary" onClick={createEvent} >Guardar</Button> 
-                <Button variant="primary" href="./list-event">Cancelar</Button>  
+                
                  
             
-            </Card.Body>
-            </Card>
+            
+        </Card.Body>
+        </Card>
+        <Button variant="primary" onClick={props.createEvent} >Guardar</Button> 
+        <Button variant="primary" href="./list-event">Cancelar</Button>  
+            
     </div>
   )
 }

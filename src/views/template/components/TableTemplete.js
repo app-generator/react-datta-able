@@ -71,7 +71,7 @@ const handleDelete = () => {
             setShowTemplate(false)
         })
     }
-
+   
 
   return (
     <React.Fragment>
@@ -99,7 +99,7 @@ const handleDelete = () => {
                                             </td>
                                             <td>{template.domain} </td>
                                             <td>
-                                            <CrudButton  type='read' onClick={() => "" }/>
+                                            <CrudButton  type='read' onClick={() => showModalTemplate(template) }/>
                                             <Link to={{pathname:"./edit-template", state: {template}}} >
                                                 <CrudButton  type='edit' />
                                             </Link>
@@ -111,6 +111,67 @@ const handleDelete = () => {
 
 <ModalConfirm type='delete' component='Estado' name={deleteName} showModal={remove} onHide={() => setRemove(false)} ifConfirm={() => handleDelete(deleteUrl)}/>    
 <ModalConfirm type='editState' component='Estado' name={dataTemplate.cidr} state={dataTemplate.state} showModal={showTemplate} onHide={() => setShowTemplate(false)} ifConfirm={() => changeState()}/>
+<Modal size='lg' show={modalShow} onHide={() => setModalShow(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
+            <Modal.Body>
+                <Row>    
+                    <Col>                 
+                        <Card>
+                            <Card.Header> 
+                                <Row>
+                                    <Col>
+                                        <Card.Title as="h5">Plantilla</Card.Title>
+                                        <span className="d-block m-t-5">Detalle de la Plantilla</span>
+                                    </Col>
+                                    <Col sm={12} lg={4}>                       
+                                        <Link to={{pathname:"./edit-user/", state: {template}}} >
+                                            <CrudButton  type='edit' />
+                                        </Link>
+                                        <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
+                                    </Col>
+                                </Row>         
+                            </Card.Header>
+                            <Card.Body>
+                                <Table responsive >
+                                    <tr>
+                                        <td>Cidr</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={template.cidr} />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dominio</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={template.domain} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ciclo de vida</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={template.case_lifecycle} />
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>activo</td>
+                                        <td>
+                                        <Button 
+                                            className="btn-icon btn-rounded" 
+                                            variant={template.active ? 'outline-success' : 'outline-danger'} 
+                                            title={template.active ? 'Activo' : 'Inactivo'}>
+                                                <i className={template.active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
+                                        </Button>
+                                        </td>
+                                    </tr>
+                                    
+                                    
+                                </Table>
+                            </Card.Body>
+                        </Card>
+                    </Col> 
+                </Row>
+            </Modal.Body>            
+        </Modal>
 
                         
 

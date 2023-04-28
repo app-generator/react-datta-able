@@ -13,20 +13,20 @@ import { getArtefacts } from "../../api/services/artifact";
 
 const CreateEvent = () => {
   const formEmpty={
-    evidence: null,
+    evidence: [],
     children: [], 
     todos: [],
     artifacts: [], 
     comments: null, 
-    cidr: "",
+    cidr: null,
     domain: ".com", //cuidado con cargar "" , si o si tiene que ser requerido me lo pide por que no tine un atributo filter
     date: "",
     notes: null, //cuidado con cargar ""
     parent: [],
-    priority: null,
-    tlp: null,
-    taxonomy: null,
-    feed: null,
+    priority: "-1",
+    tlp: "-1",
+    taxonomy: "-1",
+    feed: "-1",
     reporter: [],
     case: [],
     tasks:[]
@@ -62,8 +62,8 @@ const CreateEvent = () => {
         })
 
         getAllTaxonomies().then((response) => { 
-          console.log(response.data.results)
-          setTaxonomy(response.data.results)
+          console.log(response)
+          setTaxonomy(response)
         })
         .catch((error) => {
             setError(error)
@@ -126,10 +126,9 @@ const CreateEvent = () => {
     console.log(body)
     const f = new FormData();
 
-    const fecha = new Date(body.date)
     //console.log(fecha.toISOString())//YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]
 
-    f.append("date", body.date+ "T00:00:00Z")// tengo que hacer esto porque solo me acepta este formato, ver a futuro
+    f.append("date", body.date)// tengo que hacer esto porque solo me acepta este formato, ver a futuro
     //f.append("date", fecha.toISOString())
     f.append("priority",body.priority)
     f.append("tlp", body.tlp)
@@ -171,13 +170,10 @@ const CreateEvent = () => {
 
   return (
     <div>
-          <Navigation actualPosition="Agregar " path="./list-Event" index ="Evento"/>
-          <Card>
-              <Card.Header>
-                  <Card.Title as="h5">Agregar Evento</Card.Title>
-              </Card.Header>
+          <Navigation actualPosition="Agregar evento" path="./list-Event" index ="Evento"/>
+          
               <FormEvent createEvent={createEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated}/>
-          </Card>
+          
     </div>
   )
 }

@@ -72,9 +72,8 @@ const TableStates = ({states, callback, loading}) => {
     }
     const showModalState = (state) => {
         setState(state)
-        setModalShow(true)
-       
-      }
+        setModalShow(true)   
+    }
       
       
   return (

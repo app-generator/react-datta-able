@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 import { deletePriority } from "../../../api/services/priorities";
 import CrudButton from '../../../components/Button/CrudButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
-import PriorityButton from './PriorityButton'; 
+import CallBackendByName from '../../../components/CallBackendByName'; 
 import { getTaxonomy } from '../../../api/services/taxonomies';
 import { getPriority } from '../../../api/services/priorities';
 import { getTLPSpecific } from '../../../api/services/tlp';
@@ -16,7 +16,7 @@ import { deleteEvent} from "../../../api/services/events";
 
 
 
-const TableEvents = ({events, taxonomy, loading, loadingTaxonomy}) => {
+const TableEvents = ({events, taxonomy, loading, loadingTaxonomy, callback, selectedEvent, setSelectedEvent}) => {
 
     const [deleteName, setDeleteName] = useState()
     const [deleteUrl, setDeleteUrl] = useState()
@@ -24,7 +24,9 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy}) => {
     const [error, setError] = useState(null);
     const [event, setEvent] = useState({});
     const [modalShow, setModalShow] = useState(false);
-    console.log(taxonomy)
+    //checkbox
+    const [isCheckAll, setIsCheckAll] = useState(false);
+   
     if (loading) {
         return (
             <Row className='justify-content-md-center'>
@@ -32,8 +34,7 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy}) => {
             </Row>
         );    
     }
-    
-    const callback = (url ,setPriority) => {
+    const callbackTaxonomy = (url ,setPriority) => {
         getTaxonomy(url)
         .then((response) => {
             console.log(response)
@@ -65,6 +66,7 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy}) => {
         })
         .catch();
     }
+    
 
     const modalDelete = (name, url)=>{
         setDeleteName(name)
@@ -76,12 +78,11 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy}) => {
         console.log(deleteUrl)
         deleteEvent(deleteUrl).then((response) => {
             console.log(response)
-            callback(`El usuario ${deleteName} ha sido eliminado`, true)
         })
         .catch((error) => {
             console.log(error)
             setError(error)
-            callback(`El usuario ${deleteName} NO ha sido eliminado`, false)
+          
         })
         .finally(() => {
             setRemove(false)
@@ -92,6 +93,27 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy}) => {
         setModalShow(true)
        
       }
+        ////////////////////////////////////////////////////
+     
+    const handleSelectAll = e => {
+        setIsCheckAll(!isCheckAll);
+        setSelectedEvent(events.filter(item => item.solve_date == null).map(li => li.url));
+        if (isCheckAll) {
+            setSelectedEvent([]);
+        }
+      };
+    
+      const handleClick = e => { 
+        const { id, checked } = e.target;
+        setSelectedEvent([...selectedEvent, id]);
+        if (!checked) {
+          setSelectedEvent(selectedEvent.filter(item => item !== id));
+        }
+      };
+    
+      console.log(selectedEvent);
+    
+      ////////////////////////////////////////////////////
     
   return (
     <div>
@@ -101,7 +123,11 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy}) => {
                 <Table responsive hover>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th><Form.Group>
+                                    <Form.Check custom type="checkbox" id={"selectAll"} 
+                                        onChange={handleSelectAll} checked={selectedEvent.length != 0 ? isCheckAll : false} /> {/*|| selectedCases == list.filter(item => item.solve_date == null).length */}
+                                </Form.Group>
+                            </th>
                             <th>Fecha</th>
                             <th>TLP</th>
                             <th>Taxonomia</th>
@@ -113,17 +139,23 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy}) => {
                     {events.map((event, index) => {
                         return (
                             <tr>
-                                <th >{index + 1 }</th>
+                                <th ><Form.Group>
+                                            <Form.Check disabled={event.solve_date != null ? true : false} 
+                                                type="checkbox" id={event.url} 
+                                                onChange={handleClick} checked={selectedEvent.includes(event.url)} />
+                                        </Form.Group></th>
                                 <td>{event.date ? event.date.slice(0,10): ""}</td>
                                 
-                                <td><PriorityButton url={event.tlp} callback={callbackTlp}/></td>
+                                <td><CallBackendByName url={event.tlp} callback={callbackTlp } useBadge={true}/></td>
                                 
-                                <td><PriorityButton url={event.taxonomy} callback={callback}/></td>
+                                <td><CallBackendByName url={event.taxonomy} callback={callbackTaxonomy} useBadge={false}/></td>
                                 
-                                <td><PriorityButton url={event.feed} callback={callbackFeed}/></td>
+                                <td><CallBackendByName url={event.feed} callback={callbackFeed} useBadge={false}/></td>
                                 
                                 <td>
-                                <CrudButton  type='read'  onClick={() => showModalEvent(event)} />
+                                <Link to={{pathname:"./event/read", state: {event}}} >
+                                    <CrudButton  type='read'   />
+                                </Link>
                                 
                                 <Link to={{pathname:"./edit-event", state: {event}}} >
                                     <CrudButton  type='edit' />
@@ -145,96 +177,7 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy}) => {
             <Modal.Body>
                 <Row>    
                     <Col>                 
-                        <Card>
-                            <Card.Header> 
-                                <Row>
-                                    <Col>
-                                        <Card.Title as="h5">Evento</Card.Title>
-                                        <span className="d-block m-t-5">Detalle de Evento</span>
-                                    </Col>
-                                    <Col sm={12} lg={4}>                       
-                                        <Link to={{pathname:"./edit-user/", state: {event}}} >
-                                            <CrudButton  type='edit' />
-                                        </Link>
-                                        <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
-                                    </Col>
-                                </Row>         
-                            </Card.Header>
-                            <Card.Body>
-                                <Table responsive >
-                                    <tr>
-                                        <td>Evidencia</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={ event.evidence} />
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Comentarios</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={ event.comments } />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cidr</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={ event.cidr} />
-                                        </td>
-                                    </tr>
-                                    
-                                    
-                                    <tr>
-                                        <td>Dominio</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={event.domain } />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fecha</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={event.date ? event.date.slice(0,10) : ""} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Prioridad</td>
-                                        <td>
-                                        <PriorityButton url={event.priority} callback={callbackPriority}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tlp</td>
-                                        <td>
-                                            <PriorityButton url={event.tlp} callback={callbackTlp}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Taxonomia</td>
-                                        <td>
-                                            <PriorityButton url={event.taxonomy} callback={callback}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fuentes de informacion</td>
-                                        <td>
-                                        <PriorityButton url={event.feed} callback={callbackFeed}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Creado</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={event.created ? event.created.slice(0,10) : ""} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>modificado</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={event.modified ? event.modified.slice(0,10) : ""} />
-                                        </td>
-                                    </tr>
-                                    
-                                </Table>
-                            </Card.Body>
-                        </Card>
+                        
                     </Col> 
                 </Row>
             </Modal.Body>            

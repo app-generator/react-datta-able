@@ -14,12 +14,12 @@ const CreateTemplate = () => {
     cidr: null,
     domain: "",
     active: false,
-    priority: null,
-    event_taxonomy: null,
-    event_feed: null,
-    case_lifecycle: null,
-    case_tlp: null,
-    case_state: null
+    priority: "-1",
+    event_taxonomy: "-1",
+    event_feed: "-1",
+    case_lifecycle: "-1",
+    case_tlp: "-1",
+    case_state: "-1"
 
   }
   const [body, setBody] = useState(formEmpty)
@@ -51,8 +51,8 @@ const CreateTemplate = () => {
         })
 
         getAllTaxonomies().then((response) => { 
-          console.log(response.data.results)
-          setTaxonomy(response.data.results)
+          console.log(response)
+          setTaxonomy(response)
         })
         .catch((error) => {
             setError(error)
