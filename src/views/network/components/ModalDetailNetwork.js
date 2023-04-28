@@ -41,7 +41,7 @@ const ModalDetailNetwork = (props) => {
                                             <span className="d-block m-t-5">Detalle de red</span>
                                         </Col>
                                         <Col sm={12} lg={2}>                       
-                                            <Link to={{pathname:'/network/edit', state: props.network}} >
+                                            <Link to={{pathname:'/networks/edit', state: props.network}} >
                                                 <CrudButton type='edit'/>
                                             </Link>
                                             <CloseButton aria-label='Cerrar' onClick={props.onHide} />

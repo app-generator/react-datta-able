@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Form } from 'react-bootstrap';
 import { validateAlphanumeric, validateSpace } from '../../../utils/validators'; 
-import Alert from '../../../components/Alert/Alert';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -11,25 +10,12 @@ const animatedComponents = makeAnimated();
 const FormCreatePlaybook = (props) => { 
     // props:  ifConfirm name setName taxonomy setTaxonomy allTaxonomies save
     const [taxonomiesDefaultValue, setTaxonomiesDefaultValue] = useState([])
-    const [indexes, setIndexes] = useState([]);
 
     useEffect(()=> {
-       
-                //selected taxonomies 
+                //selected taxonomies: value-label
                 let listDefaultTaxonomies = props.allTaxonomies.filter(elemento => props.taxonomy.includes(elemento.value))
                 .map(elemento => ({value: elemento.value, label: elemento.label}));
                 setTaxonomiesDefaultValue(listDefaultTaxonomies)
-/*               
-                //index de taxonomias seleccionadas
-                const indexOfTaxonomiesSelected = getIndex(listAllTaxonomies, taxonomy);
-                setIndexes(indexOfTaxonomiesSelected); 
-
-                let listaIndex = [];
-                indexOfTaxonomiesSelected.map((index)=>{
-                    listaIndex.push(listAllTaxonomies[index])
-                })
-                setTaxonomiesDefaultValue(listaIndex)
-*/
     }
         ,[props.allTaxonomies, props.taxonomy])
 
@@ -44,7 +30,6 @@ const FormCreatePlaybook = (props) => {
 
     return (
         <React.Fragment>
-            {/*<Alert/>*/}
             <Form>
                 <Row>
                     <Col sm={12} lg={12}>

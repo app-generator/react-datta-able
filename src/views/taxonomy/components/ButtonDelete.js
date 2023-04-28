@@ -11,8 +11,8 @@ function ButtonDelete({taxonomy}) {
   const [error, setError] = useState(null);
 
   const removeTaxonomy = (taxonomy)=> {
-    deleteTaxonomy(taxonomy.url, taxonomy.name).then((response) => {
-      console.log(response);
+    deleteTaxonomy(taxonomy.url, taxonomy.name)
+    .then(() => {      
       window.location.href = '/app/taxonomies';
     })
     .catch((error) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
 import ActiveButton from '../../../components/Button/ActiveButton';
 import CrudButton from '../../../components/Button/CrudButton';
@@ -7,21 +7,17 @@ import { getEntity, deleteEntity, isActive } from '../../../api/services/entitie
 import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 
-const TableEntity = ({callback, list, loading }) => {
+const TableEntity = ({setIsModify, list, loading }) => {
     const [entity, setEntity] = useState('') 
-    const [error, setError] = useState(null) 
     const [modalShow, setModalShow] = useState(false) 
     const [modalDelete, setModalDelete] = useState(false) 
     const [modalState, setModalState] = useState(false) 
     const [url, setUrl] = useState(null) 
     const [id, setId] = useState(null) 
     const [name, setName] = useState(null) 
-    const [lastItem, setLastItem] = useState(null) 
     const [created, setCreated] = useState(null) 
     const [modified, setModified] = useState(null) 
     const [active,setActive] = useState(null) 
-    const state = ['Inactiva', 'Activa']
-
 
     if (loading) {
         return (
@@ -45,27 +41,25 @@ const TableEntity = ({callback, list, loading }) => {
             setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
             setModalShow(true)
         })
-        .catch(setError);
+        .catch((error)=>{
+            console.log(error)
+        })
     };
 
     // Remove Entity
     const Delete = (url, name) => {
-        setLastItem(list.length === 1)
         setUrl(url)
         setName(name)
         setModalDelete(true)
     }
     
     const removeEntity = (url)=> {
-        console.log('Elimna ultimo elemento? '+ lastItem)
         deleteEntity(url)
             .then((response) => {
-                window.location.href = "/entity/tables"
-                //callback(lastItem)
+                setIsModify(response)
             })
             .catch((error) => {
-                setError(error)
-                callback(false)
+                console.log(error)
             })
             .finally(() => {
                 setModalDelete(false)
@@ -81,16 +75,15 @@ const TableEntity = ({callback, list, loading }) => {
     }
 
     const switchState = ()=> {
-        isActive(url, +!active)
+        isActive(url, !active)
             .then((response) => {
                 console.log(response)
+                setIsModify(response)
             })
             .catch((error) => {
                 console.log(error)
-                setError(error)
             })
             .finally(() => {
-                callback(false)
                 setModalState(false)
                 setModalShow(false)
             })
@@ -116,12 +109,12 @@ const TableEntity = ({callback, list, loading }) => {
                                     <th scope="row">{index+1}</th>
                                     <td>{entity.name}</td>
                                     <td>
-                                        <ActiveButton active={entity.active === 1} onClick={() => pressActive(entity.name, entity.active, entity.url)} />
+                                        <ActiveButton active={entity.active} onClick={() => pressActive(entity.name, entity.active, entity.url)} />
                                     </td>
                                     <td>5</td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showEntity(entity.url)} />
-                                        <Link to={{pathname:'/entity/edit', state: entity, callback: callback}} >
+                                        <Link to={{pathname:'/entities/edit', state: entity}}> 
                                             <CrudButton type='edit'/>
                                         </Link>
                                         <CrudButton type='delete' onClick={() => Delete(entity.url, entity.name)} />
@@ -144,7 +137,7 @@ const TableEntity = ({callback, list, loading }) => {
                                             <span className="d-block m-t-5">Detalle de entidad</span>
                                         </Col>
                                         <Col sm={12} lg={3}>                       
-                                            <Link to={{pathname:'/entity/edit', state: entity}} >
+                                            <Link to={{pathname:'/entities/edit', state: entity}} >
                                                 <CrudButton type='edit'/>
                                             </Link>
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
@@ -170,7 +163,7 @@ const TableEntity = ({callback, list, loading }) => {
                                             <tr>
                                                 <td>Activa</td>
                                                 <td>
-                                                    <ActiveButton active={entity.active === 1} />
+                                                    <ActiveButton active={entity.active} />
                                                 </td>
                                             </tr>
                                             <tr>

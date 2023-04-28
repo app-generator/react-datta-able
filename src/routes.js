@@ -84,12 +84,12 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/app/taxonomy/create',
+                path: '/app/taxonomies/create',
                 component: lazy(() => import('./views/taxonomy/CreateTaxonomy'))
             },
             {
                 exact: true,
-                path: '/app/taxonomy/edit',
+                path: '/app/taxonomies/edit',
                 component: lazy(() => import('./views/taxonomy/EditTaxonomy'))
             },            
             {
@@ -162,47 +162,47 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/contact/tables',
+                path: '/contacts',
                 component: lazy(() => import('./views/contact/ListContact'))
             },
             {
                 exact: true,
-                path: '/contact/create',
+                path: '/contacts/create',
                 component: lazy(() => import('./views/contact/CreateContact'))
             },
             {
                 exact: true,
-                path: '/contact/edit',
+                path: '/contacts/edit',
                 component: lazy(() => import('./views/contact/EditContact'))
             },
             {
                 exact: true,
-                path: '/entity/tables',
+                path: '/entities',
                 component: lazy(() => import('./views/entity/ListEntity'))
             },
             {
                 exact: true,
-                path: '/entity/create',
+                path: '/entities/create',
                 component: lazy(() => import('./views/entity/CreateEntity'))
             },
             {
                 exact: true,
-                path: '/entity/edit',
+                path: '/entities/edit',
                 component: lazy(() => import('./views/entity/EditEntity'))
             },
             {
                 exact: true,
-                path: '/network/tables',
+                path: '/networks',
                 component: lazy(() => import('./views/network/ListNetwork'))
             },
             {
                 exact: true,
-                path: '/network/create',
+                path: '/networks/create',
                 component: lazy(() => import('./views/network/CreateNetwork'))
             },
             {
                 exact: true,
-                path: '/network/edit',
+                path: '/networks/edit',
                 component: lazy(() => import('./views/network/EditNetwork'))
             },
             {
@@ -272,37 +272,37 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/playbook/tables',
+                path: '/playbooks',
                 component: lazy(() => import('./views/playbook/ListPlaybook'))
             },
             {
                 exact: true,
-                path: '/playbook/create',
+                path: '/playbooks/create',
                 component: lazy(() => import('./views/playbook/CreatePlaybook'))
             },
             {
                 exact: true,
-                path: '/playbook/edit',
+                path: '/playbooks/edit',
                 component: lazy(() => import('./views/playbook/EditPlaybook'))
             },
             {
                 exact: true,
-                path: '/case/tables',
+                path: '/cases',
                 component: lazy(() => import('./views/case/ListCase'))
             },
             {
                 exact: true,
-                path: '/case/create',
+                path: '/cases/create',
                 component: lazy(() => import('./views/case/CreateCase'))
             },
             {
                 exact: true,
-                path: '/case/edit',
+                path: '/cases/edit',
                 component: lazy(() => import('./views/case/EditCase'))
             },
             {
                 exact: true,
-                path: '/case/read',
+                path: '/cases/view',
                 component: lazy(() => import('./views/case/ReadCase'))
             },
             {

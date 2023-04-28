@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Row, Col, Card } from 'react-bootstrap';
-
-import Alert from '../../components/Alert/Alert';
+import { Row, Col, Card } from 'react-bootstrap';
 import { postCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
-import { getEvents } from '../../api/services/events';
 import { getStates } from '../../api/services/states';
 
 const CreateCase = () => {
@@ -15,55 +12,52 @@ const CreateCase = () => {
     const [priority, setPriority] = useState('0') //required
     const [tlp, setTlp] = useState('0') //required
     const [assigned, setAssigned] = useState(null)
-    const [state, setState] = useState('0') //required
     
-    const [comments, setComments] = useState([]) // lista de que ??
-    const [evidence, setEvidence] = useState([]) // como se muestra
+    const [state, setState] = useState('0') //required
+    const [allStates, setAllStates] = useState([]) //multiselect
 
-    const [events, setEvents] = useState([])
-    const [allEvents, setAllEvents] = useState([]) //multiselect
+    const [comments, setComments] = useState([]) // ??
+    
+    const [evidences, setEvidences] = useState([]) 
 
     const [attend_date, setAttend_date] = useState(null) //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(null)
 
-    const [error, setError] = useState(null)
-
     useEffect(()=> {
 
-        getEvents()
+        getStates()
             .then((response) => {
-                let listEvents = []
-                response.data.results.map((eventItem)=>{
-                    listEvents.push({value:eventItem.url, label:eventItem.name})
+                let listStates = []
+                response.data.results.map((stateItem)=>{
+                    listStates.push({value:stateItem.url, label:stateItem.name, childrenUrl:stateItem.children})
                 })
-                setAllEvents(listEvents)
+                setAllStates(listStates)
+
                 console.log(response.data.results)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
 
         },[])
 
     //Create
     const addCase = () => {
-        postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, events, attend_date, solve_date)
+        postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
-            window.location.href = "/case/tables"
+            window.location.href = "/cases"
         })
         .catch((error) => {
-            setError(error)
+            console.log(error)
             console.log(error)
         });    
     };
 
-    console.log(date + ' \n ' + lifecycle + ' \n ' + parent + ' \n ' + priority + ' \n ' + tlp + ' \n ' + assigned + ' \n ' + state + ' \n ' + comments + ' \n ' + evidence + ' \n ' + events + ' \n ' + attend_date + ' \n ' + solve_date)
-       
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Crear Caso" path="/case/tables" index ="Casos"/>
+                <Navigation actualPosition="Crear Caso" path="/cases" index ="Casos"/>
             </Row>
             <Row>
                 <Col sm={12}>
@@ -81,21 +75,17 @@ const CreateCase = () => {
                                         priority={priority} setPriority={setPriority}
                                         tlp={tlp} setTlp={setTlp}
                                         assigned={assigned} setAssigned={setAssigned}
-                                        state={state} setState={setState} 
-
-                                        events={events} setEvents={setEvents} allEvents={allEvents}
+                                        state={state} setState={setState} allStates={allStates}
+                                        
+                                        evidences={evidences} setEvidences={setEvidences} 
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
-
-                                        ifConfirm={addCase} edit={false} save='POST'/>
-
+                                        ifConfirm={addCase} edit={false} save='Crear'/>
                                 </Col>
-
                             </Row>
                         </Card.Body>
                     </Card>
-                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>

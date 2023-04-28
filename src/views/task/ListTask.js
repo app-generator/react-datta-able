@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, CloseButton, Col, Collapse, Modal, Row, Table} from 'react-bootstrap';
 import { getPlaybook } from '../../api/services/playbooks';
-import Alert from '../../components/Alert/Alert';
 import CrudButton from '../../components/Button/CrudButton';
 import FormCreateTask from './components/FormCreateTask';
 import { postTask } from '../../api/services/tasks';
@@ -10,8 +9,6 @@ import RowTask from './components/RowTask';
 const ListTask = (props) => { 
 
     const [tasks, setTasks] = useState('')
-    const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(true)
 
     //Create Task
     const [modalCreate, setModalCreate] = useState(false)
@@ -19,7 +16,6 @@ const ListTask = (props) => {
     const [priority, setPriority] = useState('0'); //required
     const [description, setDescription] = useState('');
     
-    //Si table task elimina una tarea
     const [taskCreated, setTaskCreated] = useState(null);
     const [taskDeleted, setTaskDeleted] = useState(null);
     const [taskUpdated, setTaskUpdated] = useState(null);
@@ -27,27 +23,24 @@ const ListTask = (props) => {
     const [playbook, setPlaybook] = useState(null); //required
 
     useEffect( ()=> {
+
         getPlaybook(props.urlPlaybook)
         .then((response) => {
             setPlaybook(response.data)
             setTasks(response.data.tasks)
             console.log(response.data.tasks)
         })
-        .catch(setError);
+        .catch((error) => {
+            console.log(error)
+        })
 
-    }, [ taskCreated, taskUpdated, taskDeleted ]) //si hago un post o delete
+    }, [ taskCreated, taskUpdated, taskDeleted ]) 
 
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar las tareas.</p>
-    }
-
-    const createTask = () => { //refactorizar al FormContact
+    const createTask = () => { 
 
         postTask (name, description, priority, props.urlPlaybook)
             .then((response) => { 
                 console.log(response)
-                console.log('se creo una tarea')
                 setTaskCreated(response)
                 setName('')
                 setPriority('0')
@@ -55,7 +48,6 @@ const ListTask = (props) => {
                 setModalCreate(false)
             })
             .catch((error) => {
-                setError(error)
                 console.log(error)
             })
     };
@@ -97,7 +89,7 @@ const ListTask = (props) => {
                                     <tbody>
                                         {tasks ? tasks.map((urlTask, index) => {
                                             return (
-                                                <RowTask url={urlTask} id={index+1} taskDeleted={taskDeleted} setTaskDeleted={setTaskDeleted} setTaskUpdated={setTaskUpdated} />)
+                                                <RowTask url={urlTask} id={index+1} taskDeleted={taskDeleted} setTaskDeleted={setTaskDeleted} taskUpdated={taskUpdated} setTaskUpdated={setTaskUpdated} />)
                                             }) : <></>
                                         }
                                     </tbody>
@@ -105,11 +97,7 @@ const ListTask = (props) => {
                             </Card.Body>
                         </div>
                     </Collapse>
-                        <Card.Footer className="text-right">
-                            <Button variant="primary" href="/playbook/tables">Volver</Button>
-                        </Card.Footer>
                 </Card>
-            {/*<Alert/>*/}
             </Col>
         </Row>
 

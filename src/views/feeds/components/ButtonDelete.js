@@ -6,14 +6,13 @@ import { deleteFeed } from '../../../api/services/feeds';
 
 function ButtonDelete({feed}) {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   const [error, setError] = useState(null);
 
   const removeFeed = (feed)=> {
-    deleteFeed(feed.url).then((response) => {
+    deleteFeed(feed.url, feed.name)
+    .then(() => {
       window.location.href = '/app/feeds';
     })
     .catch((error) => {

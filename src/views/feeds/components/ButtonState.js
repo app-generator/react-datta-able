@@ -10,7 +10,8 @@ function ButtonState({feed}) {
     const [error, setError] = useState(null);
 
     const changeState = (feed)=> {        
-        putActivationStatus(feed.url, +!feed.active).then((response) => {
+        putActivationStatus(feed.url, !feed.active, feed.name)
+        .then(() => {
             window.location.href = '/app/feeds';
         })
         .catch((error) => {

@@ -1,30 +1,19 @@
 import React, { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
 import { postEntity } from '../../api/services/entities';
 import FormEntity from './components/FormEntity';
 import Navigation from '../../components/Navigation/Navigation';
 
 const CreateEntity = () => {
     const [name, setName] = useState('')
-    const active = 1; //se crea activo por defecto
+    const active = true; //se crea activo por defecto
     const [error, setError] = useState(null)
-
-    const slugify = (str) => {
-        return str
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/[\s_-]+/g, '_')
-      .replace(/^-+|-+$/g, '')
-    }
 
     //Create
     const addEntity = () => {
-        let slug = slugify(name);
-        postEntity(name, slug, active)
+        postEntity(name, active)
         .then((response) => { 
-            window.location.href = "/entity/tables"
+            window.location.href = "/entities"
         })
         .catch((error) => {
             setError(error)
@@ -34,7 +23,7 @@ const CreateEntity = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Crear Entidad" path="/entity/tables" index ="Entidades"/>
+                <Navigation actualPosition="Crear Entidad" path="/entities" index ="Entidades"/>
             </Row>
             <Row>
                 <Col sm={12}>
@@ -53,7 +42,6 @@ const CreateEntity = () => {
                             </Row>
                         </Card.Body>
                     </Card>
-                {/*<Alert/>*/}
                 </Col>
             </Row>
         </React.Fragment>
