@@ -84,12 +84,12 @@ const routes = [
             },
             {
                 exact: true,
-                path: '/app/taxonomy/create',
+                path: '/app/taxonomies/create',
                 component: lazy(() => import('./views/taxonomy/CreateTaxonomy'))
             },
             {
                 exact: true,
-                path: '/app/taxonomy/edit',
+                path: '/app/taxonomies/edit',
                 component: lazy(() => import('./views/taxonomy/EditTaxonomy'))
             },            
             {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Badge, Card, Form, Button, Table, Modal, CloseButton } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CrudButton from '../../../components/Button/CrudButton';
@@ -6,9 +6,17 @@ import ActiveButton from '../../../components/Button/ActiveButton';
 
 function ButtonView({feed}) {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [created, setCreated] = useState(null) 
+  const [modified, setModified] = useState(null) 
+
+  useEffect(() => {
+    let datetime = feed.created.split('T')
+    setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
+    datetime = feed.modified.split('T');
+    setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
+  }, [feed]);
 
   return (
     <>
@@ -72,15 +80,15 @@ function ButtonView({feed}) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Fecha de creación</td>
+                                        <td>Creación</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={feed.created.slice(0,10)} />
+                                            <Form.Control plaintext readOnly defaultValue={created} />
                                         </td>
                                     </tr>
                                      <tr>
                                         <td>Ultima actualización</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={feed.modified.slice(0,10)} />
+                                            <Form.Control plaintext readOnly defaultValue={modified} />
                                         </td>
                                     </tr>
                                 </Table>

@@ -6,55 +6,28 @@ import CrudButton from '../../components/Button/CrudButton';
 import ButtonState from './components/ButtonState';
 import ButtonDelete from './components/ButtonDelete';
 import Alert from '../../components/Alert/Alert';
-import Pagination from '../../components/Pagination/Pagination';
+import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 import Navigation from '../../components/Navigation/Navigation'
 import { getTaxonomies } from '../../api/services/taxonomies';
 
 const ListTaxonomies = () => {
-    
     const [taxonomies, setTaxonomies] = useState([]);
     const [error, setError] = useState(null);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true)
     const [showAlert, setShowAlert] = useState(false)
-
     const [currentPage, setCurrentPage] = useState(1)
-    const [jumpPage, setjumpPage] = useState(false)
-    const [pages, setPages] = useState(0)
-    const [arrayPages, setArrayPages] = useState([])
+    const [countItems, setCountItems] = useState(0);
 
-
-    function arrayWithPages(numberOfItems) {
-        const numberOfPages = Math.ceil(numberOfItems / 10) //numberOfElementsOnAPage        
-        const arrayNumberOfPages=[]
-        for (var i = 1; i <= numberOfPages; i++) {
-            arrayNumberOfPages.push(i)
-        }
-        setArrayPages(arrayNumberOfPages)
-        return numberOfPages
-    }
-
-    function changePage(page){
-        if (jumpPage){
-            setLoading(true)
-            setjumpPage(false)
-
-            const fetchTaxonomies = async () => {            
-            getTaxonomies(page).then((response) => {
-                setTaxonomies(response.data.results)
-            })
-            setLoading(false)
-            }
-
-            fetchTaxonomies();
-        }
+    
+    function updatePage(chosenPage){
+        setCurrentPage(chosenPage);
     }
     
     useEffect(() => {        
-        setCurrentPage(currentPage)        
         getTaxonomies(currentPage)
         .then((response) => {
-            setPages(arrayWithPages(response.data.count))
+            setCountItems(response.data.count)
             setTaxonomies(response.data.results)
         })
         .catch((error)=>{
@@ -64,7 +37,7 @@ const ListTaxonomies = () => {
             setShowAlert(true)
             setLoading(false)
         })
-    }, [pages]); 
+    }, [countItems, currentPage]); 
     
     
     const resetShowAlert = () => {
@@ -92,9 +65,7 @@ const ListTaxonomies = () => {
                 <Spinner animation='border' variant='primary' size='sm' />
             </Row>
         );    
-    }
-    
-    changePage(arrayPages[currentPage-1])
+    }      
     
     return (
         <React.Fragment>
@@ -119,7 +90,7 @@ const ListTaxonomies = () => {
                                 </Col> 
                                 <Col sm={12} lg={3}>
                                     <React.Fragment>                                        
-                                        <Link to={{pathname:'./taxonomy/create'}} >
+                                        <Link to={{pathname:'./taxonomies/create'}} >
                                             <CrudButton type='create' name='Taxonomia' />
                                         </Link>
                                     </React.Fragment>                           
@@ -148,7 +119,7 @@ const ListTaxonomies = () => {
                                             <td>{taxonomy.reports.length}</td>
                                             <td>
                                                 <ButtonView taxonomy={taxonomy}></ButtonView> 
-                                                <Link to={{pathname:"./taxonomy/edit", state:{taxonomy}}} >
+                                                <Link to={{pathname:"./taxonomies/edit", state:{taxonomy}}} >
                                                     <CrudButton type="edit" />                                                    
                                                 </Link>                                                
                                                 <ButtonDelete taxonomy={taxonomy}></ButtonDelete>                                                 
@@ -161,7 +132,7 @@ const ListTaxonomies = () => {
                         <Card.Footer >
                             <Row className="justify-content-md-center">
                                 <Col md="auto"> 
-                                    <Pagination pages={pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
                                 </Col>
                             </Row>
                         </Card.Footer>

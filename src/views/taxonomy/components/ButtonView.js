@@ -7,18 +7,19 @@ import { getTaxonomy } from '../../../api/services/taxonomies';
 
 function ButtonView({taxonomy}) {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  
+  const handleShow = () => setShow(true); 
+  const [created, setCreated] = useState(null) 
+  const [modified, setModified] = useState(null) 
   const [parent, setParent] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-
-    taxonomyParent()
-    
+    taxonomyParent()    
+    let datetime = taxonomy.created.split('T')
+    setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
+    datetime = taxonomy.modified.split('T');
+    setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
   }, [taxonomy]);
   
   const taxonomyParent = ()=> {
@@ -28,7 +29,8 @@ function ButtonView({taxonomy}) {
     })     
     .catch((error) => {
         setError(error);            
-    })   
+    })  
+    
   }
 
   return (
@@ -107,15 +109,15 @@ function ButtonView({taxonomy}) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Fecha de creación</td>
+                                        <td>Creación</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={taxonomy.created.slice(0,10)} />
+                                            <Form.Control plaintext readOnly defaultValue={created} />
                                         </td>
                                     </tr>
                                      <tr>
                                         <td>Ultima actualización</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={taxonomy.modified.slice(0,10)} />
+                                            <Form.Control plaintext readOnly defaultValue={modified} />
                                         </td>
                                     </tr>
                                 </Table>

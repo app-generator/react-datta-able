@@ -44,13 +44,12 @@ const getAllTaxonomies = (currentPage = 1, results = [], limit = 100) => {
 
 }
 
-const postTaxonomy = (slug, type, name, description, active, parent) => {
+const postTaxonomy = (type, name, description, active, parent) => {
     let messageSuccess = `La taxonomia ${name} se pudo crear correctamente`;
     let messageError = `La taxonomia ${name} no se pudo crear`;
     return apiInstance.post(COMPONENT_URL.taxonomy, {
-        slug: slug,
-        type: type,
-        name: name,
+        type: type, 
+        name: name, 
         description: description,
         active: active,
         parent: parent
@@ -64,13 +63,18 @@ const postTaxonomy = (slug, type, name, description, active, parent) => {
 }
 
 
-const putTaxonomy = (url, slug, type, name, description, active, parent) => {
+const putTaxonomy = (url, type, name, description, active, parent) => {
     let messageSuccess = `La taxonomia ${name} se pudo editar correctamente`;
     let messageError = `La taxonomia ${name} no se pudo editar`;
     return apiInstance.put(url, {
+<<<<<<< HEAD
+        type: type, 
+        name: name, 
+=======
         slug: slug,
         type: type,
         name: name,
+>>>>>>> develop
         description: description,
         active: active,
         parent: parent

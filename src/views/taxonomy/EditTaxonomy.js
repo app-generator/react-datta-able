@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
-import DropdownState from '../taxonomy/components/DropdownState';
+import DropdownState from '../../components/Dropdown/DropdownState'
 import { useLocation } from "react-router-dom";
 import Select from 'react-select';
 import Alert from '../../components/Alert/Alert';
@@ -11,9 +11,7 @@ import { putTaxonomy, getTaxonomy, getAllTaxonomies } from '../../api/services/t
 
 const EditTaxonomy = () => {
     const location = useLocation();
-    const taxonomy = location.state.taxonomy;
-
-    const [slug, setSlug] = useState(taxonomy.slug);
+    const taxonomy = location.state.taxonomy;    
     const [type, setType] = useState(taxonomy.type);
     const [name, setName] = useState(taxonomy.name);    
     const [description, setDescription] = useState(taxonomy.description);
@@ -24,32 +22,30 @@ const EditTaxonomy = () => {
     const [error, setError] = useState(null);
     const [showAlert, setShowAlert] = useState(false) 
 
-    useEffect(() => {  
-               
+    useEffect(() => {                 
         getAllTaxonomies()
         .then((response) => {
             let listTaxonomies = []
             listTaxonomies.push({value:"", label:"Sin padre"})
-            response.map((taxonomy) => {listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})})
+            response.map((taxonomy) => {
+                listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})
+            })
             setTaxonomies(listTaxonomies)             
         })    
         
         { (parent != undefined) ?
-
             getTaxonomy(parent)
             .then((response) => {
                 setCurrentParent(response.data.name)                
-            })  
-        
+            })          
             : setCurrentParent("Sin padre")    
-        }        
-               
+        }          
     }, []);      
     
 
     const editTaxonomy = ()=> {        
-        putTaxonomy(taxonomy.url, slug, type, name, description, active, parent).then((response) => {
-            console.log(response);            
+        putTaxonomy(taxonomy.url, type, name, description, active, parent)
+        .then(() => {                        
             window.location.href = '/app/taxonomies';
         })
         .catch((error) => {
@@ -78,46 +74,55 @@ const EditTaxonomy = () => {
                         </Card.Header>
                         <Card.Body>
                             <Form>
-                            <Form.Group as={Col}>
-                                    <Form.Label>Tipo</Form.Label>
-                                    <Form.Control type="choice" as="select" value={type} onChange={(e) => setType(e.target.value)} isValid={validateType(type)} isInvalid={!validateType(type)} >                                                                     
-                                        <option key={0} value=''>Seleccione</option>
-                                        <option key={1} value='vulnerability'>Vulnerabilidad</option>
-                                        <option key={2} value='incident'>Incidente</option>
-                                    </Form.Control>
-                                    {validateType(type) ? '' : <div className="invalid-feedback">Ingrese un tipo de taxonomia</div>} 
-                                </Form.Group>
-                                                                
+                                <Row>
+                                    <Col sm={12} lg={4}>
+                                        <Form.Group>
+                                            <Form.Label>Nombre</Form.Label>
+                                            <Form.Control type="text" defaultValue={taxonomy.name} onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)}/>
+                                            {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col sm={12} lg={1}>
+                                        <Form.Group>
+                                            <Form.Label>Estado</Form.Label>
+                                            <DropdownState state={taxonomy.active} setActive={setActive}></DropdownState>
+                                        </Form.Group>
+                                    </Col>                                    
+                                    <Col sm={12} lg={3}>
+                                        <Form.Group>
+                                            <Form.Label>Tipo</Form.Label>
+                                            <Form.Control type="choice" as="select" value={type} onChange={(e) => setType(e.target.value)} isValid={validateType(type)} isInvalid={!validateType(type)} >                                                                     
+                                                <option key={0} value=''>Seleccione</option>
+                                                <option key={1} value='vulnerability'>Vulnerabilidad</option>
+                                                <option key={2} value='incident'>Incidente</option>
+                                            </Form.Control>
+                                            {validateType(type) ? '' : <div className="invalid-feedback">Ingrese un tipo de taxonomia</div>} 
+                                        </Form.Group>
+                                    </Col>
+                                    <Col sm={12} lg={4}>
+                                        <Form.Group>
+                                            <Form.Label>Padre</Form.Label>                                   
+                                            <Select options={taxonomies} onChange={(e) => setParent(e.value)} placeholder={currentParent} />
+                                        </Form.Group>
+                                    </Col>                                    
+                                </Row>
+                                <Row>                                
+                                    <Col sm={12} lg={12}>
+                                        <Form.Group>
+                                            <Form.Label>Descripcion</Form.Label>
+                                            <Form.Control as="textarea" rows={3} defaultValue={taxonomy.description} onChange={(e) => setDescription(e.target.value)}  isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
+                                            {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
+                                        </Form.Group>
+                                    </Col>
+                                </Row>                               
                                 <Form.Group as={Col}>
-                                    <Form.Label>Nombre</Form.Label>
-                                    <Form.Control type="text" defaultValue={taxonomy.name} onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)}/>
-                                    {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
+                                    { validateType(type) && validateName(name) && validateDescription(description) ?
+                                        <Button variant="primary" onClick={editTaxonomy}>Guardar</Button>                                    
+                                        : 
+                                        <Button variant="primary" disabled>Guardar</Button>                                    
+                                    }
+                                    <Button variant="info" href='/app/taxonomies'>Cancelar</Button>
                                 </Form.Group>
-
-                                <Form.Group as={Col}>
-                                    <Form.Label>Descripcion</Form.Label>
-                                    <Form.Control as="textarea" rows={3} defaultValue={taxonomy.description} onChange={(e) => setDescription(e.target.value)}  isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
-                                    {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
-                                </Form.Group>
-
-                                <Form.Group as={Col}>
-                                    <Form.Label>Estado</Form.Label>
-                                    <DropdownState state={taxonomy.active} setActive={setActive}></DropdownState>
-                                </Form.Group> 
-                               
-                                <Form.Group as={Col}>
-                                    <Form.Label>Padre</Form.Label>                                   
-                                    <Select options={taxonomies} onChange={(e) => setParent(e.value)} placeholder={currentParent} />
-                                </Form.Group>
-                      
-
-                                { validateType(type) && validateName(name) && validateDescription(description) ?
-                                    <Button variant="primary" onClick={editTaxonomy}>Guardar</Button>                                    
-                                    : 
-                                    <Button variant="primary" disabled>Guardar</Button>                                    
-                                }                                 
-
-                                <Button variant="info" href='/app/taxonomies'>Cancelar</Button>
                             </Form>
                         </Card.Body>
                     </Card>
