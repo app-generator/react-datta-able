@@ -15,10 +15,10 @@ const menuItems = {
                 },
                 {
                     id: 'feeds',
-                    title: 'Fuentes de Informacion',
+                    title: 'Fuentes',
                     type: 'item',
                     url: '/app/feeds',
-                    icon: 'fas fa-globe',
+                    icon: 'feather icon-globe',
                     breadcrumbs: false
                 },
                 {
@@ -27,15 +27,15 @@ const menuItems = {
                     type: 'item',
                     url: '/list-event',
                     classes: '',
-                    icon: 'fas fa-stream',
+                    icon: 'feather icon-alert-circle',
                     breadcrumbs: false,
                 },
                 {
                     id: 'case',
                     title: 'Casos',
                     type: 'item',
-                    url: '/cases',
-                    icon: 'fas fa-stream',
+                    url: '/case/tables',
+                    icon: 'feather icon-search',
                     breadcrumbs: false,
                 }
             ]
@@ -59,7 +59,7 @@ const menuItems = {
                     title: 'Redes',
                     type: 'item',
                     url: '/networks',
-                    icon: 'fas fa-ethernet',
+                    icon: 'feather icon-share-2',
                     breadcrumbs: false
                 },
                 {
@@ -89,7 +89,7 @@ const menuItems = {
                             title: 'TLP',
                             type: 'item',
                             url: '/app/tlp',
-                            icon: 'fas fa-globe',
+                            icon: '',
                             breadcrumbs: false
                         },          
                         {
@@ -98,7 +98,7 @@ const menuItems = {
                             type: 'item',
                             url: '/list-Priorities',
                             classes: '',
-                            icon: 'fa fa-exclamation-triangle',
+                            icon: '',
                             breadcrumbs: false
             
                         },
@@ -115,7 +115,7 @@ const menuItems = {
                             title: 'Taxonomia',
                             type: 'item',
                             url: '/app/taxonomies',
-                            icon: 'fas fa-server',
+                            icon: '',
                             breadcrumbs: false
                         },
                         {
@@ -144,12 +144,13 @@ const menuItems = {
                     type: 'item',
                     url: '/list-user',
                     classes: '',
-                    icon: 'fa fa-user',
+                    icon: 'feather icon-user',
                     breadcrumbs: false,
                 }
             ]
         
-        },
+        }
+        /*,
         {
             id: 'ui-element',
             title: 'UI ELEMENT',
@@ -314,6 +315,7 @@ const menuItems = {
                 }
             ]
         }
+    */
     ]
 };
 
