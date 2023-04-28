@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Table, Modal, CloseButton, Spinner } from 'react-bootstrap';
+import { Button, Row, Form, Table, Spinner } from 'react-bootstrap';
 import CrudButton from '../../../components/Button/CrudButton';
-import { getCase, deleteCase } from '../../../api/services/cases';
+import { deleteCase } from '../../../api/services/cases';
 import { getPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { Link } from 'react-router-dom';
@@ -12,30 +12,24 @@ import { getStates } from '../../../api/services/states';
 import { getUser } from '../../../api/services/users';
 import GetUserName from './GetUserName';
 
-const TableCase = ({callback, list, loading }) => {
+const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases }) => {
     
-    const [cases, setCases] = useState('') 
-    const [error, setError] = useState(null) 
-
-    const [modalShow, setModalShow] = useState(false) 
-    const [modalDelete, setModalDelete] = useState(false) 
-    const [lastItem, setLastItem] = useState(null) 
-
     const [url, setUrl] = useState(null) 
+    const [modalDelete, setModalDelete] = useState(false)
     const [id, setId] = useState(null) 
-    const [date, setDate] = useState(null) 
-
-
+        
     const [prioritiesOption, setPrioritiesOption] = useState({}) 
     const [tlpOption, setTlpOption] = useState({}) 
     const [stateOption, setStateOption] = useState({}) 
-
+    
+//checkbox
+    const [isCheckAll, setIsCheckAll] = useState(false);
+  
+  
     useEffect(() => {
 
         getPriorities()
             .then((response) => {
-                console.log(response.data.results)
-
                 let priorityOp = {}
                 response.data.results.map((item) => {
                     priorityOp[item.url] = {name: item.name, color: item.color}
@@ -43,12 +37,11 @@ const TableCase = ({callback, list, loading }) => {
                 setPrioritiesOption(priorityOp)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
         
         getTLP()
             .then((response) => {
-                console.log(response.data.results)
                 let tlpOp = {}
                 response.data.results.map((item) => {
                     tlpOp[item.url] = {name: item.name, color: item.color}
@@ -56,12 +49,11 @@ const TableCase = ({callback, list, loading }) => {
                 setTlpOption(tlpOp)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
 
-            getStates('?page=1')
+        getStates('?page=1')
             .then((response) => {
-                console.log(response.data.results)
                 let stateOp = {}
                 response.data.results.map((item) => {
                     stateOp[item.url] = {name: item.name}
@@ -69,13 +61,10 @@ const TableCase = ({callback, list, loading }) => {
                 setStateOption(stateOp)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
-
+        
     },[list]);
-
-    console.log(list)
-
 
     if (loading) {
         return (
@@ -86,8 +75,8 @@ const TableCase = ({callback, list, loading }) => {
     }
 
     //Remove Case
-    const Delete = (url) => {
-        setLastItem(list.length === 1)
+    const Delete = (url, id) => {
+        setId(id)
         setUrl(url)
         setModalDelete(true)
     }
@@ -95,24 +84,51 @@ const TableCase = ({callback, list, loading }) => {
     const removeCase = (url)=> {
         deleteCase(url)
             .then((response) => {
+                setIfModify(response)
                 console.log(response);
-                callback(lastItem)
             })
             .catch((error) => {
                 console.log(error)
-                setError(error)
-                callback(false)
+                console.log(error)
             })
             .finally(() => {
                 setModalDelete(false)
             })
         };
+
+    ////////////////////////////////////////////////////
+     
+    const handleSelectAll = e => {
+        setIsCheckAll(!isCheckAll);
+        setSelectedCases(list.filter(item => item.solve_date == null).map(li => li.url));
+        if (isCheckAll) {
+            setSelectedCases([]);
+        }
+      };
     
+      const handleClick = e => { 
+        const { id, checked } = e.target;
+        setSelectedCases([...selectedCases, id]);
+        if (!checked) {
+          setSelectedCases(selectedCases.filter(item => item !== id));
+        }
+      };
+    
+      console.log(selectedCases);
+    
+      ////////////////////////////////////////////////////
+
     return (
             <React.Fragment>
                 <Table responsive hover className="text-center">
                     <thead>
                         <tr>
+                            <th>
+                                <Form.Group>
+                                    <Form.Check custom type="checkbox" id={"selectAll"} 
+                                        onChange={handleSelectAll} checked={selectedCases.length != 0 ? isCheckAll : false} /> {/*|| selectedCases == list.filter(item => item.solve_date == null).length */}
+                                </Form.Group>
+                            </th>
                             <th>Id</th>
                             <th>Fecha</th>
                             <th>Prioridad</th>
@@ -131,6 +147,13 @@ const TableCase = ({callback, list, loading }) => {
                             return (
                                 list &&
                                 <tr key={caseItem.url}>
+                                    <td>
+                                        <Form.Group>
+                                            <Form.Check disabled={caseItem.solve_date != null ? true : false} 
+                                                type="checkbox" id={caseItem.url} 
+                                                onChange={handleClick} checked={selectedCases.includes(caseItem.url)} />
+                                        </Form.Group>
+                                    </td>
                                     <th scope="row">{idItem}</th>
                                     <td>{datetime}</td>
                                     <td>
@@ -149,22 +172,30 @@ const TableCase = ({callback, list, loading }) => {
                                             Sin asignar
                                         </td> 
                                     }
-                            
                                     <td>
-                                        <Link to={{pathname:'/case/read', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
+                                        <Link to={{pathname:'/cases/view', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
                                             <CrudButton type='read'/>
                                         </Link>
-                                        <Link to={{pathname:'/case/edit', state: caseItem, callback: callback}} >
-                                            <CrudButton type='edit'/>
-                                        </Link>
-                                        <CrudButton type='delete' onClick={() => Delete(caseItem.url)} />
+                                        {caseItem.solve_date == null ? 
+                                            <Link to={{pathname:'/cases/edit', state: caseItem}} >
+                                                <CrudButton type='edit'/>
+                                            </Link>
+                                            :   
+                                            <Button 
+                                                disabled 
+                                                className='btn-icon btn-rounded' 
+                                                variant='outline-secondary'
+                                                title='Caso resuelto'>
+                                                    <i className='fa fa-edit' />
+                                            </Button>}
+                                        <CrudButton type='delete' onClick={() => Delete(caseItem.url, idItem)} />
                                     </td>
                                 </tr>
                             );
                         })}
                     </tbody>
                 </Table>
-            <ModalConfirm type='delete' component='Caso' name='el caso' showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeCase(url)}/>
+            <ModalConfirm type='delete' component='Caso' name={`el caso ${id}`} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeCase(url)}/>
         </React.Fragment> 
   );
 };

@@ -39,7 +39,7 @@ const ModalDetailPlaybook = (props) => {
                                             <span className="d-block m-t-5">Detalle de playbook</span>
                                         </Col>
                                         <Col sm={12} lg={2}>                       
-                                            <Link to={{pathname:'/playbook/edit', state: props.playbook}} >
+                                            <Link to={{pathname:'/playbooks/edit', state: props.playbook}} >
                                                 <CrudButton type='edit'/>
                                             </Link>
                                             <CloseButton aria-label='Cerrar' onClick={props.onHide} />

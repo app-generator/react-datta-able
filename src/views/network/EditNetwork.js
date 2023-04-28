@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
-import { getAllContacts } from '../../api/services/contacts';
+import { getContacts } from '../../api/services/contacts';
 import { putNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/FormCreateNetwork';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
@@ -30,8 +29,9 @@ const EditNetwork = () => {
     
 
     useEffect(()=> {
-
-        getAllContacts()
+        
+        //multiselect all options 
+        getContacts()
             .then((response) => {
                 let listContact = []
                 response.data.results.map((contactsItem)=>{
@@ -44,8 +44,7 @@ const EditNetwork = () => {
                 setError(error)
             })  
         
-        
-        },[active, contactCreated])
+        },[])
 
     const labelRole = {
         technical : 'Tecnico',
@@ -62,7 +61,7 @@ const EditNetwork = () => {
             .then((response) => { 
                 console.log(response)
                 console.log('create network - put .then')
-                window.location.href = "/network/tables"
+                window.location.href = "/networks"
             })
             .catch((error) => {
                 setError(error)
@@ -90,7 +89,7 @@ const EditNetwork = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Editar Red" path="/network/tables" index ="Redes"/>
+                <Navigation actualPosition="Editar Red" path="/networks" index ="Redes"/>
             </Row>
             <Row>
                 <Col sm={12}>
@@ -117,8 +116,7 @@ const EditNetwork = () => {
                                 setContactsCreated={setContactsCreated} />                          
                         </Card.Body>
                     </Card>
-                    <Alert />
-                </Col>
+                </Col> 
             </Row>
             <ModalConfirm type='editState' component='Red' name={cidr} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(url, active)}/>
         </React.Fragment>

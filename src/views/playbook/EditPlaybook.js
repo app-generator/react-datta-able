@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Card, Col, Row } from 'react-bootstrap'; 
-import Alert from '../../components/Alert/Alert';
 import { putPlaybook } from '../../api/services/playbooks';
 import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomies';
@@ -14,7 +13,7 @@ const EditPlaybook = () => {
 
     const [url, setUrl] = useState(playbook.url);
     const [name, setName] = useState(playbook.name);
-    const [taxonomy, setTaxonomy] = useState(playbook.taxonomy); //enviar con el formato value, label
+    const [taxonomy, setTaxonomy] = useState(playbook.taxonomy); 
 
     //Dropdown
     const [allTaxonomies, setAllTaxonomies] = useState([])
@@ -22,13 +21,12 @@ const EditPlaybook = () => {
     const [error, setError] = useState(null);
 
     useEffect(()=> {
-
         getAllTaxonomies()
             .then((response) => {
-                console.log(response.data.results)
+                console.log(response)
                 //allTaxonomies
                 let listAllTaxonomies = []
-                response.data.results.map((taxonomyItem)=>{
+                response.map((taxonomyItem)=>{
                     listAllTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
                 })
                 setAllTaxonomies(listAllTaxonomies)
@@ -38,10 +36,6 @@ const EditPlaybook = () => {
             })
 
         },[])
-
-        const getIndex = (allTaxonomies, selectedTaxonomies) => {
-            return selectedTaxonomies.map((url) => allTaxonomies.findIndex((tax) => tax.value === url));
-        }
 
         const labelTaxonomy = {
         vulnerability : 'Vulnerabilidad',
@@ -67,7 +61,7 @@ const EditPlaybook = () => {
     return (
     <React.Fragment>
         <Row>
-            <Navigation actualPosition="Editar Playbook" path="/playbook/tables" index ="Playbook"/>
+            <Navigation actualPosition="Editar Playbook" path="/playbooks" index ="Playbook"/>
         </Row>
 
             <Row>
@@ -89,8 +83,7 @@ const EditPlaybook = () => {
                     
                     <ListTask urlPlaybook={url} sectionAddTask={true}/>
 
-                    {/*<Alert />*/}
-                    <Button variant="primary" href="/playbook/tables">Volver</Button>
+                    <Button variant="primary" href="/playbooks">Volver</Button>
                 </Col>
             </Row>
     </React.Fragment>

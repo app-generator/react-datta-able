@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Row, Table } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
+import { Button, Card, CloseButton, Col, Form, Modal, Row, Table } from 'react-bootstrap';
 import Navigation from '../../components/Navigation/Navigation';
 import { useLocation } from 'react-router-dom';
 import GetUserName from './components/GetUserName';
@@ -17,16 +16,39 @@ const ReadCase = () => {
 
     const [id, setId] = useState('');
     const [date, setDate] = useState('');
+    const [attend_date, setAttend_Date] = useState('');
+    const [solve_date, setSolve_Date] = useState('');
+    const [created, setCreated] = useState('');
+    const [modified, setModified] = useState('');
     const [error, setError] = useState(null)
+
+    const [modalShowEvent, setModalShowEvent] = useState(false);
 
     useEffect (() => {
         
         if(caseItem) {
             let idItem = caseItem.url.split('/')[(caseItem.url.split('/')).length-2]
             setId(idItem)
-            let datetime = caseItem.date.split('T');
-            setDate(datetime[0] + ' ' + datetime[1].slice(0,8))
+
+            let datetime = caseItem.created.split('T');
+            setCreated(datetime[0] + ' ' + datetime[1].slice(0,8))
+            datetime = caseItem.modified.split('T');
+            setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
+
+            if(caseItem.date){
+                let datetime = caseItem.date.split('T');
+                setDate(datetime[0] + ' ' + datetime[1].slice(0,8))
+            }
+            if(caseItem.attend_date){
+                let datetime = caseItem.attend_date.split('T');
+                setAttend_Date(datetime[0] + ' ' + datetime[1].slice(0,8))
+            }
+            if(caseItem.solve_date){
+                let datetime = caseItem.solve_date.split('T');
+                setSolve_Date(datetime[0] + ' ' + datetime[1].slice(0,8))
+            }
         }
+        
         
     }, []) 
 
@@ -34,59 +56,29 @@ const ReadCase = () => {
         caseItem &&
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Detalle" path="/case/tables" index ="Casos"/>
+                <Navigation actualPosition="Detalle" path="/cases/view" index ="Casos"/>
             </Row>
             <Row>
                 <Col sm={12}>
-                    <Card> 
+                    <Card>
                         <Card.Header>
-                            <Card.Title as="h5">Casos</Card.Title>
-                            <span className="d-block m-t-5">Detalle del caso</span>
+                            <Card.Title as="h5">Principal</Card.Title>
                         </Card.Header>
-                        <Card.Body>
-                            <Table responsive >
+                        <Card.Body> 
+                             <Table responsive >
                                 <tbody>
                                     <tr>
                                         <td>Id del sistema</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={id} />
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fecha (date)</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={date} />
-                                        </td>
-                                    </tr>
-
-                                    <tr>
                                         <td>Prioridad</td>
                                         <td>
                                             <BadgeItem item={prioritiesOption[caseItem.priority]}/>
                                         </td>
-                                    </tr>
-                                    <tr>
                                         <td>TLP</td>
                                         <td>
                                             <BadgeItem item={tlpOption[caseItem.tlp]}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Asignado</td>
-                                    {caseItem.assigned ? 
-                                        <td>
-                                            <GetUserName form={true} get={getUser} url={caseItem.assigned} />
-                                        </td>
-                                        :
-                                        <td>
-                                            Sin asignar
-                                        </td> 
-                                    }
-                                    </tr>
-                                    <tr>
-                                        <td>Estado</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={stateOption[caseItem.state].name} />
                                         </td>
                                     </tr>
                                     <tr>
@@ -94,65 +86,208 @@ const ReadCase = () => {
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={caseItem.lifecycle} />
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Comentarios</td>
+                                        <td>Estado</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.comments.map(item => {
-                                                <tr>item</tr>
-                                            })} />
+                                            <Form.Control plaintext readOnly defaultValue={stateOption[caseItem.state].name} />
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Evidencia</td>
+                                        <td>Asignado</td>
+                                        {caseItem.assigned ? 
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.evidence.map(item => {
-                                                <tr>item</tr>
-                                            })} />
+                                            <GetUserName form={true} get={getUser} url={caseItem.assigned} />
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Eventos</td>
+                                        :
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.events.map(item => {
-                                                <tr>{item}</tr>
-                                            })} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fecha de atencion (attend_date)</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.attend_date} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fecha de resolucion (solve_date)</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.solve_date} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fecha de creacion (create)</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.created} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fecha de modificacion (modified)</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.modified} />
-                                        </td>
+                                            <Form.Control plaintext readOnly defaultValue='Sin asignar' />
+                                        </td> 
+                                    }
                                     </tr>
                                 </tbody>
                             </Table>
                         </Card.Body>
-                        <Card.Footer className="text-right">
-                            <Button variant="primary" href="/case/tables">Volver</Button>
-                        </Card.Footer>
                     </Card>
-                {/*<Alert/>*/}
+                    <Card>
+                        <Card.Header>
+                            <Card.Title as="h5">Fechas</Card.Title>
+                        </Card.Header>
+                        <Card.Body> 
+                            {/*
+                            <Row>
+                                <Col sm={6} lg={1}>
+                                date
+                                </Col>
+                            
+                                <Col sm={6} lg={3}>
+                                <Form.Control plaintext readOnly defaultValue={date} />
+
+                                </Col>
+                            
+                                <Col sm={6} lg={1}>
+                                Atencion
+                                </Col>
+                                <Col sm={6} lg={3}>
+                                <Form.Control plaintext readOnly defaultValue={date} />
+
+                                </Col>
+                            
+                                <Col sm={6} lg={1}>
+                                Resolucion
+                                </Col>
+                            
+                                <Col sm={6} lg={3}>
+                                {caseItem.solve_date ? 
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={solve_date} />
+                                        </td>
+                                        :
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue='No resuelto' />
+                                        </td> 
+                                    }
+                                </Col>
+
+                            </Row>
+                            */}
+                            <Table responsive >
+                                <tbody>
+                                    <tr>
+                                        <td>date?</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={date} />
+                                        </td>
+                                        <td>Atencion</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={attend_date} />
+                                        </td>
+                                        <td>Resolucion</td>
+                                        {caseItem.solve_date ? 
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={solve_date} />
+                                        </td>
+                                        :
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue='No resuelto' />
+                                        </td> 
+                                    }
+                                    </tr>
+                                    <tr>
+                                        <td>Creacion</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={created} />
+                                        </td>
+                                        <td>Modificacion</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={modified} />
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </Card.Body>
+                    </Card>
+                    {caseItem.evidence.length > 0 
+                    ?
+                    <Card>
+                        <Card.Header>
+                            <Card.Title as="h5">Evidencias</Card.Title>
+                        </Card.Header>
+                        <Card.Body> 
+                            <Row>
+                                <Col sm={6} lg={3}>Link</Col>
+                                <Col><Form.Control plaintext readOnly defaultValue={caseItem.evidence}/></Col>
+                                <Col sm={6} lg={2}>
+                                    <Button 
+                                        size="sm"
+                                        className='text-capitalize'
+                                        variant='light'
+                                        title='Ir'
+                                        onClick={() => setModalShowEvent(true)}>
+                                        <i class="fas fa-external-link-alt"/>
+                                    </Button> 
+                                </Col>
+                            </Row>
+                        </Card.Body>
+                    </Card>
+                    :<></>}
+                    {caseItem.events.length > 0 ?
+                        <Card>
+                            <Card.Header>
+                                <Card.Title as="h5">Eventos</Card.Title>
+                            </Card.Header>
+                            <Card.Body> 
+                                <Row>
+                                    <Col sm={6} lg={3}>Link</Col>
+                                    <Col><Form.Control plaintext readOnly defaultValue={caseItem.events}/></Col>
+                                    <Col sm={6} lg={2}>
+                                        <Button 
+                                            size="sm"
+                                            className='text-capitalize'
+                                            variant='light'
+                                            title='Ir'
+                                            onClick={() => setModalShowEvent(true)}>
+                                            <i class="fas fa-external-link-alt"/>
+                                        </Button> 
+                                    </Col>
+                                </Row>
+                            </Card.Body> 
+                        </Card>
+                        :<></>}
+                        <Card>
+                            <Card.Header>
+                                <Card.Title as="h5">Informacion Adicional</Card.Title>
+                            </Card.Header>
+                            <Card.Body> 
+                                <Row>
+                                    <Col sm={6} lg={3}>
+                                        Comentarios
+                                    </Col>
+                                    <Col>
+                                        <Form.Control plaintext readOnly defaultValue={caseItem.comments} />
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                        </Card>
+                        {caseItem.children.length > 0 ?                        
+                            <Card>
+                            <Card.Header>
+                                <Card.Title as="h5">Children</Card.Title>
+                            </Card.Header>
+                            <Card.Body> 
+                                <Row>
+                                    <Col sm={6} lg={3}>Children</Col>
+                                    <Col>
+                                        <Form.Control plaintext readOnly defaultValue={caseItem.children}/>
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                        </Card>
+                    :<></>}
+                    <Button variant="primary" href="/cases">Volver</Button>
                 </Col>
             </Row>
+            
+            <Modal size='lg' show={modalShowEvent} onHide={() => setModalShowEvent(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
+                <Modal.Body>
+                    <Row>    
+                        <Col>                 
+                            <Card>
+                                <Card.Header> 
+                                    <Row>
+                                        <Col>
+                                            <Card.Title as="h5">Evento</Card.Title>
+                                            <span className="d-block m-t-5">Detalle de Evento</span>
+                                        </Col>
+                                        <Col sm={12} lg={4}>                       
+                                            <CloseButton aria-label='Cerrar' onClick={() => setModalShowEvent(false)} />
+                                        </Col>
+                                    </Row>         
+                                </Card.Header>
+                                <Card.Body>Informacion del evento</Card.Body>
+                            </Card>
+                        </Col> 
+                    </Row>
+                </Modal.Body>            
+            </Modal>
         </React.Fragment>
     );
 };
