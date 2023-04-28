@@ -4,8 +4,6 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { putCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
-import { getEvents } from '../../api/services/events';
-import { getEvidences } from '../../api/services/evidences';
 import { getState } from '../../api/services/states';
 
 const EditCase = () => {
@@ -23,44 +21,14 @@ const EditCase = () => {
     const [state, setState] = useState(caseItem.state) //required
     const [allStates, setSupportedStates] = useState([]) //multiselect
 
-    const [comments, setComments] = useState(caseItem.comments) // lista de que ??
+    const [comments, setComments] = useState(caseItem.comments) // ??
     
-    const [evidences, setEvidences] = useState(caseItem.evidence) // como se muestra
-    const [allEvidences, setAllEvidences] = useState([]) //multiselect
-
-    const [events, setEvents] = useState(caseItem.events)
-    const [allEvents, setAllEvents] = useState([]) //multiselect
+    const [evidences, setEvidences] = useState(caseItem.evidence)
 
     const [attend_date, setAttend_date] = useState(caseItem.attend_date != null ? caseItem.attend_date.substr(0,16) : '') //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(caseItem.solve_date!= null ? caseItem.solve_date.substr(0,16) : '')
 
     useEffect(()=> {
-
-        getEvents()
-            .then((response) => {
-                let listEvents = []
-                response.data.results.map((eventItem)=>{
-                    listEvents.push({value:eventItem.url, label:eventItem.name})
-                })
-                setAllEvents(listEvents)
-                console.log(response.data.results)
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
-
-        getEvidences()
-            .then((response) => {
-                let listEvidences = []
-                response.data.results.map((evidencesItem)=>{
-                    listEvidences.push({value:evidencesItem.url, label:evidencesItem.url})
-                })
-                setAllEvidences(listEvidences)
-                console.log(response.data.results)
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
 
         let listStates =[]
         getState(caseItem.state)
@@ -92,13 +60,10 @@ const EditCase = () => {
 
     //Edit
     const editCase = () => {
-        //putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, ['comment1', 'comment2'], 
-        //['http://localhost:8000/api/evidence/1/'], ['http://localhost:8000/api/event/1/'], attend_date, solve_date)
-
-        putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, events, attend_date, solve_date)
+        putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
-            //window.location.href = "/cases"
+            window.location.href = "/cases"
         })
         .catch((error) => {
             console.log(error)
@@ -129,15 +94,12 @@ const EditCase = () => {
                                         assigned={assigned} setAssigned={setAssigned}
                                         state={state} setState={setState} allStates={allStates} 
                                         
-                                        evidences={evidences} setEvidences={setEvidences} allEvidences={allEvidences}
-                                        events={events} setEvents={setEvents} allEvents={allEvents}
+                                        evidences={evidences} setEvidences={setEvidences}
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
                                         ifConfirm={editCase} edit={true} save='Guardar Cambios'/>
-
                                 </Col>
-
                             </Row>
                         </Card.Body>
                     </Card>

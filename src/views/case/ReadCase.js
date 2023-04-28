@@ -22,7 +22,6 @@ const ReadCase = () => {
     const [modified, setModified] = useState('');
     const [error, setError] = useState(null)
 
-
     const [modalShowEvent, setModalShowEvent] = useState(false);
 
     useEffect (() => {
@@ -147,7 +146,8 @@ const ReadCase = () => {
                                 </Col>
 
                             </Row>
-                            */}                            <Table responsive >
+                            */}
+                            <Table responsive >
                                 <tbody>
                                     <tr>
                                         <td>date?</td>
@@ -184,17 +184,40 @@ const ReadCase = () => {
                                 </tbody>
                             </Table>
                         </Card.Body>
-                        </Card>
-<Card>
+                    </Card>
+                    {caseItem.evidence.length > 0 
+                    ?
+                    <Card>
                         <Card.Header>
                             <Card.Title as="h5">Evidencias</Card.Title>
                         </Card.Header>
-                        {caseItem.evidence.length > 0 
-                        ?
+                        <Card.Body> 
+                            <Row>
+                                <Col sm={6} lg={3}>Link</Col>
+                                <Col><Form.Control plaintext readOnly defaultValue={caseItem.evidence}/></Col>
+                                <Col sm={6} lg={2}>
+                                    <Button 
+                                        size="sm"
+                                        className='text-capitalize'
+                                        variant='light'
+                                        title='Ir'
+                                        onClick={() => setModalShowEvent(true)}>
+                                        <i class="fas fa-external-link-alt"/>
+                                    </Button> 
+                                </Col>
+                            </Row>
+                        </Card.Body>
+                    </Card>
+                    :<></>}
+                    {caseItem.events.length > 0 ?
+                        <Card>
+                            <Card.Header>
+                                <Card.Title as="h5">Eventos</Card.Title>
+                            </Card.Header>
                             <Card.Body> 
                                 <Row>
                                     <Col sm={6} lg={3}>Link</Col>
-                                    <Col><Form.Control plaintext readOnly defaultValue={caseItem.evidence}/></Col>
+                                    <Col><Form.Control plaintext readOnly defaultValue={caseItem.events}/></Col>
                                     <Col sm={6} lg={2}>
                                         <Button 
                                             size="sm"
@@ -206,43 +229,10 @@ const ReadCase = () => {
                                         </Button> 
                                     </Col>
                                 </Row>
-                            </Card.Body>
-                        :
-                        <Card.Body>
-                            <Form.Control className="text-center" plaintext readOnly defaultValue='No se han cargado evidencias?' />
-
-                            </Card.Body>
-                        }
+                            </Card.Body> 
                         </Card>
+                        :<></>}
                         <Card>
-                            <Card.Header>
-                                <Card.Title as="h5">Eventos</Card.Title>
-                            </Card.Header>
-                            {caseItem.events.length > 0 ?
-                                <Card.Body> 
-                                    <Row>
-                                        <Col sm={6} lg={3}>Link</Col>
-                                        <Col><Form.Control plaintext readOnly defaultValue={caseItem.events}/></Col>
-                                        <Col sm={6} lg={2}>
-                                            <Button 
-                                                size="sm"
-                                                className='text-capitalize'
-                                                variant='light'
-                                                title='Ir'
-                                                onClick={() => setModalShowEvent(true)}>
-                                                <i class="fas fa-external-link-alt"/>
-                                            </Button> 
-                                        </Col>
-                                    </Row>
-                                </Card.Body> 
-                            :
-                                <Card.Body>
-                                    <Form.Control className="text-center" plaintext readOnly defaultValue='No se han cargado eventos?' />
-                                </Card.Body>
-                            }
-                            </Card>
-                            <Card>
-                                
                             <Card.Header>
                                 <Card.Title as="h5">Informacion Adicional</Card.Title>
                             </Card.Header>
@@ -256,133 +246,48 @@ const ReadCase = () => {
                                     </Col>
                                 </Row>
                             </Card.Body>
-                            </Card>
+                        </Card>
+                        {caseItem.children.length > 0 ?                        
                             <Card>
                             <Card.Header>
                                 <Card.Title as="h5">Children</Card.Title>
                             </Card.Header>
-                            {caseItem.children.length > 0 ?                        
-                                <Card.Body> 
-                                    <Row>
-                                        <Col sm={6} lg={3}>Children</Col>
-                                        <Col>
-                                            <Form.Control plaintext readOnly defaultValue={caseItem.children}/>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            :
-                                <Card.Body>
-                                    <Form.Control className="text-center" plaintext readOnly defaultValue='No posee children?'/>
-                                </Card.Body>
-                            }
+                            <Card.Body> 
+                                <Row>
+                                    <Col sm={6} lg={3}>Children</Col>
+                                    <Col>
+                                        <Form.Control plaintext readOnly defaultValue={caseItem.children}/>
+                                    </Col>
+                                </Row>
+                            </Card.Body>
                         </Card>
-                        <Button variant="primary" href="/cases">Volver</Button>
+                    :<></>}
+                    <Button variant="primary" href="/cases">Volver</Button>
                 </Col>
             </Row>
             
             <Modal size='lg' show={modalShowEvent} onHide={() => setModalShowEvent(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
-            <Modal.Body>
-                <Row>    
-                    <Col>                 
-                        <Card>
-                            <Card.Header> 
-                                <Row>
-                                    <Col>
-                                        <Card.Title as="h5">Evento</Card.Title>
-                                        <span className="d-block m-t-5">Detalle de Evento</span>
-                                    </Col>
-                                    <Col sm={12} lg={4}>                       
-                                        <CloseButton aria-label='Cerrar' onClick={() => setModalShowEvent(false)} />
-                                    </Col>
-                                </Row>         
-                            </Card.Header>
-                            <Card.Body>
-                                Informacion del evento
-                            {/*    <Table responsive >
-                                    <tr>
-                                        <td>Evidencia</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={ event.evidence} />
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Comentarios</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={ event.comments } />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cidr</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={ event.cidr} />
-                                        </td>
-                                    </tr>
-                                    
-                                    
-                                    <tr>
-                                        <td>Dominio</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={event.domain } />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fecha</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={event.date ? event.date.slice(0,10) : ""} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Prioridad</td>
-                                        <td>
-                                        <PriorityButton url={event.priority} callback={callbackPriority}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tlp</td>
-                                        <td>
-                                            <PriorityButton url={event.tlp} callback={callbackTlp}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Taxonomia</td>
-                                        <td>
-                                            <PriorityButton url={event.taxonomy} callback={callback}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fuentes de informacion</td>
-                                        <td>
-                                        <PriorityButton url={event.feed} callback={callbackFeed}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Creado</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={event.created ? event.created.slice(0,10) : ""} />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>modificado</td>
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={event.modified ? event.modified.slice(0,10) : ""} />
-                                        </td>
-                                    </tr>
-                                    
-                    </Table>*/}
-                            </Card.Body>
-                        </Card>
-                    </Col> 
-                </Row>
-            </Modal.Body>            
-        </Modal>
-
-
-
-
-
-
-
+                <Modal.Body>
+                    <Row>    
+                        <Col>                 
+                            <Card>
+                                <Card.Header> 
+                                    <Row>
+                                        <Col>
+                                            <Card.Title as="h5">Evento</Card.Title>
+                                            <span className="d-block m-t-5">Detalle de Evento</span>
+                                        </Col>
+                                        <Col sm={12} lg={4}>                       
+                                            <CloseButton aria-label='Cerrar' onClick={() => setModalShowEvent(false)} />
+                                        </Col>
+                                    </Row>         
+                                </Card.Header>
+                                <Card.Body>Informacion del evento</Card.Body>
+                            </Card>
+                        </Col> 
+                    </Row>
+                </Modal.Body>            
+            </Modal>
         </React.Fragment>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Row, Form, Table, Spinner } from 'react-bootstrap';
+import { Button, Row, Form, Table, Spinner } from 'react-bootstrap';
 import CrudButton from '../../../components/Button/CrudButton';
 import { deleteCase } from '../../../api/services/cases';
 import { getPriorities } from '../../../api/services/priorities';
@@ -176,9 +176,18 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                                         <Link to={{pathname:'/cases/view', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
                                             <CrudButton type='read'/>
                                         </Link>
-                                        <Link to={{pathname:'/cases/edit', state: caseItem}} >
-                                            <CrudButton disabled={caseItem.solve_date != null ? true : false} type='edit'/>
-                                        </Link>
+                                        {caseItem.solve_date == null ? 
+                                            <Link to={{pathname:'/cases/edit', state: caseItem}} >
+                                                <CrudButton type='edit'/>
+                                            </Link>
+                                            :   
+                                            <Button 
+                                                disabled 
+                                                className='btn-icon btn-rounded' 
+                                                variant='outline-secondary'
+                                                title='Caso resuelto'>
+                                                    <i className='fa fa-edit' />
+                                            </Button>}
                                         <CrudButton type='delete' onClick={() => Delete(caseItem.url, idItem)} />
                                     </td>
                                 </tr>

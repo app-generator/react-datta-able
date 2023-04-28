@@ -3,22 +3,16 @@ import {Button, Col, Form, Row} from 'react-bootstrap';
 import { getPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { getUsers } from '../../../api/services/users';
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
-
-const animatedComponents = makeAnimated();
 
 const FormCase = (props) => { 
-// props: ifConfirm, save, date, setDate, lifecycle, setLifecycle, priority, setPriority, tlp, setTlp
-// state, setState
+// props: ifConfirm, save, date, setDate, lifecycle, setLifecycle, priority, setPriority, tlp, setTlp, state, setState
 // put: commentarios, 
-// evidencia (fran) artefacto?, solve_date, attend_date, eventos
+// evidencia, solve_date, attend_date
 
 //select
 const [allPriorities, setAllPriorities ] = useState([])
 const [allTlp, setAllTlp] = useState([])
 const [allUsers, setAllUsers] = useState([])
-const [eventsValueLabel, setEventsValueLabel] = useState([])
 
     useEffect(()=> {
         
@@ -49,12 +43,7 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
             console.log(error)
         })
 
-        //selected events 
-        let listDefaultEvents = props.allEvents.filter(elemento => props.events.includes(elemento.value))
-        .map(elemento => ({value: elemento.value, label: elemento.label}));
-        setEventsValueLabel(listDefaultEvents)
-
-    },[props.events])
+    },[])
 
     const allLifecycles = [
         {
@@ -75,14 +64,6 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
         }
     ]
     
-    //Multiselect    
-    const selectEvents=(event)=>{ 
-        props.setEvents(
-            event.map((e)=>{
-                return e.value 
-            })
-        )
-    }
     //
     const selectEvidences = (event) => {
         const files = event.target.files;
@@ -104,7 +85,7 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
         <React.Fragment>
             <Form>
                 <Row>
-                    <Col sm={12} lg={4}>
+                    <Col sm={12} lg={6}>
                         <Form.Group controlId="Form.Case.Date">
                             <Form.Label>Fecha</Form.Label>
                             <Form.Control type="datetime-local" //2023-03-24T01:40:14.181622Z 
@@ -114,29 +95,6 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
                                 isValid={props.date !== null}
                                 onChange={(e) =>  props.setDate(e.target.value)}/>
                         </Form.Group> 
-                    </Col>
-                    <Col sm={12} lg={4}>
-                        <Form.Group controlId="Form.Case.Attend_date">
-                            <Form.Label>Fecha de atencion</Form.Label>
-                            <Form.Control type="datetime-local"
-                                value={props.attend_date} //yyyy-mm-ddThh:mm
-                                min="2000-01-01T00:00" max="2030-01-01T00:00" 
-                                onChange={(e) =>  props.setAttend_date(e.target.value)}/>
-                        </Form.Group> 
-                    </Col>
-                    <Col sm={12} lg={4}>
-                        <Form.Group controlId="Form.Case.Solve_date">
-                            <Form.Label>Fecha de resolucion</Form.Label>
-                            <Form.Control type="datetime-local"
-                                value={props.solve_date} //yyyy-mm-ddThh:mm
-                                min="2000-01-01T00:00" max="2030-01-01T00:00" 
-                                onChange={(e) =>  props.setSolve_date(e.target.value)}/>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                
-                <Row>
-                    <Col sm={12} lg={3}>
                         <Form.Group controlId="Form.Case.Lifecycle">
                             <Form.Label>Ciclo de vida</Form.Label>
                             <Form.Control
@@ -156,8 +114,6 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
                             </Form.Control>
                             {props.lifecycle ? '' : <div className="invalid-feedback">Seleccione el ciclo de vida</div>}
                         </Form.Group>
-                    </Col>
-                    <Col sm={12} lg={3}>
                         <Form.Group controlId="Form.Case.Priority">
                             <Form.Label>Prioridad</Form.Label>
                                 <Form.Control
@@ -177,8 +133,6 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
                                 </Form.Control>
                                 {props.priority ? '' : <div className="invalid-feedback">Seleccione la prioridad</div>}
                         </Form.Group>
-                    </Col>
-                    <Col sm={12} lg={3}>
                         <Form.Group controlId="Form.Case.Tlp">
                         <Form.Label>TLP</Form.Label>
                             <Form.Control
@@ -198,8 +152,6 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
                             </Form.Control>
                             {props.tlp ? '' : <div className="invalid-feedback">Seleccione</div>}
                         </Form.Group>
-                    </Col>
-                    <Col sm={12} lg={3}>
                         <Form.Group controlId="Form.Case.State">
                         <Form.Label>Estado</Form.Label>
                             <Form.Control
@@ -220,39 +172,43 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
                             {props.state ? '' : <div className="invalid-feedback">Seleccione el estado</div>}
                         </Form.Group>
                     </Col>
-                </Row>
-
-                <Row>
                     <Col sm={12} lg={6}>
+                        <Form.Group controlId="Form.Case.Attend_date">
+                            <Form.Label>Fecha de atencion</Form.Label>
+                            <Form.Control type="datetime-local"
+                                value={props.attend_date} //yyyy-mm-ddThh:mm
+                                min="2000-01-01T00:00" max="2030-01-01T00:00" 
+                                onChange={(e) =>  props.setAttend_date(e.target.value)}/>
+                        </Form.Group> 
+                        <Form.Group controlId="Form.Case.Solve_date">
+                            <Form.Label>Fecha de resolucion</Form.Label>
+                            <Form.Control type="datetime-local"
+                                value={props.solve_date} //yyyy-mm-ddThh:mm
+                                min="2000-01-01T00:00" max="2030-01-01T00:00" 
+                                onChange={(e) =>  props.setSolve_date(e.target.value)}/>
+                        </Form.Group>
                         <Form.Group controlId="Form.Case.Assigned">
                             <Form.Label>Asignado</Form.Label>
-                                <Form.Control
-                                    name="assigned"
-                                    type="choice"                                            
-                                    as="select"
-                                    value={props.assigned}
-                                    onChange={(e) =>  props.setAssigned(e.target.value)}>
-                                    <option value={null}>Sin designar</option>
-                                    {allUsers.map((userItem, index) => {                
-                                        return (
-                                            <option key={index} value={userItem.url}>{userItem.username}</option>
-                                        );
-                                    })}
-                                </Form.Control>
+                            <Form.Control
+                                name="assigned"
+                                type="choice"                                            
+                                as="select"
+                                value={props.assigned}
+                                onChange={(e) =>  props.setAssigned(e.target.value)}>
+                                <option value={null}>Sin designar</option>
+                                {allUsers.map((userItem, index) => {                
+                                    return (
+                                        <option key={index} value={userItem.url}>{userItem.username}</option>
+                                    );
+                                })}
+                            </Form.Control>
                         </Form.Group>
-                    </Col>
-                    {props.edit ? 
-                    <Col sm={12} lg={6}>
-                        <Form.Group controlId="Form.Case.Comments">
-                            <Form.Label>Comentarios ???</Form.Label>
-                        <Form.Control placeholder="Comentarios" />
-                        </Form.Group>
-                    </Col>
-                    : <></>}
-
-                </Row>
-                <Row>
-                    <Col>
+                        {props.edit ? 
+                            <Form.Group controlId="Form.Case.Comments">
+                                <Form.Label>Comentarios ???</Form.Label>
+                                <Form.Control placeholder="Comentarios" />
+                            </Form.Group>
+                        : <></>}
                         <Form.Group controlId="Form.Case.Evidences.Drag&Drop">
                         <Form.Label>Evidencia</Form.Label>
                             <Form.Control 
@@ -260,18 +216,18 @@ const [eventsValueLabel, setEventsValueLabel] = useState([])
                             placeholder="Ingrese " 
                             maxlength="150" 
                             multiple
-                            onChange={(e)=>selectEvidences2(e)}
+                            onChange={(e)=>selectEvidences(e)}
                             name="evidence"/>
                         </Form.Group> 
                     </Col>
                 </Row>
+            </Form> 
                  
                 {!props.date || !props.lifecycle || !props.priority || !props.tlp || !props.state ? 
                     <><Button variant="primary" disabled>{props.save}</Button></> 
                     : 
                     <><Button variant="primary" onClick={props.ifConfirm}>{props.save}</Button></>}
                 <Button variant="primary" href="/cases">Cancelar</Button>
-            </Form>  
         </React.Fragment>
     );
 };

@@ -3,8 +3,6 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { postCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
-import { getEvents } from '../../api/services/events';
-import { getEvidences } from '../../api/services/evidences';
 import { getStates } from '../../api/services/states';
 
 const CreateCase = () => {
@@ -18,44 +16,14 @@ const CreateCase = () => {
     const [state, setState] = useState('0') //required
     const [allStates, setAllStates] = useState([]) //multiselect
 
-    const [comments, setComments] = useState([]) // lista de que ??
+    const [comments, setComments] = useState([]) // ??
     
-    const [evidences, setEvidences] = useState(null) // como se muestra
-    const [allEvidences, setAllEvidences] = useState([]) //multiselect
-
-    const [events, setEvents] = useState([])
-    const [allEvents, setAllEvents] = useState([]) //multiselect
+    const [evidences, setEvidences] = useState([]) 
 
     const [attend_date, setAttend_date] = useState(null) //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(null)
 
     useEffect(()=> {
-
-        getEvents()
-            .then((response) => {
-                let listEvents = []
-                response.data.results.map((eventItem)=>{
-                    listEvents.push({value:eventItem.url, label:eventItem.name})
-                })
-                setAllEvents(listEvents)
-                console.log(response.data.results)
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
-
-        getEvidences()
-            .then((response) => {
-                let listEvidences = []
-                response.data.results.map((evidencesItem)=>{
-                    listEvidences.push({value:evidencesItem.url, label:evidencesItem.url})
-                })
-                setAllEvidences(listEvidences)
-                console.log(response.data.results)
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
 
         getStates()
             .then((response) => {
@@ -75,10 +43,7 @@ const CreateCase = () => {
 
     //Create
     const addCase = () => {
-        //postCase(date, lifecycle, parent, priority, tlp, assigned, state, ['comment1', 'comment2'], 
-        //['http://localhost:8000/api/evidence/1/'], ['http://localhost:8000/api/event/1/'], attend_date, solve_date)
-
-        postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, events, attend_date, solve_date)
+        postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
             window.location.href = "/cases"
@@ -112,15 +77,12 @@ const CreateCase = () => {
                                         assigned={assigned} setAssigned={setAssigned}
                                         state={state} setState={setState} allStates={allStates}
                                         
-                                        evidences={evidences} setEvidences={setEvidences} allEvidences={allEvidences}
-                                        events={events} setEvents={setEvents} allEvents={allEvents}
+                                        evidences={evidences} setEvidences={setEvidences} 
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
                                         ifConfirm={addCase} edit={false} save='Crear'/>
-
                                 </Col>
-
                             </Row>
                         </Card.Body>
                     </Card>

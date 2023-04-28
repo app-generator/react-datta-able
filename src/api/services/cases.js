@@ -33,7 +33,7 @@ const getCase = (url) => {
     return apiInstance.get(url);
 }
 
-const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, events, attend_date, solve_date) => {
+const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, attend_date, solve_date) => {
     return apiInstance.post(COMPONENT_URL.case, {
         date: date, //
         lifecycle: lifecycle, 
@@ -44,7 +44,6 @@ const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, comme
         state: state, //
         comments: comments,
         evidence: evidence,
-        events: events,
         attend_date: attend_date,
         solve_date: solve_date  
     }, 
@@ -63,7 +62,7 @@ const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, comme
     });
 }
 
-const putCase = (url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, events, attend_date, solve_date) => {
+const putCase = (url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, attend_date, solve_date) => {
     return apiInstance.put(url,
     {
         date: date, //
@@ -75,7 +74,6 @@ const putCase = (url, date, lifecycle, parent, priority, tlp, assigned, state, c
         state: state, //
         comments: comments,
         evidence: evidence,
-        events: events,
         attend_date: attend_date,
         solve_date: solve_date  
     }, 
