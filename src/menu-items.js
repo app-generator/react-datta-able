@@ -34,7 +34,7 @@ const menuItems = {
                     id: 'case',
                     title: 'Casos',
                     type: 'item',
-                    url: '/case/tables',
+                    url: '/cases',
                     icon: 'feather icon-search',
                     breadcrumbs: false,
                 }
