@@ -206,7 +206,7 @@ const FormTemplate = (props) => {
             
             <Card.Body>
                 <Button variant="primary" onClick={props.createTemplate} >Guardar</Button> 
-                <Button variant="primary" href="./list-event">Cancelar</Button>  
+                <Button variant="primary" href="./list-template">Cancelar</Button>  
             </Card.Body>
         </Card>
          
