@@ -33,7 +33,7 @@ const FormEvent = (props) => {
     },[props.body.artifacts, props.listArtifact])
 
     const completeField=(event)=>{ 
-        console.log(event.target.value)
+        console.log(props.body.evidence)
         props.setBody({...props.body,
             [event.target.name] : event.target.value}
         )       
