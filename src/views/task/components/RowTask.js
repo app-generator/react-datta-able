@@ -23,7 +23,7 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
 
         showTaskData(props.url)
         
-    }, [props.url, props.taskDeleted]);
+    }, [props.url, props.taskDeleted, props.taskUpdated]);
 
     //Read Task
     const showTaskData = (url) => {

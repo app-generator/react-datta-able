@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert';
-import { getAllContacts } from '../../api/services/contacts';
+import { getContacts } from '../../api/services/contacts';
 import { postNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/FormCreateNetwork';
 import Navigation from '../../components/Navigation/Navigation';
@@ -10,9 +9,9 @@ const CreateNetwork = () => {
     const [cidr, setCidr] = useState(''); //required
     const [type, setType] = useState('0'); //required
     const [contacts, setContacts] = useState([]); //required 
-    const [active, setActive] = useState(true); //required: true 
-    const [children, setChildren] = useState(null); //?
-    const [domain, setDomain] = useState(''); // null 
+    const active = true; //required: true 
+    const children = useState(null); //?
+    const [domain, setDomain] = useState(null); // null 
     const [parent, setParent] = useState(null);
     const [network_entity, setNetwork_entity] = useState(null);
     const [error, setError] = useState(null);
@@ -23,7 +22,7 @@ const CreateNetwork = () => {
 
     useEffect(()=> {
 
-        getAllContacts()
+        getContacts()
             .then((response) => {
                 let listContact = []
                 response.data.results.map((contactsItem)=>{
@@ -52,8 +51,7 @@ const CreateNetwork = () => {
         postNetwork (children, cidr, domain, active, type, parent, network_entity, contacts) 
             .then((response) => { 
             console.log(response)
-            console.log('create network - post .then')
-            window.location.href = "/network/tables"
+            window.location.href = "/networks"
         })
         .catch((error) => {
             setError(error)
@@ -65,7 +63,7 @@ const CreateNetwork = () => {
     return (
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Crear Red" path="/network/tables" index ="Redes"/>
+                <Navigation actualPosition="Crear Red" path="/networks" index ="Redes"/>
             </Row>
             <Row>
                 <Col sm={12}>
@@ -87,7 +85,6 @@ const CreateNetwork = () => {
                                 setContactsCreated={setContactsCreated} />                          
                         </Card.Body>
                     </Card>
-                    <Alert />
                 </Col>
             </Row>
         </React.Fragment>
@@ -95,4 +92,3 @@ const CreateNetwork = () => {
 };
 
 export default CreateNetwork;
-//crear contacto

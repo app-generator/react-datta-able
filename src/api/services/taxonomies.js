@@ -1,4 +1,4 @@
-import  apiInstance  from "../api";
+import apiInstance from "../api";
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 import setAlert from '../../utils/setAlert';
 
@@ -6,41 +6,41 @@ import setAlert from '../../utils/setAlert';
 const getTaxonomies = (currentPage) => {
     let messageError = `No se pudo recuperar la informacion de las taxonomias`;
     return apiInstance.get(COMPONENT_URL.taxonomy + PAGE + currentPage)
-    .then(response => {        
-        return response;
-    }).catch( error => { 
-        setAlert(messageError, "error");
-        return Promise.reject(error);
-    });
+        .then(response => {
+            return response;
+        }).catch(error => {
+            setAlert(messageError, "error");
+            return Promise.reject(error);
+        });
 }
 
-const getTaxonomy = (url) => { 
+const getTaxonomy = (url) => {
     let messageError = `No se pudo recuperar la informacion de la taxonomia`;
     return apiInstance.get(url)
-    .then(response => {        
-        return response;
-    }).catch( error => { 
-        setAlert(messageError, "error");
-        return Promise.reject(error);
-    });
+        .then(response => {
+            return response;
+        }).catch(error => {
+            setAlert(messageError, "error");
+            return Promise.reject(error);
+        });
 }
 
 const getAllTaxonomies = (currentPage = 1, results = [], limit = 100) => {
-    let messageError = `No se pudo recuperar la informacion de las taxonomias`;    
-    return apiInstance.get(COMPONENT_URL.taxonomy, { params: { page: currentPage, page_size: limit } })       
+    let messageError = `No se pudo recuperar la informacion de las taxonomias`;
+    return apiInstance.get(COMPONENT_URL.taxonomy, { params: { page: currentPage, page_size: limit } })
         .then((response) => {
-            let res = [...results, ...response.data.results]                                    
-            if(response.data.next != undefined){                                
+            let res = [...results, ...response.data.results]
+            if (response.data.next != undefined) {
                 return getAllTaxonomies(++currentPage, res, limit)
             }
-            else{
-                return res;     
-            }                  
+            else {
+                return res;
+            }
         })
         .catch((error) => {
             setAlert(messageError, "error");
-            return Promise.reject(error);            
-        })   
+            return Promise.reject(error);
+        })
 
 }
 
@@ -52,11 +52,11 @@ const postTaxonomy = (type, name, description, active, parent) => {
         name: name, 
         description: description,
         active: active,
-        parent: parent    
+        parent: parent
     }).then(response => {
         setAlert(messageSuccess, "success");
         return response;
-    }).catch( error => { 
+    }).catch(error => {
         setAlert(messageError, "error");
         return Promise.reject(error);
     });
@@ -67,30 +67,36 @@ const putTaxonomy = (url, type, name, description, active, parent) => {
     let messageSuccess = `La taxonomia ${name} se pudo editar correctamente`;
     let messageError = `La taxonomia ${name} no se pudo editar`;
     return apiInstance.put(url, {
+<<<<<<< HEAD
         type: type, 
         name: name, 
+=======
+        slug: slug,
+        type: type,
+        name: name,
+>>>>>>> develop
         description: description,
-        active: active, 
-        parent: parent  
+        active: active,
+        parent: parent
     }).then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess, "success");
         return response;
-    }).catch( error => { 
+    }).catch(error => {
         setAlert(messageError, "error");
         return Promise.reject(error);
     });
 }
 
 
-const putActivationStatus= (url, state, name) => {
+const putActivationStatus = (url, state, name) => {
     let messageSuccess = !state ? `La taxonomia ${name} ha sido desactivada` : `La taxonomia ${name} ha sido activada`;
     let messageError = `La taxonomia ${name} no se pudo modificar`;
     return apiInstance.patch(url, {
-        active: state    
+        active: state
     }).then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess, "success");
         return response;
-    }).catch( error => { 
+    }).catch(error => {
         setAlert(messageError, "error");
         return Promise.reject(error);
     });
@@ -101,13 +107,13 @@ const deleteTaxonomy = (url, name) => {
     let messageSuccess = `La taxonomia ${name} se pudo eliminar correctamente`;
     let messageError = `La taxonomia ${name} no se pudo eliminar`;
     return apiInstance.delete(url)
-    .then(response => {
-        setAlert(messageSuccess , "success");
-        return response;
-    }).catch( error => { 
-        setAlert(messageError, "error");
-        return Promise.reject(error);
-    });
+        .then(response => {
+            setAlert(messageSuccess, "success");
+            return response;
+        }).catch(error => {
+            setAlert(messageError, "error");
+            return Promise.reject(error);
+        });
 }
 
 

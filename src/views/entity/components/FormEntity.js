@@ -35,7 +35,7 @@ const FormEntity = (props) => { // props: name, setName, ifConfirm, {edit:false 
                     <><Button variant="primary" disabled>Guardar</Button></> 
                     : 
                     <><Button variant="primary" onClick={props.ifConfirm}>Guardar</Button></>}
-                <Button variant="primary" href="/entity/tables">Cancelar</Button>
+                <Button variant="primary" href="/entities">Cancelar</Button>
             </Form>
         </React.Fragment>
     );

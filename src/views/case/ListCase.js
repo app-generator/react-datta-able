@@ -1,53 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card } from 'react-bootstrap';
-import Alert from '../../components/Alert/Alert'; 
+import { Badge, Button, Card, Col, Row } from 'react-bootstrap';
 import CrudButton from '../../components/Button/CrudButton'; 
-import Pagination from '../../components/Pagination/Pagination'; 
 import TableCase from './components/TableCase'; 
-import { getCases } from '../../api/services/cases';
+import { getCases, mergeCase } from '../../api/services/cases';
 import { Link } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
+import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
+import ModalConfirm from '../../components/Modal/ModalConfirm';
 
-const ListCase2 = () => {
+const ListCase = () => {
     const [cases, setCases] = useState([]) //lista de casos
-    const [error, setError] = useState(null)
+    const [ifModify, setIfModify] = useState(null) 
 
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
 
-    const [currentPage, setCurrentPage] = useState(1)
-    const [jumpPage, setjumpPage] = useState(false)
-    const [pages, setPages] = useState(0)
-    const [arrayPages, setArrayPages] = useState([])
-  
+    const [currentPage, setCurrentPage] = useState(1);
+    const [countItems, setCountItems] = useState(0);
+
+    //merge
+    const [selectedCases, setSelectedCases] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
+    function updatePage(chosenPage){
+        setCurrentPage(chosenPage);
+    }  
+    
     useEffect( ()=> {
 
-        getCases('?page=1') //error al borrar el ultimo elemento de la pagina
+        getCases('?page='+currentPage) 
             .then((response) => {
-                console.log(response.data.results)
                 setCases(response.data.results)
+                // Pagination
+                setCountItems(response.data.count);
+
             })
             .catch((error) => {
-                setError(error)
+                // Show alert
             })
             .finally(() => {
                 setLoading(false)
             })
-
-    }, []);
-
-    console.log(cases);
         
-    if (error) {
-        console.log(error);
-        return <p>Ups! Se produjo un error al buscar los casos.</p>
+        }, [countItems, currentPage, ifModify])
+
+    // ------- SEARCH --------
+    const action = () => {
+        console.log("llamada backend")
     }
 
-    //valores ingresados
-    const searcher = (e) => {
-        setSearch(e.target.value) 
-        }
     //filtro
     let show = []
     if (!search) {
@@ -57,26 +59,28 @@ const ListCase2 = () => {
             item.name.toLowerCase().includes(search.toLocaleLowerCase())
         )
     }
-
-    const callbackBackend = (lastItem) => {
-        setLoading(true)
-        if(lastItem) {
-            setCurrentPage(currentPage-1) 
-            setArrayPages(arrayPages.slice(0, -1)) 
-        }
-        else {
-            console.log('else lastItem')
-        }
-        setPages(0)//
+    //-----------------MERGE------------------------
+    
+    const mergeConfirm = () => {
+        //setId
+        setShowModal(true);
     }
 
+    const merge = () => {
+        const parent = selectedCases.shift();
+        selectedCases.forEach(child => {
+            console.log(`MERGE --> parent: ${parent} \n          child:${child} `)
+            mergeCase(parent, child)
+                .then(response => setIfModify(response))
+                .catch(error => console.log(error))
+                .finally(() => {
+                    setSelectedCases([])
+                    setShowModal(false)
+                })
+        });
+    }
 
- 
-    const action = () => {
-        console.log("llamada backend")
-      }
-
-return (
+    return (
     <React.Fragment>
         <Row>
             <Navigation actualPosition={'Casos'}/>  
@@ -86,34 +90,50 @@ return (
                 <Card>
                     <Card.Header>
                         <Row>
-                            <Search type="caso" action={action} />
-                            <Col sm={12} lg={3}>
-                                <Link to={{pathname:'/case/create'}} >
+                            <Col>
+                                <Search type="caso" action={action} search={search} setSearch={setSearch}/> 
+                            </Col>
+                            <Col sm={6} lg={3}>
+                                <Link to={{pathname:'/cases/create'}} >
                                     <CrudButton type='create' name='Caso' />
                                 </Link>
+                            </Col> 
+                        </Row>                        
+                        <Row>
+                            <Col> 
+                                <Button 
+                                    disabled={selectedCases.length > 1 ? false : true}
+                                    size="sm"
+                                    className='text-capitalize'
+                                    variant='light'
+                                    title='Mergear'
+                                    onClick={() => mergeConfirm()}>
+                                    <i variant='danger' class="fa fa-code-branch"/>
+                                        Merge&nbsp;
+                                    <Badge  
+                                        className="badge mr-1" >
+                                        {selectedCases.length} 
+                                    </Badge>
+                                </Button>                                
                             </Col> 
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableCase callback={callbackBackend} list={cases} loading={loading} />
+                        <TableCase setIfModify={setIfModify} list={cases} loading={loading} selectedCases={selectedCases} setSelectedCases={setSelectedCases} />
                     </Card.Body>
-                    {/*
-                    
                     <Card.Footer >
                         <Row className="justify-content-md-center">
                             <Col md="auto"> 
-                                <Pagination pages={pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+                                <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
                             </Col>
                         </Row>
                     </Card.Footer>
-                            */
-        
-                            }
                 </Card>
-                {/*<Alert/>*/}
-                </Col>
+            </Col>
         </Row>
+        <ModalConfirm type='merge' component='casos' name={selectedCases} showModal={showModal} onHide={() => setShowModal(false)} ifConfirm={() => merge()}/>
+
     </React.Fragment>
 )}
 
-export default ListCase2; 
+export default ListCase; 

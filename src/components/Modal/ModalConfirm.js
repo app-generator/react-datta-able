@@ -17,7 +17,14 @@ const ModalConfirm = (props) => { // props: showModal, onHide, ifConfirm, type, 
             message: `${`¿Desea eliminar ${props.name}?`}`,
             variantButtonConfirm: 'outline-danger',
             textButtonConfirm: 'Eliminar'
-        }
+        },
+        merge: 
+        { 
+            header: `${props.component ? `Merge de ${props.component}` : 'Merge'}`,
+            message: `${`¿Desea mergear los casos: ${props.name}?`}`,
+            variantButtonConfirm: 'outline-light',
+            textButtonConfirm: 'Aceptar'
+        },
     }
 
     return (

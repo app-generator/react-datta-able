@@ -62,8 +62,8 @@ const CreateEvent = () => {
         })
 
         getAllTaxonomies().then((response) => { 
-          console.log(response.data.results)
-          setTaxonomy(response.data.results)
+          console.log(response)
+          setTaxonomy(response)
         })
         .catch((error) => {
             setError(error)

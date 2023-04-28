@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Col, Collapse, Row } from 'react-bootstrap'; 
-import Alert from '../../components/Alert/Alert';
 import { postPlaybook, putPlaybook } from '../../api/services/playbooks';
 import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomies';
 import ListTask from '../task/ListTask';
 import Navigation from '../../components/Navigation/Navigation';
+import { useLocation } from 'react-router-dom';
+
 
 const CreatePlaybook = () => {
 
@@ -14,7 +15,7 @@ const CreatePlaybook = () => {
     const [taxonomy, setTaxonomy] = useState([]);
     
     //Renderizar
-    const [allTaxonomies, setTaxonomies] = useState([]) //lista con formato para multiselect value, label
+    const [allTaxonomies, setAllTaxonomies] = useState([]) //lista con formato para multiselect value, label
 
     //Collapse
     const [sectionAddTask, setSectionAddTask] = useState(false);
@@ -22,19 +23,19 @@ const CreatePlaybook = () => {
     const [error, setError] = useState(null);
 
     useEffect(()=> {
-
-        getAllTaxonomies()
+        
+          getAllTaxonomies()// en TableCase
             .then((response) => {
+                console.log('taxonomias')
+                console.log(response)
+
                 let listTaxonomies = []
-                response.data.results.map((taxonomyItem)=>{
-                    listTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
+                response.map((taxonomyItem)=>{
+                listTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
+                setAllTaxonomies(listTaxonomies)
                 })
-                setTaxonomies(listTaxonomies)
-                console.log(response.data.results)
-            })
-            .catch((error)=>{
-                setError(error)
-            })
+
+            }).catch();
 
         },[sectionAddTask])
 
@@ -71,7 +72,7 @@ const CreatePlaybook = () => {
     return (
     <React.Fragment>
         <Row>
-            <Navigation actualPosition="Agregar Playbook" path="/playbook/tables" index ="Playbook"/>
+            <Navigation actualPosition="Agregar Playbook" path="/playbooks" index ="Playbook"/>
         </Row>
             <Row>
                 <Col sm={12}>
@@ -92,7 +93,7 @@ const CreatePlaybook = () => {
 
                     <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
 
-                    {/*<Alert />*/}
+                    <Button variant="primary" href="/playbooks">Volver</Button>
                 </Col>
             </Row>
     </React.Fragment>
