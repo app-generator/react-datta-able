@@ -67,14 +67,8 @@ const putTaxonomy = (url, type, name, description, active, parent) => {
     let messageSuccess = `La taxonomia ${name} se pudo editar correctamente`;
     let messageError = `La taxonomia ${name} no se pudo editar`;
     return apiInstance.put(url, {
-<<<<<<< HEAD
         type: type, 
         name: name, 
-=======
-        slug: slug,
-        type: type,
-        name: name,
->>>>>>> develop
         description: description,
         active: active,
         parent: parent
