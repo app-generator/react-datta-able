@@ -27,6 +27,7 @@ const CreateCase = () => {
 
         getStates()
             .then((response) => {
+                console.log(response);
                 let listStates = []
                 response.data.results.map((stateItem)=>{
                     listStates.push({value:stateItem.url, label:stateItem.name, childrenUrl:stateItem.children})

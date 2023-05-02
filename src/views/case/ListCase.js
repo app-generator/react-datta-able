@@ -8,6 +8,7 @@ import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
+import Alert from '../../components/Alert/Alert';
 
 const ListCase = () => {
     const [cases, setCases] = useState([]) //lista de casos
@@ -23,6 +24,9 @@ const ListCase = () => {
     const [selectedCases, setSelectedCases] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
+
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }  
@@ -34,12 +38,11 @@ const ListCase = () => {
                 setCases(response.data.results)
                 // Pagination
                 setCountItems(response.data.count);
-
             })
             .catch((error) => {
-                // Show alert
             })
             .finally(() => {
+                setShowAlert(true);
                 setLoading(false)
             })
         
@@ -60,9 +63,7 @@ const ListCase = () => {
         )
     }
     //-----------------MERGE------------------------
-    
     const mergeConfirm = () => {
-        //setId
         setShowModal(true);
     }
 
@@ -74,6 +75,7 @@ const ListCase = () => {
                 .then(response => setIfModify(response))
                 .catch(error => console.log(error))
                 .finally(() => {
+                    setShowAlert(true)
                     setSelectedCases([])
                     setShowModal(false)
                 })
@@ -82,6 +84,7 @@ const ListCase = () => {
 
     return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
         <Row>
             <Navigation actualPosition={'Casos'}/>  
         </Row>

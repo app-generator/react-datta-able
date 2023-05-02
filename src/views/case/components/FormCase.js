@@ -13,6 +13,7 @@ const FormCase = (props) => {
 const [allPriorities, setAllPriorities ] = useState([])
 const [allTlp, setAllTlp] = useState([])
 const [allUsers, setAllUsers] = useState([])
+const [allStates, setAllStates] = useState([])
 
     useEffect(()=> {
         
@@ -43,7 +44,7 @@ const [allUsers, setAllUsers] = useState([])
             console.log(error)
         })
 
-    },[])
+    },[props.allStates])
 
     const allLifecycles = [
         {

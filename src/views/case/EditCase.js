@@ -49,11 +49,11 @@ const EditCase = () => {
                 })
             })
             console.log(listStates);
+            setSupportedStates(listStates);
         })
         .catch((error)=>{
             console.log(error)
         })
-        setSupportedStates(listStates)
 
         },[])
 
