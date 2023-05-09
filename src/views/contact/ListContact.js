@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
+import Alert from '../../components/Alert/Alert';
 
 const ListContact = () => {
     const [contacts, setContacts] = useState([])
@@ -14,6 +15,9 @@ const ListContact = () => {
 
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
+
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     //AdvancedPagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -37,6 +41,7 @@ const ListContact = () => {
                 // Show alert
             })
             .finally(() => {
+                setShowAlert(true)
                 setLoading(false)
             })
         }, [countItems, currentPage, isModify])
@@ -58,6 +63,7 @@ const ListContact = () => {
 
     return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
         <Row>
             <Navigation actualPosition={'Contactos'}/>  
         </Row>

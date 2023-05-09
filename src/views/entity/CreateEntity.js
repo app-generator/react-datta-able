@@ -13,7 +13,7 @@ const CreateEntity = () => {
     const addEntity = () => {
         postEntity(name, active)
         .then((response) => { 
-            window.location.href = "/entities"
+            //window.location.href = "/entities"
         })
         .catch((error) => {
             setError(error)
@@ -34,7 +34,7 @@ const CreateEntity = () => {
                         </Card.Header>
                         <Card.Body>
                             <Row>
-                                <Col sm={12} lg={12}>
+                                <Col sm={12} lg={6}>
                                     <FormEntity 
                                         name={name} setName={setName} 
                                         ifConfirm={addEntity} edit={false} />

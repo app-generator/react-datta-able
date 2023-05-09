@@ -6,6 +6,7 @@ import { getAllTaxonomies } from '../../api/services/taxonomies';
 import ListTask from '../task/ListTask';
 import Navigation from '../../components/Navigation/Navigation';
 import { useLocation } from 'react-router-dom';
+import Alert from '../../components/Alert/Alert';
 
 
 const CreatePlaybook = () => {
@@ -20,7 +21,8 @@ const CreatePlaybook = () => {
     //Collapse
     const [sectionAddTask, setSectionAddTask] = useState(false);
 
-    const [error, setError] = useState(null);
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(()=> {
         
@@ -48,8 +50,10 @@ const CreatePlaybook = () => {
             setSectionAddTask(true)
         })
         .catch((error) => {
-            setError(error)
             console.log(error)
+        })
+        .finally(() => {
+            setShowAlert(true);
         })
     };
 
@@ -59,8 +63,10 @@ const CreatePlaybook = () => {
             console.log(response)
         })
         .catch((error) => {
-            setError(error)
             console.log(error)
+        })
+        .finally(() => {
+            setShowAlert(true);
         })
     };
 
@@ -71,6 +77,7 @@ const CreatePlaybook = () => {
 
     return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
         <Row>
             <Navigation actualPosition="Agregar Playbook" path="/playbooks" index ="Playbook"/>
         </Row>

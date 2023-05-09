@@ -7,6 +7,7 @@ import TableNetwork from './components/TableNetwork';
 import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
+import Alert from '../../components/Alert/Alert';
 
 const ListNetwork = () => {
     const [network, setNetwork] = useState('')
@@ -15,6 +16,10 @@ const ListNetwork = () => {
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
 
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
+
+    //AdvancedPagination
     const [currentPage, setCurrentPage] = useState(1);
     const [countItems, setCountItems] = useState(0);
 
@@ -37,6 +42,7 @@ const ListNetwork = () => {
                 // Show alert
             })
             .finally(() => {
+                setShowAlert(true)
                 setLoading(false)
             })
         }, [countItems, currentPage, isModify])
@@ -58,6 +64,7 @@ const ListNetwork = () => {
 
     return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
         <Row>
             <Navigation actualPosition={'Redes'}/>  
         </Row>

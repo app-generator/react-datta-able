@@ -5,6 +5,7 @@ import CrudButton from '../../components/Button/CrudButton';
 import FormCreateTask from './components/FormCreateTask';
 import { postTask } from '../../api/services/tasks';
 import RowTask from './components/RowTask';
+import Alert from '../../components/Alert/Alert';
 
 const ListTask = (props) => { 
 
@@ -21,6 +22,8 @@ const ListTask = (props) => {
     const [taskUpdated, setTaskUpdated] = useState(null);
 
     const [playbook, setPlaybook] = useState(null); //required
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect( ()=> {
 
@@ -50,10 +53,14 @@ const ListTask = (props) => {
             .catch((error) => {
                 console.log(error)
             })
+            .finally(() => {
+                setShowAlert(true)
+            })
     };
 
     return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
         <Row>
             <Col>
                 <Card>

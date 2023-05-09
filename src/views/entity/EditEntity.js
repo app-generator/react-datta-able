@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
 import { putEntity } from '../../api/services/entities';
@@ -6,15 +6,31 @@ import FormEntity from './components/FormEntity';
 import Navigation from '../../components/Navigation/Navigation';
 
 const EditEntity = () => {
-    const entity = useLocation().state;
+    const location = useLocation();
+    const fromState = location.state;
+    const [entity, setEntity] = useState(fromState);
     const [name, setName] = useState(entity.name);
     const [active, setActive] = useState(entity.active);
     const [error, setError] = useState(null);
+  
+    useEffect(() => {
+        
+        const fromStorage = JSON.parse(localStorage.getItem('entity'));
+        
+        if (fromStorage) {
+            setEntity(fromStorage);
+            
+        }
+
+    }, []);
+
+
 
     //Update
     const editEntity = () => {
         putEntity(entity.url, name, active)
         .then((response) => { 
+            localStorage.removeItem('entity');
             window.location.href = "/entities"
         })
         .catch((error) => {

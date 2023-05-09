@@ -16,16 +16,17 @@ const ListCase = () => {
 
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const [countItems, setCountItems] = useState(0);
-
+    
     //merge
     const [selectedCases, setSelectedCases] = useState([]);
     const [showModal, setShowModal] = useState(false);
-
+    
     //Alert
     const [showAlert, setShowAlert] = useState(false);
+    
+    //Pagination    
+    const [currentPage, setCurrentPage] = useState(1);
+    const [countItems, setCountItems] = useState(0);
 
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
@@ -42,7 +43,7 @@ const ListCase = () => {
             .catch((error) => {
             })
             .finally(() => {
-                setShowAlert(true);
+                setShowAlert(true)
                 setLoading(false)
             })
         
@@ -75,7 +76,6 @@ const ListCase = () => {
                 .then(response => setIfModify(response))
                 .catch(error => console.log(error))
                 .finally(() => {
-                    setShowAlert(true)
                     setSelectedCases([])
                     setShowModal(false)
                 })
@@ -111,7 +111,7 @@ const ListCase = () => {
                                     variant='light'
                                     title='Mergear'
                                     onClick={() => mergeConfirm()}>
-                                    <i variant='danger' class="fa fa-code-branch"/>
+                                    <i variant='danger' className="fa fa-code-branch"/>
                                         Merge&nbsp;
                                     <Badge  
                                         className="badge mr-1" >

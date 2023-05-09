@@ -60,10 +60,15 @@ const EditCase = () => {
 
     //Edit
     const editCase = () => {
+        console.log(attend_date)
+        console.log(solve_date)
+        console.log(comments)
+        console.log(evidences)
+
         putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
-            window.location.href = "/cases"
+            //window.location.href = "/cases"
         })
         .catch((error) => {
             console.log(error)

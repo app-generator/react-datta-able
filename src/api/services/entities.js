@@ -95,10 +95,10 @@ const isActive = (url, active) => {
         validateStatus: function (status) {
             switch(status) {
                 case 200:
-                    setAlert(active===1 ? "La entidad se ha activado correctamente" : "La entidad se ha desactivado correctamente", "success");
+                    setAlert(active ? "La entidad se ha activado correctamente" : "La entidad se ha desactivado correctamente", "success");
                     break;
                 case 404: 
-                    setAlert(active===1 ? "La entidad no se ha activado" : "La entidad no se ha desactivado", "error");
+                    setAlert(active ? "La entidad no se ha activado" : "La entidad no se ha desactivado", "error");
                     break;
             }
             return status;

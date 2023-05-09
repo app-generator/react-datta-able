@@ -1,11 +1,13 @@
-import React, { useState, useEffect, lazy } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import { postCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
 import { getStates } from '../../api/services/states';
+import { error } from 'jquery';
 
 const CreateCase = () => {
+    
     const [date, setDate] = useState(null) //required
     const [lifecycle, setLifecycle] = useState('0') //required
     const parent = null; 
@@ -18,7 +20,7 @@ const CreateCase = () => {
 
     const [comments, setComments] = useState([]) // ??
     
-    const [evidences, setEvidences] = useState() 
+    const [evidences, setEvidences] = useState([]) 
 
     const [attend_date, setAttend_date] = useState(null) //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(null)
@@ -40,42 +42,42 @@ const CreateCase = () => {
                 console.log(error)
             })
 
-        },[])
 
+            const f = new FormData();
+    
+            f.append("comments", null)
+            f.append("parent", null)
+            
+            f.append("date", "2023-05-04T23:25:00Z")
+            f.append("lifecycle","manual")
+            f.append("priority", "http://localhost:8000/api/administration/priority/5/")
+            f.append("tlp", "http://localhost:8000/api/administration/tlp/4/")
+            f.append("assigned", "http://localhost:8000/api/user/1/")
+            f.append("state", "http://localhost:8000/api/state/8/")
+            f.append("attend_date", "2023-05-04T23:25:00Z")
+            f.append("solve_date", "2023-05-04T23:25:00Z")
+            //f.append("evidence", evidences)
+    /*        if (evidences !== null){
+                for (let index=0; index< evidences.length  ; index++){
+                f.append("evidence", evidences[index])
+                console.log(evidences[index])
+                }
+            }else{
+                f.append("evidence", evidences)
+            }
+            */
+
+        },[])
+        
     //Create
     const addCase = () => {
-
-        const f = new FormData();
-    
-        f.append("comments", null)
-        f.append("parent", null)
-        
-        f.append("date", date)
-        f.append("lifecycle",lifecycle)
-        f.append("priority", priority)
-        f.append("tlp", tlp)
-        f.append("assigned", assigned)
-        f.append("state", state)
-        f.append("attend_date", attend_date)
-        f.append("solve_date", solve_date)
-        f.append("evidences", evidences)
-
-
-        console.log(attend_date)
-        console.log(solve_date)
-        console.log(comments)
-        console.log(evidences)
-        //postCase(f)
-        postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
+        postCase(f)
         .then((response) => { 
+            console.log("POSTCASE")
+    
             console.log(response)
-            //window.location.href = "/cases"
-        })
-        .catch((error) => {
-            console.log(error)
-            console.log(error)
-        });    
-    };
+        }).catch(error => console.log(error)); 
+    }
 
     return (
         <React.Fragment>
@@ -104,7 +106,8 @@ const CreateCase = () => {
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
-                                        ifConfirm={addCase} edit={false} save='Crear'/>
+                                        ifConfirm={addCase} edit={false} save='Crear'
+                                        f={f}/>
                                 </Col>
                             </Row>
                         </Card.Body>
