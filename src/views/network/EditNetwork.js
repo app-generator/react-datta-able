@@ -9,8 +9,11 @@ import { isActive } from '../../api/services/networks';
 import Navigation from '../../components/Navigation/Navigation';
 
 const EditNetwork = () => {
+    const location = useLocation();
+    const fromState = location.state;
+    const [network, setNetwork] = useState(fromState);
+    
 
-    const network = useLocation().state;
     const [url, setUrl] = useState(network.url);///
     const [children, setChildren] = useState(network.children);
     const [cidr, setCidr] = useState(network.cidr===null ? '' : network.cidr); //* 

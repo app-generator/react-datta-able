@@ -11,7 +11,9 @@ import { putTaxonomy, getTaxonomy, getAllTaxonomies } from '../../api/services/t
 
 const EditTaxonomy = () => {
     const location = useLocation();
-    const taxonomy = location.state.taxonomy;    
+    const fromState = location.state;
+    const [taxonomy, setTaxonomy] = useState(fromState);  
+
     const [type, setType] = useState(taxonomy.type);
     const [name, setName] = useState(taxonomy.name);    
     const [description, setDescription] = useState(taxonomy.description);

@@ -13,19 +13,6 @@ const EditEntity = () => {
     const [active, setActive] = useState(entity.active);
     const [error, setError] = useState(null);
   
-    useEffect(() => {
-        
-        const fromStorage = JSON.parse(localStorage.getItem('entity'));
-        
-        if (fromStorage) {
-            setEntity(fromStorage);
-            
-        }
-
-    }, []);
-
-
-
     //Update
     const editEntity = () => {
         putEntity(entity.url, name, active)

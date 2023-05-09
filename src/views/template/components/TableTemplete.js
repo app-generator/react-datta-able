@@ -100,7 +100,7 @@ const handleDelete = () => {
                                             <td>{template.domain} </td>
                                             <td>
                                             <CrudButton  type='read' onClick={() => showModalTemplate(template) }/>
-                                            <Link to={{pathname:"./edit-template", state: {template}}} >
+                                            <Link to={{pathname:"./edit-template", state: template}} >
                                                 <CrudButton  type='edit' />
                                             </Link>
                                             <CrudButton  type='delete' onClick={()=>modalDelete(template.cidr, template.url)} />

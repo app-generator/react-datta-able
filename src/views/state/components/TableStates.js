@@ -108,7 +108,7 @@ const TableStates = ({states, callback, loading}) => {
                                         
                                             <td>
                                             <CrudButton  type='read' onClick={() => showModalState(state) }/>
-                                            <Link to={{pathname:"./edit-state", state: {state}}} >
+                                            <Link to={{pathname:"./edit-state", state: state}} >
                                                 <CrudButton  type='edit' />
                                             </Link>
                                             <CrudButton  type='delete' onClick={()=>modalDelete(state.name, state.url)} />

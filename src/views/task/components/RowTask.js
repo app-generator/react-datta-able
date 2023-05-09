@@ -48,6 +48,7 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
             .then((response) => {
                 console.log(response)
                 props.setTaskDeleted(response)
+                
             })
             .catch((error) => {
                 console.log(error)

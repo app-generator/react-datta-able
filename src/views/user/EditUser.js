@@ -9,9 +9,11 @@ import Navigation from '../../components/Navigation/Navigation'
 
 
 
-const EditUser = () => {    
+const EditUser = () => {
     const location = useLocation();
-    const user = location.state.user;
+    const fromState = location.state;
+    const [user, setUser] = useState(fromState);
+
     const[error,setError]=useState()
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)

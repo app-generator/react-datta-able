@@ -8,8 +8,9 @@ import ListTask from '../task/ListTask';
 import Navigation from '../../components/Navigation/Navigation';
 
 const EditPlaybook = () => {
-
-    const playbook = useLocation().state;
+    const location = useLocation();
+    const fromState = location.state;
+    const [playbook, setPlaybook] = useState(fromState);
 
     const [url, setUrl] = useState(playbook.url);
     const [name, setName] = useState(playbook.name);

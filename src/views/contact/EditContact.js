@@ -7,8 +7,10 @@ import FormCreateContact from './components/FormCreateContact';
 import Navigation from '../../components/Navigation/Navigation';
 
 const EditContact = () => {
-    const contact = useLocation().state;
-    
+    const location = useLocation();
+    const fromState = location.state;
+    const [contact, setContact] = useState(fromState);
+        
     const [supportedName, setSupportedName] = useState(contact.name);
     const [selectRol, setSelectRol] = useState(contact.role);
     const [supportedPriority, setSupportedPriority] = useState(contact.priority);

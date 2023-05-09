@@ -119,7 +119,7 @@ const ListTaxonomies = () => {
                                             <td>{taxonomy.reports.length}</td>
                                             <td>
                                                 <ButtonView taxonomy={taxonomy}></ButtonView> 
-                                                <Link to={{pathname:"./taxonomies/edit", state:{taxonomy}}} >
+                                                <Link to={{pathname:"./taxonomies/edit", state:taxonomy}} >
                                                     <CrudButton type="edit" />                                                    
                                                 </Link>                                                
                                                 <ButtonDelete taxonomy={taxonomy}></ButtonDelete>                                                 

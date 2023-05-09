@@ -7,8 +7,9 @@ import Navigation from '../../components/Navigation/Navigation';
 import { getState } from '../../api/services/states';
 
 const EditCase = () => {
-
-    const caseItem = useLocation().state;
+    const location = useLocation();
+    const fromState = location.state;
+    const [caseItem, setCaseItem] = useState(fromState);
 
     const [url, setUrl] = useState(caseItem.url) //required
     const [date, setDate] = useState(caseItem.date  != null ? caseItem.date.substr(0,16) : '') //required
