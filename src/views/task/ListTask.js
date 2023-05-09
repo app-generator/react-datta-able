@@ -6,6 +6,7 @@ import FormCreateTask from './components/FormCreateTask';
 import { postTask } from '../../api/services/tasks';
 import RowTask from './components/RowTask';
 import Alert from '../../components/Alert/Alert';
+import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 
 const ListTask = (props) => { 
 
@@ -25,6 +26,14 @@ const ListTask = (props) => {
     //Alert
     const [showAlert, setShowAlert] = useState(false);
 
+    //AdvancedPagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [countItems, setCountItems] = useState(0);
+
+    function updatePage(chosenPage){
+        setCurrentPage(chosenPage);
+    }
+
     useEffect( ()=> {
 
         getPlaybook(props.urlPlaybook)
@@ -37,7 +46,7 @@ const ListTask = (props) => {
             console.log(error)
         })
 
-    }, [ taskCreated, taskUpdated, taskDeleted ]) 
+    }, [ taskCreated, taskUpdated, taskDeleted, countItems, currentPage]) //, isModify
 
     const createTask = () => { 
 
@@ -102,6 +111,13 @@ const ListTask = (props) => {
                                     </tbody>
                                 </Table>
                             </Card.Body>
+                            <Card.Footer >
+                                <Row className="justify-content-md-center">
+                                    <Col md="auto"> 
+                                        <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+                                    </Col>
+                                </Row>
+                            </Card.Footer>
                         </div>
                     </Collapse>
                 </Card>
