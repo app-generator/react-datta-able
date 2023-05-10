@@ -42,9 +42,8 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
     }
     
     //Delete Task
-    const removeTask = (url)=> {
-        console.log('remove task url: '+ url)
-        deleteTask(url)
+    const removeTask = (url, name)=> {
+        deleteTask(url, name)
             .then((response) => {
                 console.log(response)
                 props.setTaskDeleted(response)
@@ -77,7 +76,7 @@ return (
                     <PriorityButton url={task.priority}/>
                 </td>
                 <td>
-                    <Form.Control readOnly value={task.description === null ? "No tiene descripcion" : task.description} style={textareaStyle} as="textarea" rows={row}/>
+                    <Form.Control readOnly className="text-center" vertical-align='middle' value={task.description === null ? "No tiene descripcion" : task.description} style={textareaStyle} as="textarea" rows={row}/>
                 </td>                                    
                 <td>
                     <CrudButton type='read' onClick={() => setModalShow(true)} />

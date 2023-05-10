@@ -5,7 +5,6 @@ import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomies';
 import ListTask from '../task/ListTask';
 import Navigation from '../../components/Navigation/Navigation';
-import { useLocation } from 'react-router-dom';
 import Alert from '../../components/Alert/Alert';
 
 
@@ -43,31 +42,23 @@ const CreatePlaybook = () => {
 
     const createPlaybook = () => {
         postPlaybook (name, taxonomy)
-        .then((response) => { 
-            console.log(response.data)
-            
-            setUrl(response.data.url) // y la url
-            setSectionAddTask(true)
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-        .finally(() => {
-            setShowAlert(true);
-        })
+            .then((response) => { 
+                setUrl(response.data.url) // y la url
+                setSectionAddTask(true)
+            })
+            .catch()
+            .finally(() => {
+                setShowAlert(true)
+            })
     };
 
     const editPlaybook = () => {
         putPlaybook (url, name, taxonomy)
-            .then((response) => { 
-            console.log(response)
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-        .finally(() => {
-            setShowAlert(true);
-        })
+            .then()
+            .catch()
+            .finally(() => {
+                setShowAlert(true)
+            })
     };
 
     const labelTaxonomy = {

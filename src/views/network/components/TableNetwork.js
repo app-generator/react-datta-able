@@ -73,7 +73,7 @@ const TableNetwork = ({setIsModify, list, loading }) => {
     }
 
     const removeNetwork = (url)=> {
-        deleteNetwork(url)
+        deleteNetwork(url, cidr)
             .then((response) => {
                 console.log(response)
                 setIsModify(response)

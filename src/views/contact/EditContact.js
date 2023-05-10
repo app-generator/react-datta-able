@@ -17,20 +17,23 @@ const EditContact = () => {
     const [supportedContact, setSupportedContact] = useState(contact.username);
     const [supportedKey, setSupportedKey] = useState(contact.public_key);
     const [selectType, setSelectType] = useState(contact.type);
-    const [error, setError] = useState(null);
+    
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     const editContact = () => {
         putContact (contact.url, supportedName, supportedContact, supportedKey, selectType, selectRol, supportedPriority)
         .then((response) => { 
             window.location.href = "/contacts"
         })
-        .catch((error) => {
-            setError(error)
+        .catch(() => {
+            setShowAlert(true) 
         });    
     };
 
     return (
         <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
             <Row>
                 <Navigation actualPosition="Editar Contacto" path="/contacts" index ="Contactos"/>
             </Row>

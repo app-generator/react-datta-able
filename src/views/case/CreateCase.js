@@ -4,6 +4,7 @@ import { postCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
 import { getStates } from '../../api/services/states';
+import Alert from '../../components/Alert/Alert';
 
 const CreateCase = () => {
     const [date, setDate] = useState(null) //required
@@ -22,6 +23,9 @@ const CreateCase = () => {
 
     const [attend_date, setAttend_date] = useState(null) //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(null)
+
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(()=> {
 
@@ -69,16 +73,17 @@ const CreateCase = () => {
         postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
-            //window.location.href = "/cases"
+            window.location.href = "/cases"
         })
         .catch((error) => {
             console.log(error)
-            console.log(error)
+            setShowAlert(true)
         });    
     };
 
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/> 
             <Row>
                 <Navigation actualPosition="Crear Caso" path="/cases" index ="Casos"/>
             </Row>

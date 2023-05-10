@@ -7,6 +7,7 @@ import FormCreateNetwork from './components/FormCreateNetwork';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
 import { isActive } from '../../api/services/networks'; 
 import Navigation from '../../components/Navigation/Navigation';
+import Alert from '../../components/Alert/Alert';
 
 const EditNetwork = () => {
     const location = useLocation();
@@ -24,12 +25,13 @@ const EditNetwork = () => {
     const [network_entity, setNetwork_entity] = useState(network.network_entity);
     const [contacts, setContacts] = useState(network.contacts); //* 
     const [error, setError] = useState(null);
-    const [modalState, setModalState] = useState(false);
 
     //Dropdown
     const [contactsOption, setContactsOption] = useState([])
     const [contactCreated, setContactsCreated ] = useState(null); // si creo se renderiza
     
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(()=> {
         
@@ -41,13 +43,12 @@ const EditNetwork = () => {
                     listContact.push({value:contactsItem.url, label:contactsItem.name + ' (' + labelRole[contactsItem.role] + ') ' + contactsItem.username})
                 })
                 setContactsOption(listContact)
-                console.log(response)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error) 
             })  
         
-        },[])
+        },[contactCreated])
 
     const labelRole = {
         technical : 'Tecnico',
@@ -62,35 +63,16 @@ const EditNetwork = () => {
 
         putNetwork (url, children, cidr, domain, active, type, parent, network_entity, contacts) 
             .then((response) => { 
-                console.log(response)
-                console.log('create network - put .then')
                 window.location.href = "/networks"
             })
-            .catch((error) => {
-                setError(error)
-                console.log(error)
+            .catch(() => {
+                setShowAlert(true)
             });    
     };
 
-    //Update Network
-    const switchState = ()=> {
-        isActive(url, !active, cidr) //+!active si el estado es int
-            .then((response) => {
-                console.log(response.data)
-                setActive(response.data.active)
-            })
-            .catch((error) => {
-                console.log(error)
-                setError(error)
-            })
-            .finally(() => {
-                setModalState(false)
-            })
-    };
-    
-
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>  
             <Row>
                 <Navigation actualPosition="Editar Red" path="/networks" index ="Redes"/>
             </Row>
@@ -121,7 +103,6 @@ const EditNetwork = () => {
                     </Card>
                 </Col> 
             </Row>
-            <ModalConfirm type='editState' component='Red' name={cidr} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(url, active)}/>
         </React.Fragment>
     );
 };

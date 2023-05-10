@@ -6,6 +6,8 @@ import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomies';
 import ListTask from '../task/ListTask';
 import Navigation from '../../components/Navigation/Navigation';
+import Alert from '../../components/Alert/Alert';
+
 
 const EditPlaybook = () => {
     const location = useLocation();
@@ -18,8 +20,9 @@ const EditPlaybook = () => {
 
     //Dropdown
     const [allTaxonomies, setAllTaxonomies] = useState([])
-
-    const [error, setError] = useState(null);
+    
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(()=> {
         getAllTaxonomies()
@@ -33,7 +36,7 @@ const EditPlaybook = () => {
                 setAllTaxonomies(listAllTaxonomies)
             })
             .catch((error)=>{
-                setError(error)
+                console.log(error)
             })
 
         },[])
@@ -45,22 +48,17 @@ const EditPlaybook = () => {
 
 
     const editPlaybook = () => {
-
         putPlaybook (url, name, taxonomy)
-            .then((response) => { 
-            console.log(response)
-
-            console.log('edit playbook - post .then')
-        })
-        .catch((error) => {
-            setError(error)
-            console.log(error)
-        })
-
+            .then()
+            .catch()
+            .finally(() => {
+                setShowAlert(true)
+            })
     };
    
     return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
         <Row>
             <Navigation actualPosition="Editar Playbook" path="/playbooks" index ="Playbook"/>
         </Row>

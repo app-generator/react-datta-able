@@ -5,6 +5,7 @@ import { putCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
 import { getState } from '../../api/services/states';
+import Alert from '../../components/Alert/Alert';
 
 const EditCase = () => {
     const location = useLocation();
@@ -28,6 +29,9 @@ const EditCase = () => {
 
     const [attend_date, setAttend_date] = useState(caseItem.attend_date != null ? caseItem.attend_date.substr(0,16) : '') //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(caseItem.solve_date!= null ? caseItem.solve_date.substr(0,16) : '')
+
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(()=> {
 
@@ -58,7 +62,6 @@ const EditCase = () => {
 
         },[])
 
-
     //Edit
     const editCase = () => {
         console.log(attend_date)
@@ -69,16 +72,17 @@ const EditCase = () => {
         putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
-            //window.location.href = "/cases"
+            window.location.href = "/cases"
         })
         .catch((error) => {
-            console.log(error)
+            setShowAlert(true)
             console.log(error)
         });    
     };
 
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
             <Row>
                 <Navigation actualPosition="Editar Caso" path="/cases" index ="Casos"/>
             </Row>

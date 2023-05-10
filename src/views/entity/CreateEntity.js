@@ -3,25 +3,29 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { postEntity } from '../../api/services/entities';
 import FormEntity from './components/FormEntity';
 import Navigation from '../../components/Navigation/Navigation';
+import Alert from '../../components/Alert/Alert';
 
 const CreateEntity = () => {
     const [name, setName] = useState('')
     const active = true; //se crea activo por defecto
-    const [error, setError] = useState(null)
+
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     //Create
     const addEntity = () => {
         postEntity(name, active)
         .then((response) => { 
-            //window.location.href = "/entities"
+            window.location.href = "/entities"
         })
-        .catch((error) => {
-            setError(error)
+        .catch(() => {
+            setShowAlert(true)
         });    
     };
        
     return (
         <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
             <Row>
                 <Navigation actualPosition="Crear Entidad" path="/entities" index ="Entidades"/>
             </Row>

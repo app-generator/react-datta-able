@@ -85,7 +85,10 @@ const FormCreateNetwork = (props) => {
         .catch((error) => {
             setError(error)
             console.log(error)
-        });    
+        })
+        .finally(()=> {
+            props.setShowAlert(true);
+        });
     };
     
     const handlerDomain = (url) => {// Network.Domain permite valores nulos
