@@ -40,7 +40,7 @@ const ListEntity = () => {
                 console.log("se produjo un error en el getAll")
             })
 
-        getEntities('?page='+currentPage) //error al borrar el ultimo elemento de la pagina
+        getEntities(currentPage) 
             .then((response) => {
                 setEntities(response.data.results);
                 // Pagination

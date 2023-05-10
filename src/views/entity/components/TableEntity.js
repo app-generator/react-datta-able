@@ -53,8 +53,8 @@ const TableEntity = ({setIsModify, list, loading }) => {
         setModalDelete(true)
     }
     
-    const removeEntity = (url)=> {
-        deleteEntity(url)
+    const removeEntity = (url, name)=> {
+        deleteEntity(url, name)
             .then((response) => {
                 setIsModify(response)
             })
@@ -74,8 +74,8 @@ const TableEntity = ({setIsModify, list, loading }) => {
         setModalState(true)
     }
 
-    const switchState = ()=> {
-        isActive(url, !active)
+    const switchState = (url, state, name)=> {
+        isActive(url, !state, name)
             .then((response) => {
                 console.log(response)
                 setIsModify(response)
@@ -195,9 +195,9 @@ const TableEntity = ({setIsModify, list, loading }) => {
                 </Modal.Body>
             </Modal>
             
-            <ModalConfirm type='delete' component='Entidad' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeEntity(url)}/>
+            <ModalConfirm type='delete' component='Entidad' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeEntity(url, name)}/>
 
-            <ModalConfirm type='editState' component='Entidad' name={name} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(url, active)}/>
+            <ModalConfirm type='editState' component='Entidad' name={name} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(url, active, name)}/>
 
         </React.Fragment> 
   );
