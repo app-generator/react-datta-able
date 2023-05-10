@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
-import { getContacts } from '../../api/services/contacts';
+import { getAllContacts } from '../../api/services/contacts';
 import { putNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/FormCreateNetwork';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
@@ -34,14 +34,14 @@ const EditNetwork = () => {
     useEffect(()=> {
         
         //multiselect all options 
-        getContacts()
+        getAllContacts()
             .then((response) => {
                 let listContact = []
-                response.data.results.map((contactsItem)=>{
+                response.map((contactsItem)=>{
                     listContact.push({value:contactsItem.url, label:contactsItem.name + ' (' + labelRole[contactsItem.role] + ') ' + contactsItem.username})
                 })
                 setContactsOption(listContact)
-                console.log(response.data.results)
+                console.log(response)
             })
             .catch((error)=>{
                 setError(error)
