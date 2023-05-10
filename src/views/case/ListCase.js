@@ -34,7 +34,7 @@ const ListCase = () => {
     
     useEffect( ()=> {
 
-        getCases('?page='+currentPage) 
+        getCases(currentPage) 
             .then((response) => {
                 setCases(response.data.results)
                 // Pagination

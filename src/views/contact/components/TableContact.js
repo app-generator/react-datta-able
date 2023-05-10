@@ -55,8 +55,8 @@ const TableContact = ({setIsModify, list, loading }) => {
         setModalDelete(true)
     }
 
-    const removeContact = (url)=> {
-        deleteContact(url)
+    const removeContact = (url, name)=> {
+        deleteContact(url, name)
             .then((response) => {
                 setIsModify(response)
             })
@@ -209,7 +209,7 @@ const TableContact = ({setIsModify, list, loading }) => {
                     </Row>
                 </Modal.Body>
             </Modal>
-            <ModalConfirm type='delete' component='Contacto' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeContact(url)}/>
+            <ModalConfirm type='delete' component='Contacto' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeContact(url, name)}/>
         </React.Fragment> 
   );
 };

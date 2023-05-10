@@ -32,7 +32,7 @@ const ListNetwork = () => {
 
         setCurrentPage(currentPage )//?
 
-        getNetworks('?page='+currentPage)
+        getNetworks(currentPage)
             .then((response) => {
                 setNetwork(response.data.results);
                 // Pagination

@@ -31,7 +31,7 @@ const ListContact = () => {
 
         setCurrentPage(currentPage )//?
 
-        getContacts('?page='+currentPage)
+        getContacts(currentPage)
             .then((response) => {
                 setContacts(response.data.results);
                 //Pagination

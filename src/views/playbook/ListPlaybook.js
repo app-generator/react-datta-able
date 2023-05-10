@@ -29,7 +29,7 @@ const ListPlaybook = () => {
 
     useEffect( ()=> {
 
-        getPlaybooks('?page='+currentPage)
+        getPlaybooks(currentPage)
             .then((response) => {
                 setPlaybook(response.data.results);
                 // Pagination
