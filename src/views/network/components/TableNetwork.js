@@ -51,7 +51,7 @@ const TableNetwork = ({setIsModify, list, loading }) => {
         setModalState(true)
     }
     const switchState = ()=> {
-        isActive(url, !active)
+        isActive(url, !active, cidr)
             .then((response) => {
                 console.log(response)
                 setIsModify(response)
@@ -69,7 +69,7 @@ const TableNetwork = ({setIsModify, list, loading }) => {
     const Delete = (url, cidr) => {
         setUrl(url);
         setCidr(cidr)
-        setModalDelete(true)
+        setModalDelete(true)    
     }
 
     const removeNetwork = (url)=> {

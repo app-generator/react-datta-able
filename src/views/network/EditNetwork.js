@@ -74,7 +74,7 @@ const EditNetwork = () => {
 
     //Update Network
     const switchState = ()=> {
-        isActive(url, !active) //+!active si el estado es int
+        isActive(url, !active, cidr) //+!active si el estado es int
             .then((response) => {
                 console.log(response.data)
                 setActive(response.data.active)

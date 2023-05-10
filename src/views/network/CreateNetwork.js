@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import { getContacts } from '../../api/services/contacts';
+import { getAllContacts } from '../../api/services/contacts';
 import { postNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/FormCreateNetwork';
 import Navigation from '../../components/Navigation/Navigation';
@@ -22,7 +22,7 @@ const CreateNetwork = () => {
 
     useEffect(()=> {
 
-        getContacts()
+        getAllContacts()
             .then((response) => {
                 let listContact = []
                 response.data.results.map((contactsItem)=>{
