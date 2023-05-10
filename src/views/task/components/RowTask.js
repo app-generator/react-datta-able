@@ -88,7 +88,7 @@ return (
 
             <ModalDetailTask show={modalShow} task={task} onHide={() => setModalShow(false)}/>
             <ModalEditTask show={modalEdit} task={task} onHide={() => setModalEdit(false)} ifEdit={props.setTaskUpdated} />
-            <ModalConfirm showModal={modalDelete} type='delete' component='Task' name={task.name}  onHide={() => setModalDelete(false)} ifConfirm={() => removeTask(task.url)}/>
+            <ModalConfirm showModal={modalDelete} type='delete' component='Task' name={task.name}  onHide={() => setModalDelete(false)} ifConfirm={() => removeTask(task.url, task.name)}/>
 
         </React.Fragment>
     );
