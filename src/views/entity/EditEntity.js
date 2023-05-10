@@ -17,7 +17,6 @@ const EditEntity = () => {
     const editEntity = () => {
         putEntity(entity.url, name, active)
         .then((response) => { 
-            localStorage.removeItem('entity');
             window.location.href = "/entities"
         })
         .catch((error) => {

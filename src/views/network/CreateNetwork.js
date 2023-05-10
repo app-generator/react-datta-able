@@ -34,8 +34,7 @@ const CreateNetwork = () => {
             .catch((error)=>{
                 setError(error)
             })  
-        
-        
+
         },[contactCreated])
 
     const labelRole = {
