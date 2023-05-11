@@ -123,7 +123,7 @@ const handleDelete = () => {
                                         <span className="d-block m-t-5">Detalle de la Plantilla</span>
                                     </Col>
                                     <Col sm={12} lg={4}>                       
-                                        <Link to={{pathname:"./edit-user/", state: {template}}} >
+                                        <Link to={{pathname:"./edit-user/", state: template}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />

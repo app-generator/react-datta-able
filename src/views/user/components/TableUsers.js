@@ -109,7 +109,7 @@ function TableUsers({users, callback, loading}) {
                                         <td>11/09/2022</td>
                                         <td>
                                         <CrudButton  type='read' onClick={() => showModalUser(user) }/>
-                                        <Link to={{pathname:"./edit-user/", state: {user}}} >
+                                        <Link to={{pathname:"./edit-user/", state: user}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CrudButton  type='delete' onClick={()=>handleShow(user.username,user.url)} />    
@@ -131,7 +131,7 @@ function TableUsers({users, callback, loading}) {
                                         <span className="d-block m-t-5">Detalle de usuario</span>
                                     </Col>
                                     <Col sm={12} lg={4}>                       
-                                        <Link to={{pathname:"./edit-user/", state: {user}}} >
+                                        <Link to={{pathname:"./edit-user/", state: user}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
