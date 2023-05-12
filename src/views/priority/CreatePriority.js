@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Row, Card } from 'react-bootstrap';
+import { Row, Card, Col } from 'react-bootstrap';
 import FormPriority from './components/FormPriority'
 import Navigation from '../../components/Navigation/Navigation'
 import { postPriority} from "../../api/services/priorities";
 import Alert from '../../components/Alert/Alert';
-
-
 
 const AddPriority = () => {
    
@@ -13,48 +11,62 @@ const AddPriority = () => {
         name: "", 
         color: "", 
         severity:"",
-        dayAttendDeadline:"",
-        hourAttendDeadline:"",
-        daySolveDeadline: "",
-        hourSolveDeadline: ""
+        attend_time_days:"",
+        attend_time_hours:"",
+        attend_time_minutes:"",
+        solve_time_days:"",
+        solve_time_hours:"",
+        solve_time_minutes:""
         }
     const [body,setBody]=useState(formEmpty)
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
     const [error,setError]=useState()
+    const [showAlert, setShowAlert] = useState(false)
 
 
     const createPriority=()=>{
+       body.attend_time_days= body.attend_time_days == "" ? "0": body.attend_time_days
+       body.attend_time_hours = body.attend_time_hours=="" ? "00" : body.attend_time_hours.length == 1 ? "0"+body.attend_time_hours : body.attend_time_hours
+       body.attend_time_minutes = body.attend_time_minutes == "" ? "00" : body.attend_time_minutes.length == 1 ? "0"+body.attend_time_minutes : body.attend_time_minutes
+
+       body.solve_time_days= body.solve_time_days == "" ? "0" : body.solve_time_days
+       body.solve_time_hours = body.solve_time_hours == "" ? "00":body.solve_time_hours.length == 1 ? "0"+body.solve_time_hours : body.solve_time_hours
+       body.solve_time_minutes = body.solve_time_minutes ==""? "00" : body.solve_time_minutes.length == 1 ? "0"+body.solve_time_minutes : body.solve_time_minutes
+       let attend_time=body.attend_time_days+" "+body.attend_time_hours+":"+body.attend_time_minutes+":00"
+       let solve_time=body.solve_time_days+" "+body.solve_time_hours+":"+body.solve_time_minutes+":00"
+       console.log(attend_time)
+       console.log(solve_time)
+    
+        postPriority(body.name,body.color,body.severity,attend_time, solve_time)
+        .then(() => {
+            window.location.href = '/priorities';
+        })
+        .catch((error) => {
+            setShowAlert(true) 
+            setError(error);           
+        })
         
-        const attendDeadline = (body.dayAttendDeadline ? body.dayAttendDeadline+" ":"")+body.hourAttendDeadline
-
-        const solveDeadline = (body.daySolveDeadline ? body.daySolveDeadline+" ":"")+body.hourSolveDeadline
-
-        postPriority(body.name,body.color,body.severity,attendDeadline, solveDeadline)
-        .then((response) => { 
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
-            window.location.href = "/list-Priorities"
-        }).catch((error) => {
-            setError(error)
-            setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
-            setTimeout(() => {
-                setAlert(null)
-                setStateAlert(null)
-            }, 3000);
-        }); 
-
+        
+    }
+    const resetShowAlert = () => {
+        setShowAlert(false);
     }
 
     return (
         <>
-            <Alert alert={alert} stateAlert={stateAlert} />
-            <Navigation actualPosition="Agregar Prioridad" path="./list-Priorities" index ="Prioridades"/>
-            <Card>
-                <Card.Header>
-                    <Card.Title as="h5">Agregar Prioridad</Card.Title>
-                </Card.Header>
-                <FormPriority body={body} setBody={setBody} createPriority={createPriority} />
-          </Card>  
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+            <Row>
+                <Navigation actualPosition="Agregar Prioridad" path="/priorities" index ="Prioridades"/>
+            </Row>
+            <Row>
+                <Col sm={12}>
+                    <Card>
+                        <Card.Header>
+                            <Card.Title as="h5">Agregar Prioridad</Card.Title>
+                        </Card.Header>
+                        <FormPriority body={body} setBody={setBody} createPriority={createPriority} />
+                    </Card>  
+                </Col>
+            </Row>
         </>
     )
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import {Card, Form, Button, ButtonGroup, Badge} from 'react-bootstrap'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -9,6 +9,16 @@ const animatedComponents = makeAnimated();
 
 
 const FormState = ({body, setBody, createState, childernes}) => {
+    const [childernesValueLabel, setChildernesValueLabel] = useState([])
+
+    useEffect(()=> {
+
+        let listDefaultArtifact = childernes.filter(elemento => body.children.includes(elemento.value))
+        .map(elemento => ({value: elemento.value, label:elemento.label}))
+
+        setChildernesValueLabel(listDefaultArtifact)
+    
+    },[body.children, childernes])
     
 
     const completeField=(event)=>{ 
@@ -92,13 +102,14 @@ const FormState = ({body, setBody, createState, childernes}) => {
                     closeMenuOnSelect={false}
                     components={animatedComponents}
                     isMulti
-                    onChange={(e)=>completeChildernes(e)}
+                    value={childernesValueLabel}
+                    onChange={completeChildernes}
                     options={childernes}
                 />
             </Form.Group>
 
             <Button variant="primary" onClick={createState} >Guardar</Button> 
-            <Button variant="primary" href="./list-states">Cancelar</Button>  
+            <Button variant="primary" href="/app/states">Cancelar</Button>  
 
         </Form>
     </Card.Body>

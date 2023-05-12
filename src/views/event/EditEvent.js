@@ -9,6 +9,7 @@ import { getTLP } from "../../api/services/tlp";
 import { getAllTaxonomies } from "../../api/services/taxonomies";
 import { getFeeds } from "../../api/services/feeds";
 import { getPriorities } from "../../api/services/priorities";
+import { getEvidence, deleteEvidence} from "../../api/services/evidences";
 import { getUsers } from "../../api/services/users";
 import { getArtefacts } from "../../api/services/artifact";
 
@@ -22,21 +23,35 @@ const EditEvent = () => {
     const [stateAlert, setStateAlert] = useState(null)
     const [error,setError]=useState()
     const [body,setBody]=useState(event)
+    const [evidence, setEvidence] = useState([])
     const [TLP, setTLP] = useState([])
-  const [feeds, setFeeds] = useState([])
-  const [taxonomy, setTaxonomy] = useState([])
-  const [priorities, setPriorities] = useState([])
-  const [users, setUsers] = useState([])
-  const [listArtifact, setListArtifact] = useState([])
-  const [contactCreated, setContactsCreated ] = useState(null);
-  const [loading, setLoading] = useState(true)
+    const [feeds, setFeeds] = useState([])
+    const [taxonomy, setTaxonomy] = useState([])
+    const [priorities, setPriorities] = useState([])
+    const [users, setUsers] = useState([])
+    const [listArtifact, setListArtifact] = useState([])
+    const [contactCreated, setContactsCreated ] = useState(null);
+    const [loading, setLoading] = useState(true)
+    const [showAlert, setShowAlert] = useState(false)
 
   useEffect( ()=> {
     event.date = event.date.substr(0,16)
+    console.log(event)
     setBody(event)
 
     const fetchPosts = async () => {
         setLoading(true)
+        var list = []
+        event.evidence.forEach((url) => {
+           
+          getEvidence(url).then((response) => { 
+                list.push(response.data)
+            })
+          
+        });
+        setEvidence(list)
+        
+        
         getTLP().then((response) => { 
           console.log(response.data.results)
           setTLP(response.data.results)
@@ -108,12 +123,26 @@ const EditEvent = () => {
     fetchPosts()
     
   },[contactCreated]);
+  console.log(body)
+
+    const resetShowAlert = () => {
+      setShowAlert(false);
+    }
+
 
     const editEvent=()=>{
       const f = new FormData();
 
+      //se eliminan las evidencias
+      if (evidence instanceof FileList){
+        event.evidence.forEach((url) => {
+          deleteEvidence(url).then((response) => { 
+                console.log(response)
+            })
+        });
+      }
       //console.log(fecha.toISOString())//YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]
-  
+      
       f.append("date", body.date)// tengo que hacer esto porque solo me acepta este formato, ver a futuro
       //f.append("date", fecha.toISOString())
       f.append("priority",body.priority)
@@ -129,37 +158,36 @@ const EditEvent = () => {
       f.append("reporter", body.reporter)
       //f.append("case", body.case) //"Invalid hyperlink - No URL match.
       f.append("tasks", body.tasks)
-      if (body.evidence !== null){
-        for (let index=0; index< body.evidence.length  ; index++){
-          f.append("evidence", body.evidence[index])
-          console.log(body.evidence[index])
+      if (evidence !== null){
+        for (let index=0; index< evidence.length  ; index++){
+          f.append("evidence", evidence[index])
+       
         }
       }else{
-        f.append("evidence", body.evidence)
+        f.append("evidence", evidence)
       }
-      putEvent(body.url,f)
-        .then((response) => { 
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
-            window.location.href = "/list-event"
-        }).catch((error) => {
-            setError(error)
-            setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
-            setTimeout(() => {
-                setAlert(null)
-                setStateAlert(null)
-            }, 3000);
-        }); 
-      }
+      putEvent(body.url,f).then(() => {
+        window.location.href = '/events';
+      })
+      .catch((error) => {
+          setShowAlert(true) //hace falta?
+          setError(error);           
+      })
+      .finally(() => {
+          setShowAlert(true) 
+      })  
+         
+    }
 
   return (
     <div>
-        <Navigation actualPosition="Editar Evento " path="./list-Event" index ="Evento"/>
-          <Card>
-              <Card.Header>
-                  <Card.Title as="h5">Editar Evento</Card.Title>
-              </Card.Header>
-              <FormEvent createEvent={editEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated}/>
-          </Card>
+        <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+        <Row>
+          <Navigation actualPosition="Editar Evento " path="/events" index ="Evento"/>
+        </Row>
+          
+              <FormEvent createEvent={editEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated} evidence={evidence} setEvidence={setEvidence}/>
+
         
     </div>
   )

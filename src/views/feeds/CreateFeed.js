@@ -19,7 +19,8 @@ const CreateFeed = () => {
             window.location.href = '/app/feeds';
         })
         .catch((error) => {
-            setError(error);            
+            setError(error); 
+            setShowAlert(true)            
         })  
         .finally(() => {
             setShowAlert(true) 

@@ -9,11 +9,12 @@ import { getFeeds } from "../../api/services/feeds";
 import { getPriorities } from "../../api/services/priorities";
 import { getUsers } from "../../api/services/users";
 import { getArtefacts } from "../../api/services/artifact";
+import Alert from '../../components/Alert/Alert';
 
 
 const CreateEvent = () => {
   const formEmpty={
-    evidence: [],
+    
     children: [], 
     todos: [],
     artifacts: [], 
@@ -32,7 +33,7 @@ const CreateEvent = () => {
     tasks:[]
   }
   
-
+  const [evidence, setEvidence] = useState([])
   const [body, setBody] = useState(formEmpty)
   const [alert, setAlert] = useState(null)
   const [stateAlert, setStateAlert] = useState(null)
@@ -45,6 +46,11 @@ const CreateEvent = () => {
   const [listArtifact, setListArtifact] = useState([])
   const [loading, setLoading] = useState(true)
   const [contactCreated, setContactsCreated ] = useState(null);
+  const [showAlert, setShowAlert] = useState(false)
+
+  const resetShowAlert = () => {
+    setShowAlert(false);
+  }  
   
 
   useEffect( ()=> {
@@ -55,6 +61,7 @@ const CreateEvent = () => {
           setTLP(response.data.results)
         })
         .catch((error) => {
+            setShowAlert(true) //hace falta?
             setError(error)
             
         }).finally(() => {
@@ -143,36 +150,36 @@ const CreateEvent = () => {
     f.append("reporter", body.reporter)
     f.append("case", body.case) 
     f.append("tasks", body.tasks)
-    if (body.evidence !== null){
-      for (let index=0; index< body.evidence.length  ; index++){
-        f.append("evidence", body.evidence[index])
-        console.log(body.evidence[index])
+    if (evidence !== null){
+      for (let index=0; index< evidence.length  ; index++){
+        f.append("evidence", evidence[index])
+        console.log(evidence[index])
       }
     }else{
-      f.append("evidence", body.evidence)
+      f.append("evidence", evidence)
     }
     postEvent(f)
     /*postEvent(f, body.children, body.todos, body.artifacts, body.comments, body.cidr, 
       body.domain, body.date, body.evidence_file_path, body.notes, body.parent, body.priority, body.tlp, 
       body.taxonomy, body.feed, body.reporter, body.case, body.tasks)*/
-    .then((response) => { 
-        sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
-        window.location.href = "/list-event"
-    }).catch((error) => {
-        setError(error)
-        setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
-        setTimeout(() => {
-            setAlert(null)
-            setStateAlert(null)
-        }, 3000);
-    }); 
+      .then(() => {
+        window.location.href = '/events';
+    })
+    .catch((error) => {
+        setError(error);            
+    })  
+    .finally(() => {
+        setShowAlert(true) 
+    }) 
   }
 
   return (
     <div>
-          <Navigation actualPosition="Agregar evento" path="./list-Event" index ="Evento"/>
-          
-              <FormEvent createEvent={createEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated}/>
+        <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+        <Row>
+          <Navigation actualPosition="Agregar evento" path="/events" index ="Evento"/>
+        </Row>
+        <FormEvent createEvent={createEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated} evidence={evidence} setEvidence={setEvidence}/>
           
     </div>
   )

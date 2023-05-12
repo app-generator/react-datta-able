@@ -4,6 +4,7 @@ import FormState from './components/FormState'
 import Navigation from '../../components/Navigation/Navigation'
 import { postState} from "../../api/services/states";
 import { useLocation } from 'react-router-dom';
+import Alert from '../../components/Alert/Alert';
 
 const AddState = () => {
     const states = useLocation().state;
@@ -25,6 +26,11 @@ const AddState = () => {
     const [stateAlert, setStateAlert] = useState(null)
     const [error,setError]=useState()
     const [childernes, setChildernes]=useState([])
+    const [showAlert, setShowAlert] = useState(false)
+
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }
     useEffect( ()=> {
         var listChildren = []
         states.map((state, index)=>{
@@ -44,22 +50,22 @@ const AddState = () => {
 
     const createState=()=>{
         console.log(body.children)
-        postState(slugify(body.name),body.name, body.attended, body.solved, 1, body.description, body.children)
-        .then((response) => { 
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
-            window.location.href = "/list-states"
-        }).catch((error) => {
-            setError(error)
-            setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
-            setTimeout(() => {
-                setAlert(null)
-                setStateAlert(null)
-            }, 3000);
-        }); 
+        postState(body.name, body.attended, body.solved, 1, body.description, body.children)
+        .then(() => {
+            window.location.href = '/app/states';
+        })
+        .catch((error) => {
+            setShowAlert(true) 
+            setError(error);           
+        })
+        .finally(() => {
+            setShowAlert(true) 
+        })  
     }
   return (
     <div>
-        <Navigation actualPosition="Agregar Estado" path="./list-states" index ="Estados"/>
+        <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+        <Navigation actualPosition="Agregar Estado" path="/app/states" index ="Estados"/>
         <Card>
             <Card.Header>
                 <Card.Title as="h5">Agregar Prioridad</Card.Title>

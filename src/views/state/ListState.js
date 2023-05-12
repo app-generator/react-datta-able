@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { getStates} from "../../api/services/states";
 import { Row, Col, Card } from 'react-bootstrap';
 import {Link} from 'react-router-dom'
-import Pagination from '../../components/Pagination/Pagination'
-import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation'
 import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
 import TableStates from './components/TableStates'
+import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
+import Alert from '../../components/Alert/Alert';
 
 const ListState = () => {
     const [loading, setLoading] = useState(true)
@@ -17,74 +17,46 @@ const ListState = () => {
     const [pages, setPages] = useState([])
     const [stateAlert, setStateAlert] = useState(null)
     const [alert, setAlert] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [countItems, setCountItems] = useState(0);
+    const [showAlert, setShowAlert] = useState(false)
 
+    const resetShowAlert = () => {
+        setShowAlert(false);
+      }
+
+    function updatePage(chosenPage){
+        setCurrentPage(chosenPage);
+    }
 
     useEffect(() => {
 
-        function arrayWithPages(numberOfItems,numberOfElementsOnAPage ) {
-
-            const numberOfPages= Math.ceil(numberOfItems / numberOfElementsOnAPage)
-            const complementUrl ="?page="
-            const arrayLinks=[]
-
-            for (var i = 1; i <= numberOfPages; i++) {
-            arrayLinks.push(complementUrl+i)
-            }
-
-            setCantPages(arrayLinks)
-            return numberOfPages
-            
-        }
-        const fetchStates = async () => {
-            setLoading(true)
-    
-            getStates()
+            getStates('?page='+currentPage)
             .then((response) => {
                 setStates(response.data.results)
-                console.log(response.data.results)
-                setPages(arrayWithPages(response.data.count,response.data.results.length))
-                
+                setCountItems(response.data.count)
             }).catch((error)=>{
-            setError(error)
-        }).finally(() => {
-            setLoading(false)
-        })
+                setError(error)
+              })
+              .finally(() => {
+                  setShowAlert(true)
+                  setLoading(false)
+              })
     
-        }
     
-        fetchStates()
-        }, [])
+        }, [countItems, currentPage])
 
-        const callbackBackend = (name, stateAlert) => {
-            if(stateAlert) {
-                getStates()
-                .then((response) => {
-                    setStates(response.data.results)
-                })
-                .catch((error) => {
-                    setError(error)
-                })
-                .finally(() => {
-                    setLoading(false)
-                    setAlert({name:name, type:1})
-                    setTimeout(() => {
-                        setAlert(null)
-                        setStateAlert(null)
-                    }, 5000);
-                })
-            }
-            else {
-                setAlert({name:name, type:0})
-            }
-          }
+        
     console.log(states)
     const action = () => {
         console.log("llamada backend")
       }
   return (
     <div>
-      
-      <Navigation actualPosition="Estados"/>
+        <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+      <Row>
+        <Navigation actualPosition="Estados"/>
+      </Row>
       <Card>
         <Card.Header>
           <Row>
@@ -92,14 +64,21 @@ const ListState = () => {
                 <Search type="Estado" action={action} />
             </Col>
             <Col sm={12} lg={3}>
-                <Link to={{pathname:'/add-state', state:states}} >
+                <Link to={{pathname:'/app/states/create', state:states}} >
                     <CrudButton type='create' name='estado' />
                 </Link>
           
             </Col> 
           </Row>                                 
           </Card.Header>
-          <TableStates states={states} callback={callbackBackend} loading={loading} /> 
+          <TableStates states={states}  loading={loading} /> 
+          <Card.Footer >
+                            <Row className="justify-content-md-center">
+                                <Col md="auto"> 
+                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+                                </Col>
+                            </Row>
+                        </Card.Footer>
       </Card>
   </div>
   )

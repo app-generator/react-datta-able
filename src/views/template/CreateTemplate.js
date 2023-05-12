@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { Card } from 'react-bootstrap';
+import { Card, Col, Row } from 'react-bootstrap';
 import FormTemplate from './components/FormTemplate'
 import Navigation from '../../components/Navigation/Navigation'
 import { postTemplate} from "../../api/services/templates";
@@ -8,6 +8,7 @@ import { getAllTaxonomies } from "../../api/services/taxonomies";
 import { getFeeds } from "../../api/services/feeds";
 import { getPriorities } from "../../api/services/priorities";
 import { getStates } from "../../api/services/states";
+import Alert from '../../components/Alert/Alert';
 
 const CreateTemplate = () => {
   const formEmpty={ 
@@ -32,6 +33,7 @@ const CreateTemplate = () => {
   const [priorities, setPriorities] = useState([])
   const [states, setStates] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showAlert, setShowAlert] = useState(false)
 
   
 
@@ -93,41 +95,43 @@ const CreateTemplate = () => {
         }).finally(() => {
             setLoading(false)
         })
-
-
-        
-
-        
-        
+ 
     }  
     fetchPosts()
     
   },[]);
+  const resetShowAlert = () => {
+    setShowAlert(false);
+  }
 
   const createTemplate=()=>{
     console.log(body)
     postTemplate(body.cidr,body.domain,body.active,body.priority,body.event_taxonomy,body.event_feed,body.case_lifecycle,body.case_tlp,body.case_state)
-    .then((response) => { 
-        sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
-        window.location.href = "/list-template"
-    }).catch((error) => {
-        setError(error)
-        
-        setTimeout(() => {
-            setAlert(null)
-            setStateAlert(null)
-        }, 3000);
-    }); 
+    .then(() => {
+      window.location.href = '/templates';
+    })
+    .catch((error) => {
+        setShowAlert(true) 
+        setError(error);           
+    })
+    .finally(() => {
+        setShowAlert(true) 
+    })  
   }
   return (
     <React.Fragment>
-      <Navigation actualPosition="Agregar Plantilla" path="./list-template" index ="Plantillas"/>
-        <Card>
-            <Card.Header>
-                <Card.Title as="h5">Agregar Plantilla</Card.Title>
-            </Card.Header>
-            <FormTemplate body={body} setBody={setBody} createTemplate={createTemplate} tlp={TLP} feeds={feeds} taxonomy={taxonomy} priorities={priorities} states={states}/>
-      </Card>
+      <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+      <Row>
+        <Navigation actualPosition="Agregar Plantilla" path="/templates" index ="Plantillas"/>
+      </Row>
+      
+          <Card>
+              <Card.Header>
+                  <Card.Title as="h5">Agregar Plantilla</Card.Title>
+              </Card.Header>
+              <FormTemplate body={body} setBody={setBody} createTemplate={createTemplate} tlp={TLP} feeds={feeds} taxonomy={taxonomy} priorities={priorities} states={states}/>
+          </Card>
+        
     </React.Fragment>
   )
 }

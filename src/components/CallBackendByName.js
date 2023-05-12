@@ -11,14 +11,10 @@ const CallBackendByName = ({url, callback, useBadge}) => {
         callback(url, setData)
         
     }, []);
- 
-
-
-    
 return (
         data && 
         <React.Fragment>
-                <LetterFormat useBadge={useBadge} data={data}/>
+                <LetterFormat useBadge={useBadge} stringToDisplay={data.name} color={data.color}/>
         </React.Fragment>
     );
 };
