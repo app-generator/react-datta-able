@@ -48,9 +48,9 @@ const ListEntity = () => {
             })
             .catch((error) => {
                 // Show alert
+                setShowAlert(true)
             })
             .finally(() => {
-                setShowAlert(true)
                 setLoading(false)
             })
         

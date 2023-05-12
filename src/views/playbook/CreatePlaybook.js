@@ -46,7 +46,9 @@ const CreatePlaybook = () => {
                 setUrl(response.data.url) // y la url
                 setSectionAddTask(true)
             })
-            .catch()
+            .catch(() => {
+               
+            })
             .finally(() => {
                 setShowAlert(true)
             })

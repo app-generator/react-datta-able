@@ -85,9 +85,9 @@ const FormCreateNetwork = (props) => {
         .catch((error) => {
             setError(error)
             console.log(error)
+            props.setShowAlert(true);
         })
         .finally(()=> {
-            props.setShowAlert(true);
         });
     };
     

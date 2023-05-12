@@ -50,8 +50,7 @@ const EditPlaybook = () => {
     const editPlaybook = () => {
         putPlaybook (url, name, taxonomy)
             .then()
-            .catch()
-            .finally(() => {
+            .catch(() => {
                 setShowAlert(true)
             })
     };

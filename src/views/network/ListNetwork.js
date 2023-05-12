@@ -40,9 +40,9 @@ const ListNetwork = () => {
             })
             .catch((error) => {
                 // Show alert
+                setShowAlert(true)
             })
             .finally(() => {
-                setShowAlert(true)
                 setLoading(false)
             })
         }, [countItems, currentPage, isModify])
