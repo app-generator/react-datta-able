@@ -1,13 +1,26 @@
 import  apiInstance  from "../api";
 import { COMPONENT_URL } from '../../config/constant';
+import setAlert from '../../utils/setAlert';
 
 const getUsers = (page="") => {//el parametro es para completar la url con el numero de pagina
-    
-    return apiInstance.get(COMPONENT_URL.user+page);
+    let messageError = `No se pudo recuperar la informacion de los usuarios`;
+    return apiInstance.get(COMPONENT_URL.user+page)
+    .then(response => {        
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 
 const getUser = (url) => { 
-    return apiInstance.get(url);
+    let messageError = `No se pudo recuperar la informacion del usuario`;
+    return apiInstance.get(url).then(response => {        
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 
 const getAllUsers = (currentPage = 1, results = [], limit = 100) => {
@@ -29,8 +42,9 @@ const getAllUsers = (currentPage = 1, results = [], limit = 100) => {
 }
 
 const postUser = (username, first_name, last_name, email, priority, is_active) => {
-
-    console.log(first_name)
+    let messageSuccess = `El usuario ${username} se pudo crear correctamente`;
+    let messageError = `El usuario ${username} no se pudo crear`;
+    
     return apiInstance.post(COMPONENT_URL.user, {
         username: username, 
         first_name: first_name, 
@@ -38,10 +52,18 @@ const postUser = (username, first_name, last_name, email, priority, is_active) =
         email: email, 
         priority: priority,
         is_active: is_active
+    }).then(response => {
+        setAlert(messageSuccess, "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
     });
 }
 
 const putUser = ( url,username, first_name, last_name, email, priority, is_active) => {
+    let messageSuccess = `El usuario ${username} se pudo editar correctamente`;
+    let messageError = `El usuario ${username} no se pudo editar`;
     return apiInstance.put(url, {
         username: username, 
         first_name: first_name, 
@@ -49,17 +71,39 @@ const putUser = ( url,username, first_name, last_name, email, priority, is_activ
         email: email, 
         priority: priority,
         is_active: is_active
+    }).then(response => {
+        setAlert(messageSuccess , "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
     });
 }
 
 const isActive = (url, active) => {
+    let messageSuccess = !active ? `El usuario ha sido desactivado` : `El usuario ha sido activado`;
+    let messageError = `El usuario no se pudo modificar`;
     return apiInstance.patch(url, {
         is_active: active
-    } );
+    } ).then(response => {
+        setAlert(messageSuccess , "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 
 const deleteUser = (url) => {
-    return apiInstance.delete(url);
+    let messageSuccess = `El usuario se pudo eliminar correctamente`;
+    let messageError = `EL usuario no se pudo eliminar`;
+    return apiInstance.delete(url).then(response => {
+        setAlert(messageSuccess , "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    })
 }
 
 export { getUsers, getUser, getAllUsers, postUser, putUser, deleteUser, isActive };

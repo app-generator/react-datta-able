@@ -24,6 +24,7 @@ const EditFeed = () => {
             window.location.href = '/app/feeds';
         })
         .catch((error) => {
+            setShowAlert(true) 
             setError(error);           
         })
         .finally(() => {

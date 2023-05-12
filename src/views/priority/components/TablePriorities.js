@@ -6,15 +6,21 @@ import {Link} from 'react-router-dom'
 import { deletePriority } from "../../../api/services/priorities";
 import CrudButton from '../../../components/Button/CrudButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
+import Alert from '../../../components/Alert/Alert';
 
 
-const TablePriorities = ({Priorities, callback, loading}) => {
+const TablePriorities = ({Priorities, loading}) => {
     const [remove, setRemove] = useState(false);
     const [deleteName, setDeleteName] = useState("");
     const [deleteUrl, setDeleteUrl] = useState("");
     const [error, setError] = useState(null);
     const [priority, setPriority] = useState({});
     const [modalShow, setModalShow] = useState(false);
+    const [showAlert, setShowAlert] = useState(false)
+
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }
    
     if (loading) {
         return (
@@ -29,21 +35,20 @@ const TablePriorities = ({Priorities, callback, loading}) => {
         setDeleteName(name)
         setDeleteUrl(url) 
         setRemove(true)
-       
       }
 
     const handleDelete = () => {
-        deletePriority(deleteUrl).then((response) => {
-            callback(`El usuario ${deleteName} ha sido eliminado`, true)
-        })
-        .catch((error) => {
-            setError(error)
-            callback(`El usuario ${deleteName} NO ha sido eliminado`, false)
-        })
-        .finally(() => {
+        deletePriority(deleteUrl).then(() => {
+            window.location.href = '/priorities';
+          })
+          .catch((error) => {
+            setError(error);
+          })
+         .finally(()=>{
+            setShowAlert(true)
             setRemove(false)
-        })
-      }
+          })
+    }
       const showModalPriority = (priority) => {
 
         setPriority(priority)
@@ -52,6 +57,7 @@ const TablePriorities = ({Priorities, callback, loading}) => {
       }
   return (
    <div>
+    <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
       <Card>
         <Card.Body>
             <ul className="list-group my-4">
@@ -71,13 +77,13 @@ const TablePriorities = ({Priorities, callback, loading}) => {
                             <tr>
                                 <th >{index + 1 }</th>
                                 <td>{priority.name}</td>
-                                <td>{priority.attend_deadline}</td>
-                                <td>{priority.solve_deadline}</td>
+                                <td>{priority.attend_time}</td>
+                                <td>{priority.solve_time}</td>
                                 
                                 <td>
                                 <CrudButton  type='read' onClick={() => {showModalPriority(priority)}} />
                                 
-                                <Link to={{pathname:"./edit-Priority", state: {priority}}} >
+                                <Link to={{pathname:"./priorities/edit", state: {priority}}} >
                                     <CrudButton  type='edit' />
                                 </Link>
                                     <CrudButton  type='delete' onClick={()=>handleShow(priority.name, priority.url)} />
@@ -98,7 +104,7 @@ const TablePriorities = ({Priorities, callback, loading}) => {
                                         <span className="d-block m-t-5">Detalle de Prioridad</span>
                                     </Col>
                                     <Col sm={12} lg={4}>                       
-                                    <Link to={{pathname:"./edit-Priority", state: {priority}}} >
+                                    <Link to={{pathname:"/priorities/edit", state: {priority}}} >
                                         <CrudButton  type='edit' />
                                     </Link>
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
@@ -116,13 +122,13 @@ const TablePriorities = ({Priorities, callback, loading}) => {
                                     <tr>
                                         <td>Fecha limite de respuesta</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={priority.attend_deadline} />
+                                            <Form.Control plaintext readOnly defaultValue={priority.attend_time} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Fecha limite de resolucion</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={priority.solve_deadline} />
+                                            <Form.Control plaintext readOnly defaultValue={priority.solve_time} />
                                         </td>
                                     </tr>
                                     <tr>
@@ -134,13 +140,13 @@ const TablePriorities = ({Priorities, callback, loading}) => {
                                     <tr>
                                         <td>Creado el</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={priority.created ? priority.created.slice(0,10) : ""} />
+                                            <Form.Control plaintext readOnly defaultValue={priority.created ? priority.created.slice(0,10)+" "+priority.created.slice(11,19) : ""} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Ultima Actulizacion</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={priority.modified ? priority.modified.slice(0,10) : ""} />
+                                            <Form.Control plaintext readOnly defaultValue={priority.modified ? priority.modified.slice(0,10)+" "+priority.modified.slice(11,19) : ""} />
                                         </td>
                                     </tr>
                                 </Table>

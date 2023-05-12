@@ -35,6 +35,14 @@ const CrudButton = ({type, name, onClick}) => {
             title: 'Eliminar',
             icon: 'fas fa-trash-alt',
             text: '',
+        },
+        download: 
+        { 
+            class: 'text-capitalize',
+            variant: 'outline-danger', 
+            title: `Descargar ${name}`,
+            icon: 'fa fa-download',
+            text: `Descargar ${name}`,
         }
     }
     return (

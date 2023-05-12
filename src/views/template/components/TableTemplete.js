@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom'
 import ActiveButton from '../../../components/Button/ActiveButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import { deleteTemplate, isActive } from "../../../api/services/templates";
+import Alert from '../../../components/Alert/Alert';
 
 
 const TableTemplete = (props) => {
@@ -18,6 +19,7 @@ const TableTemplete = (props) => {
   const [modalShow, setModalShow] = useState(false);
   const [dataTemplate,setDataTemplate] = useState({})
   const [showTemplate, setShowTemplate] = useState()
+  const [showAlert, setShowAlert] = useState(false)
 
   if (props.loading) {
     return (
@@ -33,17 +35,16 @@ const TableTemplete = (props) => {
 
 }
 const handleDelete = () => {
-    deleteTemplate(deleteUrl).then((response) => {
-        console.log(response)
-        
-    })
-    .catch((error) => {
-        console.log(error)
-        setError(error)
-    })
-    .finally(() => {
+    deleteTemplate(deleteUrl).then(() => {
+        window.location.href = '/templates';
+      })
+      .catch((error) => {
+        setError(error);
+      })
+     .finally(()=>{
+        setShowAlert(true)
         setRemove(false)
-    })
+      })
 }
   const showModalTemplate = (template) => {
     setTemplate(template)
@@ -59,22 +60,33 @@ const handleDelete = () => {
   const changeState=()=>{
         
     isActive(dataTemplate.url, +!dataTemplate.state)
-    .then((response) => {
-        console.log(response)
-        
+    .then(() => {
+        window.location.href = '/templates';
     })
     .catch((error) => {
+        setError(error);           
+      })
+    .finally(()=>{
+        setShowAlert(true)
+        setShowTemplate(false)
+    })
+
+    /*.catch((error) => {
             console.log(error)
             setError(error)
         })
         .finally(() => {
             setShowTemplate(false)
-        })
+        })*/
+    }
+    const resetShowAlert = () => {
+        setShowAlert(false);
     }
    
 
   return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>  
         <Card>
             <Card.Body>
                 <ul className="list-group my-4">
@@ -100,7 +112,7 @@ const handleDelete = () => {
                                             <td>{template.domain} </td>
                                             <td>
                                             <CrudButton  type='read' onClick={() => showModalTemplate(template) }/>
-                                            <Link to={{pathname:"./edit-template", state: {template}}} >
+                                            <Link to={{pathname:"/templates/edit", state: {template}}} >
                                                 <CrudButton  type='edit' />
                                             </Link>
                                             <CrudButton  type='delete' onClick={()=>modalDelete(template.cidr, template.url)} />
@@ -123,7 +135,7 @@ const handleDelete = () => {
                                         <span className="d-block m-t-5">Detalle de la Plantilla</span>
                                     </Col>
                                     <Col sm={12} lg={4}>                       
-                                        <Link to={{pathname:"./edit-user/", state: {template}}} >
+                                        <Link to={{pathname:"/templates/edit", state: {template}}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />

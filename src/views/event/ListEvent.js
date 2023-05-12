@@ -3,32 +3,26 @@ import {Link} from 'react-router-dom'
 import {
      Card,Row,Col, Button, Badge
 } from 'react-bootstrap';
-import Pagination from '../../components/Pagination/Pagination'
-import Alert from '../../components/Alert/Alert';
-
 import Navigation from '../../components/Navigation/Navigation'
 import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
 import { getEvents, mergeEvent} from "../../api/services/events";
-import { getTaxonomy} from "../../api/services/taxonomies";
 import TableEvents from './components/TableEvents';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
+import Alert from '../../components/Alert/Alert';
+
 
 const ListEvent = () => {
   const [events, setEvents] = useState([])
   const [taxonomy, setTaxonomy] = useState(new Map())
   const [loadingTaxonomy, setLoadingTaxonomy] = useState(true)
-  const [alert, setAlert] = useState(null)
-  const [stateAlert, setStateAlert] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [cantPages, setcantPages] = useState([])
-  const [pages, setPages] = useState()
   const [error,setError]= useState()
   const [countItems, setCountItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1)
   const [ifModify, setIfModify] = useState(null) 
-
+  const [showAlert, setShowAlert] = useState(false)
   //event merge Event
   //merge
   const [selectedEvent, setSelectedEvent] = useState([]);
@@ -37,29 +31,10 @@ const ListEvent = () => {
 
   function updatePage(chosenPage){
     setCurrentPage(chosenPage);
-}
+  }
 
-  const callbackBackend = (name, stateAlert) => {
-    if(stateAlert) {
-      getEvents()
-        .then((response) => {
-            setEvents(response.data.results)
-        })
-        .catch((error) => {
-            setError(error)
-        })
-        .finally(() => {
-            setLoading(false)
-            setAlert({name:name, type:1})
-            setTimeout(() => {
-                setAlert(null)
-                setStateAlert(null)
-            }, 5000);
-        })
-    }
-    else {
-        setAlert({name:name, type:0})
-    }
+  const resetShowAlert = () => {
+    setShowAlert(false);
   }
 
   useEffect(() => {
@@ -68,15 +43,17 @@ const ListEvent = () => {
 
     const fetchEvents = async () => {
       setLoading(true)
-      getEvents().then((response) => {
-          setCountItems(response.data.count)
+      getEvents('?page='+currentPage).then((response) => {
+        
           setEvents(response.data.results)
-          
+          setCountItems(response.data.count)
           
       }).catch((error)=>{
-         setError(error)
+          setShowAlert(true) //hace falta?
+          setError(error)
       }).finally(() => {
         setLoading(false)
+        setShowAlert(true)
       })
 
     }
@@ -108,15 +85,22 @@ const ListEvent = () => {
     }
   return (
      <div>
-    <Navigation actualPosition="Eventos"/>
+       <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+       <Row>
+          <Navigation actualPosition="Eventos"/>
+      </Row>
       <Card>
         <Card.Header>
           
           <Row>
-            <Search type="evento" action={action} />
-            <Link to={"./add-event"} >
-                <CrudButton type='create' name='Evento' /> 
-            </Link>
+            <Col>
+              <Search type="evento" action={action} />
+            </Col>
+            <Col sm={6} lg={3}>
+              <Link to={"/events/create"} >
+                  <CrudButton type='create' name='Evento' /> 
+              </Link>
+            </Col>
           </Row>
           <Row>
           <Col> 
@@ -137,7 +121,7 @@ const ListEvent = () => {
           </Col> 
         </Row>                                 
         </Card.Header>
-        <TableEvents events={events} taxonomy={taxonomy} loading={loading} loadingTaxonomy={loadingTaxonomy} callback={callbackBackend} selectedEvent={selectedEvent} setSelectedEvent={setSelectedEvent}/> 
+        <TableEvents events={events} taxonomy={taxonomy} loading={loading} loadingTaxonomy={loadingTaxonomy} selectedEvent={selectedEvent} setSelectedEvent={setSelectedEvent}/> 
         <Card.Footer >
                             <Row className="justify-content-md-center">
                                 <Col md="auto"> 

@@ -7,11 +7,11 @@ import { deleteUser, isActive } from "../../../api/services/users";
 import CrudButton from '../../../components/Button/CrudButton';
 import ActiveButton from '../../../components/Button/ActiveButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
+import Alert from '../../../components/Alert/Alert';
 
 
-function TableUsers({users, callback, loading}) {
+function TableUsers({users, loading}) {
   const [remove, setRemove] = useState(false);
-  const [show, setShow] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState("");
   const [deleteUrl, setDeleteUrl] = useState("");
   const [error, setError] = useState(null);
@@ -19,8 +19,8 @@ function TableUsers({users, callback, loading}) {
   const [user, setUser] = useState({});
   const [showState,setShowState] =useState(false);
   const [dataState,setDataState] =useState({});
-  const titulo={true:"Esta seguro de que desea inabilitar el usuario", false:"Esta seguro de que desea volver a habilitar el usuario"}
-  const bottonModalstate={true:"Inhabilitar", false:"Activar"}
+  const [showAlert, setShowAlert] = useState(false)
+  
 
   if (loading) {
     return (
@@ -31,16 +31,16 @@ function TableUsers({users, callback, loading}) {
     }
 
   const handleDelete = () => {
-    deleteUser(deleteUrl).then((response) => {
-        callback(`El usuario ${deleteUsername} ha sido eliminado`, true)
-    })
-    .catch((error) => {
-        setError(error)
-        callback(`El usuario ${deleteUsername} NO ha sido eliminado`, false)
-    })
-    .finally(() => {
+    deleteUser(deleteUrl).then(() => {
+        window.location.href = '/users';
+      })
+      .catch((error) => {
+        setError(error);
+      })
+     .finally(()=>{
+        setShowAlert(true)
         setRemove(false)
-    })
+      })
   }
 
   const handleShow = (username, url) => {
@@ -64,9 +64,18 @@ function TableUsers({users, callback, loading}) {
     }
     const changeState=()=>{
         
-        let message = +dataState.state ? `El usuario ${dataState.username} ha sido desactivado` : `El usuario ${dataState.username} ha sido activado`;
         isActive(dataState.url, !dataState.state)
-        .then((response) => {
+        .then(() => {
+            window.location.href = '/users';
+        })
+        .catch((error) => {
+            setError(error);           
+          })
+        .finally(()=>{
+            setShowAlert(true)
+            setShowState(false)
+        })
+        /*.then((response) => {
             callback(message, true)
         })
         .catch((error) => {
@@ -76,10 +85,14 @@ function TableUsers({users, callback, loading}) {
             .finally(() => {
                 setShowState(false)
                 setModalShow(false)
-            })
+            })*/
+    }
+    const resetShowAlert = () => {
+        setShowAlert(false);
     }
   return (
     <div>
+      <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>  
       <Card>
         <Card.Body>
             <ul className="list-group my-4">
@@ -106,10 +119,10 @@ function TableUsers({users, callback, loading}) {
                                         <td>
                                         <ActiveButton active={+user.is_active} onClick={() => showModalChangeState(user.url,user.username, user.is_active)} />
                                         </td>
-                                        <td>11/09/2022</td>
+                                        <td>{user.last_login ? user.last_login.slice(0,10)+" "+user.last_login.slice(11,19) : "No inicio sesion"}</td>
                                         <td>
                                         <CrudButton  type='read' onClick={() => showModalUser(user) }/>
-                                        <Link to={{pathname:"./edit-user/", state: {user}}} >
+                                        <Link to={{pathname:"/users/edit", state: {user}}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CrudButton  type='delete' onClick={()=>handleShow(user.username,user.url)} />    
@@ -131,7 +144,7 @@ function TableUsers({users, callback, loading}) {
                                         <span className="d-block m-t-5">Detalle de usuario</span>
                                     </Col>
                                     <Col sm={12} lg={4}>                       
-                                        <Link to={{pathname:"./edit-user/", state: {user}}} >
+                                        <Link to={{pathname:"/users/edit", state: {user}}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
@@ -181,13 +194,13 @@ function TableUsers({users, callback, loading}) {
                                     <tr>
                                         <td>Creado el</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={user.date_joined ? user.date_joined.slice(0,10) : ""} />
+                                            <Form.Control plaintext readOnly defaultValue={user.created ? user.created.slice(0,10)+" "+user.created.slice(11,19) : ""} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Ultima Actulizacion</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue="" />
+                                            <Form.Control plaintext readOnly defaultValue={user.modified ? user.modified.slice(0,10)+" "+user.modified.slice(11,19) : ""} />
                                         </td>
                                     </tr>
                                 </Table>

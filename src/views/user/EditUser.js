@@ -18,6 +18,8 @@ const EditUser = () => {
     const[body,setBody]=useState(user)
     const [loading, setLoading] = useState(true)
     const [priorities, setPriorities] = useState()
+    const [showAlert, setShowAlert] = useState(false)
+
     useEffect( ()=> {
         
         const fetchPosts = async () => {
@@ -38,27 +40,29 @@ const EditUser = () => {
     
         
     },[]);
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }
     
     const editUser=(e)=>{
         
-            putUser(body.url,body.username,body.first_name,body.last_name,body.email,body.priority)
-            .then((response) => { 
-                sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido modificado`, type:1}));
-                window.location.href = "/list-user"
-            })
-            .catch((error) => {
-                setError(error)
-                setAlert({name:`El usuario ${body.username} NO puede ser creado verifica que no exista`, type:0})
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                }, 5000);
-            });  
+        putUser(body.url,body.username,body.first_name,body.last_name,body.email,body.priority)
+        .then(() => {
+            window.location.href = '/users';
+        })
+        .catch((error) => {
+            setShowAlert(true) 
+            setError(error);           
+        })
+        .finally(() => {
+            setShowAlert(true) 
+        }) 
+              
     }
     return (
         <> 
-            <Alert alert={alert} stateAlert={stateAlert} />
-            <Navigation actualPosition="Editar Usuario" path="/list-user" index ="Usuarios"/> 
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+            <Navigation actualPosition="Editar Usuario" path="/users" index ="Usuarios"/> 
             <Card>
             
                 <Card.Header>

@@ -8,42 +8,46 @@ import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search'
 import { getTemplates } from '../../api/services/templates';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
+import Alert from '../../components/Alert/Alert';
 
 const ListTemplete = () => {
   const[templete, setTemplete] = useState([])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
-
   const [currentPage, setCurrentPage] = useState(1)
-  const [jumpPage, setjumpPage] = useState(false)
-  const [pages, setPages] = useState(0)
-  const [arrayPages, setArrayPages] = useState([])
-    const [countItems, setCountItems] = useState(0);
+  const [countItems, setCountItems] = useState(0);
+  const [showAlert, setShowAlert] = useState(false)
+
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }
+    
 
   useEffect( ()=> {
 
 
-    getTemplates()
+    getTemplates('?page='+currentPage)
         .then((response) => {
-            setCountItems(response.data.count)    
             setTemplete(response.data.results);
+            setCountItems(response.data.count) 
         })
-        .catch((error) => {
+        .catch((error)=>{
             setError(error)
-        })
-        .finally(() => {
-            setLoading(false)
-        })
+          })
+          .finally(() => {
+              setShowAlert(true)
+              setLoading(false)
+          })
 }, [countItems, currentPage])
-
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }
 
 
 console.log(templete)
   return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
       <Row>
             <Navigation actualPosition={'Plantilla'}/>  
         </Row>
@@ -52,9 +56,11 @@ console.log(templete)
                 <Card>
                     <Card.Header>
                         <Row>
+                            <Col sm={12} lg={9}>
                             <Search type="red" action={""} />
+                            </Col>
                             <Col sm={12} lg={3}>
-                                <Link to={{pathname:'/add-template'}} >
+                                <Link to={{pathname:'/templates/create'}} >
                                     <CrudButton type='create' name='Plantilla' />
                                 </Link>
                             </Col> 

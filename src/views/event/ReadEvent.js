@@ -2,20 +2,26 @@ import React, { useState, useEffect } from 'react'
 import {
     Button,Card, Table , Modal, Row,Col, Form, CloseButton, Spinner
   } from 'react-bootstrap';
-
 import CallBackendByName from '../../components/CallBackendByName'; 
+import CallBackendByType from '../../components/CallBackendByType'; 
 import { getTaxonomy } from '../../api/services/taxonomies';
+import { getEvidence } from '../../api/services/evidences';
+import { getEvent } from '../../api/services/events';
 import { getPriority } from '../../api/services/priorities';
 import { getTLPSpecific } from '../../api/services/tlp';
 import { getFeed } from '../../api/services/feeds';
 import { useLocation } from "react-router-dom";
 import Navigation from '../../components/Navigation/Navigation'
+import { getArtefact } from '../../api/services/artifact';
+import CrudButton from '../../components/Button/CrudButton';
+import ViewFiles from './components/ViewFiles';
 
 const ReadEvent = () => {
     const location = useLocation();
     const event = location.state.event;
-
+    const [childernes, setChildernes]=useState([])
     const [body,setBody]=useState(event)
+    const [evidence,setEvidence]=useState([])
 
     const callbackTaxonomy = (url ,setPriority) => {
         getTaxonomy(url)
@@ -49,70 +55,31 @@ const ReadEvent = () => {
         })
         .catch();
     }
+    const callbackArtefact = (url ,set) => {
+        getArtefact(url)
+        .then((response) => {
+            console.log(response)
+            set(response.data)
+        })
+        .catch();
+    }
   return (
     <div>
-        
-        <Navigation actualPosition="Agregar evento" path="/list-Event" index ="Evento"/>
-             
-
+        <Row>
+            <Navigation actualPosition="Agregar evento" path="/events" index ="Evento"/>
+        </Row>        
         <Card>
-            
             <Card.Header> 
-            
                 <Card.Title as="h5">Principal</Card.Title>
-            
             </Card.Header>                           
             <Card.Body>
-                           
-                {/*<Table responsive >*/}
-                
-                    {/*<tr>
-                        <td>Fecha</td>
-                        <td>
-                            <Form.Control plaintext readOnly defaultValue={body.date} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Tlp</td>
-                        <td>
-                            <CallBackendByName url={body.tlp} callback={callbackTlp}/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Taxonomia</td>
-                        <td>
-                            <CallBackendByName url={body.taxonomy} callback={callbackTaxonomy}/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Fuentes de informacion</td>
-                        <td>
-                        <CallBackendByName url={body.feed} callback={callbackFeed}/>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Prioridad</td>
-                        <td>
-                        <CallBackendByName url={body.priority} callback={callbackPriority}/>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Usuario que reporta</td>
-                        <td>
-                        <CallBackendByName url={body.reporter} callback={callbackPriority}/>
-                        </td>
-                    </tr>
-                    */}
                     <Row>
                         <Col sm={12} lg={2}>
                             Fecha
                         </Col>
                         <Col sm={12} lg={4}>
-                            <Form.Control plaintext readOnly defaultValue={body.date} />
+                            <Form.Control plaintext readOnly defaultValue={body.date.slice(0,10)+" "+body.date.slice(11,19)} />
                         </Col>
-
                     </Row>
                     <p/>
                     <Row>
@@ -162,68 +129,29 @@ const ReadEvent = () => {
                         <Col sm={12} lg={4}>
                             <CallBackendByName url={body.reporter} callback={callbackPriority}/>
                         </Col>
-
                     </Row>
-                    
                {/*</Table>*/}
                </Card.Body>
         </Card>
         <Card>
-            <Card.Header> 
-                        
-                <Card.Title as="h5">Artefactos</Card.Title>
-                         
+            <Card.Header>      
+                <Card.Title as="h5">Artefactos</Card.Title>      
             </Card.Header>
             <Card.Body>
-                {/*<Table responsive >
-    
-                    <tr>
-                        <td>Cidr</td>
-                        <td>
-                            <Form.Control plaintext readOnly defaultValue={body.cidr}  />
-                        </td>
-                    </tr>
-                </Table>*/}
                 <Row>
-                    
-                    <Col sm={12} lg={2}>Artefactos</Col>
-                            
-                    <Col sm={12} lg={4}>  <Form.Control plaintext readOnly defaultValue={""}  /></Col>
-                    
-                        
-
+                    { 
+                       body.artifacts.map((url) => {
+                        return  (<CallBackendByType url={url} callback={callbackArtefact} useBadge={true}/>)
+                        })
+                    }
                 </Row>
             </Card.Body>
-        
         </Card>
-        
-            
-                
-                {/*<Table responsive >*/}
                     <Card>
-                    <Card.Body>
-
-                  
                     <Card.Header> 
-                        
-                                <Card.Title as="h5">Recursos afectados</Card.Title>
-                                    
-                    </Card.Header>
-                    
-                    {/*
-                    <tr>
-                        <td>Dominio</td>
-                        <td>
-                            <Form.Control plaintext readOnly defaultValue={body.domain} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Artefactos</td>
-                        <td>
-                            <Form.Control plaintext readOnly defaultValue={body.domain} />
-                        </td>
-                    </tr>
-            */}
+                        <Card.Title as="h5">Recursos afectados</Card.Title>
+            </Card.Header>
+            <Card.Body>
             <Row>
             <p></p>
                     
@@ -247,72 +175,36 @@ const ReadEvent = () => {
                     </Card.Body>
                 </Card>
             
-                {/*</Table>*/}
-                <Table responsive >
-                    <Card>
-                    <Card.Body>
-                    <Card.Header> 
-                        
-                                <Card.Title as="h5">Evidencias</Card.Title>
-                            
 
-                    </Card.Header>
-                    
-                    
-                    <tr>
-                        <td>Evidencia</td>
-                        <td>
-                            <Form.Control plaintext readOnly defaultValue="" />
-                        </td>
-                        <td></td>
-                    </tr>
-                    </Card.Body>
-                </Card>
             
-                </Table>
-                
                     <Card>
                     <Card.Header> 
                         
-                                <Card.Title as="h5">Hijos</Card.Title>
-                                    
-                    </Card.Header>
+                        <Card.Title as="h5">Evidencias</Card.Title>
+                                        
 
-                    
-                    <Card.Body>
-                    {/*<Table responsive >
-                    <Row>
-                    <tr>
-                        <td>Hijos</td>
-                        <td>
-                            <Form.Control plaintext readOnly defaultValue="" />
-                        </td>
-                    </tr>
-                    </Row>
-                    </Table>*/}
-                    <Row>
-                        <td>Hijos</td>
-                        <td>
-                            <Form.Control plaintext readOnly defaultValue="" />
-                        </td>
-                        
-                    </Row>
-                    </Card.Body>
-                    
-                </Card>
+                    </Card.Header>
             
+                    <Card.Body>
+                        <Row>
+                        
+                        {
+                            body.evidence.map((url, index) => {
+                                return  (<ViewFiles url={url} index={index+1}  />)
+                                })
+                        }
+                        
+                        </Row>
+        
+                    </Card.Body>
+                </Card>
                 
                 <Table responsive >
                     <Card>
                     <Card.Header> 
-                        
                                 <Card.Title as="h5">Datos adicionales</Card.Title>
-                            
                     </Card.Header>
                     <Card.Body>
-
-                  
-
                     <tr>
                         <td>Comentarios</td>
                         <td>
@@ -323,20 +215,21 @@ const ReadEvent = () => {
                     <tr>
                         <td>Creado</td>
                         <td>
-                            <Form.Control plaintext readOnly defaultValue={body.created} />
+                            <Form.Control plaintext readOnly defaultValue={body.created.slice(0,10)+" "+body.date.slice(11,19)} />
                         </td>
                     </tr>
                     <tr>
                         <td>modificado</td>
                         <td>
-                            <Form.Control plaintext readOnly defaultValue={body.modified} />
+                            <Form.Control plaintext readOnly defaultValue={body.modified.slice(0,10)+" "+body.date.slice(11,19)} />
                         </td>
                     </tr>
                     
                 
             </Card.Body>
         </Card>
-        <Button variant="primary" href="/list-event">Volver</Button>
+        <Button variant="primary" href="/events">Volver</Button>
+        
         </Table>
     </div>
   )

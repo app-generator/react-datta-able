@@ -95,8 +95,7 @@ const putActivationStatus= (url, state, name) => {
 const deleteFeed = (url, name) => {
     let messageSuccess = `La fuente de informacion ${name} se pudo eliminar correctamente`;
     let messageError = `La fuente de informacion ${name} no se pudo eliminar`;
-    return apiInstance.delete(url)
-    .then(response => {
+    return apiInstance.delete(url).then(response => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 

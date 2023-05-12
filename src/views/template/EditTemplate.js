@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import { Card, Form, Breadcrumb } from 'react-bootstrap';
+import { Card, Form, Breadcrumb, Row, Col } from 'react-bootstrap';
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import FormTemplate from './components/FormTemplate'
@@ -25,6 +25,7 @@ const EditTemplate = () => {
     const [priorities, setPriorities] = useState([])
     const [states, setStates] = useState([])
     const [loading, setLoading] = useState(true)
+    const [showAlert, setShowAlert] = useState(false)
 
     useEffect( ()=> {
         const fetchPosts = async () => {
@@ -84,47 +85,44 @@ const EditTemplate = () => {
             }).finally(() => {
                 setLoading(false)
             })
-    
-    
-            
-    
-            
-            
+
         }  
         fetchPosts()
         
       },[]);
+      const resetShowAlert = () => {
+        setShowAlert(false);
+    }
 
     const editState= ()=>{
         putTemplate(body.url,body.cidr,body.domain,body.active,body.priority,body.event_taxonomy,body.event_feed,body.case_lifecycle,body.case_tlp,body.case_state)
-        .then((response) => { 
-            console.log(response)
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.name} ha sido creada`, type:1}));
-            window.location.href = "/list-template"
-        }).catch((error) => {
-            setError(error)
-            console.log(error)
-            setAlert({name:`El usuario ${body.name} NO ha sido creada`, type:0})
-            setTimeout(() => {
-                setAlert(null)
-                setStateAlert(null)
-            }, 3000);
-        }); 
+        .then(() => {
+            window.location.href = '/templates';
+        })
+        .catch((error) => {
+            setShowAlert(true) 
+            setError(error);           
+        })
+        .finally(() => {
+            setShowAlert(true) 
+        }) 
 
     }
   return (
     <React.Fragment>
-         <Navigation actualPosition="Editar Plantilla" path="/list-template" index ="Plantilla"/> 
-            <Card>
-                <Card.Header>
-                    <Card.Title as="h5">Editar Plantilla</Card.Title>
-                </Card.Header>
-                <Card.Body>
-                <Form>
+        <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+        <Row>
+         <Navigation actualPosition="Editar Plantilla" path="/templates" index ="Plantilla"/> 
+         </Row>
+        
+                <Card>
+                    <Card.Header>
+                        <Card.Title as="h5">Editar Plantilla</Card.Title>
+                    </Card.Header>
                     <FormTemplate body={body} setBody={setBody} createTemplate={editState} tlp={TLP} feeds={feeds} taxonomy={taxonomy} priorities={priorities} states={states}/>        
-                </Form>
-                </Card.Body>
-            </Card>
+                 
+                </Card>
+            
     </React.Fragment>
   )
 }

@@ -24,6 +24,7 @@ const AddUser = () => {
     const [stateAlert, setStateAlert] = useState(null)
     const [priorities, setPriorities] = useState()
     const [loading, setLoading] = useState(true)
+    const [showAlert, setShowAlert] = useState(false)
 
     useEffect( ()=> {
         const fetchPosts = async () => {
@@ -49,26 +50,30 @@ const AddUser = () => {
                 }, 5000);
         }
     },[]);
+
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }
+
     const createUser=(e)=>{
         
         postUser(body.username,body.first_name,body.last_name,body.email, body.priority)
-        .then((response) => { 
-            sessionStorage.setItem('Alerta', JSON.stringify({name:`El usuario ${body.username} ha sido creada`, type:1}));
-            window.location.href = "/list-user"
+        .then(() => {
+            window.location.href = '/users';
         })
         .catch((error) => {
-            setError(error)
-            setAlert({name:`El usuario ${body.username} NO ha sido creada`, type:0})
-            setTimeout(() => {
-                setAlert(null)
-                setStateAlert(null)
-            }, 3000);
-        });  
+            setShowAlert(true) 
+            setError(error);           
+        })
+        .finally(() => {
+            setShowAlert(true) 
+        }) 
+          
     }
     return (
         <>
-            <Alert alert={alert} stateAlert={stateAlert} />
-            <Navigation actualPosition="Agregar Usuario" path="/list-user" index ="Usuarios"/>
+            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+            <Navigation actualPosition="Agregar Usuario" path="/users" index ="Usuarios"/>
             <Card>
                 <Card.Header>
                 

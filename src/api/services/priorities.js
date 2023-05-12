@@ -1,13 +1,27 @@
 import  apiInstance  from "../api";
 import { COMPONENT_URL } from '../../config/constant';
+import setAlert from '../../utils/setAlert';
 
 const getPriorities = (page="") => {//el parametro es para completar la url con el numero de pagina
-    
-    return apiInstance.get(COMPONENT_URL.priority+page);
+    let messageError = `No se pudo recuperar la informacion de las prioridades`;
+    return apiInstance.get(COMPONENT_URL.priority+page)
+    .then(response => {        
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 
 const getPriority = (url) => { 
-    return apiInstance.get(url);
+    let messageError = `No se pudo recuperar la informacion de la prioridad`;
+    return apiInstance.get(url)
+    .then(response => {        
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 
 const getAllPriorities = (currentPage = 1, results = [], limit = 100) => {
@@ -28,29 +42,52 @@ const getAllPriorities = (currentPage = 1, results = [], limit = 100) => {
 
 }
 
-const postPriority = (name, color, severity, attend_deadline, solve_deadline) => {
-    
+const postPriority = (name, color, severity, attend_time, solve_time) => {
+    let messageSuccess = `La prioridad ${name} se pudo crear correctamente`;
+    let messageError = `La prioridad ${name} no se pudo crear`;
     return apiInstance.post(COMPONENT_URL.priority, {
         name: name, 
         color: color, 
         severity: severity, 
-        attend_deadline: attend_deadline, 
-        solve_deadline: solve_deadline
+        attend_time: attend_time, 
+        solve_time: solve_time
+    }).then(response => {
+        setAlert(messageSuccess, "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
     });
 }
 
-const putPriority = ( url, name, color, severity, attend_deadline, solve_deadline) => {
+const putPriority = ( url, name, color, severity, attend_time, solve_time) => {
+    let messageSuccess = `La prioridad ${name} se pudo crear correctamente`;
+    let messageError = `La prioridad ${name} no se pudo crear`;
     return apiInstance.put(url, {
         name: name, 
         color: color, 
         severity: severity, 
-        attend_deadline: attend_deadline, 
-        solve_deadline: solve_deadline
+        attend_time: attend_time, 
+        solve_time: solve_time
         
+    }).then(response => {
+        setAlert(messageSuccess, "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
     });
 }
 
 const deletePriority = (url) => {
-    return apiInstance.delete(url);
+    let messageSuccess = `La prioridad se pudo eliminar correctamente`;
+    let messageError = `La prioridad no se pudo eliminar`;
+    return apiInstance.delete(url).then(response => {
+        setAlert(messageSuccess , "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 export { getPriorities, getAllPriorities, getPriority, postPriority, deletePriority, putPriority }

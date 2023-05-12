@@ -43,9 +43,11 @@ const validateURL = (str) => {
     '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
   return !!pattern.test(str);
 }
-
-const validateTime = (time) => {
-  return (/^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/g).test(time)
+const validateHours = (hours) => {
+  return (/^(0?[0-9]|1[0-9]|2[0-3])$/).test(hours)
+}
+const validateMinutes = (minutes) => {
+  return (/^(0?[0-9]|[1-5][0-9])$/).test(minutes)
 }
 
 const validateNumber = (number) => {
@@ -57,4 +59,4 @@ const validateCidr = (cidr) => {
   return  (/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(3[0-2]|2[0-9]|[01]?[0-9])$/).test(cidr);
 }
 
-export {validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, validateLength, isEmpty};
+export {validateHours, validateMinutes, validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, validateLength, isEmpty};

@@ -1,9 +1,16 @@
 import  apiInstance  from "../api";
 import { COMPONENT_URL } from '../../config/constant';
+import setAlert from '../../utils/setAlert';
 
 const getStates = (page="") => {//el parametro es para completar la url con el numero de pagina
-    
-    return apiInstance.get(COMPONENT_URL.state+page);
+    let messageError = `No se pudo recuperar la informacion de los estados`;
+    return apiInstance.get(COMPONENT_URL.state+page)
+    .then(response => {        
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 
 const getAllStates = (currentPage = 1, results = [], limit = 100) => {
@@ -24,18 +31,27 @@ const getAllStates = (currentPage = 1, results = [], limit = 100) => {
 
 }
 
-const postState = ( slug,name,attended,solved,active,description,children) => {   
+const postState = ( name,attended,solved,active,description,children) => {  
+    let messageSuccess = `El estado ${name} se pudo crear correctamente`;
+    let messageError = `El estado ${name} no se pudo crear`; 
     return apiInstance.post(COMPONENT_URL.state, {
-        slug:slug ,
         name: name,
         attended: attended,
         solved:solved,
         active:active,
         description:description,
         children:children 
-    });  
+    }).then(response => {
+        setAlert(messageSuccess, "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 const putState = ( url,slug,name,attended,solved,active,description,children) => {
+    let messageSuccess = `EL estado ${name} se pudo crear correctamente`;
+    let messageError = `El estado ${name} no se pudo crear`;
     return apiInstance.put(url, {
         slug:slug ,
         name: name,
@@ -45,21 +61,50 @@ const putState = ( url,slug,name,attended,solved,active,description,children) =>
         description:description,
         children:children 
         
+    }).then(response => {
+        setAlert(messageSuccess, "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
     });
 }
 
 const deleteState = ( url) => {
-    return apiInstance.delete(url);
+    let messageSuccess = `El estado se pudo eliminar correctamente`;
+    let messageError = `El estado no se pudo eliminar`;
+    return apiInstance.delete(url).then(response => {
+        setAlert(messageSuccess , "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 
 const isActive = (url, active) =>{
+    let messageSuccess = !active ? `El estado ha sido desactivado` : `El estado ha sido activado`;
+    let messageError = `El estado no se pudo modificar`;
     return apiInstance.patch(url, {
         active: active
-    } );
+    } ).then(response => {
+        setAlert(messageSuccess , "success");
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 
 const getState = (url) => { 
-    return apiInstance.get(url);
+    let messageError = `No se pudo recuperar la informacion del estado`;
+    return apiInstance.get(url)
+    .then(response => {        
+        return response;
+    }).catch( error => { 
+        setAlert(messageError, "error");
+        return Promise.reject(error);
+    });
 }
 
 export { getStates, getAllStates, postState, putState, deleteState, isActive, getState }

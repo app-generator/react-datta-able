@@ -6,7 +6,7 @@ import CrudButton from '../../../components/Button/CrudButton';
 import FormArtifact from '../../artifact/components/FormArtifact'
 import { postArtifact } from "../../../api/services/artifact";
 import { validateCidr, validateURL, validateSpaces} from '../../../components/Validator/Validator';
-import FileUpload from './FileUpload'
+
 
 
 
@@ -38,7 +38,7 @@ const FormEvent = (props) => {
             [event.target.name] : event.target.value}
         )       
     }
-    const completeFieldFiles=(event)=>{ 
+    /*const completeFieldFiles=(event)=>{ 
         console.log(event.target.files)
         props.setBody({...props.body,
             [event.target.name] : event.target.files}
@@ -47,7 +47,7 @@ const FormEvent = (props) => {
         console.log(props.body.evidence)
         
 
-    }
+    }*/
 
     const selectArtefact=(event)=>{ 
         props.setBody({...props.body,
@@ -71,10 +71,16 @@ const FormEvent = (props) => {
         .then((response) => { 
             props.setContactsCreated(response) //
             setModalCreate(false) //
+            setBodyArtifact({
+                type:"-1",
+                value:""
+            })
         })
         .catch((error) => {
             setError(error)
-        }); 
+        }).finally(() => {
+            setModalCreate(false)
+        })  
     }
 
     
@@ -209,11 +215,6 @@ const FormEvent = (props) => {
                     </Form.Group>
                     </Col>
                 </Row>
-                
-
-                  
-                    
-
                 <Form.Group controlId="formGridAddress1">
                 <Form.Label>Notas</Form.Label>
                 <Form.Control 
@@ -262,31 +263,36 @@ const FormEvent = (props) => {
             </Card.Header>
 
             <Card.Body>
+            <Row>
         
+                <Col sm={12} lg={6}>
+                    <Form.Group controlId="formGridAddress1">
+                    <Form.Label>Cidr afectado</Form.Label>
+                    <Form.Control 
+                        placeholder="Ingrese " 
+                        maxlength="150" 
+                        value ={props.body.cidr} 
+                        onChange={(e)=>completeField(e)}
+                        name="cidr"
+                        isInvalid={!validateCidr(props.body.cidr)  && props.body.cidr !== null}
+                        isValid={validateCidr(props.body.cidr) || props.body.cidr == null}/>
+                    </Form.Group> 
+                </Col>
+                <Col sm={12} lg={6}> 
 
-                <Form.Group controlId="formGridAddress1">
-                <Form.Label>Cidr afectado</Form.Label>
-                <Form.Control 
-                    placeholder="Ingrese " 
-                    maxlength="150" 
-                    value ={props.body.cidr} 
-                    onChange={(e)=>completeField(e)}
-                    name="cidr"
-                    isInvalid={!validateCidr(props.body.cidr)  && props.body.cidr !== null}
-                    isValid={validateCidr(props.body.cidr) || props.body.cidr == null}/>
-                </Form.Group>  
-
-                <Form.Group controlId="formGridAddress1">
-                <Form.Label>Dominio afectado</Form.Label>
-                <Form.Control 
-                    placeholder="Ingrese" 
-                    maxlength="150"
-                    value ={props.body.domain} 
-                    isValid={ validateURL(props.body.domain) || validateSpaces(props.body.domain) }
-                    isInvalid={ props.body.domain !=='' && !validateURL(props.body.domain) }
-                    onChange={(e)=>completeField(e)} 
-                    name="domain"/>
-                </Form.Group> 
+                    <Form.Group controlId="formGridAddress1">
+                    <Form.Label>Dominio afectado</Form.Label>
+                    <Form.Control 
+                        placeholder="Ingrese" 
+                        maxlength="150"
+                        value ={props.body.domain} 
+                        isValid={ validateURL(props.body.domain) || validateSpaces(props.body.domain) }
+                        isInvalid={ props.body.domain !=='' && !validateURL(props.body.domain) }
+                        onChange={(e)=>completeField(e)} 
+                        name="domain"/>
+                    </Form.Group> 
+                </Col>
+            </Row>
         
                 {/* este campo se va ausar en el put<Form.Group controlId="formGridAddress1">
                 <Form.Label>Comentarios</Form.Label>
@@ -304,10 +310,7 @@ const FormEvent = (props) => {
                 <Card.Title as="h5">Evidencias</Card.Title>
             </Card.Header>
         <Card.Body>
-        
-            {/*props.users.map((user, index) => {
-                            return(<option value={user.url}> {user.username} </option>)
-                        })*/}
+    
             <Form>   
                 <Form.Group controlId="formGridAddress1">
                 <Form.Label>Evidencia</Form.Label>
@@ -316,12 +319,8 @@ const FormEvent = (props) => {
                     type="file"
                     maxlength="150" 
                     multiple
-                    onChange={(e)=>completeFieldFiles(e)}
+                    onChange={(e)=>props.setEvidence(e.target.files)}
                     name="evidence"/>
-                    {
-                Object.values(props.body.evidence) &&
-                Object.values(props.body.evidence).map((f )=> {return (<Button name={f.name} onclick={deleteFiles(f.name)}>{f.name}</Button>)})
-                    }
                     
                     
                 </Form.Group>   
@@ -390,7 +389,7 @@ const FormEvent = (props) => {
         </Card.Body>
         </Card>
         <Button variant="primary" onClick={props.createEvent} >Guardar</Button> 
-        <Button variant="primary" href="./list-event">Cancelar</Button>  
+        <Button variant="primary" href="/events">Cancelar</Button>  
             
     </div>
   )

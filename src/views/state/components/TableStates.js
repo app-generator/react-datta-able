@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom'
 import ActiveButton from '../../../components/Button/ActiveButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import { deleteState, isActive } from "../../../api/services/states";
+import Alert from '../../../components/Alert/Alert';
 
 
 const TableStates = ({states, callback, loading}) => {
@@ -18,6 +19,7 @@ const TableStates = ({states, callback, loading}) => {
     const [showState, setShowState] = useState()
     const [state, setState] = useState({});
     const [modalShow, setModalShow] = useState(false);
+    const [showAlert, setShowAlert] = useState(false)
 
     if (loading) {
         return (
@@ -34,18 +36,16 @@ const TableStates = ({states, callback, loading}) => {
 
     }
     const handleDelete = () => {
-        deleteState(deleteUrl).then((response) => {
-            console.log(response)
-            callback(`El usuario ${deleteName} ha sido eliminado`, true)
-        })
-        .catch((error) => {
-            console.log(error)
-            setError(error)
-            callback(`El usuario ${deleteName} NO ha sido eliminado`, false)
-        })
-        .finally(() => {
+        deleteState(deleteUrl).then(() => {
+            window.location.href = '/app/states';
+          })
+          .catch((error) => {
+            setError(error);
+          })
+         .finally(()=>{
+            setShowAlert(true)
             setRemove(false)
-        })
+          })
     }
     const modalChangeState = (url, name, active) =>{
       
@@ -54,9 +54,18 @@ const TableStates = ({states, callback, loading}) => {
     }
     const changeState=()=>{
         
-        let message = +dataState.state ? `El usuario ${dataState.name} ha sido desactivado` : `El usuario ${dataState.name} ha sido activado`;
         isActive(dataState.url, +!dataState.state)
-        .then((response) => {
+        .then(() => {
+            window.location.href = '/app/states';
+        })
+        .catch((error) => {
+            setError(error);           
+          })
+        .finally(()=>{
+            setShowAlert(true)
+            setShowState(false)
+        })
+        /*.then((response) => {
             console.log(response)
             
             callback(message, true)
@@ -68,16 +77,20 @@ const TableStates = ({states, callback, loading}) => {
             })
             .finally(() => {
                 setShowState(false)
-            })
+            })*/
     }
     const showModalState = (state) => {
         setState(state)
         setModalShow(true)   
     }
+    const resetShowAlert = () => {
+        setShowAlert(false);
+    }
       
       
   return (
     <div>
+        <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>  
         <Card>
             <Card.Body>
                 <ul className="list-group my-4">
@@ -108,7 +121,7 @@ const TableStates = ({states, callback, loading}) => {
                                         
                                             <td>
                                             <CrudButton  type='read' onClick={() => showModalState(state) }/>
-                                            <Link to={{pathname:"./edit-state", state: {state}}} >
+                                            <Link to={{pathname:"/app/states/edit", state: {state}}} >
                                                 <CrudButton  type='edit' />
                                             </Link>
                                             <CrudButton  type='delete' onClick={()=>modalDelete(state.name, state.url)} />
@@ -131,7 +144,7 @@ const TableStates = ({states, callback, loading}) => {
                                         <span className="d-block m-t-5">Detalle de Estado</span>
                                     </Col>
                                     <Col sm={12} lg={4}>                       
-                                        <Link to={{pathname:"./edit-user/", state: {state}}} >
+                                        <Link to={{pathname:"/app/states/edit", state: {state}}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
@@ -186,13 +199,13 @@ const TableStates = ({states, callback, loading}) => {
                                     <tr>
                                         <td>Creado</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={state.created ? state.created.slice(0,10) : ""} />
+                                            <Form.Control plaintext readOnly defaultValue={state.created ? state.created.slice(0,10)+" "+state.created.slice(11,19) : ""} />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>modificado</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={state.modified ? state.modified.slice(0,10) : ""} />
+                                            <Form.Control plaintext readOnly defaultValue={state.modified ? state.modified.slice(0,10)+" "+ state.modified.slice(11,19): ""} />
                                         </td>
                                     </tr>
                                     

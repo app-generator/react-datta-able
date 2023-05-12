@@ -16,7 +16,9 @@ import { deleteEvent} from "../../../api/services/events";
 
 
 
-const TableEvents = ({events, taxonomy, loading, loadingTaxonomy, callback, selectedEvent, setSelectedEvent}) => {
+
+
+const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelectedEvent}) => {
 
     const [deleteName, setDeleteName] = useState()
     const [deleteUrl, setDeleteUrl] = useState()
@@ -26,6 +28,7 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy, callback, sele
     const [modalShow, setModalShow] = useState(false);
     //checkbox
     const [isCheckAll, setIsCheckAll] = useState(false);
+    
    
     if (loading) {
         return (
@@ -76,17 +79,15 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy, callback, sele
 
     const handleDelete = () => {
         console.log(deleteUrl)
-        deleteEvent(deleteUrl).then((response) => {
-            console.log(response)
-        })
-        .catch((error) => {
-            console.log(error)
-            setError(error)
-          
-        })
-        .finally(() => {
+        deleteEvent(deleteUrl).then(() => {
+            window.location.href = '/events';
+          })
+          .catch((error) => {
+            setError(error);
+          })
+         .finally(()=>{
             setRemove(false)
-        })
+          })
     }
     const showModalEvent = (event) => {
         setEvent(event)
@@ -117,6 +118,7 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy, callback, sele
     
   return (
     <div>
+        
          <Card>
         <Card.Body>
             <ul className="list-group my-4">
@@ -144,7 +146,7 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy, callback, sele
                                                 type="checkbox" id={event.url} 
                                                 onChange={handleClick} checked={selectedEvent.includes(event.url)} />
                                         </Form.Group></th>
-                                <td>{event.date ? event.date.slice(0,10): ""}</td>
+                                <td>{event.date ? event.date.slice(0,10)+" "+event.date.slice(11,19): ""}</td>
                                 
                                 <td><CallBackendByName url={event.tlp} callback={callbackTlp } useBadge={true}/></td>
                                 
@@ -153,11 +155,11 @@ const TableEvents = ({events, taxonomy, loading, loadingTaxonomy, callback, sele
                                 <td><CallBackendByName url={event.feed} callback={callbackFeed} useBadge={false}/></td>
                                 
                                 <td>
-                                <Link to={{pathname:"./event/read", state: {event}}} >
+                                <Link to={{pathname:"/events/view", state: {event}}} >
                                     <CrudButton  type='read'   />
                                 </Link>
                                 
-                                <Link to={{pathname:"./edit-event", state: {event}}} >
+                                <Link to={{pathname:"/events/edit", state: {event}}} >
                                     <CrudButton  type='edit' />
                                 </Link>
                                     <CrudButton  type='delete' onClick={()=>modalDelete(event.name, event.url)} />

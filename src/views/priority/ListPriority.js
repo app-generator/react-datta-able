@@ -1,112 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom'
 import { Card, Row, Col } from 'react-bootstrap';
-import Pagination from '../../components/Pagination/Pagination'
 import Alert from '../../components/Alert/Alert';
-
 import Navigation from '../../components/Navigation/Navigation'
 import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
 import { getPriorities} from "../../api/services/priorities";
 import TablePriorities from './components/TablePriorities';
+import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 
 const ListPriorities = () => {
   const [priorities, setPriorities] = useState([])
   const [loading, setLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [jumpPage, setjumpPage] = useState(false)
-  const [pages, setPages] = useState()
-  const [cantPages, setcantPages] = useState([])
   const [error,setError]= useState()
   const [stateAlert, setStateAlert] = useState(null)
-  const [alert, setAlert] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [countItems, setCountItems] = useState(0);
+  const [showAlert, setShowAlert] = useState(false)
+
+  function updatePage(chosenPage){
+    setCurrentPage(chosenPage);
+  }
 
   useEffect(() => {
-    if(sessionStorage.getItem('Alerta')) {
-      const storage = JSON.parse(sessionStorage.getItem('Alerta'));
-      setAlert(storage)
-          setTimeout(() => {
-              setAlert(null)
-              setStateAlert(null)
-              sessionStorage.clear()
-          }, 5000);
-    }
-    const arrayWithPages = (numberOfItems,numberOfElementsOnAPage) => {
-        const numberOfPages= Math.ceil(numberOfItems / numberOfElementsOnAPage)
-        const complementUrl ="?page="
-        const arrayLinks=[]
-
-        for (var i = 1; i <= numberOfPages; i++) {    
-          arrayLinks.push(complementUrl+i)
-        }
-
-        setcantPages(arrayLinks)
-        return numberOfPages
-    }
-
-    const fetchPriorities = async () => {
-      setLoading(true)
-      getPriorities().then((response) => {
+      getPriorities('?page='+currentPage).then((response) => {
+          //es escencial mantener este orden ya que si no proboca bugs en el paginado
           setPriorities(response.data.results)
-          setPages(arrayWithPages(response.data.count,response.data.results.length)) 
+          setCountItems(response.data.count)
+           
       }).catch((error)=>{
-         setError(error)
-      }).finally(() => {
-         setLoading(false)
-      })
-    }
-
-    fetchPriorities()
-  }, [])
-  function CambioDepagina(url){
-   
-
-    if (jumpPage){
-      setjumpPage(false)
-
-      const fetchPosts = async () => {
-        setLoading(true)
-        getPriorities(url).then((response) => {
-          setPriorities(response.data.results)
-          
-      })
+        setError(error)
+    })
+    .finally(() => {
+        setShowAlert(true)
         setLoading(false)
-      }
-      fetchPosts()
-    }
-  }
-
-  const callbackBackend = (name, stateAlert) => {
-    if(stateAlert) {
-        getPriorities()
-        .then((response) => {
-            setPriorities(response.data.results)
-        })
-        .catch((error) => {
-            setError(error)
-        })
-        .finally(() => {
-            setLoading(false)
-            setAlert({name:name, type:1})
-            setTimeout(() => {
-                setAlert(null)
-                setStateAlert(null)
-            }, 5000);
-        })
-    }
-    else {
-        setAlert({name:name, type:0})
-    }
-  }
+    })
+  
+  }, [countItems, currentPage])
+  
   const action = () => {
     console.log("llamada backend")
   }
-  CambioDepagina(cantPages[currentPage-1])
+
+  const resetShowAlert = () => {
+    setShowAlert(false);
+  }
 
   return (
     <div>
     
-    <Alert alert={alert} stateAlert={stateAlert} />
+    <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
     <Row>
       <Navigation actualPosition="Prioridades"/>
     </Row>
@@ -119,14 +62,20 @@ const ListPriorities = () => {
               <Search type="Prioridad" action={action} />
             </Col>
             <Col sm={12} lg={3}>
-              <Link to={"/add-Priority"} >
+              <Link to={"/priorities/create"} >
                 <CrudButton type='create' name='Prioridad' /> 
               </Link>
             </Col>
           </Row>                                 
         </Card.Header>
-        <TablePriorities Priorities={priorities} callback ={callbackBackend} loading={loading} /> 
-        <Pagination pages = {pages} setCurrentPage={setCurrentPage} setjumpPage={setjumpPage} />
+        <TablePriorities Priorities={priorities}  loading={loading} /> 
+        <Card.Footer >
+            <Row className="justify-content-md-center">
+                <Col md="auto"> 
+                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+                </Col>
+            </Row>
+        </Card.Footer>
       </Card>            
     </div>
   );
