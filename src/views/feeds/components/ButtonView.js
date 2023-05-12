@@ -33,7 +33,7 @@ function ButtonView({feed}) {
                                         <span className="d-block m-t-5">Detalle de fuente de informacion</span>
                                     </Col>
                                     <Col sm={12} lg={2}>
-                                        <Link to={{pathname:"./feeds/edit", state:{feed}}} >
+                                        <Link to={{pathname:"./feeds/edit", state:feed}} >
                                             <CrudButton type="edit" />
                                         </Link>
                                         <CloseButton aria-label='Cerrar' onClick={handleClose} />

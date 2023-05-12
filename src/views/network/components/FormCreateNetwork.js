@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Button, Card, CloseButton, Col, Row, Form, Modal} from 'react-bootstrap';
-import { getEntities } from '../../../api/services/entities';
-import { getNetworks } from '../../../api/services/networks';
+import { getAllEntities } from '../../../api/services/entities';
+import { getAllNetworks } from '../../../api/services/networks';
 import CrudButton from '../../../components/Button/CrudButton';
 import FormCreateContact from '../../contact/components/FormCreateContact';
 import { postContact } from '../../../api/services/contacts';
@@ -41,19 +41,19 @@ const FormCreateNetwork = (props) => {
         .map(elemento => ({value: elemento.value, label: elemento.label}));
         setContactsValueLabel(listDefaultContact)
         
-        getEntities()
+        getAllEntities()
             .then((response) => {
-                setEntitiesOption(response.data.results)
-                console.log(response.data.results)
+                setEntitiesOption(response)
+                console.log(response)
             })
             .catch((error)=>{
                 setError(error)
             })
     
-        getNetworks()
+        getAllNetworks()
             .then((response) => {
-                setNetworksOption(response.data.results)
-                console.log(response.data.results)
+                setNetworksOption(response)
+                console.log(response)
             })
             .catch((error)=>{
                 setError(error)
@@ -85,7 +85,10 @@ const FormCreateNetwork = (props) => {
         .catch((error) => {
             setError(error)
             console.log(error)
-        });    
+            props.setShowAlert(true);
+        })
+        .finally(()=> {
+        });
     };
     
     const handlerDomain = (url) => {// Network.Domain permite valores nulos

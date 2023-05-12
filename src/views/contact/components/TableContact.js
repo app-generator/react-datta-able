@@ -55,8 +55,8 @@ const TableContact = ({setIsModify, list, loading }) => {
         setModalDelete(true)
     }
 
-    const removeContact = (url)=> {
-        deleteContact(url)
+    const removeContact = (url, name)=> {
+        deleteContact(url, name)
             .then((response) => {
                 setIsModify(response)
             })
@@ -190,13 +190,13 @@ const TableContact = ({setIsModify, list, loading }) => {
                                             </td>
                                         </tr> 
                                         <tr>
-                                            <td>Fecha de creación</td>
+                                            <td>Creación</td>
                                             <td>
                                                 <Form.Control plaintext readOnly defaultValue={created} />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Ultima actualización</td>
+                                            <td>Actualización</td>
                                             <td>
                                                 <Form.Control plaintext readOnly defaultValue={modified} />
                                             </td>
@@ -209,7 +209,7 @@ const TableContact = ({setIsModify, list, loading }) => {
                     </Row>
                 </Modal.Body>
             </Modal>
-            <ModalConfirm type='delete' component='Contacto' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeContact(url)}/>
+            <ModalConfirm type='delete' component='Contacto' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeContact(url, name)}/>
         </React.Fragment> 
   );
 };

@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, Card } from 'react-bootstrap';
 import { putEntity } from '../../api/services/entities';
 import FormEntity from './components/FormEntity';
 import Navigation from '../../components/Navigation/Navigation';
+import Alert from '../../components/Alert/Alert';
 
 const EditEntity = () => {
-    const entity = useLocation().state;
+    const location = useLocation();
+    const fromState = location.state;
+    const [entity, setEntity] = useState(fromState);
     const [name, setName] = useState(entity.name);
     const [active, setActive] = useState(entity.active);
-    const [error, setError] = useState(null);
+
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     //Update
     const editEntity = () => {
@@ -17,13 +22,14 @@ const EditEntity = () => {
         .then((response) => { 
             window.location.href = "/entities"
         })
-        .catch((error) => {
-            setError(error)
+        .catch(() => {
+            setShowAlert(true)
         });    
     };
 
     return (
-        <React.Fragment>          
+        <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
             <Row>
                 <Navigation actualPosition="Editar Entidad" path="/entities" index ="Entidades"/>
             </Row>

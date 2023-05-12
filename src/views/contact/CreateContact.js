@@ -3,6 +3,7 @@ import { Card, Col, Row  } from 'react-bootstrap';
 import { postContact } from '../../api/services/contacts';
 import FormCreateContact from './components/FormCreateContact';
 import Navigation from '../../components/Navigation/Navigation';
+import Alert from '../../components/Alert/Alert';
 
 const CreateContact = () => {
     const [supportedName, setSupportedName] = useState('');
@@ -11,7 +12,9 @@ const CreateContact = () => {
     const [supportedContact, setSupportedContact] = useState('');
     const [supportedKey, setSupportedKey] = useState('');
     const [selectType, setSelectType] = useState('0');
-    const [error, setError] = useState(null);
+    
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     const createContact = () => { //refactorizar al FormCreateContact
 
@@ -19,13 +22,14 @@ const CreateContact = () => {
         .then((response) => { 
             window.location.href = "/contacts"
         })
-        .catch((error) => {
-            setError(error)
+        .catch(() => {
+            setShowAlert(true)
         });    
     };
 
     return (
         <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
             <Row>
                 <Navigation actualPosition="Crear Contacto" path="/contacts" index ="Contactos"/>
             </Row>

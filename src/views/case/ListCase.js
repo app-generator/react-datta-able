@@ -8,6 +8,7 @@ import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
+import Alert from '../../components/Alert/Alert';
 
 const ListCase = () => {
     const [cases, setCases] = useState([]) //lista de casos
@@ -15,13 +16,17 @@ const ListCase = () => {
 
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const [countItems, setCountItems] = useState(0);
-
+    
     //merge
     const [selectedCases, setSelectedCases] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
+    
+    //Pagination    
+    const [currentPage, setCurrentPage] = useState(1);
+    const [countItems, setCountItems] = useState(0);
 
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
@@ -29,15 +34,14 @@ const ListCase = () => {
     
     useEffect( ()=> {
 
-        getCases('?page='+currentPage) 
+        getCases(currentPage) 
             .then((response) => {
                 setCases(response.data.results)
                 // Pagination
                 setCountItems(response.data.count);
-
             })
             .catch((error) => {
-                // Show alert
+                setShowAlert(true)
             })
             .finally(() => {
                 setLoading(false)
@@ -60,9 +64,7 @@ const ListCase = () => {
         )
     }
     //-----------------MERGE------------------------
-    
     const mergeConfirm = () => {
-        //setId
         setShowModal(true);
     }
 
@@ -82,6 +84,7 @@ const ListCase = () => {
 
     return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
         <Row>
             <Navigation actualPosition={'Casos'}/>  
         </Row>
@@ -108,7 +111,7 @@ const ListCase = () => {
                                     variant='light'
                                     title='Mergear'
                                     onClick={() => mergeConfirm()}>
-                                    <i variant='danger' class="fa fa-code-branch"/>
+                                    <i variant='danger' className="fa fa-code-branch"/>
                                         Merge&nbsp;
                                     <Badge  
                                         className="badge mr-1" >

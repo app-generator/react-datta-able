@@ -43,7 +43,7 @@ const [allUsers, setAllUsers] = useState([])
             console.log(error)
         })
 
-    },[])
+    },[props.allStates])
 
     const allLifecycles = [
         {
@@ -73,12 +73,16 @@ const [allUsers, setAllUsers] = useState([])
           evidences.push(files[i]);
         }
         props.setEvidences(evidences);
+        //props.f.append("evidence", evidences)
       }
-
       const selectEvidences2 = (event) => {
-        props.setEvidences(event.target.files)
-        console.log(props.evidences)
-        console.log(event.target.files)
+        const files = event.target.files;
+        console.log(files)
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append('evidences', files[i]);
+        }
+        props.setEvidences(formData); 
       }
 
     return (

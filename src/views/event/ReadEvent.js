@@ -13,9 +13,9 @@ import Navigation from '../../components/Navigation/Navigation'
 
 const ReadEvent = () => {
     const location = useLocation();
-    const event = location.state.event;
-
-    const [body,setBody]=useState(event)
+    const fromState = location.state;
+  
+    const [body,setBody]=useState(fromState)
 
     const callbackTaxonomy = (url ,setPriority) => {
         getTaxonomy(url)

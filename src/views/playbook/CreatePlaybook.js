@@ -5,7 +5,7 @@ import FormCreatePlaybook from '../playbook/components/FormCreatePlaybook';
 import { getAllTaxonomies } from '../../api/services/taxonomies';
 import ListTask from '../task/ListTask';
 import Navigation from '../../components/Navigation/Navigation';
-import { useLocation } from 'react-router-dom';
+import Alert from '../../components/Alert/Alert';
 
 
 const CreatePlaybook = () => {
@@ -20,7 +20,8 @@ const CreatePlaybook = () => {
     //Collapse
     const [sectionAddTask, setSectionAddTask] = useState(false);
 
-    const [error, setError] = useState(null);
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(()=> {
         
@@ -41,27 +42,25 @@ const CreatePlaybook = () => {
 
     const createPlaybook = () => {
         postPlaybook (name, taxonomy)
-        .then((response) => { 
-            console.log(response.data)
-            
-            setUrl(response.data.url) // y la url
-            setSectionAddTask(true)
-        })
-        .catch((error) => {
-            setError(error)
-            console.log(error)
-        })
+            .then((response) => { 
+                setUrl(response.data.url) // y la url
+                setSectionAddTask(true)
+            })
+            .catch(() => {
+               
+            })
+            .finally(() => {
+                setShowAlert(true)
+            })
     };
 
     const editPlaybook = () => {
         putPlaybook (url, name, taxonomy)
-            .then((response) => { 
-            console.log(response)
-        })
-        .catch((error) => {
-            setError(error)
-            console.log(error)
-        })
+            .then()
+            .catch()
+            .finally(() => {
+                setShowAlert(true)
+            })
     };
 
     const labelTaxonomy = {
@@ -71,6 +70,7 @@ const CreatePlaybook = () => {
 
     return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
         <Row>
             <Navigation actualPosition="Agregar Playbook" path="/playbooks" index ="Playbook"/>
         </Row>

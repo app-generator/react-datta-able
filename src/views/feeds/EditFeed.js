@@ -10,7 +10,9 @@ import Navigation from '../../components/Navigation/Navigation';
 
 const EditFeed = () => {
     const location = useLocation();
-    const feed = location.state.feed;       
+    const fromState = location.state;
+    const [feed, setFeed] = useState(fromState);
+
     const [name, setName] = useState(feed.name);
     const [active, setActive] = useState(feed.active);
     const [description, setDescription] = useState(feed.description);

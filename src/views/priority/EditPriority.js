@@ -8,9 +8,10 @@ import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 
 const EditPriority = () => {
-    
     const location = useLocation();
-    const priority = location.state.priority;
+    const fromState = location.state;
+    const [priority, setPriority] = useState(fromState);
+
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
     const [error,setError]=useState()

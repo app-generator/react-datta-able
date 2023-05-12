@@ -48,7 +48,7 @@ function ButtonView({taxonomy}) {
                                         <span className="d-block m-t-5">Detalle de taxonomia</span>
                                     </Col>
                                     <Col sm={12} lg={2}>
-                                        <Link to={{pathname:"./taxonomy/edit", state:{taxonomy}}} >
+                                        <Link to={{pathname:"./taxonomy/edit", state:taxonomy}} >
                                             <CrudButton type="edit" />
                                         </Link>
                                         <CloseButton aria-label='Cerrar' onClick={handleClose} />

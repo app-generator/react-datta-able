@@ -116,13 +116,13 @@ const ModalDetailNetwork = (props) => {
                                             <></>
                                         }
                                         <tr>
-                                            <td>Fecha de creación</td>
+                                            <td>Creación</td>
                                             <td>
                                                 <Form.Control plaintext readOnly defaultValue={created} />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Ultima actualización</td>
+                                            <td>Actualización</td>
                                             <td>
                                                 <Form.Control plaintext readOnly defaultValue={modified} />
                                             </td>
