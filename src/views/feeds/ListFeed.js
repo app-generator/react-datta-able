@@ -118,7 +118,7 @@ const ListFeed = () => {
                                             <td>24256</td>
                                             <td>
                                                 <ButtonView feed={feed}></ButtonView>
-                                                <Link to={{pathname:"./feeds/edit", state:{feed}}} >
+                                                <Link to={{pathname:"./feeds/edit", state:feed}} >
                                                     <CrudButton type="edit" />                                                    
                                                 </Link>    
                                                 <ButtonDelete feed={feed}></ButtonDelete>

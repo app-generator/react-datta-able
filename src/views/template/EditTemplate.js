@@ -13,7 +13,9 @@ import { getStates } from "../../api/services/states";
 
 const EditTemplate = () => {
     const location = useLocation();
-    const template = location.state.template;
+    const fromState = location.state;
+    const [template, setTemplate] = useState(fromState);
+
     console.log(template)
     const[body,setBody]=useState(template);
     const [alert, setAlert] = useState(null)

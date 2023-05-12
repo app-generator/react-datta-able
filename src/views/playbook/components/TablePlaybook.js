@@ -49,7 +49,7 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
     }
 
     const removePlaybook = (url)=> {
-        deletePlaybook(url)
+        deletePlaybook(url, name)
             .then((response) => {
                 console.log(response.data)
                 setIsModify(response)

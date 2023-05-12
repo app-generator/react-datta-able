@@ -54,9 +54,19 @@ const validateNumber = (number) => {
   return (/^[0-9]+$/g).test(number)
 }
 
-const validateCidr = (cidr) => {
-  
-  return  (/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(3[0-2]|2[0-9]|[01]?[0-9])$/).test(cidr);
-}
+const validateCidr = (address) => {
+  var ipCidr = require("ip-cidr");
+  var cidr = null; 
 
-export {validateHours, validateMinutes, validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, validateLength, isEmpty};
+  try {
+      cidr = new ipCidr(address);  
+      if(cidr != null) {
+          const start = cidr.start()
+          return cidr.address.addressMinusSuffix == start
+      }
+  } catch (error) {
+      return false;
+  }
+}
+export {validateHours, validateMinutes,validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, validateLength, isEmpty};
+

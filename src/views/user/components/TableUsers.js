@@ -122,7 +122,7 @@ function TableUsers({users, loading}) {
                                         <td>{user.last_login ? user.last_login.slice(0,10)+" "+user.last_login.slice(11,19) : "No inicio sesion"}</td>
                                         <td>
                                         <CrudButton  type='read' onClick={() => showModalUser(user) }/>
-                                        <Link to={{pathname:"/users/edit", state: {user}}} >
+                                        <Link to={{pathname:"/users/edit", state: user}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CrudButton  type='delete' onClick={()=>handleShow(user.username,user.url)} />    
@@ -144,7 +144,7 @@ function TableUsers({users, loading}) {
                                         <span className="d-block m-t-5">Detalle de usuario</span>
                                     </Col>
                                     <Col sm={12} lg={4}>                       
-                                        <Link to={{pathname:"/users/edit", state: {user}}} >
+                                        <Link to={{pathname:"/users/edit", state: user}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />

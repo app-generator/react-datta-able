@@ -15,8 +15,10 @@ import { getArtefacts } from "../../api/services/artifact";
 
 const EditEvent = () => {
   //const [date, setDate] = useState(caseItem.date  != null ? caseItem.date.substr(0,16) : '') //required
-    const location = useLocation();
-    const event = location.state.event;
+  const location = useLocation();
+  const fromState = location.state;
+  const [event, setEvent] = useState(fromState);  
+
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
     const [error,setError]=useState()

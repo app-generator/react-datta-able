@@ -112,7 +112,7 @@ const handleDelete = () => {
                                             <td>{template.domain} </td>
                                             <td>
                                             <CrudButton  type='read' onClick={() => showModalTemplate(template) }/>
-                                            <Link to={{pathname:"/templates/edit", state: {template}}} >
+                                            <Link to={{pathname:"/templates/edit", state: template}} >
                                                 <CrudButton  type='edit' />
                                             </Link>
                                             <CrudButton  type='delete' onClick={()=>modalDelete(template.cidr, template.url)} />
@@ -135,7 +135,7 @@ const handleDelete = () => {
                                         <span className="d-block m-t-5">Detalle de la Plantilla</span>
                                     </Col>
                                     <Col sm={12} lg={4}>                       
-                                        <Link to={{pathname:"/templates/edit", state: {template}}} >
+                                        <Link to={{pathname:"/templates/edit", state: template}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />

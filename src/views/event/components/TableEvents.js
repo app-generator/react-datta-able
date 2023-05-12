@@ -155,11 +155,11 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
                                 <td><CallBackendByName url={event.feed} callback={callbackFeed} useBadge={false}/></td>
                                 
                                 <td>
-                                <Link to={{pathname:"/events/view", state: {event}}} >
+                                <Link to={{pathname:"/events/view", state: event}} >
                                     <CrudButton  type='read'   />
                                 </Link>
                                 
-                                <Link to={{pathname:"/events/edit", state: {event}}} >
+                                <Link to={{pathname:"/events/edit", state: event}} >
                                     <CrudButton  type='edit' />
                                 </Link>
                                     <CrudButton  type='delete' onClick={()=>modalDelete(event.name, event.url)} />

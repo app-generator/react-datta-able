@@ -3,11 +3,14 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { postEntity } from '../../api/services/entities';
 import FormEntity from './components/FormEntity';
 import Navigation from '../../components/Navigation/Navigation';
+import Alert from '../../components/Alert/Alert';
 
 const CreateEntity = () => {
     const [name, setName] = useState('')
     const active = true; //se crea activo por defecto
-    const [error, setError] = useState(null)
+
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     //Create
     const addEntity = () => {
@@ -15,13 +18,14 @@ const CreateEntity = () => {
         .then((response) => { 
             window.location.href = "/entities"
         })
-        .catch((error) => {
-            setError(error)
+        .catch(() => {
+            setShowAlert(true)
         });    
     };
        
     return (
         <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
             <Row>
                 <Navigation actualPosition="Crear Entidad" path="/entities" index ="Entidades"/>
             </Row>
@@ -34,7 +38,7 @@ const CreateEntity = () => {
                         </Card.Header>
                         <Card.Body>
                             <Row>
-                                <Col sm={12} lg={12}>
+                                <Col sm={12} lg={6}>
                                     <FormEntity 
                                         name={name} setName={setName} 
                                         ifConfirm={addEntity} edit={false} />

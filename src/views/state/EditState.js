@@ -10,8 +10,9 @@ import { getStates} from "../../api/services/states";
 
 const EditState = () => {
     const location = useLocation();
-    const state = location.state.state;
-    const[body,setBody]=useState(state);
+    const fromState = location.state;
+    const[body,setBody]=useState(fromState);
+
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
     const [error,setError]=useState()

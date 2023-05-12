@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import { getContacts } from '../../api/services/contacts';
+import { getAllContacts } from '../../api/services/contacts';
 import { postNetwork } from '../../api/services/networks';
 import FormCreateNetwork from './components/FormCreateNetwork';
 import Navigation from '../../components/Navigation/Navigation';
+import Alert from '../../components/Alert/Alert';
 
 const CreateNetwork = () => {
     const [cidr, setCidr] = useState(''); //required
@@ -20,22 +21,24 @@ const CreateNetwork = () => {
     const [contactsOption, setContactsOption] = useState([])
     const [contactCreated, setContactsCreated ] = useState(null); // si creo se renderiza
 
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
+
     useEffect(()=> {
 
-        getContacts()
+        getAllContacts()
             .then((response) => {
                 let listContact = []
-                response.data.results.map((contactsItem)=>{
+                response.map((contactsItem)=>{
                     listContact.push({value:contactsItem.url, label:contactsItem.name + ' (' + labelRole[contactsItem.role] + ')'})
                 })
                 setContactsOption(listContact)
-                console.log(response.data.results)
+                console.log(response)
             })
             .catch((error)=>{
                 setError(error)
             })  
-        
-        
+
         },[contactCreated])
 
     const labelRole = {
@@ -50,18 +53,17 @@ const CreateNetwork = () => {
 
         postNetwork (children, cidr, domain, active, type, parent, network_entity, contacts) 
             .then((response) => { 
-            console.log(response)
             window.location.href = "/networks"
         })
-        .catch((error) => {
-            setError(error)
-            console.log(error)
+        .catch(() => {
+            setShowAlert(true)
         }); 
 
     };
 
     return (
         <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
             <Row>
                 <Navigation actualPosition="Crear Red" path="/networks" index ="Redes"/>
             </Row>
@@ -82,7 +84,8 @@ const CreateNetwork = () => {
                                 contacts={contacts} setContacts={setContacts}
                                 ifConfirm={createNetwork} edit={false}
                                 allContacts={contactsOption}
-                                setContactsCreated={setContactsCreated} />                          
+                                setContactsCreated={setContactsCreated}
+                                setShowAlert={setShowAlert} />                          
                         </Card.Body>
                     </Card>
                 </Col>

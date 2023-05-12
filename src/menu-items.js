@@ -83,6 +83,7 @@ const menuItems = {
                     title: 'Plataforma',
                     type: 'collapse',
                     icon: 'feather icon-settings',
+                    link: false,
                     children: [
                         {
                             id: 'tlp',

@@ -18,10 +18,10 @@ import ViewFiles from './components/ViewFiles';
 
 const ReadEvent = () => {
     const location = useLocation();
-    const event = location.state.event;
     const [childernes, setChildernes]=useState([])
-    const [body,setBody]=useState(event)
     const [evidence,setEvidence]=useState([])
+    const fromState = location.state;
+    const [body,setBody]=useState(fromState)
 
     const callbackTaxonomy = (url ,setPriority) => {
         getTaxonomy(url)

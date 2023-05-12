@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
+import Alert from '../../components/Alert/Alert';
 
 
 const ListEntity = () => {
@@ -17,7 +18,11 @@ const ListEntity = () => {
     const [loading, setLoading] = useState(true);
 
     const [allEntities, setAllEntities] = useState([]);
+    
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
+    //AdvancedPagination
     const [currentPage, setCurrentPage] = useState(1);
     const [countItems, setCountItems] = useState(0);
 
@@ -35,7 +40,7 @@ const ListEntity = () => {
                 console.log("se produjo un error en el getAll")
             })
 
-        getEntities('?page='+currentPage) //error al borrar el ultimo elemento de la pagina
+        getEntities(currentPage) 
             .then((response) => {
                 setEntities(response.data.results);
                 // Pagination
@@ -43,6 +48,7 @@ const ListEntity = () => {
             })
             .catch((error) => {
                 // Show alert
+                setShowAlert(true)
             })
             .finally(() => {
                 setLoading(false)
@@ -67,6 +73,7 @@ const ListEntity = () => {
 
 return (
     <React.Fragment>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
         <Row>
             <Navigation actualPosition={'Entidades'}/>  
         </Row>

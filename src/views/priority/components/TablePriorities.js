@@ -83,7 +83,7 @@ const TablePriorities = ({Priorities, loading}) => {
                                 <td>
                                 <CrudButton  type='read' onClick={() => {showModalPriority(priority)}} />
                                 
-                                <Link to={{pathname:"./priorities/edit", state: {priority}}} >
+                                <Link to={{pathname:"./priorities/edit", state: priority}} >
                                     <CrudButton  type='edit' />
                                 </Link>
                                     <CrudButton  type='delete' onClick={()=>handleShow(priority.name, priority.url)} />
@@ -104,7 +104,7 @@ const TablePriorities = ({Priorities, loading}) => {
                                         <span className="d-block m-t-5">Detalle de Prioridad</span>
                                     </Col>
                                     <Col sm={12} lg={4}>                       
-                                    <Link to={{pathname:"/priorities/edit", state: {priority}}} >
+                                    <Link to={{pathname:"/priorities/edit", state: priority}} >
                                         <CrudButton  type='edit' />
                                     </Link>
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />

@@ -42,12 +42,12 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
     }
     
     //Delete Task
-    const removeTask = (url)=> {
-        console.log('remove task url: '+ url)
-        deleteTask(url)
+    const removeTask = (url, name)=> {
+        deleteTask(url, name)
             .then((response) => {
                 console.log(response)
                 props.setTaskDeleted(response)
+                
             })
             .catch((error) => {
                 console.log(error)
@@ -76,7 +76,7 @@ return (
                     <PriorityButton url={task.priority}/>
                 </td>
                 <td>
-                    <Form.Control readOnly value={task.description === null ? "No tiene descripcion" : task.description} style={textareaStyle} as="textarea" rows={row}/>
+                    <Form.Control readOnly className="text-center" vertical-align='middle' value={task.description === null ? "No tiene descripcion" : task.description} style={textareaStyle} as="textarea" rows={row}/>
                 </td>                                    
                 <td>
                     <CrudButton type='read' onClick={() => setModalShow(true)} />
@@ -87,7 +87,7 @@ return (
 
             <ModalDetailTask show={modalShow} task={task} onHide={() => setModalShow(false)}/>
             <ModalEditTask show={modalEdit} task={task} onHide={() => setModalEdit(false)} ifEdit={props.setTaskUpdated} />
-            <ModalConfirm showModal={modalDelete} type='delete' component='Task' name={task.name}  onHide={() => setModalDelete(false)} ifConfirm={() => removeTask(task.url)}/>
+            <ModalConfirm showModal={modalDelete} type='delete' component='Task' name={task.name}  onHide={() => setModalDelete(false)} ifConfirm={() => removeTask(task.url, task.name)}/>
 
         </React.Fragment>
     );

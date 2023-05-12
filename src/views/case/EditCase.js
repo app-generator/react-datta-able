@@ -5,10 +5,12 @@ import { putCase } from '../../api/services/cases';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
 import { getState } from '../../api/services/states';
+import Alert from '../../components/Alert/Alert';
 
 const EditCase = () => {
-
-    const caseItem = useLocation().state;
+    const location = useLocation();
+    const fromState = location.state;
+    const [caseItem, setCaseItem] = useState(fromState);
 
     const [url, setUrl] = useState(caseItem.url) //required
     const [date, setDate] = useState(caseItem.date  != null ? caseItem.date.substr(0,16) : '') //required
@@ -27,6 +29,9 @@ const EditCase = () => {
 
     const [attend_date, setAttend_date] = useState(caseItem.attend_date != null ? caseItem.attend_date.substr(0,16) : '') //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(caseItem.solve_date!= null ? caseItem.solve_date.substr(0,16) : '')
+
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(()=> {
 
@@ -49,30 +54,35 @@ const EditCase = () => {
                 })
             })
             console.log(listStates);
+            setSupportedStates(listStates);
         })
         .catch((error)=>{
             console.log(error)
         })
-        setSupportedStates(listStates)
 
         },[])
 
-
     //Edit
     const editCase = () => {
+        console.log(attend_date)
+        console.log(solve_date)
+        console.log(comments)
+        console.log(evidences)
+
         putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
             window.location.href = "/cases"
         })
         .catch((error) => {
-            console.log(error)
+            setShowAlert(true)
             console.log(error)
         });    
     };
 
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
             <Row>
                 <Navigation actualPosition="Editar Caso" path="/cases" index ="Casos"/>
             </Row>
