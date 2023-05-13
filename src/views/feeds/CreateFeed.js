@@ -16,7 +16,7 @@ const CreateFeed = () => {
     const createFeed = ()=> {
         postFeed(name, description, active)
         .then(() => {
-            window.location.href = '/app/feeds';
+            window.location.href = '/feeds';
         })
         .catch((error) => {
             setError(error); 
@@ -35,7 +35,7 @@ const CreateFeed = () => {
         <React.Fragment>
             <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
-                <Navigation actualPosition="Agregar fuente de información" path="/app/feeds" index ="Fuentes de Información"/>
+                <Navigation actualPosition="Agregar fuente de información" path="/feeds" index ="Fuentes de Información"/>
             </Row>
             <Row>
                 <Col sm={12}>
@@ -73,7 +73,7 @@ const CreateFeed = () => {
                                         : 
                                         <Button variant="primary" disabled>Guardar</Button>                                    
                                     }
-                                    <Button variant="info" href='/app/feeds'>Cancelar</Button>
+                                    <Button variant="info" href='/feeds'>Cancelar</Button>
                                 </Form.Group>
                             </Form>
                         </Card.Body>
