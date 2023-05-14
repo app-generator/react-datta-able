@@ -115,7 +115,7 @@ function ButtonView({taxonomy}) {
                                         </td>
                                     </tr>
                                      <tr>
-                                        <td>Ultima actualización</td>
+                                        <td>Actualización</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={modified} />
                                         </td>
