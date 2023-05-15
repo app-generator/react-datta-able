@@ -27,15 +27,11 @@ const CreatePlaybook = () => {
         
           getAllTaxonomies()// en TableCase
             .then((response) => {
-                console.log('taxonomias')
-                console.log(response)
-
                 let listTaxonomies = []
                 response.map((taxonomyItem)=>{
                 listTaxonomies.push({value:taxonomyItem.url, label:taxonomyItem.name + ' (' + labelTaxonomy[taxonomyItem.type] + ')'})
                 setAllTaxonomies(listTaxonomies)
                 })
-
             }).catch();
 
         },[sectionAddTask])
@@ -46,9 +42,7 @@ const CreatePlaybook = () => {
                 setUrl(response.data.url) // y la url
                 setSectionAddTask(true)
             })
-            .catch(() => {
-               
-            })
+            .catch()
             .finally(() => {
                 setShowAlert(true)
             })
@@ -91,7 +85,7 @@ const CreatePlaybook = () => {
                         </Card.Body>
                     </Card>
 
-                    <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask}/>
+                    <ListTask urlPlaybook={url} sectionAddTask={sectionAddTask} setShowAlert={setShowAlert} />
 
                     <Button variant="primary" href="/playbooks">Volver</Button>
                 </Col>

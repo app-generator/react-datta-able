@@ -7,7 +7,7 @@ import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import ModalDetailPlaybook from './ModalDetailPlaybook';
 import FormGetName from '../../../components/Form/FormGetName';
 import { getTaxonomy } from '../../../api/services/taxonomies';
-
+import Alert from '../../../components/Alert/Alert';
 
 const TablePlaybook = ({setIsModify, list, loading }) => {
     const [playbook, setPlaybook] = useState('')
@@ -17,6 +17,9 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
 
     const [url, setUrl] = useState(null)
     const [name, setName] = useState(null)
+
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
 
     if (loading) {
         return (
@@ -63,7 +66,8 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
     };
 
     return (
-            <React.Fragment>
+        <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
                 <Table responsive hover className="text-center">
                     <thead>
                         <tr>
