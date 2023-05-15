@@ -3,7 +3,7 @@ import setAlert from '../../utils/setAlert';
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 
 const getEntities = (currentPage) => {
-    let messageError = `No ha recuperado la informacion de las entidades. `;
+    let messageError = `No ha recuperado la informacion de entidades. `;
     return apiInstance.get(COMPONENT_URL.entity + PAGE + currentPage)
     .then(response => {        
         return response;
@@ -16,7 +16,7 @@ const getEntities = (currentPage) => {
 }
 
 const getEntity = (url) => { 
-    let messageError = `No se ha recuperado la informacion de la entidad.`;
+    let messageError = `No se ha recuperado la informacion de la entidad. `;
     return apiInstance.get(url)
     .then(response => {        
         return response;
@@ -98,7 +98,7 @@ const deleteEntity = (url, name) => {
 
 const isActive = (url, active, name) => { 
     let messageSuccess = !active ? `La entidad ${name} se ha desactivado.` : `La entidad ${name} se ha activado.`;
-    let messageError = !active ? `La entidad ${name} no se ha desactivado.` : `La entidad ${name} no se ha activado.`;
+    let messageError = !active ? `La entidad ${name} no se ha desactivado. ` : `La entidad ${name} no se ha activado. `;
     return apiInstance.patch(url, {
         active: active
     }).then(response => {

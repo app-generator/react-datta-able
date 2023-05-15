@@ -3,7 +3,7 @@ import setAlert from '../../utils/setAlert';
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 
 const getContacts = (currentPage) => {
-    let messageError = `No se ha recuperado la informacion de contactos.`;
+    let messageError = `No se ha recuperado la informacion de contactos. `;
     return apiInstance.get(COMPONENT_URL.contact + PAGE + currentPage)
     .then(response => {        
         return response;
@@ -40,7 +40,7 @@ const getAllContacts = (currentPage = 1, results = [], limit = 100) => {
             }                  
         })
         .catch((error) => {
-            console.log(error);            
+            return Promise.reject(error);
         })   
 }
 

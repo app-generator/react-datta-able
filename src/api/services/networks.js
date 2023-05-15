@@ -3,27 +3,30 @@ import setAlert from '../../utils/setAlert';
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 
 const getNetworks = (currentPage) => {
-    let messageError = `No se pudo recuperar la informacion de las redes.`;
+    let messageError = `No se ha recuperado la informacion de redes. `;
     return apiInstance.get(COMPONENT_URL.network + PAGE + currentPage)
     .then(response => {        
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 const getNetwork = (url) => {
-    let messageError = `No se pudo recuperar la informacion de la red.`;
+    let messageError = `No se ha recuperado la informacion de la red. `;
     return apiInstance.get(url)
     .then(response => {        
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 const getAllNetworks = (currentPage = 1, results = [], limit = 100) => {
-    let messageError = `No se pudo recuperar la informacion de las redes.`;            
     return apiInstance.get(COMPONENT_URL.network, { params: { page: currentPage, page_size: limit } })       
         .then((response) => {
             let res = [...results, ...response.data.results]                                    
@@ -35,7 +38,6 @@ const getAllNetworks = (currentPage = 1, results = [], limit = 100) => {
             }                  
         })
         .catch((error) => {
-            setAlert(messageError, "error");
             return Promise.reject(error);            
         })   
 }
@@ -56,14 +58,16 @@ const postNetwork = (children, cidr, domain, active, type, parent, network_entit
         setAlert(messageSuccess, "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const putNetwork = (url, children, cidr, domain, active, type, parent, network_entity, contacts) => {
-    let messageSuccess = `La red ${cidr} se pudo editar correctamente.`;
-    let messageError = `La red ${cidr} no se pudo editar.`;
+    let messageSuccess = `La red ${cidr} se ha editado correctamente.`;
+    let messageError = `La red ${cidr} no se ha editado. `;
     return apiInstance.put(url, 
     {
         children: children,
@@ -78,28 +82,32 @@ const putNetwork = (url, children, cidr, domain, active, type, parent, network_e
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 
 const deleteNetwork = (url, name) => {
-    let messageSuccess = `La red ${name} se pudo eliminar correctamente.`;
-    let messageError = `La red ${name} no se pudo eliminar.`;
+    let messageSuccess = `La red ${name} se ha eliminado correctamente.`;
+    let messageError = `La red ${name} no se ha eliminado. `;
     return apiInstance.delete(url)
     .then(response => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const isActive = (url, active, name) => { 
     let messageSuccess = !active ? `La red ${name} ha sido desactivada.` : `La red ${name} ha sido activada.`;
-    let messageError = `La red ${name} no se pudo modificar.`;
+    let messageError = !active ? `La red ${name} no ha sido desactivada. ` : `La red ${name} no ha sido activada. `;
     return apiInstance.patch(url, 
     {
         active: active
@@ -107,7 +115,9 @@ const isActive = (url, active, name) => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
