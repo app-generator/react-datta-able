@@ -23,7 +23,7 @@ const EditFeed = () => {
     const editFeed = ()=> {
         putFeed(feed.url, name, description, active)
         .then(() => {
-            window.location.href = '/app/feeds';
+            window.location.href = '/feeds';
         })
         .catch((error) => {
             setShowAlert(true) 
@@ -42,7 +42,7 @@ const EditFeed = () => {
         <React.Fragment>
             <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
-                <Navigation actualPosition="Editar fuente de información" path="/app/feeds" index ="Fuentes de Información"/> 
+                <Navigation actualPosition="Editar fuente de información" path="/feeds" index ="Fuentes de Información"/> 
             </Row>
             <Row>
                 <Col sm={12}>
@@ -80,7 +80,7 @@ const EditFeed = () => {
                                         :
                                         <Button variant="primary" disabled>Guardar</Button>                                        
                                     }                            
-                                    <Button variant="info" href='/app/feeds'>Cancelar</Button>
+                                    <Button variant="info" href='/feeds'>Cancelar</Button>
                                 </Form.Group>
                             </Form>
                         </Card.Body>
