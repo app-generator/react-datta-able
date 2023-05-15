@@ -7,6 +7,7 @@ import { getEntity, deleteEntity, isActive } from '../../../api/services/entitie
 import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 
+
 const TableEntity = ({setIsModify, list, loading }) => {
     const [entity, setEntity] = useState('') 
     const [modalShow, setModalShow] = useState(false) 

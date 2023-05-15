@@ -41,9 +41,9 @@ const ListCase = () => {
                 setCountItems(response.data.count);
             })
             .catch((error) => {
-                setShowAlert(true)
             })
             .finally(() => {
+                setShowAlert(true)
                 setLoading(false)
             })
         

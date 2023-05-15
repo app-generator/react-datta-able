@@ -27,7 +27,8 @@ const EditContact = () => {
             window.location.href = "/contacts"
         })
         .catch(() => {
-            setShowAlert(true) 
+            setShowAlert(true)
+            console.log(error)
         });    
     };
 

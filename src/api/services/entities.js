@@ -3,29 +3,32 @@ import setAlert from '../../utils/setAlert';
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 
 const getEntities = (currentPage) => {
-    let messageError = `No se pudo recuperar la informacion de las entidades.`;
+    let messageError = `No ha recuperado la informacion de las entidades. `;
     return apiInstance.get(COMPONENT_URL.entity + PAGE + currentPage)
     .then(response => {        
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const getEntity = (url) => { 
-    let messageError = `No se pudo recuperar la informacion de la entidad.`;
+    let messageError = `No se ha recuperado la informacion de la entidad.`;
     return apiInstance.get(url)
     .then(response => {        
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const getAllEntities = (currentPage = 1, results = [], limit = 100) => {
-    let messageError = `No se pudo recuperar la entidad.`;
     return apiInstance.get(COMPONENT_URL.entity, { params: { page: currentPage, page_size: limit } })       
         .then((response) => {
             let res = [...results, ...response.data.results]
@@ -37,14 +40,13 @@ const getAllEntities = (currentPage = 1, results = [], limit = 100) => {
             }
         })
         .catch((error) => {
-            setAlert(messageError, "error");
             return Promise.reject(error);
         })   
 }
 
 const postEntity = (name, active) => {
-    let messageSuccess = `La entidad ${name} se pudo crear correctamente.`;
-    let messageError = `La entidad ${name} no se pudo crear.`;
+    let messageSuccess = `La entidad ${name} se ha creado correctamente.`;
+    let messageError = `La entidad ${name} no se ha creado. `;
     return apiInstance.post(COMPONENT_URL.entity, {
         name: name, 
         active: active 
@@ -52,14 +54,16 @@ const postEntity = (name, active) => {
         setAlert(messageSuccess, "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const putEntity = (url, name, active) => {
-    let messageSuccess = `La entidad ${name} se pudo editar correctamente.`;
-    let messageError = `La entidad ${name} no se pudo editar.`;
+    let messageSuccess = `La entidad ${name} se ha editado correctamente.`;
+    let messageError = `La entidad ${name} no se ha editado. `;
     return apiInstance.put(url, {
         name: name, 
         active: active 
@@ -67,34 +71,43 @@ const putEntity = (url, name, active) => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.data;
+
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const deleteEntity = (url, name) => { 
-    let messageSuccess = `La entidad ${name} se pudo eliminar correctamente.`;
-    let messageError = `La entidad ${name} no se pudo eliminar.`;
+    let messageSuccess = `La entidad ${name} se ha eliminado correctamente.`;
+    let messageError = `La entidad ${name} no se ha eliminado. `;
     return apiInstance.delete(url)
     .then(response => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        console.log(error.response)
+        let status = error.response.status;
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const isActive = (url, active, name) => { 
-    let messageSuccess = !active ? `La entidad ${name} ha sido desactivada.` : `La entidad ${name} ha sido activada.`;
-    let messageError = `La entidad ${name} no se pudo modificar.`;
+    let messageSuccess = !active ? `La entidad ${name} se ha desactivado.` : `La entidad ${name} se ha activado.`;
+    let messageError = !active ? `La entidad ${name} no se ha desactivado.` : `La entidad ${name} no se ha activado.`;
     return apiInstance.patch(url, {
         active: active
     }).then(response => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }

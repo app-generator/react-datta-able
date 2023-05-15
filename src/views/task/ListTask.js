@@ -42,6 +42,10 @@ const ListTask = (props) => {
         .catch((error) => {
             console.log(error)
         })
+        .finally(() =>{
+         //set alert   
+         console.log('')    
+    })
 
     }, [ taskCreated, taskUpdated, taskDeleted, countItems, currentPage]) //, isModify
 
