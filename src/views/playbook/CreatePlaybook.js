@@ -60,8 +60,7 @@ const CreatePlaybook = () => {
             .catch()
             .finally(() => {
                 setShowAlert(true)
-                console.log(error)
-                })
+            })
     };
 
     const labelTaxonomy = {

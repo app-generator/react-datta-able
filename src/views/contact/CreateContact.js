@@ -24,7 +24,6 @@ const CreateContact = () => {
         })
         .catch(() => {
             setShowAlert(true)
-            console.log(error)
         });    
     };
 

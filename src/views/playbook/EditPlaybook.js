@@ -52,7 +52,6 @@ const EditPlaybook = () => {
             .then()
             .catch(() => {
                 setShowAlert(true)
-                console.log(error)
                 })
     };
    

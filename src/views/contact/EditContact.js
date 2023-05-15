@@ -28,7 +28,6 @@ const EditContact = () => {
         })
         .catch(() => {
             setShowAlert(true)
-            console.log(error)
         });    
     };
 
