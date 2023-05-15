@@ -49,17 +49,16 @@ const postState = ( name,attended,solved,active,description,children) => {
         return Promise.reject(error);
     });
 }
-const putState = ( url,slug,name,attended,solved,active,description,children) => {
+const putState = ( url,name,attended,solved,active,description,children) => {
     let messageSuccess = `EL estado ${name} se pudo crear correctamente`;
     let messageError = `El estado ${name} no se pudo crear`;
     return apiInstance.put(url, {
-        slug:slug ,
         name: name,
         attended: attended,
         solved:solved,
         active:active,
         description:description,
-        children:children 
+        children:JSON.stringify(children)
         
     }).then(response => {
         setAlert(messageSuccess, "success");

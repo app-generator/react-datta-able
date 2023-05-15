@@ -19,7 +19,36 @@ const FormPriority = ({body, setBody, createPriority}) => {
         }
         if(body.color === "" ){
                 return false
-
+        }
+        if(body.attend_time_days !== ""){
+                if(!validateNumber(body.attend_time_days)){
+                        return false
+                }
+        }
+        if(body.attend_time_hours !== ""){
+                if(!validateHours(body.attend_time_hours)){
+                        return false
+                }
+        }
+        if(body.attend_time_minutes !== ""){
+                if(!validateMinutes(body.attend_time_minutes)){
+                        return false
+                }
+        }
+        if(body.solve_time_days !== ""){
+                if(!validateNumber(body.solve_time_days)){
+                        return false
+                }
+        }
+        if(body.solve_time_hours !== ""){
+                if(!validateHours(body.solve_time_hours)){
+                        return false
+                }
+        }
+        if(body.solve_time_minutes !== ""){
+                if(!validateMinutes(body.solve_time_minutes)){
+                        return false
+                }
         }
         return true
     }

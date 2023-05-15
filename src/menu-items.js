@@ -9,7 +9,7 @@ const menuItems = {
                     id: 'dashboard',
                     title: 'Métricas',
                     type: 'item',
-                    url: '/app/dashboard/default',
+                    url: '/metrics',
                     icon: 'feather icon-home',
                     breadcrumbs: false
                 },
@@ -17,7 +17,7 @@ const menuItems = {
                     id: 'feeds',
                     title: 'Fuentes',
                     type: 'item',
-                    url: '/app/feeds',
+                    url: '/feeds',
                     icon: 'feather icon-globe',
                     breadcrumbs: false
                 },
@@ -89,7 +89,7 @@ const menuItems = {
                             id: 'tlp',
                             title: 'TLP',
                             type: 'item',
-                            url: '/app/tlp',
+                            url: '/tlp',
                             icon: '',
                             breadcrumbs: false
                         },          
@@ -108,14 +108,14 @@ const menuItems = {
                             title: 'Playbooks',
                             type: 'item',
                             url: '/playbooks',
-                            icon: 'fas fa-tasks',
+                            icon: '',
                             breadcrumbs: false
                         },
                         {
                             id: 'taxonomy',
                             title: 'Taxonomia',
                             type: 'item',
-                            url: '/app/taxonomies',
+                            url: '/taxonomies',
                             icon: '',
                             breadcrumbs: false
                         },
@@ -123,9 +123,9 @@ const menuItems = {
                             id: 'Estados',
                             title: 'Estados',
                             type: 'item',
-                            url: '/app/states',
+                            url: '/states',
                             classes: '',
-                            icon: 'fas fa-stream',
+                            icon: '',
                             breadcrumbs: false,
                         },
                         {
@@ -134,7 +134,7 @@ const menuItems = {
                             type: 'item',
                             url: '/templates',
                             classes: '',
-                            icon: 'fas fa-stream',
+                            icon: '',
                             breadcrumbs: false,
                         }
                     ]
@@ -150,173 +150,7 @@ const menuItems = {
                 }
             ]
         
-        }
-        /*,
-        {
-            id: 'ui-element',
-            title: 'UI ELEMENT',
-            type: 'group',
-            icon: 'icon-ui',
-            children: [
-                {
-                    id: 'basic',
-                    title: 'Components',
-                    type: 'collapse',
-                    icon: 'feather icon-box',
-                    children: [
-                        {
-                            id: 'button',
-                            title: 'Button',
-                            type: 'item',
-                            url: '/basic/button'
-                        },
-                        {
-                            id: 'badges',
-                            title: 'Badges',
-                            type: 'item',
-                            url: '/basic/badges'
-                        },
-                        {
-                            id: 'breadcrumb',
-                            title: 'Breadcrumb',
-                            type: 'item',
-                            url: '/basic/breadcrumb'
-                        },
-                        {
-                            id: 'collapse',
-                            title: 'Collapse',
-                            type: 'item',
-                            url: '/basic/collapse'
-                        },
-                        {
-                            id: 'tabs-pills',
-                            title: 'Tabs & Pills',
-                            type: 'item',
-                            url: '/basic/tabs-pills'
-                        },
-                        {
-                            id: 'typography',
-                            title: 'Typography',
-                            type: 'item',
-                            url: '/basic/typography'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: 'ui-forms',
-            title: 'Forms & Tables',
-            type: 'group',
-            icon: 'icon-group',
-            children: [
-                {
-                    id: 'forms',
-                    title: 'Forms',
-                    type: 'item',
-                    url: '/forms/form-basic',
-                    icon: 'feather icon-file-text'
-                },
-                {
-                    id: 'bootstrap',
-                    title: 'Bootstrap Table',
-                    type: 'item',
-                    url: '/tables/bootstrap',
-                    icon: 'feather icon-server'
-                }
-            ]
-        },
-        {
-            id: 'chart-maps',
-            title: 'Chart & Maps',
-            type: 'group',
-            icon: 'icon-charts',
-            children: [
-                {
-                    id: 'charts',
-                    title: 'Charts',
-                    type: 'item',
-                    url: '/charts/nvd3',
-                    icon: 'feather icon-pie-chart'
-                },
-                {
-                    id: 'maps',
-                    title: 'Maps',
-                    type: 'item',
-                    url: '/maps/google-map',
-                    icon: 'feather icon-map'
-                }
-            ]
-        },
-        {
-            id: 'pages',
-            title: 'Pages',
-            type: 'group',
-            icon: 'icon-pages',
-            children: [
-                {
-                    id: 'auth',
-                    title: 'Authentication',
-                    type: 'collapse',
-                    icon: 'feather icon-lock',
-                    children: [
-                        {
-                            id: 'signup-2',
-                            title: 'Sign UP (template)',
-                            type: 'item',
-                            url: '/auth/signup-2',
-                            target: true,
-                            breadcrumbs: false
-                        },
-                        {
-                            id: 'signin-2',
-                            title: 'Sign IN (template)',
-                            type: 'item',
-                            url: '/auth/signin-2',
-                            target: true,
-                            breadcrumbs: false
-                        }
-                    ]
-                },
-                {
-                    id: 'sample-page',
-                    title: 'Sample Page',
-                    type: 'item',
-                    url: '/sample-page',
-                    classes: 'nav-item',
-                    icon: 'feather icon-sidebar'
-                }
-            ]
-        },
-        {
-            id: 'resources',
-            title: 'Resources',
-            type: 'group',
-            icon: 'icon-pages',
-            children: [
-                {
-                    id: 'product-page',
-                    title: 'Download Product',
-                    type: 'item',
-                    url: 'https://appseed.us/product/react-node-js-datta-able',
-                    classes: 'nav-item',
-                    icon: 'feather icon-download',
-                    target: true,
-                    external: true
-                },
-                {
-                    id: 'support',
-                    title: 'Get Support',
-                    type: 'item',
-                    icon: 'feather icon-help-circle',
-                    classes: 'nav-item',
-                    url: 'https://appseed.us',
-                    target: true,
-                    external: true
-                }
-            ]
-        }
-    */
+        }        
     ]
 };
 

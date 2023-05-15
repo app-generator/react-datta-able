@@ -205,7 +205,7 @@ const FormEvent = (props) => {
                         value ={props.body.reporter} 
                         onChange={(e)=>completeField(e)} 
                         isValid={props.body.reporter}>
-                        <option value="-1">Seleccione al usuario que reporta</option>
+                        <option value="">Seleccione al usuario que reporta</option>
                         {props.users.map((user, index) => {
                             return(<option value={user.url}> {user.username} </option>)
                         })}

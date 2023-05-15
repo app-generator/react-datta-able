@@ -1,5 +1,5 @@
 export const BASENAME = ''; // don't add '/' at end off BASENAME
-export const BASE_URL = '/app/dashboard/default';
+export const BASE_URL = '/metrics';
 export const BASE_TITLE = ' | ngen ';
 export const API_SERVER = 'http://localhost:8000/api/';
 export const PAGE = '?page=';
@@ -29,30 +29,30 @@ export const CONFIG = {
 };
 
 export const COMPONENT_URL={ 
-tlp: "administration/tlp/",
-feed: "administration/feed/",
-priority: "administration/priority/",
-state: "state/",
-edge: "edge/",
-template: "template/",
-case: "case/",
-evidence: "evidence/",
-event: "event/",
-taxonomy: "taxonomy/",
-report: "report/",
-network: "network/",
-contact: "contact/",
-entity: "entity/",
-user: "user/",
-playbook: "playbook/",
-task: "task/",
-todo: "todo/",
-artifact: "artifact/",
-announcement: "announcement/",
-register: "register/",
-checkSession: "checkSession/",
-login: "ctoken/",
-searchCase: "search/case/",
-logout: "ctoken/logout/",
-refreshCookieToken: "ctoken/refresh/",
+    tlp: "administration/tlp/",
+    feed: "administration/feed/",
+    priority: "administration/priority/",
+    state: "state/",
+    edge: "edge/",
+    template: "template/",
+    case: "case/",
+    evidence: "evidence/",
+    event: "event/",
+    taxonomy: "taxonomy/",
+    report: "report/",
+    network: "network/",
+    contact: "contact/",
+    entity: "entity/",
+    user: "user/",
+    playbook: "playbook/",
+    task: "task/",
+    todo: "todo/",
+    artifact: "artifact/",
+    announcement: "announcement/",
+    register: "register/",
+    checkSession: "checkSession/",
+    login: "ctoken/",
+    searchCase: "search/case/",
+    logout: "ctoken/logout/",
+    refreshCookieToken: "ctoken/refresh/"
 };

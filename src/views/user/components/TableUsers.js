@@ -35,10 +35,10 @@ function TableUsers({users, loading}) {
         window.location.href = '/users';
       })
       .catch((error) => {
+        setShowAlert(true)
         setError(error);
       })
      .finally(()=>{
-        setShowAlert(true)
         setRemove(false)
       })
   }
@@ -69,10 +69,10 @@ function TableUsers({users, loading}) {
             window.location.href = '/users';
         })
         .catch((error) => {
-            setError(error);           
+            setError(error);
+            setShowAlert(true)           
           })
         .finally(()=>{
-            setShowAlert(true)
             setShowState(false)
         })
         /*.then((response) => {
@@ -192,13 +192,13 @@ function TableUsers({users, loading}) {
                                         </td>                        
                                     </tr>
                                     <tr>
-                                        <td>Creado el</td>
+                                        <td>Creación</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={user.created ? user.created.slice(0,10)+" "+user.created.slice(11,19) : ""} />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Ultima Actulizacion</td>
+                                        <td>Actulizacion</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={user.modified ? user.modified.slice(0,10)+" "+user.modified.slice(11,19) : ""} />
                                         </td>

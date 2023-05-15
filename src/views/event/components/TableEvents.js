@@ -85,9 +85,6 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
           .catch((error) => {
             setError(error);
           })
-         .finally(()=>{
-            setRemove(false)
-          })
     }
     const showModalEvent = (event) => {
         setEvent(event)

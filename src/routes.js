@@ -64,101 +64,43 @@ const routes = [
         routes: [
             {
                 exact: true,
-                path: '/app/feeds',
+                path: '/metrics',
+                component: lazy(() => import('./views/dashboard/DashDefault'))
+            },
+            {
+                exact: true,
+                path: '/feeds',
                 component: lazy(() => import('./views/feeds/ListFeed'))
             },
             {
                 exact: true,
-                path: '/app/feeds/create',
+                path: '/feeds/create',
                 component: lazy(() => import('./views/feeds/CreateFeed'))
             },
             {
                 exact: true,
-                path: '/app/feeds/edit',
+                path: '/feeds/edit',
                 component: lazy(() => import('./views/feeds/EditFeed'))
             },
             {
                 exact: true,
-                path: '/app/taxonomies',
+                path: '/taxonomies',
                 component: lazy(() => import('./views/taxonomy/ListTaxonomies'))
             },
             {
                 exact: true,
-                path: '/app/taxonomies/create',
+                path: '/taxonomies/create',
                 component: lazy(() => import('./views/taxonomy/CreateTaxonomy'))
             },
             {
                 exact: true,
-                path: '/app/taxonomies/edit',
+                path: '/taxonomies/edit',
                 component: lazy(() => import('./views/taxonomy/EditTaxonomy'))
             },            
             {
                 exact: true,
-                path: '/app/tlp',
+                path: '/tlp',
                 component: lazy(() => import('./views/tlp/ListTLP'))
-            },
-            {
-                exact: true,
-                path: '/app/dashboard/default',
-                component: lazy(() => import('./views/dashboard/DashDefault'))
-            },
-
-            {
-                exact: true,
-                path: '/basic/button',
-                component: lazy(() => import('./views/ui-elements/basic/BasicButton'))
-            },
-            {
-                exact: true,
-                path: '/basic/badges',
-                component: lazy(() => import('./views/ui-elements/basic/BasicBadges'))
-            },
-            {
-                exact: true,
-                path: '/basic/breadcrumb',
-                component: lazy(() => import('./views/ui-elements/basic/BasicBreadcrumb'))
-            },
-            {
-                exact: true,
-                path: '/basic/collapse',
-                component: lazy(() => import('./views/ui-elements/basic/BasicCollapse'))
-            },
-            {
-                exact: true,
-                path: '/basic/tabs-pills',
-                component: lazy(() => import('./views/ui-elements/basic/BasicTabsPills'))
-            },
-            {
-                exact: true,
-                path: '/basic/typography',
-                component: lazy(() => import('./views/ui-elements/basic/BasicTypography'))
-            },
-
-            {
-                exact: true,
-                path: '/forms/form-basic',
-                component: lazy(() => import('./views/forms/FormsElements'))
-            },
-            {
-                exact: true,
-                path: '/tables/bootstrap',
-                component: lazy(() => import('./views/tables/BootstrapTable'))
-            },
-
-            {
-                exact: true,
-                path: '/charts/nvd3',
-                component: lazy(() => import('./views/charts/nvd3-chart'))
-            },
-            {
-                exact: true,
-                path: '/maps/google-map',
-                component: lazy(() => import('./views/maps/GoogleMaps'))
-            },
-            {
-                exact: true,
-                path: '/sample-page',
-                component: lazy(() => import('./views/extra/SamplePage'))
             },
             {
                 exact: true,
@@ -237,17 +179,17 @@ const routes = [
             },
             {
                 exact: true,
-                path: "/app/states",
+                path: "/states",
                 component: lazy(() => import('./views/state/ListState'))
             },
             {
                 exact: true,
-                path: "/app/states/create",
+                path: "/states/create",
                 component: lazy(() => import('./views/state/CreateState'))
             },
             {
                 exact: true,
-                path: "/app/states/edit",
+                path: "/states/edit",
                 component: lazy(() => import('./views/state/EditState'))
             },
             {

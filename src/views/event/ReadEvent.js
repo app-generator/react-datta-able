@@ -213,13 +213,13 @@ const ReadEvent = () => {
                     </tr>
                     
                     <tr>
-                        <td>Creado</td>
+                        <td>Creación</td>
                         <td>
                             <Form.Control plaintext readOnly defaultValue={body.created.slice(0,10)+" "+body.date.slice(11,19)} />
                         </td>
                     </tr>
                     <tr>
-                        <td>modificado</td>
+                        <td>Actualización</td>
                         <td>
                             <Form.Control plaintext readOnly defaultValue={body.modified.slice(0,10)+" "+body.date.slice(11,19)} />
                         </td>

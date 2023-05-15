@@ -7,11 +7,11 @@ import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import { getTLP } from "../../api/services/tlp";
 import { getAllTaxonomies } from "../../api/services/taxonomies";
-import { getFeeds } from "../../api/services/feeds";
-import { getPriorities } from "../../api/services/priorities";
+import { getAllFeeds } from "../../api/services/feeds";
+import { getAllPriorities } from "../../api/services/priorities";
 import { getEvidence, deleteEvidence} from "../../api/services/evidences";
-import { getUsers } from "../../api/services/users";
-import { getArtefacts } from "../../api/services/artifact";
+import { getAllUsers } from "../../api/services/users";
+import { getAllArtifacts } from "../../api/services/artifact";
 
 const EditEvent = () => {
   //const [date, setDate] = useState(caseItem.date  != null ? caseItem.date.substr(0,16) : '') //required
@@ -36,6 +36,8 @@ const EditEvent = () => {
 
   useEffect( ()=> {
     event.date = event.date.substr(0,16)
+    event.reporter = event.reporter == null ? "": event.reporter
+    event.notes = event.notes == "null" ? "": event.notes
     console.log(event)
     setBody(event)
 
@@ -53,7 +55,6 @@ const EditEvent = () => {
         
         
         getTLP().then((response) => { 
-          console.log(response.data.results)
           setTLP(response.data.results)
         })
         .catch((error) => {
@@ -64,7 +65,6 @@ const EditEvent = () => {
         })
 
         getAllTaxonomies().then((response) => { 
-          console.log(response)
           setTaxonomy(response)
         })
         .catch((error) => {
@@ -74,9 +74,8 @@ const EditEvent = () => {
             setLoading(false)
         })
 
-        getFeeds(1).then((response) => { //se hardcodea las paginas
-          console.log(response.data.results)
-          setFeeds(response.data.results)
+        getAllFeeds().then((response) => { //se hardcodea las paginas
+          setFeeds(response)
         })
         .catch((error) => {
             setError(error)
@@ -85,9 +84,8 @@ const EditEvent = () => {
             setLoading(false)
         })
 
-        getPriorities().then((response) => { //se hardcodea las paginas
-          console.log(response.data.results)
-          setPriorities(response.data.results)
+        getAllPriorities().then((response) => { //se hardcodea las paginas
+          setPriorities(response)
         })
         .catch((error) => {
             setError(error)
@@ -96,9 +94,8 @@ const EditEvent = () => {
             setLoading(false)
         })
 
-        getUsers().then((response) => { //se hardcodea las paginas
-          console.log(response.data.results)
-          setUsers(response.data.results)
+        getAllUsers().then((response) => { //se hardcodea las paginas
+          setUsers(response)
         })
         .catch((error) => {
             setError(error)
@@ -107,10 +104,10 @@ const EditEvent = () => {
             setLoading(false)
         })
 
-        getArtefacts()
+        getAllArtifacts()
         .then((response) => {
           var list= []
-          response.data.results.map((artifact)=>{
+          response.map((artifact)=>{
             list.push({value:artifact.url, label:artifact.value})
           })
           setListArtifact(list)
@@ -123,7 +120,7 @@ const EditEvent = () => {
     fetchPosts()
     
   },[contactCreated]);
-  console.log(body)
+  
 
     const resetShowAlert = () => {
       setShowAlert(false);
@@ -148,6 +145,7 @@ const EditEvent = () => {
       f.append("priority",body.priority)
       f.append("tlp", body.tlp)
       f.append("taxonomy", body.taxonomy)
+      f.append("artifacts", body.artifacts)
       f.append("feed", body.feed)
       f.append("domain", body.domain)
       f.append("todos", body.todos)
@@ -166,16 +164,18 @@ const EditEvent = () => {
       }else{
         f.append("evidence", evidence)
       }
+      body.artifacts.forEach((item) => {
+        console.log(item)
+        f.append('artifacts', item);
+      });
       putEvent(body.url,f).then(() => {
         window.location.href = '/events';
       })
       .catch((error) => {
           setShowAlert(true) //hace falta?
           setError(error);           
-      })
-      .finally(() => {
-          setShowAlert(true) 
-      })  
+      }) 
+      console.log(body)
          
     }
 
