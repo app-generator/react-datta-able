@@ -13,7 +13,7 @@ function ButtonDelete({taxonomy}) {
   const removeTaxonomy = (taxonomy)=> {
     deleteTaxonomy(taxonomy.url, taxonomy.name)
     .then(() => {      
-      window.location.href = '/app/taxonomies';
+      window.location.href = '/taxonomies';
     })
     .catch((error) => {
       setError(error);

@@ -31,7 +31,7 @@ const CreateTaxonomy = () => {
         let active = true
         postTaxonomy(type, name, description, active, parent)
         .then(() => {                       
-            window.location.href = '/app/taxonomies';
+            window.location.href = '/taxonomies';
         })
         .catch((error) => {
             setError(error);            
@@ -50,7 +50,7 @@ const CreateTaxonomy = () => {
         <React.Fragment>
             <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
-                <Navigation actualPosition="Agregar taxonomia" path="/app/taxonomies" index ="Taxonomia"/>
+                <Navigation actualPosition="Agregar taxonomia" path="/taxonomies" index ="Taxonomia"/>
             </Row>
             <Row>
                 <Col sm={12}>
@@ -101,7 +101,7 @@ const CreateTaxonomy = () => {
                                         : 
                                         <Button variant="primary" disabled>Guardar</Button>                                    
                                     }
-                                    <Button variant="info" href='/app/taxonomies'>Cancelar</Button>
+                                    <Button variant="info" href='/taxonomies'>Cancelar</Button>
                                 </Form.Group>
                             </Form>
                         </Card.Body>

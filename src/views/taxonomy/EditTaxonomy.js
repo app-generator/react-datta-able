@@ -48,7 +48,7 @@ const EditTaxonomy = () => {
     const editTaxonomy = ()=> {        
         putTaxonomy(taxonomy.url, type, name, description, active, parent)
         .then(() => {                        
-            window.location.href = '/app/taxonomies';
+            window.location.href = '/taxonomies';
         })
         .catch((error) => {
             setError(error);            
@@ -66,7 +66,7 @@ const EditTaxonomy = () => {
         <React.Fragment>
             <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <Row>
-                <Navigation actualPosition="Editar taxonomia" path="/app/taxonomies" index ="Taxonomia"/> 
+                <Navigation actualPosition="Editar taxonomia" path="/taxonomies" index ="Taxonomia"/> 
             </Row>
             <Row>
                 <Col sm={12}>
@@ -123,7 +123,7 @@ const EditTaxonomy = () => {
                                         : 
                                         <Button variant="primary" disabled>Guardar</Button>                                    
                                     }
-                                    <Button variant="info" href='/app/taxonomies'>Cancelar</Button>
+                                    <Button variant="info" href='/taxonomies'>Cancelar</Button>
                                 </Form.Group>
                             </Form>
                         </Card.Body>
