@@ -123,7 +123,7 @@ const menuItems = {
                             id: 'Estados',
                             title: 'Estados',
                             type: 'item',
-                            url: '/app/states',
+                            url: '/states',
                             classes: '',
                             icon: '',
                             breadcrumbs: false,

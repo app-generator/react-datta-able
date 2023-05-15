@@ -179,17 +179,17 @@ const routes = [
             },
             {
                 exact: true,
-                path: "/app/states",
+                path: "/states",
                 component: lazy(() => import('./views/state/ListState'))
             },
             {
                 exact: true,
-                path: "/app/states/create",
+                path: "/states/create",
                 component: lazy(() => import('./views/state/CreateState'))
             },
             {
                 exact: true,
-                path: "/app/states/edit",
+                path: "/states/edit",
                 component: lazy(() => import('./views/state/EditState'))
             },
             {

@@ -5,22 +5,20 @@ import Navigation from '../../components/Navigation/Navigation'
 import { postEvent} from "../../api/services/events";
 import { getTLP } from "../../api/services/tlp";
 import { getAllTaxonomies } from "../../api/services/taxonomies";
-import { getFeeds } from "../../api/services/feeds";
-import { getPriorities } from "../../api/services/priorities";
-import { getUsers } from "../../api/services/users";
-import { getArtefacts } from "../../api/services/artifact";
+import { getAllFeeds } from "../../api/services/feeds";
+import { getAllPriorities } from "../../api/services/priorities";
+import { getAllUsers } from "../../api/services/users";
+import { getAllArtifacts } from "../../api/services/artifact";
 import Alert from '../../components/Alert/Alert';
 
-
 const CreateEvent = () => {
-  const formEmpty={
-    
+  const formEmpty={   
     children: [], 
     todos: [],
     artifacts: [], 
     comments: null, 
-    cidr: null,
-    domain: ".com", //cuidado con cargar "" , si o si tiene que ser requerido me lo pide por que no tine un atributo filter
+    cidr: "",
+    domain: "", //cuidado con cargar "" , si o si tiene que ser requerido me lo pide por que no tine un atributo filter
     date: "",
     notes: null, //cuidado con cargar ""
     parent: [],
@@ -31,12 +29,9 @@ const CreateEvent = () => {
     reporter: [],
     case: [],
     tasks:[]
-  }
-  
+  }  
   const [evidence, setEvidence] = useState([])
   const [body, setBody] = useState(formEmpty)
-  const [alert, setAlert] = useState(null)
-  const [stateAlert, setStateAlert] = useState(null)
   const [error,setError]=useState()
   const [TLP, setTLP] = useState([])
   const [feeds, setFeeds] = useState([])
@@ -51,7 +46,6 @@ const CreateEvent = () => {
   const resetShowAlert = () => {
     setShowAlert(false);
   }  
-  
 
   useEffect( ()=> {
     const fetchPosts = async () => {
@@ -69,7 +63,7 @@ const CreateEvent = () => {
         })
 
         getAllTaxonomies().then((response) => { 
-          console.log(response)
+
           setTaxonomy(response)
         })
         .catch((error) => {
@@ -79,9 +73,9 @@ const CreateEvent = () => {
             setLoading(false)
         })
 
-        getFeeds(1).then((response) => { //se hardcodea las paginas
-          console.log(response.data.results)
-          setFeeds(response.data.results)
+        getAllFeeds().then((response) => { //se hardcodea las paginas
+          console.log(response)
+          setFeeds(response)
         })
         .catch((error) => {
             setError(error)
@@ -90,9 +84,9 @@ const CreateEvent = () => {
             setLoading(false)
         })
 
-        getPriorities().then((response) => { //se hardcodea las paginas
-          console.log(response.data.results)
-          setPriorities(response.data.results)
+        getAllPriorities().then((response) => { //se hardcodea las paginas
+          console.log(response)
+          setPriorities(response)
         })
         .catch((error) => {
             setError(error)
@@ -101,9 +95,9 @@ const CreateEvent = () => {
             setLoading(false)
         })
 
-        getUsers().then((response) => { //se hardcodea las paginas
-          console.log(response.data.results)
-          setUsers(response.data.results)
+        getAllUsers().then((response) => { //se hardcodea las paginas
+          console.log(response)
+          setUsers(response)
         })
         .catch((error) => {
             setError(error)
@@ -112,10 +106,11 @@ const CreateEvent = () => {
             setLoading(false)
         })
 
-        getArtefacts()
+        getAllArtifacts()
         .then((response) => {
           var list= []
-          response.data.results.map((artifact)=>{
+          console.log(response)
+          response.map((artifact)=>{
             list.push({value:artifact.url, label:artifact.value})
           })
           setListArtifact(list)
@@ -130,7 +125,7 @@ const CreateEvent = () => {
   },[contactCreated]);
 
   const createEvent=()=>{
-    console.log(body)
+    
     const f = new FormData();
 
     //console.log(fecha.toISOString())//YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]
@@ -158,6 +153,11 @@ const CreateEvent = () => {
     }else{
       f.append("evidence", evidence)
     }
+    //no se estan enviando los artefactos revisar backend
+    body.artifacts.forEach((item) => {
+      f.append('artifacts', item);
+    });
+
     postEvent(f)
     /*postEvent(f, body.children, body.todos, body.artifacts, body.comments, body.cidr, 
       body.domain, body.date, body.evidence_file_path, body.notes, body.parent, body.priority, body.tlp, 
@@ -166,13 +166,10 @@ const CreateEvent = () => {
         window.location.href = '/events';
     })
     .catch((error) => {
+        setShowAlert(true)
         setError(error);            
     })  
-    .finally(() => {
-        setShowAlert(true) 
-    }) 
   }
-
   return (
     <div>
         <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>

@@ -64,7 +64,7 @@ const ListState = () => {
                 <Search type="Estado" action={action} />
             </Col>
             <Col sm={12} lg={3}>
-                <Link to={{pathname:'/app/states/create', state:states}} >
+                <Link to={{pathname:'/states/create', state:states}} >
                     <CrudButton type='create' name='estado' />
                 </Link>
           

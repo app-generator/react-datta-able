@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import {Card, Form, Button, ButtonGroup, Badge} from 'react-bootstrap'
+import {Card, Form, Button, Row, Col} from 'react-bootstrap'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { validateCidr} from '../../../components/Validator/Validator';
@@ -39,50 +39,55 @@ const FormState = ({body, setBody, createState, childernes}) => {
   return (
     <Card.Body>
         <Form>
-
-            <Form.Group controlId="formGridAddress1">
-                <Form.Label>nombre</Form.Label>
-                <Form.Control 
-                placeholder="Ingrese un nombre" 
-                maxlength="100" 
-                value ={body.name} 
-                name="name"
-                isInvalid={body.name === ""}
-                isValid={body.name !== ""}
-                onChange={(e)=>completeField(e)}/>
-            </Form.Group>
-
-            <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>atendido</Form.Label>
-                <Form.Control  
-                    type="choice"
-                    as="select" 
-                    name="attended" 
-                    value ={body.attended}
-                    isInvalid={body.attended === null}
-                    isValid={body.attended !== null} 
-                    onChange={(e)=>completeField(e)}>
-                    <option value="-1">Seleccione un opcion</option> 
-                    <option value={true}>verdadero</option>
-                    <option value={false}>falso</option>       
-                </Form.Control>
-            </Form.Group>
-
-            <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>resuelto</Form.Label>
-                <Form.Control  
-                    type="choice"
-                    as="select" 
-                    name="solved" 
-                    value ={body.solved} 
-                    isInvalid={body.solved === null}
-                    isValid={body.solved !== null} 
-                    onChange={(e)=>completeField(e)}>
-                    <option value="-1">Seleccione un opcion</option> 
-                    <option value={true}>verdadero</option>
-                    <option value={false}>falso</option>       
-                </Form.Control>
-            </Form.Group>
+            <Row>
+                <Col>
+                    <Form.Group controlId="formGridAddress1">
+                        <Form.Label>nombre</Form.Label>
+                        <Form.Control 
+                        placeholder="Ingrese un nombre" 
+                        maxlength="100" 
+                        value ={body.name} 
+                        name="name"
+                        isInvalid={body.name === ""}
+                        isValid={body.name !== ""}
+                        onChange={(e)=>completeField(e)}/>
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group controlId="exampleForm.ControlSelect1">
+                        <Form.Label>atendido</Form.Label>
+                        <Form.Control  
+                            type="choice"
+                            as="select" 
+                            name="attended" 
+                            value ={body.attended}
+                            isInvalid={body.attended === null}
+                            isValid={body.attended !== null} 
+                            onChange={(e)=>completeField(e)}>
+                            <option value="-1">Seleccione un opcion</option> 
+                            <option value={true}>verdadero</option>
+                            <option value={false}>falso</option>       
+                        </Form.Control>
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group controlId="exampleForm.ControlSelect1">
+                        <Form.Label>resuelto</Form.Label>
+                        <Form.Control  
+                            type="choice"
+                            as="select" 
+                            name="solved" 
+                            value ={body.solved} 
+                            isInvalid={body.solved === null}
+                            isValid={body.solved !== null} 
+                            onChange={(e)=>completeField(e)}>
+                            <option value="-1">Seleccione un opcion</option> 
+                            <option value={true}>verdadero</option>
+                            <option value={false}>falso</option>       
+                        </Form.Control>
+                    </Form.Group>
+                </Col>
+            </Row>
 
             <Form.Group controlId="formGridAddress1">
                 <Form.Label>descripción</Form.Label>
@@ -109,7 +114,7 @@ const FormState = ({body, setBody, createState, childernes}) => {
             </Form.Group>
 
             <Button variant="primary" onClick={createState} >Guardar</Button> 
-            <Button variant="primary" href="/app/states">Cancelar</Button>  
+            <Button variant="primary" href="/states">Cancelar</Button>  
 
         </Form>
     </Card.Body>

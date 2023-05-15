@@ -16,6 +16,21 @@ const postArtifact = (type, value) => {//el parametro es para completar la url c
         type:type, value:value
     });
 }
+const getAllArtifacts = (currentPage = 1, results = [], limit = 100) => {
+    return apiInstance.get(COMPONENT_URL.artifact, { params: { page: currentPage, page_size: limit } })       
+        .then((response) => {
+            let res = [...results, ...response.data.results]                                    
+            if(response.data.next != undefined){                                
+                return getAllArtifacts(++currentPage, res, limit)
+            }
+            else{
+                return res;     
+            }                  
+        })
+        .catch((error) => {
+            return Promise.reject(error);            
+        })
+}
 
 
-export { getArtefacts, postArtifact, getArtefact};
+export { getArtefacts, postArtifact, getArtefact, getAllArtifacts};
