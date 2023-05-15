@@ -108,7 +108,7 @@ const menuItems = {
                             title: 'Playbooks',
                             type: 'item',
                             url: '/playbooks',
-                            icon: 'fas fa-tasks',
+                            icon: '',
                             breadcrumbs: false
                         },
                         {
@@ -125,7 +125,7 @@ const menuItems = {
                             type: 'item',
                             url: '/app/states',
                             classes: '',
-                            icon: 'fas fa-stream',
+                            icon: '',
                             breadcrumbs: false,
                         },
                         {
@@ -134,7 +134,7 @@ const menuItems = {
                             type: 'item',
                             url: '/templates',
                             classes: '',
-                            icon: 'fas fa-stream',
+                            icon: '',
                             breadcrumbs: false,
                         }
                     ]
