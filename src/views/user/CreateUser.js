@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Form } from 'react-bootstrap';
 import { postUser } from "../../api/services/users";
-import { getPriorities } from "../../api/services/priorities";
+import { getAllPriorities } from "../../api/services/priorities";
 import Alert from '../../components/Alert/Alert';
 import setAlert from '../../utils/setAlert';
 import FormUser from './components/FormUser'
@@ -20,8 +20,6 @@ const AddUser = () => {
 
     const [error,setError]=useState()
     const [body,setBody]=useState(formEmpty)
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
     const [priorities, setPriorities] = useState()
     const [loading, setLoading] = useState(true)
     const [showAlert, setShowAlert] = useState(false)
@@ -29,8 +27,8 @@ const AddUser = () => {
     useEffect( ()=> {
         const fetchPosts = async () => {
             setLoading(true)
-            getPriorities().then((response) => { 
-                setPriorities(response.data.results)
+            getAllPriorities().then((response) => { 
+                setPriorities(response)
             })
             .catch((error) => {
                 setError(error)
@@ -40,15 +38,6 @@ const AddUser = () => {
             })
         }  
         fetchPosts()
-        if(sessionStorage.getItem('Alerta')) {
-            const storage = JSON.parse(sessionStorage.getItem('Alerta'));
-            setAlert(storage)
-                setTimeout(() => {
-                    setAlert(null)
-                    setStateAlert(null)
-                    sessionStorage.removeItem('Alerta')
-                }, 5000);
-        }
     },[]);
 
     const resetShowAlert = () => {
@@ -64,9 +53,6 @@ const AddUser = () => {
         .catch((error) => {
             setShowAlert(true) 
             setError(error);           
-        })
-        .finally(() => {
-            setShowAlert(true) 
         }) 
           
     }

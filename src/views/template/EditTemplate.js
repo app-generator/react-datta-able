@@ -105,9 +105,6 @@ const EditTemplate = () => {
             setShowAlert(true) 
             setError(error);           
         })
-        .finally(() => {
-            setShowAlert(true) 
-        }) 
 
     }
   return (
@@ -116,15 +113,7 @@ const EditTemplate = () => {
         <Row>
          <Navigation actualPosition="Editar Plantilla" path="/templates" index ="Plantilla"/> 
          </Row>
-        
-                <Card>
-                    <Card.Header>
-                        <Card.Title as="h5">Editar Plantilla</Card.Title>
-                    </Card.Header>
-                    <FormTemplate body={body} setBody={setBody} createTemplate={editState} tlp={TLP} feeds={feeds} taxonomy={taxonomy} priorities={priorities} states={states}/>        
-                 
-                </Card>
-            
+         <FormTemplate body={body} setBody={setBody} createTemplate={editState} tlp={TLP} feeds={feeds} taxonomy={taxonomy} priorities={priorities} states={states}/>                
     </React.Fragment>
   )
 }

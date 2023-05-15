@@ -8,6 +8,8 @@ import ActiveButton from '../../../components/Button/ActiveButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import { deleteState, isActive } from "../../../api/services/states";
 import Alert from '../../../components/Alert/Alert';
+import CallBackendByName from '../../../components/CallBackendByName'; 
+import { getState } from "../../../api/services/states";
 
 
 const TableStates = ({states, callback, loading}) => {
@@ -37,13 +39,13 @@ const TableStates = ({states, callback, loading}) => {
     }
     const handleDelete = () => {
         deleteState(deleteUrl).then(() => {
-            window.location.href = '/app/states';
+            window.location.href = '/states';
           })
           .catch((error) => {
+            setShowAlert(true)
             setError(error);
           })
          .finally(()=>{
-            setShowAlert(true)
             setRemove(false)
           })
     }
@@ -52,17 +54,25 @@ const TableStates = ({states, callback, loading}) => {
         setDataState({url:url, name:name, state: active})
         setShowState(true)
     }
+    const callbackState = (url ,setPriority) => {
+        getState(url)
+        .then((response) => {
+            console.log(response)
+            setPriority(response.data)
+        })
+        .catch();
+    }
     const changeState=()=>{
         
         isActive(dataState.url, +!dataState.state)
         .then(() => {
-            window.location.href = '/app/states';
+            window.location.href = '/states';
         })
         .catch((error) => {
+            setShowAlert(true)
             setError(error);           
           })
         .finally(()=>{
-            setShowAlert(true)
             setShowState(false)
         })
         /*.then((response) => {
@@ -121,7 +131,7 @@ const TableStates = ({states, callback, loading}) => {
                                         
                                             <td>
                                             <CrudButton  type='read' onClick={() => showModalState(state) }/>
-                                            <Link to={{pathname:"/app/states/edit", state: state}} >
+                                            <Link to={{pathname:"/states/edit", state: state}} >
                                                 <CrudButton  type='edit' />
                                             </Link>
                                             <CrudButton  type='delete' onClick={()=>modalDelete(state.name, state.url)} />
@@ -144,7 +154,7 @@ const TableStates = ({states, callback, loading}) => {
                                         <span className="d-block m-t-5">Detalle de Estado</span>
                                     </Col>
                                     <Col sm={12} lg={4}>                       
-                                        <Link to={{pathname:"/app/states/edit", state: state}} >
+                                        <Link to={{pathname:"/states/edit", state: state}} >
                                             <CrudButton  type='edit' />
                                         </Link>
                                         <CloseButton aria-label='Cerrar' onClick={() => setModalShow(false)} />
@@ -193,17 +203,23 @@ const TableStates = ({states, callback, loading}) => {
                                     <tr>
                                         <td>Hijos</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={state.children } />
+                                            <Form.Control plaintext readOnly defaultValue={ 
+                                                state.children}/>
+                                                {/* 
+                                                state.children.length >0 ? state.children.map((url) => {
+                                                    return  (<CallBackendByName url={url} callback={callbackState}/>)
+                                                    }):"No tiene hijos"
+                                                */}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Creado</td>
+                                        <td>Creación</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={state.created ? state.created.slice(0,10)+" "+state.created.slice(11,19) : ""} />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>modificado</td>
+                                        <td>Actualización</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={state.modified ? state.modified.slice(0,10)+" "+ state.modified.slice(11,19): ""} />
                                         </td>

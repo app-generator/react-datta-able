@@ -5,6 +5,7 @@ import Navigation from '../../components/Navigation/Navigation'
 import { postState} from "../../api/services/states";
 import { useLocation } from 'react-router-dom';
 import Alert from '../../components/Alert/Alert';
+import { getAllStates } from "../../api/services/states";
 
 const AddState = () => {
     const states = useLocation().state;
@@ -32,40 +33,36 @@ const AddState = () => {
         setShowAlert(false);
     }
     useEffect( ()=> {
-        var listChildren = []
-        states.map((state, index)=>{
-            listChildren.push({value:state.url, label:state.name})
-        })
-        setChildernes(listChildren)
+        getAllStates().then((response) => { 
+
+            var listChildren = []
+            response.map((state)=>{
+                listChildren.push({value:state.url, label:state.name})
+            })
+            setChildernes(listChildren)
+          })
+          .catch((error) => {
+              setError(error)
+              
+          })
         
     },[])
-    const slugify = (str) => {
-        return str
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/[\s_-]+/g, '_')
-      .replace(/^-+|-+$/g, '')
-    }
 
     const createState=()=>{
         console.log(body.children)
         postState(body.name, body.attended, body.solved, 1, body.description, body.children)
         .then(() => {
-            window.location.href = '/app/states';
+            window.location.href = '/states';
         })
         .catch((error) => {
             setShowAlert(true) 
             setError(error);           
         })
-        .finally(() => {
-            setShowAlert(true) 
-        })  
     }
   return (
     <div>
         <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
-        <Navigation actualPosition="Agregar Estado" path="/app/states" index ="Estados"/>
+        <Navigation actualPosition="Agregar Estado" path="/states" index ="Estados"/>
         <Card>
             <Card.Header>
                 <Card.Title as="h5">Agregar Prioridad</Card.Title>

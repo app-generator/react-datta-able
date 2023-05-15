@@ -56,9 +56,6 @@ const EditUser = () => {
             setShowAlert(true) 
             setError(error);           
         })
-        .finally(() => {
-            setShowAlert(true) 
-        }) 
               
     }
     return (

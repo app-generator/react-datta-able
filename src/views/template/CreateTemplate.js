@@ -5,14 +5,14 @@ import Navigation from '../../components/Navigation/Navigation'
 import { postTemplate} from "../../api/services/templates";
 import { getTLP } from "../../api/services/tlp";
 import { getAllTaxonomies } from "../../api/services/taxonomies";
-import { getFeeds } from "../../api/services/feeds";
-import { getPriorities } from "../../api/services/priorities";
-import { getStates } from "../../api/services/states";
+import { getAllFeeds } from "../../api/services/feeds";
+import { getAllPriorities } from "../../api/services/priorities";
+import { getAllStates } from "../../api/services/states";
 import Alert from '../../components/Alert/Alert';
 
 const CreateTemplate = () => {
   const formEmpty={ 
-    cidr: null,
+    cidr: "",
     domain: "",
     active: false,
     priority: "-1",
@@ -63,9 +63,8 @@ const CreateTemplate = () => {
             setLoading(false)
         })
 
-        getFeeds(1).then((response) => { //se hardcodea las paginas
-          console.log(response.data.results)
-          setFeeds(response.data.results)
+        getAllFeeds().then((response) => { //se hardcodea las paginas
+          setFeeds(response)
         })
         .catch((error) => {
             setError(error)
@@ -74,9 +73,8 @@ const CreateTemplate = () => {
             setLoading(false)
         })
 
-        getPriorities().then((response) => { //se hardcodea las paginas
-          console.log(response.data.results)
-          setPriorities(response.data.results)
+        getAllPriorities().then((response) => { //se hardcodea las paginas
+          setPriorities(response)
         })
         .catch((error) => {
             setError(error)
@@ -85,9 +83,8 @@ const CreateTemplate = () => {
             setLoading(false)
         })
 
-        getStates().then((response) => { 
-          console.log(response.data.results)
-          setStates(response.data.results)
+        getAllStates().then((response) => { 
+          setStates(response)
         })
         .catch((error) => {
             setError(error)
@@ -113,10 +110,7 @@ const CreateTemplate = () => {
     .catch((error) => {
         setShowAlert(true) 
         setError(error);           
-    })
-    .finally(() => {
-        setShowAlert(true) 
-    })  
+    }) 
   }
   return (
     <React.Fragment>
@@ -125,12 +119,8 @@ const CreateTemplate = () => {
         <Navigation actualPosition="Agregar Plantilla" path="/templates" index ="Plantillas"/>
       </Row>
       
-          <Card>
-              <Card.Header>
-                  <Card.Title as="h5">Agregar Plantilla</Card.Title>
-              </Card.Header>
-              <FormTemplate body={body} setBody={setBody} createTemplate={createTemplate} tlp={TLP} feeds={feeds} taxonomy={taxonomy} priorities={priorities} states={states}/>
-          </Card>
+      <FormTemplate body={body} setBody={setBody} createTemplate={createTemplate} tlp={TLP} feeds={feeds} taxonomy={taxonomy} priorities={priorities} states={states}/>
+          
         
     </React.Fragment>
   )

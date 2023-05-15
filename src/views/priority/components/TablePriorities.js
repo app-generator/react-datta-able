@@ -42,11 +42,8 @@ const TablePriorities = ({Priorities, loading}) => {
             window.location.href = '/priorities';
           })
           .catch((error) => {
-            setError(error);
-          })
-         .finally(()=>{
             setShowAlert(true)
-            setRemove(false)
+            setError(error);
           })
     }
       const showModalPriority = (priority) => {
@@ -83,7 +80,7 @@ const TablePriorities = ({Priorities, loading}) => {
                                 <td>
                                 <CrudButton  type='read' onClick={() => {showModalPriority(priority)}} />
                                 
-                                <Link to={{pathname:"./priorities/edit", state: priority}} >
+                                <Link to={{pathname:"/priorities/edit", state: priority}} >
                                     <CrudButton  type='edit' />
                                 </Link>
                                     <CrudButton  type='delete' onClick={()=>handleShow(priority.name, priority.url)} />
@@ -138,13 +135,13 @@ const TablePriorities = ({Priorities, loading}) => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Creado el</td>
+                                        <td>Creación</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={priority.created ? priority.created.slice(0,10)+" "+priority.created.slice(11,19) : ""} />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Ultima Actulizacion</td>
+                                        <td>Actulizacion</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={priority.modified ? priority.modified.slice(0,10)+" "+priority.modified.slice(11,19) : ""} />
                                         </td>

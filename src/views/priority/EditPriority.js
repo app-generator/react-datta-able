@@ -75,9 +75,6 @@ const EditPriority = () => {
             setShowAlert(true) 
             setError(error);           
         })
-        .finally(() => {
-            setShowAlert(true) 
-        }) 
     }
     const resetShowAlert = () => {
         setShowAlert(false);

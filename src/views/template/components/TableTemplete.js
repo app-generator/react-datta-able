@@ -39,10 +39,10 @@ const handleDelete = () => {
         window.location.href = '/templates';
       })
       .catch((error) => {
+        setShowAlert(true)
         setError(error);
       })
      .finally(()=>{
-        setShowAlert(true)
         setRemove(false)
       })
 }
@@ -64,10 +64,10 @@ const handleDelete = () => {
         window.location.href = '/templates';
     })
     .catch((error) => {
+        setShowAlert(true)
         setError(error);           
       })
-    .finally(()=>{
-        setShowAlert(true)
+    .finally(()=>{ 
         setShowTemplate(false)
     })
 
@@ -173,6 +173,18 @@ const handleDelete = () => {
                                             title={template.active ? 'Activo' : 'Inactivo'}>
                                                 <i className={template.active ? 'feather icon-check-circle' : 'feather icon-alert-triangle'}/>
                                         </Button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Creación</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={template.created ? template.created.slice(0,10)+" "+template.created.slice(11,19) : ""} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Actualización</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={template.modified ? template.modified.slice(0,10)+" "+ template.modified.slice(11,19): ""} />
                                         </td>
                                     </tr>
                                     
