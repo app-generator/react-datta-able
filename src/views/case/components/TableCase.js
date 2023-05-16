@@ -84,7 +84,6 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
         deleteCase(url)
             .then((response) => {
                 setIfModify(response)
-                console.log(response);
             })
             .catch((error) => {
                 console.log(error)
@@ -109,7 +108,6 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
             setSelectedCases(selectedCases.filter(item => item !== id));
         }
     };
-    console.log(selectedCases);
     
     return (
             <React.Fragment>

@@ -50,8 +50,8 @@ const TableNetwork = ({setIsModify, list, loading }) => {
         setActive(active)
         setModalState(true)
     }
-    const switchState = ()=> {
-        isActive(url, !active, cidr)
+    const switchState = (url, state, name)=> {
+        isActive(url, !state, name)
             .then((response) => {
                 console.log(response)
                 setIsModify(response)
@@ -126,7 +126,7 @@ const TableNetwork = ({setIsModify, list, loading }) => {
                 </Table>
             <ModalDetailNetwork show={modalShow} network={network} onHide={() => setModalShow(false)}/>
             <ModalConfirm type='delete' component='Red' name={cidr} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removeNetwork(url)}/>
-            <ModalConfirm type='editState' component='Red' name={cidr} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(url, active)}/>
+            <ModalConfirm type='editState' component='Red' name={cidr} state={active} showModal={modalState} onHide={() => setModalState(false)} ifConfirm={() => switchState(url, active, cidr)}/>
 
         </React.Fragment> 
   );

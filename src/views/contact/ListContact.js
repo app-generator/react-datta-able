@@ -29,9 +29,9 @@ const ListContact = () => {
 
     useEffect( ()=> {
 
-        setCurrentPage(currentPage )//?
+        setCurrentPage(currentPage)//?
 
-        getContacts()
+        getContacts(currentPage)
             .then((response) => {
                 setContacts(response.data.results);
                 //Pagination

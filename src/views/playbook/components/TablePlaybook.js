@@ -51,7 +51,7 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
         setModalDelete(true)
     }
 
-    const removePlaybook = (url)=> {
+    const removePlaybook = (url, name)=> {
         deletePlaybook(url, name)
             .then((response) => {
                 console.log(response.data)
@@ -61,7 +61,9 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
                 console.log(error)
             })
             .finally(() => {
+                //ver si funciona bien
                 setModalDelete(false)
+                setShowAlert(true)
             })
     };
 
@@ -103,7 +105,7 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
                     </tbody>
                 </Table>
             <ModalDetailPlaybook show={modalShow} playbook={playbook} onHide={() => setModalShow(false)}/>
-            <ModalConfirm type='delete' component='Playbook' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removePlaybook(url)}/>
+            <ModalConfirm type='delete' component='Playbook' name={name} showModal={modalDelete} onHide={() => setModalDelete(false)} ifConfirm={() => removePlaybook(url, name)}/>
 
         </React.Fragment> 
   );

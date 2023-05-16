@@ -81,7 +81,7 @@ const CreatePlaybook = () => {
                                 taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
                                 ifConfirm={!sectionAddTask ? createPlaybook : editPlaybook} 
                                 allTaxonomies={allTaxonomies} 
-                                save= {!sectionAddTask ? 'POST' : 'PUT'} />
+                                save= {!sectionAddTask ? 'Crear' : 'Guardar Cambios'} />
                         </Card.Body>
                     </Card>
 

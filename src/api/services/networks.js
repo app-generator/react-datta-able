@@ -43,15 +43,15 @@ const getAllNetworks = (currentPage = 1, results = [], limit = 100) => {
 }
 
 const postNetwork = (children, cidr, domain, active, type, parent, network_entity, contacts) => {
-    let messageSuccess = `La red ${cidr} se pudo crear correctamente.`;
-    let messageError = `La red ${cidr} no se pudo crear.`;
+    let messageSuccess = `La red ${cidr} se ha creado correctamente.`;
+    let messageError = `La red ${cidr} no se ha creado. `;
     return apiInstance.post(COMPONENT_URL.network, {        
         children: children,
         cidr: cidr, //*
         domain: domain,
         active: active,
         type: type,
-        parent, parent,
+        parent: parent,
         network_entity: network_entity,
         contacts: contacts //*
     }).then(response => {
@@ -75,7 +75,7 @@ const putNetwork = (url, children, cidr, domain, active, type, parent, network_e
         domain: domain,
         active: active, //*
         type: type, //*
-        parent, parent,
+        parent: parent,
         network_entity: network_entity,
         contacts: contacts //*
     }).then(response => {
@@ -108,8 +108,7 @@ const deleteNetwork = (url, name) => {
 const isActive = (url, active, name) => { 
     let messageSuccess = !active ? `La red ${name} ha sido desactivada.` : `La red ${name} ha sido activada.`;
     let messageError = !active ? `La red ${name} no ha sido desactivada. ` : `La red ${name} no ha sido activada. `;
-    return apiInstance.patch(url, 
-    {
+    return apiInstance.patch(url, {
         active: active
     }).then(response => {
         setAlert(messageSuccess , "success");

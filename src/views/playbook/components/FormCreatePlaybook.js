@@ -66,7 +66,7 @@ const FormCreatePlaybook = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={12} lg={10} />
+                    {/*<Col sm={12} lg={10} />*/}
                     <Col>
                         <Form.Group>
                             { validateAlphanumeric(props.name) && (props.taxonomy.length > 0) ? // 
