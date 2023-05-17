@@ -7,7 +7,7 @@ import { postTask } from '../../api/services/tasks';
 import RowTask from './components/RowTask';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 
-const ListTask = (props) => { 
+const ListTask = (props) => { //props setAlert
 
     const [tasks, setTasks] = useState('')
 
@@ -42,7 +42,7 @@ const ListTask = (props) => {
         .catch((error) => {
             console.log(error)
         })
-
+        
     }, [ taskCreated, taskUpdated, taskDeleted, countItems, currentPage]) //, isModify
 
     const createTask = () => { 
@@ -59,6 +59,9 @@ const ListTask = (props) => {
             .catch((error) => {
                 console.log(error)
             })
+            .finally(() =>{
+            props.setShowAlert(true)
+        })
     };
 
     return (
@@ -98,7 +101,7 @@ const ListTask = (props) => {
                                     <tbody>
                                         {tasks ? tasks.map((urlTask, index) => {
                                             return (
-                                                <RowTask url={urlTask} id={index+1} taskDeleted={taskDeleted} setTaskDeleted={setTaskDeleted} taskUpdated={taskUpdated} setTaskUpdated={setTaskUpdated} />)
+                                                <RowTask url={urlTask} id={index+1} taskDeleted={taskDeleted} setTaskDeleted={setTaskDeleted} taskUpdated={taskUpdated} setTaskUpdated={setTaskUpdated} setShowAlert={props.setShowAlert}/>)
                                             }) : <></>
                                         }
                                     </tbody>

@@ -67,7 +67,8 @@ const EditNetwork = () => {
             })
             .catch(() => {
                 setShowAlert(true)
-            });    
+                console.log(error)
+                });    
     };
 
     return (

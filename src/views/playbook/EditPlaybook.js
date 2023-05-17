@@ -50,9 +50,10 @@ const EditPlaybook = () => {
     const editPlaybook = () => {
         putPlaybook (url, name, taxonomy)
             .then()
-            .catch(() => {
+            .catch()
+            .finally(() => {
                 setShowAlert(true)
-            })
+                })
     };
    
     return (
@@ -75,11 +76,11 @@ const EditPlaybook = () => {
                                 taxonomy={taxonomy} setTaxonomy={setTaxonomy} 
                                 ifConfirm={editPlaybook} 
                                 allTaxonomies={allTaxonomies}
-                                save='PUT' />
+                                save='Guardar Cambios' />
                         </Card.Body>
                     </Card>
                     
-                    <ListTask urlPlaybook={url} sectionAddTask={true}/>
+                    <ListTask urlPlaybook={url} sectionAddTask={true} setShowAlert={setShowAlert} />
 
                     <Button variant="primary" href="/playbooks">Volver</Button>
                 </Col>

@@ -57,6 +57,7 @@ const CreateNetwork = () => {
         })
         .catch(() => {
             setShowAlert(true)
+            console.log(error)
         }); 
 
     };

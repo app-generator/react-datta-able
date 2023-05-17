@@ -8,7 +8,7 @@ import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import CrudButton from '../../../components/Button/CrudButton';
 import ModalEditTask from './ModalEditTask';
 
-const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskUpdated 
+const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskUpdated, setShowAlert
     
     const [task, setTask] = useState('');
     const [error, setError] = useState(null)
@@ -19,7 +19,7 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
 
     const [row, setRow] = useState(1); //tamano del textarea
 
-    useEffect(() => {
+    useEffect(() => { //props.setShowAlert
 
         showTaskData(props.url)
         
@@ -27,8 +27,6 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
 
     //Read Task
     const showTaskData = (url) => {
-        console.log('show task url: '+ url)
-
         getTask(url)
         .then((response) => {
             console.log(response.data)
@@ -37,7 +35,7 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
         })
         .catch((error) => {
             console.log(error)
-            setError(error)
+            props.setShowAlert(true)
         });
     }
     
@@ -55,6 +53,7 @@ const RowTask = (props) => {  //url, key, taskDeleted,  setTaskDeleted, setTaskU
             })
             .finally(() => {
                 setModalDelete(false)
+                props.setShowAlert(true)
             })
     };
 
@@ -86,7 +85,7 @@ return (
             </tr>
 
             <ModalDetailTask show={modalShow} task={task} onHide={() => setModalShow(false)}/>
-            <ModalEditTask show={modalEdit} task={task} onHide={() => setModalEdit(false)} ifEdit={props.setTaskUpdated} />
+            <ModalEditTask show={modalEdit} task={task} onHide={() => setModalEdit(false)} ifEdit={props.setTaskUpdated} setShowAlert={props.setShowAlert} />
             <ModalConfirm showModal={modalDelete} type='delete' component='Task' name={task.name}  onHide={() => setModalDelete(false)} ifConfirm={() => removeTask(task.url, task.name)}/>
 
         </React.Fragment>

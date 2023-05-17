@@ -22,9 +22,8 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
     const [tlpOption, setTlpOption] = useState({}) 
     const [stateOption, setStateOption] = useState({}) 
     
-//checkbox
+    //checkbox
     const [isCheckAll, setIsCheckAll] = useState(false);
-  
   
     useEffect(() => {
 
@@ -85,10 +84,8 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
         deleteCase(url)
             .then((response) => {
                 setIfModify(response)
-                console.log(response);
             })
             .catch((error) => {
-                console.log(error)
                 console.log(error)
             })
             .finally(() => {
@@ -96,28 +93,22 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
             })
         };
 
-    ////////////////////////////////////////////////////
-     
+    //Checkbox 
     const handleSelectAll = e => {
         setIsCheckAll(!isCheckAll);
         setSelectedCases(list.filter(item => item.solve_date == null).map(li => li.url));
         if (isCheckAll) {
             setSelectedCases([]);
         }
-      };
-    
-      const handleClick = e => { 
+    };
+    const handleClick = e => { 
         const { id, checked } = e.target;
         setSelectedCases([...selectedCases, id]);
         if (!checked) {
-          setSelectedCases(selectedCases.filter(item => item !== id));
+            setSelectedCases(selectedCases.filter(item => item !== id));
         }
-      };
+    };
     
-      console.log(selectedCases);
-    
-      ////////////////////////////////////////////////////
-
     return (
             <React.Fragment>
                 <Table responsive hover className="text-center">
