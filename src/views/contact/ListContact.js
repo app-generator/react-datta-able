@@ -29,7 +29,7 @@ const ListContact = () => {
 
     useEffect( ()=> {
 
-        setCurrentPage(currentPage )//?
+        setCurrentPage(currentPage)//?
 
         getContacts(currentPage)
             .then((response) => {

@@ -3,18 +3,19 @@ import setAlert from '../../utils/setAlert';
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 
 const getPlaybooks = (currentPage) => {
-    let messageError = `No se pudo recuperar la informacion de los playbooks.`;
+    let messageError = `No se ha recuperado la informacion de playbooks. `;
     return apiInstance.get(COMPONENT_URL.playbook + PAGE + currentPage)
     .then(response => {        
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const getAllPlaybooks = (currentPage = 1, results = [], limit = 100) => {
-    let messageError = `No se pudo recuperar la informacion de los playbooks.`;            
     return apiInstance.get(COMPONENT_URL.playbook, { params: { page: currentPage, page_size: limit } })       
         .then((response) => {
             let res = [...results, ...response.data.results]                                    
@@ -26,25 +27,26 @@ const getAllPlaybooks = (currentPage = 1, results = [], limit = 100) => {
             }                  
         })
         .catch((error) => {
-            setAlert(messageError, "error");
             return Promise.reject(error);            
         })   
 }
 
 const getPlaybook = (url) => {
-    let messageError = `No se pudo recuperar la informacion del playbook.`;
+    let messageError = `No se ha recuperado la informacion del playbook. `;
     return apiInstance.get(url)
     .then(response => {
         return response;
     }).catch( error => {
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const postPlaybook = (name, taxonomy) => {
-    let messageSuccess = `El playbook ${name} se pudo crear correctamente`;
-    let messageError = `El playbook ${name} no se pudo crear`;
+    let messageSuccess = `El playbook ${name} se ha creado correctamente. Puede agregar tareas. `;
+    let messageError = `El playbook ${name} no se ha creado. `;
     return apiInstance.post(COMPONENT_URL.playbook, 
     {
         name: name,
@@ -53,14 +55,16 @@ const postPlaybook = (name, taxonomy) => {
         setAlert(messageSuccess, "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const putPlaybook = (url, name, taxonomy) => {
-    let messageSuccess = `El playbook ${name} se pudo editar correctamente`;
-    let messageError = `El playbook ${name} no se pudo editar`;
+    let messageSuccess = `El playbook ${name} se ha editado correctamente.`;
+    let messageError = `El playbook ${name} no se ha editado. `;
     return apiInstance.put(url, 
     {
         name: name,
@@ -69,20 +73,24 @@ const putPlaybook = (url, name, taxonomy) => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }
 
 const deletePlaybook = (url, name) => {
-    let messageSuccess = `El playbook ${name} se pudo eliminar correctamente`;
-    let messageError = `El playbook ${name} no se pudo eliminar`;
+    let messageSuccess = `El playbook ${name} se ha eliminado correctamente.`;
+    let messageError = `El playbook ${name} no se ha eliminado. `;
     return apiInstance.delete(url)
     .then(response => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
         return Promise.reject(error);
     });
 }

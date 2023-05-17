@@ -7,7 +7,6 @@ import TablePlaybook from './components/TablePlaybook';
 import Search from '../../components/Search/Search';
 import { getPlaybooks } from '../../api/services/playbooks';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
-import Alert from '../../components/Alert/Alert';
 
 const ListPlaybook = () => {
     const [playbook, setPlaybook] = useState('')
@@ -15,9 +14,6 @@ const ListPlaybook = () => {
 
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true)
-
-    //Alert
-    const [showAlert, setShowAlert] = useState(false);
 
     //AdvancedPagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +35,7 @@ const ListPlaybook = () => {
                 // Show alert
             })
             .finally(() => {
-                setShowAlert(true)
+                //setShowAlert(true)
                 setLoading(false)
             })
         
@@ -52,7 +48,6 @@ const ListPlaybook = () => {
 
     return (
     <React.Fragment>
-        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
         <Row>
             <Navigation actualPosition={'Playbook'}/>  
         </Row>
