@@ -3,7 +3,7 @@ import { Row, Col, Card, Modal, CloseButton } from 'react-bootstrap';
 import { putTask } from '../../../api/services/tasks';
 import FormCreateTask from './FormCreateTask';
 
-const ModalEditTask = (props) => { //show, task, onHide, ifEdit
+const ModalEditTask = (props) => { //show, task, onHide, ifEdit, setShowAlert
 
     const [url, setUrl] = useState(props.task.url); //required
     const [name, setName] = useState(props.task.name); //required
@@ -30,6 +30,9 @@ const ModalEditTask = (props) => { //show, task, onHide, ifEdit
             .catch((error) => {
                 setError(error)
                 console.log(error)
+            })
+            .finally(() => {
+                props.setShowAlert(true)
             })
     };
 

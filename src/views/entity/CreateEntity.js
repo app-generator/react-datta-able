@@ -18,9 +18,10 @@ const CreateEntity = () => {
         .then((response) => { 
             window.location.href = "/entities"
         })
-        .catch(() => {
+        .catch((error) => {
+            console.log(error)
             setShowAlert(true)
-        });    
+        })
     };
        
     return (
