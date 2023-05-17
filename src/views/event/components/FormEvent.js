@@ -5,10 +5,8 @@ import makeAnimated from 'react-select/animated';
 import CrudButton from '../../../components/Button/CrudButton';
 import FormArtifact from '../../artifact/components/FormArtifact'
 import { postArtifact } from "../../../api/services/artifact";
-import { validateCidr, validateURL, validateSpaces} from '../../../components/Validator/Validator';
-
-
-
+//import { validateCidr, validateURL, validateSpaces} from '../../../components/Validator/Validator';
+import { validateSpace, validateCidr, validateURL, validateSpaces } from '../../../utils/validators'; 
 
 //import TableArtifact from './artifact/tableArtifact';
 

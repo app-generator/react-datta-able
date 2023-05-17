@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Card, Form, Button,Col } from 'react-bootstrap'
-import { validateFieldText, validateNumber} from '../../../components/Validator/Validator';
+import { validateFieldText, validateNumber} from '../../../utils/validators';
 
 const FormArtifact = ({body, setBody, ifConfirm, ifCancel}) => {
     const types = ["ip","domain","fqdn","url","mail","hash","file","other","user-agent","autonomous-system"]

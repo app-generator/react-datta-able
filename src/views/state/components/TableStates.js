@@ -203,13 +203,14 @@ const TableStates = ({states, callback, loading}) => {
                                     <tr>
                                         <td>Hijos</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={ 
-                                                state.children}/>
-                                                {/* 
-                                                state.children.length >0 ? state.children.map((url) => {
-                                                    return  (<CallBackendByName url={url} callback={callbackState}/>)
-                                                    }):"No tiene hijos"
-                                                */}
+                                                { 
+                                                state.children ? state.children.map((url) => {
+                                                    console.log(url)
+                                                    return  (<CallBackendByName url={url} callback={callbackState} useBadge={false}/>)
+                                                    })
+                                                    
+                                                    :"No tiene hijos"
+                                                }
                                         </td>
                                     </tr>
                                     <tr>

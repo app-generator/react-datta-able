@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Card, Form, Button,Row, Col} from 'react-bootstrap'
-import { validateCidr, validateURL, validateSpaces} from '../../../components/Validator/Validator';
+import { validateCidr, validateURL, validateSpaces} from '../../../utils/validators';
 
 const FormTemplate = (props) => {
 
