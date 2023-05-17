@@ -54,6 +54,8 @@ const postEntity = (name, active) => {
         setAlert(messageSuccess, "success");
         return response;
     }).catch( error => { 
+        console.log(error.response.data)
+
         let statusText = error.response.statusText;
         messageError += statusText;
         setAlert(messageError , "error");
@@ -87,7 +89,7 @@ const deleteEntity = (url, name) => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        console.log(error.response)
+        console.log(error.response.data)
         let status = error.response.status;
         let statusText = error.response.statusText;
         messageError += statusText;
@@ -99,7 +101,7 @@ const deleteEntity = (url, name) => {
 const isActive = (url, active, name) => { 
     let messageSuccess = !active ? `La entidad ${name} se ha desactivado.` : `La entidad ${name} se ha activado.`;
     let messageError = !active ? `La entidad ${name} no se ha desactivado. ` : `La entidad ${name} no se ha activado. `;
-    return apiInstance.patch(url, {
+    return apiInstance.patch(url+"123sdfgh", {
         active: active
     }).then(response => {
         setAlert(messageSuccess , "success");

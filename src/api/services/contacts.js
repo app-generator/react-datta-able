@@ -57,8 +57,9 @@ const postContact = (name, username, public_key, type, role, priority) => {
         }).then(response => {
             setAlert(messageSuccess, "success");
             return response;
-        }).catch( error => { 
-            let statusText = error.response.statusText;
+        }).catch( error => {
+
+            let statusText = error.response.data.username;
             messageError += statusText;
             setAlert(messageError , "error");
             return Promise.reject(error);
