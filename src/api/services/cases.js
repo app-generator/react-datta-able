@@ -59,11 +59,12 @@ const getOrderingCases = (currentPage = 1, results = [], limit = 100, id='+id') 
             return Promise.reject(error);            
         })   
 }
-
-const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, attend_date, solve_date) => {
+//const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, attend_date, solve_date) => {
+const postCase = (formData) => {
     let messageSuccess = `El caso ha sido creado correctamente.`;
     let messageError = `El caso no ha sido creado. `;
-    return apiInstance.post(COMPONENT_URL.case, {
+    return apiInstance.post(COMPONENT_URL.case, formData)
+    /*    {
         date: date, //
         lifecycle: lifecycle, 
         parent: parent,
@@ -75,12 +76,20 @@ const postCase = (date, lifecycle, parent, priority, tlp, assigned, state, comme
         evidence: evidence,
         attend_date: attend_date,
         solve_date: solve_date  
-    }).then(response => {
+    }*/
+    .then(response => {
         setAlert(messageSuccess, "success");
         return response;
     }).catch( error => { 
-        let statusText = error.response.statusText;
-        messageError += statusText;
+        console.log(error.response.data)
+        if (error.response.status == 400 ) { 
+            if(error.response.data.parent != null) {
+                messageError += 'La red padre no es valida. ';
+            }
+            else if(error.response.data.assigned != null) {
+                messageError += 'El usuario asignado no es valido. ';             
+            } 
+        }        
         setAlert(messageError , "error");
         return Promise.reject(error);
     });

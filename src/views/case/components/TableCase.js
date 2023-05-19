@@ -167,18 +167,17 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                                         <Link to={{pathname:'/cases/view', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
                                             <CrudButton type='read'/>
                                         </Link>
-                                        {caseItem.solve_date == null ? 
                                             <Link to={{pathname:'/cases/edit', state: caseItem}} >
+                                            {caseItem.solve_date == null ? 
                                                 <CrudButton type='edit'/>
+                                                :   
+                                                <Button 
+                                                    className='btn-icon btn-rounded' 
+                                                    variant='outline-dark'
+                                                    title='Caso resuelto'>
+                                                <i className='fa fa-edit' />
+                                                </Button>}
                                             </Link>
-                                            :   
-                                            <Button 
-                                                disabled 
-                                                className='btn-icon btn-rounded' 
-                                                variant='outline-secondary'
-                                                title='Caso resuelto'>
-                                                    <i className='fa fa-edit' />
-                                            </Button>}
                                         <CrudButton type='delete' onClick={() => Delete(caseItem.url, idItem)} />
                                     </td>
                                 </tr>
