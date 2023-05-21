@@ -116,8 +116,6 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
   return (
     <div>
         
-         <Card>
-        <Card.Body>
             <ul className="list-group my-4">
                 <Table responsive hover>
                     <thead>
@@ -181,8 +179,7 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
                 </Row>
             </Modal.Body>            
         </Modal>
-                </Card.Body>  
-     </Card>
+
     </div>
   )
 }

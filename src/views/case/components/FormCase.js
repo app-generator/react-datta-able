@@ -89,9 +89,9 @@ const [allUsers, setAllUsers] = useState([])
         <React.Fragment>
             <Form>
                 <Row>
-                    <Col sm={12} lg={6}>
+                    <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Case.Date">
-                            <Form.Label>Fecha</Form.Label>
+                            <Form.Label>Fecha de ocurrencia</Form.Label>
                             <Form.Control type="datetime-local" //2023-03-24T01:40:14.181622Z 
                                 value={props.date} //yyyy-mm-ddThh:mm
                                 min="2000-01-01T00:00" max="2030-01-01T00:00" 
@@ -99,25 +99,6 @@ const [allUsers, setAllUsers] = useState([])
                                 isValid={props.date !== null}
                                 onChange={(e) =>  props.setDate(e.target.value)}/>
                         </Form.Group> 
-                        <Form.Group controlId="Form.Case.Lifecycle">
-                            <Form.Label>Ciclo de vida</Form.Label>
-                            <Form.Control
-                                name="lifecycle"
-                                type="choice"                                            
-                                as="select"
-                                value={props.lifecycle}
-                                isInvalid={props.lifecycle == '0'}
-                                isValid={props.lifecycle !== '0'}
-                                onChange={(e) =>  props.setLifecycle(e.target.value)}>
-                                <option value='0'>Seleccione</option>
-                                {allLifecycles.map((lifecycleItem, index) => {                
-                                    return (
-                                        <option key={index} value={lifecycleItem.value}>{lifecycleItem.display_name}</option>
-                                    );
-                                })}
-                            </Form.Control>
-                            {props.lifecycle ? '' : <div className="invalid-feedback">Seleccione el ciclo de vida</div>}
-                        </Form.Group>
                         <Form.Group controlId="Form.Case.Priority">
                             <Form.Label>Prioridad</Form.Label>
                                 <Form.Control
@@ -137,6 +118,38 @@ const [allUsers, setAllUsers] = useState([])
                                 </Form.Control>
                                 {props.priority ? '' : <div className="invalid-feedback">Seleccione la prioridad</div>}
                         </Form.Group>
+                        <Form.Group controlId="Form.Case.Lifecycle">
+                            <Form.Label>Ciclo de vida</Form.Label>
+                            <Form.Control
+                                name="lifecycle"
+                                type="choice"                                            
+                                as="select"
+                                value={props.lifecycle}
+                                isInvalid={props.lifecycle == '0'}
+                                isValid={props.lifecycle !== '0'}
+                                onChange={(e) =>  props.setLifecycle(e.target.value)}>
+                                <option value='0'>Seleccione</option>
+                                {allLifecycles.map((lifecycleItem, index) => {                
+                                    return (
+                                        <option key={index} value={lifecycleItem.value}>{lifecycleItem.display_name}</option>
+                                    );
+                                })}
+                            </Form.Control>
+                            {props.lifecycle ? '' : <div className="invalid-feedback">Seleccione el ciclo de vida</div>}
+                        </Form.Group>
+                       
+                
+                     
+                       
+                    </Col>
+                    <Col sm={12} lg={4}>
+                        <Form.Group controlId="Form.Case.Attend_date">
+                            <Form.Label>Fecha de atencion</Form.Label>
+                            <Form.Control type="datetime-local"
+                                value={props.attend_date} //yyyy-mm-ddThh:mm
+                                min="2000-01-01T00:00" max="2030-01-01T00:00" 
+                                onChange={(e) =>  props.setAttend_date(e.target.value)}/>
+                        </Form.Group> 
                         <Form.Group controlId="Form.Case.Tlp">
                         <Form.Label>TLP</Form.Label>
                             <Form.Control
@@ -175,15 +188,16 @@ const [allUsers, setAllUsers] = useState([])
                             </Form.Control>
                             {props.state ? '' : <div className="invalid-feedback">Seleccione el estado</div>}
                         </Form.Group>
+                       
+                        {props.edit ? 
+                            <Form.Group controlId="Form.Case.Comments">
+                                <Form.Label>Comentarios ???</Form.Label>
+                                <Form.Control placeholder="Comentarios" />
+                            </Form.Group>
+                        : <></>}
+                       
                     </Col>
-                    <Col sm={12} lg={6}>
-                        <Form.Group controlId="Form.Case.Attend_date">
-                            <Form.Label>Fecha de atencion</Form.Label>
-                            <Form.Control type="datetime-local"
-                                value={props.attend_date} //yyyy-mm-ddThh:mm
-                                min="2000-01-01T00:00" max="2030-01-01T00:00" 
-                                onChange={(e) =>  props.setAttend_date(e.target.value)}/>
-                        </Form.Group> 
+                    <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Case.Solve_date">
                             <Form.Label>Fecha de resolucion</Form.Label>
                             <Form.Control type="datetime-local"
@@ -207,12 +221,6 @@ const [allUsers, setAllUsers] = useState([])
                                 })}
                             </Form.Control>
                         </Form.Group>
-                        {props.edit ? 
-                            <Form.Group controlId="Form.Case.Comments">
-                                <Form.Label>Comentarios ???</Form.Label>
-                                <Form.Control placeholder="Comentarios" />
-                            </Form.Group>
-                        : <></>}
                         <Form.Group controlId="Form.Case.Evidences.Drag&Drop">
                         <Form.Label>Evidencia</Form.Label>
                             <Form.Control 

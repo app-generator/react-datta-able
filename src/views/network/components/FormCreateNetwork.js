@@ -103,7 +103,7 @@ const FormCreateNetwork = (props) => {
         <React.Fragment>
             <Form>
                 <Row>
-                    <Col sm={12} lg={3}>
+                    <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Network.Type">
                             <Form.Label>Tipo</Form.Label>
                             <Form.Control
@@ -121,7 +121,7 @@ const FormCreateNetwork = (props) => {
                             </Form.Control>
                         </Form.Group>
                     </Col>
-                    <Col sm={12} lg={5}>
+                    <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Network.Cidr">
                             <Form.Label>Cidr</Form.Label>
                             <Form.Control 
@@ -156,7 +156,7 @@ const FormCreateNetwork = (props) => {
                 </Row>
 
                 <Row>
-                    <Col sm={12} lg={6}>
+                    <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Network.Domain">
                             <Form.Label>Dominio</Form.Label>
                             <Form.Control 
@@ -171,7 +171,7 @@ const FormCreateNetwork = (props) => {
                             {(!(validateURL(props.domain) || validateSpaces(props.domain)) || !validateURL(props.domain)) ? <div className="invalid-feedback">Ingrese caracteres validos</div> : ''}
                         </Form.Group>
                     </Col>
-                    <Col sm={12} lg={6}>
+                    <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Network.Entity">
                             <Form.Label>Entidad Relacionada</Form.Label>
                             <Form.Control
@@ -191,7 +191,7 @@ const FormCreateNetwork = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={12} lg={12}>
+                    <Col sm={12} lg={8}>
                         <Form.Group controlId="Form.Network.Contacts.Multiselect">
                             <Form.Label>Contactos Relacionados</Form.Label>
                             <Select
@@ -205,9 +205,10 @@ const FormCreateNetwork = (props) => {
                                 />
                         </Form.Group>
                     </Col>
+               
                 </Row>
                 <Row>
-                    <Col>
+                <Col sm={12} lg={4}>
                         <CrudButton type='create' name='Contacto' onClick={() => setModalCreate(true)}/>
                     </Col>
                 </Row>
@@ -222,8 +223,8 @@ const FormCreateNetwork = (props) => {
                 </Row>
                 :
                 <></>}
+                
                 <Row>
-                    <Col sm={12} lg={8} />
                     <Col>
                         <Form.Group>
                             { validateCidr(props.cidr) && (validateURL(props.domain) || props.domain==='') && 

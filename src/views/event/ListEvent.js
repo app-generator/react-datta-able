@@ -121,7 +121,9 @@ const ListEvent = () => {
           </Col> 
         </Row>                                 
         </Card.Header>
-        <TableEvents events={events} taxonomy={taxonomy} loading={loading} loadingTaxonomy={loadingTaxonomy} selectedEvent={selectedEvent} setSelectedEvent={setSelectedEvent}/> 
+        <Card.Body>
+         <TableEvents events={events} taxonomy={taxonomy} loading={loading} loadingTaxonomy={loadingTaxonomy} selectedEvent={selectedEvent} setSelectedEvent={setSelectedEvent}/> 
+        </Card.Body>
         <Card.Footer >
                             <Row className="justify-content-md-center">
                                 <Col md="auto"> 
