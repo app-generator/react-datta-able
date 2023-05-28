@@ -79,7 +79,7 @@ const EditTaxonomy = () => {
                                 <Row>
                                     <Col sm={12} lg={4}>
                                         <Form.Group>
-                                            <Form.Label>Nombre</Form.Label>
+                                            <Form.Label>Nombre <b style={{color:"red"}}>*</b></Form.Label>
                                             <Form.Control type="text" defaultValue={taxonomy.name} onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)}/>
                                             {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
                                         </Form.Group>
@@ -92,7 +92,7 @@ const EditTaxonomy = () => {
                                     </Col>                                    
                                     <Col sm={12} lg={3}>
                                         <Form.Group>
-                                            <Form.Label>Tipo</Form.Label>
+                                            <Form.Label>Tipo <b style={{color:"red"}}>*</b></Form.Label>
                                             <Form.Control type="choice" as="select" value={type} onChange={(e) => setType(e.target.value)} isValid={validateType(type)} isInvalid={!validateType(type)} >                                                                     
                                                 <option key={0} value=''>Seleccione</option>
                                                 <option key={1} value='vulnerability'>Vulnerabilidad</option>
@@ -111,7 +111,7 @@ const EditTaxonomy = () => {
                                 <Row>                                
                                     <Col sm={12} lg={12}>
                                         <Form.Group>
-                                            <Form.Label>Descripcion</Form.Label>
+                                            <Form.Label>Descripcion <b style={{color:"red"}}>*</b></Form.Label>
                                             <Form.Control as="textarea" rows={3} defaultValue={taxonomy.description} onChange={(e) => setDescription(e.target.value)}  isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
                                             {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
                                         </Form.Group>

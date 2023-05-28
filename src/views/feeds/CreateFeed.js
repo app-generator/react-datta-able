@@ -48,7 +48,7 @@ const CreateFeed = () => {
                                 <Row>
                                     <Col sm={12} lg={5}>
                                         <Form.Group>
-                                            <Form.Label>Nombre</Form.Label>
+                                            <Form.Label>Nombre <b style={{color:"red"}}>*</b></Form.Label>
                                             <Form.Control type="text" placeholder="Nombre" onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)}/>
                                             {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
                                         </Form.Group>
@@ -61,7 +61,7 @@ const CreateFeed = () => {
                                     </Col>                             
                                     <Col sm={12} lg={6}>
                                         <Form.Group>
-                                            <Form.Label>Descripcion</Form.Label>
+                                            <Form.Label>Descripcion <b style={{color:"red"}}>*</b></Form.Label>
                                             <Form.Control as="textarea" rows={3} placeholder="Descripcion" onChange={(e) => setDescription(e.target.value)}  isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
                                             {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
                                         </Form.Group>
