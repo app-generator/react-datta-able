@@ -32,7 +32,7 @@ const FormCreatePlaybook = (props) => {
         <React.Fragment>
             <Form>
                 <Row>
-                    <Col sm={12} lg={12}>
+                    <Col sm={12} lg={6}>
                         <Form.Group controlId="Form.Playbook.Name">
                             <Form.Label>Nombre</Form.Label>
                             <Form.Control 
@@ -50,7 +50,7 @@ const FormCreatePlaybook = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={12} lg={12}>
+                    <Col sm={12} lg={6}>
                         <Form.Group controlId="Form.Playbook.Taxonomy.Multiselect">
                             <Form.Label>Taxonomias</Form.Label>
                             <Select

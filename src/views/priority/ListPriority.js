@@ -68,7 +68,9 @@ const ListPriorities = () => {
             </Col>
           </Row>                                 
         </Card.Header>
-        <TablePriorities Priorities={priorities}  loading={loading} /> 
+        <Card.Body>
+          <TablePriorities Priorities={priorities}  loading={loading} /> 
+        </Card.Body>
         <Card.Footer >
             <Row className="justify-content-md-center">
                 <Col md="auto"> 

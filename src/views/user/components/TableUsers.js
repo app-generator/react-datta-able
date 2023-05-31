@@ -93,8 +93,7 @@ function TableUsers({users, loading}) {
   return (
     <div>
       <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>  
-      <Card>
-        <Card.Body>
+
             <ul className="list-group my-4">
                 <Table responsive hover>
                     <thead>
@@ -213,8 +212,6 @@ function TableUsers({users, loading}) {
                             </tbody>
                         </Table>
                       </ul>
-                </Card.Body>          
-     </Card>
   </div>   
   )
 }
