@@ -3,6 +3,8 @@ import {Button, Col, Form, Row} from 'react-bootstrap';
 import { getPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { getUsers } from '../../../api/services/users';
+import {getEvidence} from '../../../api/services/evidences';
+import { getImage } from '../../../api/services/cases';
 
 const FormCase = (props) => { 
 // props: ifConfirm, save, date, setDate, lifecycle, setLifecycle, priority, setPriority, tlp, setTlp, state, setState
@@ -13,6 +15,9 @@ const FormCase = (props) => {
 const [allPriorities, setAllPriorities ] = useState([])
 const [allTlp, setAllTlp] = useState([])
 const [allUsers, setAllUsers] = useState([])
+const [files, setFiles] = useState(null)
+
+const [image, setImage] = useState(null) //object URL
 
     useEffect(()=> {
         
@@ -42,8 +47,57 @@ const [allUsers, setAllUsers] = useState([])
         .catch((error)=>{
             console.log(error)
         })
+/*
+        if(props.edit && props.evidences != null) {
+            let list = [];
+            for (let i = 0; i < props.evidences.length; i++) {
+                console.log(props.evidences[i])
+                getEvidence(props.evidences[i])
+                    .then((response)=> {
+                        console.log(response.data.file)
+                        getImage(response.data.file)
+                        .then(r => {
+                            console.log(r)
+                            r.blob()
+                        })
+                        .then(text => { 
+                            console.log(text)
+                        });
+                      
+                        //const objectURL = URL.createObjectURL(response.data.file)
+
+                        //setImage({image:objectURL});
+                        list.push(response.data.file)
+                    }).catch(error => {
+                        console.log(error)
+                    });
+            }
+
+            setFiles(list);
+
+        }
+        */
 
     },[props.allStates])
+
+
+
+    
+/*    function previewFile() {
+        const preview = document.querySelector('img');
+        const file = document.querySelector('input[type=file]').files[0];
+        const reader = new FileReader();
+      
+        reader.addEventListener("load", function () {
+          // convierte la imagen a una cadena en base64
+          preview.src = reader.result;
+        }, false);
+      
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      }
+*/      
 
     const allLifecycles = [
         {
@@ -66,29 +120,37 @@ const [allUsers, setAllUsers] = useState([])
     
     //
     const selectEvidences = (event) => {
-        const files = event.target.files;
-        console.log(files)
+        const filesEvidence = event.target.files;
+        console.log(filesEvidence)
         const evidences = [];
-        for (let i = 0; i < files.length; i++) {
-          evidences.push(files[i]);
+        for (let i = 0; i < filesEvidence.length; i++) {
+          evidences.push(filesEvidence[i]);
         }
         props.setEvidences(evidences);
         //props.f.append("evidence", evidences)
       }
+      /*
       const selectEvidences2 = (event) => {
-        const files = event.target.files;
-        console.log(files)
-        const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-          formData.append('evidences', files[i]);
-        }
-        props.setEvidences(formData); 
-      }
-
+            const files = event.target.files;
+            console.log(files)
+            const evidences = [];
+            for (let i = 0; i < files.length; i++) {
+              evidences.push(files[i]);
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                setFilePreview(e.target.result);
+              };
+              reader.readAsDataURL(files[i]);
+            }
+            props.setEvidences(evidences);
+            //props.f.append("evidence", evidences)
+          }
+*/
     return (
         <React.Fragment>
             <Form>
                 <Row>
+                    
                     <Col sm={12} lg={6}>
                         <Form.Group controlId="Form.Case.Date">
                             <Form.Label>Fecha</Form.Label>
@@ -227,7 +289,7 @@ const [allUsers, setAllUsers] = useState([])
                 </Row>
             </Form> 
                  
-                {!props.date || !props.lifecycle || !props.priority || !props.tlp || !props.state ? 
+                {!props.date || !props.lifecycle || !props.priority || !props.tlp || !props.state || props.ifClick  ? 
                     <><Button variant="primary" disabled>{props.save}</Button></> 
                     : 
                     <><Button variant="primary" onClick={props.ifConfirm}>{props.save}</Button></>}

@@ -19,13 +19,16 @@ const CreateCase = () => {
 
     const [comments, setComments] = useState([]) // ??
     
-    const [evidences, setEvidences] = useState() 
+    const [evidences, setEvidences] = useState(null) 
 
     const [attend_date, setAttend_date] = useState(null) //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(null)
 
     //Alert
     const [showAlert, setShowAlert] = useState(false);
+
+    //desactivar button al hacer post
+    const [ifClick, setIfClick] = useState(false);
 
     useEffect(()=> {
 
@@ -48,6 +51,7 @@ const CreateCase = () => {
 
     //Create
     const addCase = () => {
+        setIfClick(true);
         const form = new FormData();
         form.append("date", date)
         form.append("lifecycle",lifecycle)
@@ -83,6 +87,7 @@ const CreateCase = () => {
         .catch((error) => {
             console.log(error.data)
             setShowAlert(true)
+            setIfClick(false)
         });    
     };
 
@@ -114,7 +119,7 @@ const CreateCase = () => {
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
-                                        ifConfirm={addCase} edit={false} save='Crear'/>
+                                        ifConfirm={addCase} edit={false} save='Crear' ifClick={ifClick}/>
                                 </Col>
                             </Row>
                         </Card.Body>

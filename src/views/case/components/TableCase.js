@@ -108,6 +108,9 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
             setSelectedCases(selectedCases.filter(item => item !== id));
         }
     };
+
+    let hover = document.getElementById("button_hover");
+    
     
     return (
             <React.Fragment>
@@ -172,10 +175,16 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                                                 <CrudButton type='edit'/>
                                                 :   
                                                 <Button 
+                                                    id="button_hover"
                                                     className='btn-icon btn-rounded' 
-                                                    variant='outline-dark'
-                                                    title='Caso resuelto'>
-                                                <i className='fa fa-edit' />
+                                                    variant='outline-light'
+                                                    title='Caso resuelto'
+                                                    style={{
+                                                        border: "1px solid",
+                                                        borderRadius: "50px",
+                                                        color:"#F54901",
+                                                      }} >
+                                                <i className='fa fa-edit' style={{color: "#F54901"}} ></i>
                                                 </Button>}
                                             </Link>
                                         <CrudButton type='delete' onClick={() => Delete(caseItem.url, idItem)} />

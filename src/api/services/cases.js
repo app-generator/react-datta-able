@@ -95,32 +95,34 @@ const postCase = (formData) => {
     });
 }
     
-const putCase = (url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, attend_date, solve_date) => {
-    let messageSuccess = `El caso se ha editado correctamente.`;
-    let messageError = `El caso no se ha editado. `;
-    return apiInstance.put(url,
-    {
-        date: date, //
-        lifecycle: lifecycle, 
-        parent: parent,
-        priority: priority, //
-        tlp: tlp, //
-        assigned: assigned,
-        state: state, //
-        comments: comments,
-        evidence: evidence,
-        attend_date: attend_date,
-        solve_date: solve_date  
-    }).then(response => {
-        setAlert(messageSuccess , "success");
-        return response;
-    }).catch( error => { 
-        let statusText = error.response.statusText;
-        messageError += statusText;
-        setAlert(messageError , "error");
-        return Promise.reject(error);
-    });
-}
+//const putCase = (url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidence, attend_date, solve_date) => {
+    const putCase = (url, formData) => {
+        let messageSuccess = `El caso se ha editado correctamente.`;
+        let messageError = `El caso no se ha editado. `;
+        return apiInstance.put(url, formData
+        /*{
+            date: date, //
+            lifecycle: lifecycle, 
+            parent: parent,
+            priority: priority, //
+            tlp: tlp, //
+            assigned: assigned,
+            state: state, //
+            comments: comments,
+            evidence: evidence,
+            attend_date: attend_date,
+            solve_date: solve_date  
+        }*/
+        ).then(response => {
+            setAlert(messageSuccess , "success");
+            return response;
+        }).catch( error => { 
+            let statusText = error.response.statusText;
+            messageError += statusText;
+            setAlert(messageError , "error");
+            return Promise.reject(error);
+        });
+    }
 
 
 const deleteCase = (url) => {
@@ -155,4 +157,8 @@ const mergeCase = (urlParent, urlChildren) => {
     });
 }
 
-export { getCases, getAllCases, getOrderingCases, getCase, postCase, putCase, deleteCase, mergeCase };
+const getImage = (url) => {
+    return apiInstance.get(url);
+}
+
+export { getCases, getAllCases, getOrderingCases, getCase, postCase, putCase, deleteCase, mergeCase, getImage };

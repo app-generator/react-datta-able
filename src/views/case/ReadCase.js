@@ -5,6 +5,8 @@ import { useLocation } from 'react-router-dom';
 import GetUserName from './components/GetUserName';
 import { getUser } from '../../api/services/users';
 import BadgeItem from '../../components/Button/BadgeItem';
+import { getImage } from '../../api/services/cases';
+import ViewFiles from './components/ViewFiles';
 
 const ReadCase = () => { 
     //attend_date: por defecto +3horas 
@@ -23,7 +25,10 @@ const ReadCase = () => {
     const [error, setError] = useState(null)
 
     const [modalShowEvent, setModalShowEvent] = useState(false);
-
+    const [modalShowEvidence, setModalShowEvidence] = useState(false);
+    
+    const [image, setImage] = useState(null);
+    
     useEffect (() => {
         
         if(caseItem) {
@@ -47,10 +52,8 @@ const ReadCase = () => {
                 let datetime = caseItem.solve_date.split('T');
                 setSolve_Date(datetime[0] + ' ' + datetime[1].slice(0,8))
             }
-        }
-        
-        
-    }, []) 
+    }
+}, []) 
 
     return (
         caseItem &&
@@ -110,43 +113,6 @@ const ReadCase = () => {
                             <Card.Title as="h5">Fechas</Card.Title>
                         </Card.Header>
                         <Card.Body> 
-                            {/*
-                            <Row>
-                                <Col sm={6} lg={1}>
-                                date
-                                </Col>
-                            
-                                <Col sm={6} lg={3}>
-                                <Form.Control plaintext readOnly defaultValue={date} />
-
-                                </Col>
-                            
-                                <Col sm={6} lg={1}>
-                                Atencion
-                                </Col>
-                                <Col sm={6} lg={3}>
-                                <Form.Control plaintext readOnly defaultValue={date} />
-
-                                </Col>
-                            
-                                <Col sm={6} lg={1}>
-                                Resolucion
-                                </Col>
-                            
-                                <Col sm={6} lg={3}>
-                                {caseItem.solve_date ? 
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue={solve_date} />
-                                        </td>
-                                        :
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue='No resuelto' />
-                                        </td> 
-                                    }
-                                </Col>
-
-                            </Row>
-                            */}
                             <Table responsive >
                                 <tbody>
                                     <tr>
@@ -155,9 +121,16 @@ const ReadCase = () => {
                                             <Form.Control plaintext readOnly defaultValue={date} />
                                         </td>
                                         <td>Atencion</td>
+                                        {caseItem.attend_date ? 
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={attend_date} />
                                         </td>
+                                        :
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue='No atendido' />
+                                        </td> 
+                                    }
+                                        
                                         <td>Resolucion</td>
                                         {caseItem.solve_date ? 
                                         <td>
@@ -188,27 +161,18 @@ const ReadCase = () => {
                     {caseItem.evidence.length > 0 
                     ?
                     <Card>
-                        <Card.Header>
-                            <Card.Title as="h5">Evidencias</Card.Title>
+                        <Card.Header>    
+                            <Card.Title as="h5">Evidencias</Card.Title>              
                         </Card.Header>
-                        <Card.Body> 
-                            <Row>
-                                <Col sm={6} lg={3}>Link</Col>
-                                <Col><Form.Control plaintext readOnly defaultValue={caseItem.evidence}/></Col>
-                                <Col sm={6} lg={2}>
-                                    <Button 
-                                        size="sm"
-                                        className='text-capitalize'
-                                        variant='light'
-                                        title='Ir'
-                                        onClick={() => setModalShowEvent(true)}>
-                                        <i class="fas fa-external-link-alt"/>
-                                    </Button> 
-                                </Col>
-                            </Row>
+                        <Card.Body>
+                            {caseItem.evidence.map((url, index) => {
+                                console.log(url)
+                                return  (<ViewFiles url={url} index={index+1}  />)
+                            })}
                         </Card.Body>
                     </Card>
-                    :<></>}
+                    : <></>}
+
                     {caseItem.events.length > 0 ?
                         <Card>
                             <Card.Header>
@@ -288,6 +252,29 @@ const ReadCase = () => {
                     </Row>
                 </Modal.Body>            
             </Modal>
+            <Modal size='lg' show={modalShowEvidence} onHide={() => setModalShowEvidence(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
+                <Modal.Body>
+                    <Row>    
+                        <Col>                 
+                            <Card>
+                                <Card.Header> 
+                                    <Row>
+                                        <Col>
+                                            <Card.Title as="h5">Evidencias</Card.Title>
+                                            <span className="d-block m-t-5">Detalle de Evidencias</span>
+                                        </Col>
+                                        <Col sm={12} lg={4}>                       
+                                            <CloseButton aria-label='Cerrar' onClick={() => setModalShowEvidence(false)} />
+                                        </Col>
+                                    </Row>         
+                                </Card.Header>
+                                <Card.Body>Informacion de la evidencia</Card.Body>
+                            </Card>
+                        </Col> 
+                    </Row>
+                </Modal.Body>            
+            </Modal>
+
         </React.Fragment>
     );
 };
