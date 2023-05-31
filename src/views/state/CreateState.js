@@ -65,7 +65,7 @@ const AddState = () => {
         <Navigation actualPosition="Agregar Estado" path="/states" index ="Estados"/>
         <Card>
             <Card.Header>
-                <Card.Title as="h5">Agregar Prioridad</Card.Title>
+                <Card.Title as="h5">Agregar Estado</Card.Title>
             </Card.Header>
             <FormState body={body} setBody={setBody} createState={createState} childernes={childernes} />
       </Card>

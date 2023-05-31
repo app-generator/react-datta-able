@@ -123,7 +123,7 @@ const FormCreateNetwork = (props) => {
                     </Col>
                     <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Network.Cidr">
-                            <Form.Label>Cidr</Form.Label>
+                            <Form.Label>CIDR</Form.Label>
                             <Form.Control 
                                 type="cidr" 
                                 placeholder="CIDR" 
@@ -173,7 +173,7 @@ const FormCreateNetwork = (props) => {
                     </Col>
                     <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Network.Entity">
-                            <Form.Label>Entidad Relacionada</Form.Label>
+                            <Form.Label>Entidad</Form.Label>
                             <Form.Control
                                 name="entity"
                                 type="choice"
@@ -193,7 +193,7 @@ const FormCreateNetwork = (props) => {
                 <Row>
                     <Col sm={12} lg={8}>
                         <Form.Group controlId="Form.Network.Contacts.Multiselect">
-                            <Form.Label>Contactos Relacionados</Form.Label>
+                            <Form.Label>Contactos</Form.Label>
                             <Select
                                 value={contactsValueLabel}
                                 placeholder='Seleccione Contactos'
