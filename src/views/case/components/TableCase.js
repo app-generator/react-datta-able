@@ -108,6 +108,9 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
             setSelectedCases(selectedCases.filter(item => item !== id));
         }
     };
+
+    let hover = document.getElementById("button_hover");
+    
     
     return (
             <React.Fragment>
@@ -167,18 +170,23 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                                         <Link to={{pathname:'/cases/view', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
                                             <CrudButton type='read'/>
                                         </Link>
-                                        {caseItem.solve_date == null ? 
                                             <Link to={{pathname:'/cases/edit', state: caseItem}} >
+                                            {caseItem.solve_date == null ? 
                                                 <CrudButton type='edit'/>
+                                                :   
+                                                <Button 
+                                                    id="button_hover"
+                                                    className='btn-icon btn-rounded' 
+                                                    variant='outline-light'
+                                                    title='Caso resuelto'
+                                                    style={{
+                                                        border: "1px solid",
+                                                        borderRadius: "50px",
+                                                        color:"#F54901",
+                                                      }} >
+                                                <i className='fa fa-edit' style={{color: "#F54901"}} ></i>
+                                                </Button>}
                                             </Link>
-                                            :   
-                                            <Button 
-                                                disabled 
-                                                className='btn-icon btn-rounded' 
-                                                variant='outline-secondary'
-                                                title='Caso resuelto'>
-                                                    <i className='fa fa-edit' />
-                                            </Button>}
                                         <CrudButton type='delete' onClick={() => Delete(caseItem.url, idItem)} />
                                     </td>
                                 </tr>

@@ -19,13 +19,16 @@ const CreateCase = () => {
 
     const [comments, setComments] = useState([]) // ??
     
-    const [evidences, setEvidences] = useState() 
+    const [evidences, setEvidences] = useState(null) 
 
     const [attend_date, setAttend_date] = useState(null) //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(null)
 
     //Alert
     const [showAlert, setShowAlert] = useState(false);
+
+    //desactivar button al hacer post
+    const [ifClick, setIfClick] = useState(false);
 
     useEffect(()=> {
 
@@ -48,36 +51,43 @@ const CreateCase = () => {
 
     //Create
     const addCase = () => {
+        setIfClick(true);
+        const form = new FormData();
+        form.append("date", date)
+        form.append("lifecycle",lifecycle)
+        if(parent != null) {
+            form.append("parent", parent)
+        }
+        form.append("priority", priority)
+        form.append("tlp", tlp)
+        if(assigned != null) {
+            form.append("assigned", assigned)
+        }
+        form.append("state", state)
+        form.append("comments", null)
+        form.append("attend_date", attend_date)
+        form.append("solve_date", solve_date)
+        //form.append("evidence", evidences)
+        if (evidences !== null){
+            for (let index=0; index< evidences.length  ; index++){
+            form.append("evidence", evidences[index])
+            console.log(evidences[index])
+            }
+        }else{
+            form.append("evidence", evidences)
+        }
+        console.log(form)
 
-        const f = new FormData();
-    
-        f.append("comments", null)
-        f.append("parent", null)
-        
-        f.append("date", date)
-        f.append("lifecycle",lifecycle)
-        f.append("priority", priority)
-        f.append("tlp", tlp)
-        f.append("assigned", assigned)
-        f.append("state", state)
-        f.append("attend_date", attend_date)
-        f.append("solve_date", solve_date)
-        f.append("evidences", evidences)
-
-
-        console.log(attend_date)
-        console.log(solve_date)
-        console.log(comments)
-        console.log(evidences)
-        //postCase(f)
-        postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
+        postCase(form)
+        //postCase(date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
             window.location.href = "/cases"
         })
         .catch((error) => {
-            console.log(error)
+            console.log(error.data)
             setShowAlert(true)
+            setIfClick(false)
         });    
     };
 
@@ -109,7 +119,7 @@ const CreateCase = () => {
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
-                                        ifConfirm={addCase} edit={false} save='Crear'/>
+                                        ifConfirm={addCase} edit={false} save='Crear' ifClick={ifClick}/>
                                 </Col>
                             </Row>
                         </Card.Body>
