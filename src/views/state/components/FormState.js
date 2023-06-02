@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react'
 import {Card, Form, Button, Row, Col} from 'react-bootstrap'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { validateCidr} from '../../../components/Validator/Validator';
+import { validateCidr} from '../../../utils/validators';
 
 
 const animatedComponents = makeAnimated();
@@ -92,7 +92,7 @@ const FormState = ({body, setBody, createState, childernes}) => {
             <Form.Group controlId="formGridAddress1">
                 <Form.Label>Descripción</Form.Label>
                 <Form.Control 
-                placeholder="Ingrese un color" 
+                placeholder="Ingrese una descripcion" 
                 maxlength="150" 
                 value ={body.description} 
                 name="description"

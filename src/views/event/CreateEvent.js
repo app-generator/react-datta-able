@@ -126,39 +126,39 @@ const CreateEvent = () => {
 
   const createEvent=()=>{
     
-    const f = new FormData();
+    const formDataEvent = new FormData();
 
     //console.log(fecha.toISOString())//YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]
 
-    f.append("date", body.date)// tengo que hacer esto porque solo me acepta este formato, ver a futuro
+    formDataEvent.append("date", body.date)// tengo que hacer esto porque solo me acepta este formato, ver a futuro
     //f.append("date", fecha.toISOString())
-    f.append("priority",body.priority)
-    f.append("tlp", body.tlp)
-    f.append("taxonomy", body.taxonomy)
-    f.append("feed", body.feed)
-    f.append("domain", body.domain)
-    f.append("todos", body.todos)
-    f.append("comments", body.comments)
-    f.append("cidr", body.cidr)
-    f.append("notes", body.notes)
-    f.append("parent", body.parent)
-    f.append("reporter", body.reporter)
-    f.append("case", body.case) 
-    f.append("tasks", body.tasks)
+    formDataEvent.append("priority",body.priority)
+    formDataEvent.append("tlp", body.tlp)
+    formDataEvent.append("taxonomy", body.taxonomy)
+    formDataEvent.append("feed", body.feed)
+    formDataEvent.append("domain", body.domain)
+    formDataEvent.append("todos", body.todos)
+    formDataEvent.append("comments", body.comments)
+    formDataEvent.append("cidr", body.cidr)
+    formDataEvent.append("notes", body.notes)
+    formDataEvent.append("parent", body.parent)
+    formDataEvent.append("reporter", body.reporter)
+    formDataEvent.append("case", body.case) 
+    formDataEvent.append("tasks", body.tasks)
     if (evidence !== null){
       for (let index=0; index< evidence.length  ; index++){
-        f.append("evidence", evidence[index])
+        formDataEvent.append("evidence", evidence[index])
         console.log(evidence[index])
       }
     }else{
-      f.append("evidence", evidence)
+      formDataEvent.append("evidence", evidence)
     }
     //no se estan enviando los artefactos revisar backend
     body.artifacts.forEach((item) => {
-      f.append('artifacts', item);
+      formDataEvent.append('artifacts', item);
     });
 
-    postEvent(f)
+    postEvent(formDataEvent)
     /*postEvent(f, body.children, body.todos, body.artifacts, body.comments, body.cidr, 
       body.domain, body.date, body.evidence_file_path, body.notes, body.parent, body.priority, body.tlp, 
       body.taxonomy, body.feed, body.reporter, body.case, body.tasks)*/

@@ -55,6 +55,18 @@ const postPriority = (name, color, severity, attend_time, solve_time) => {
         setAlert(messageSuccess, "success");
         return response;
     }).catch( error => { 
+        if (error.response.status == 400){
+            //se informa que existe el username con ese nombre
+            if(error.response.data.severity == "priority with this severity already exists." ){
+                messageError = `La prioridad ${name} no se pudo crear porque la severidad ya existe`;   
+            }
+        }else if(error.message == "Cannot read properties of undefined (reading 'code')"){
+            //el backend o servidor no funciona
+            messageError = `El usuario ${name} no puede ser creado porque el servidor no responde`;
+        }else{
+            let statusText = error.response.statusText;
+            messageError += ": "+ statusText;
+        }
         setAlert(messageError, "error");
         return Promise.reject(error);
     });
@@ -74,6 +86,18 @@ const putPriority = ( url, name, color, severity, attend_time, solve_time) => {
         setAlert(messageSuccess, "success");
         return response;
     }).catch( error => { 
+        if (error.response.status == 400){
+            //se informa que existe el username con ese nombre
+            if(error.response.data.severity == "priority with this severity already exists." ){
+                messageError = `La prioridad ${name} no se pudo editar porque la severidad ya existe`;   
+            }
+        }else if(error.message == "Cannot read properties of undefined (reading 'code')"){
+            //el backend o servidor no funciona
+            messageError = `El usuario ${name} no puede ser editar porque el servidor no responde`;
+        }else{
+            let statusText = error.response.statusText;
+            messageError += ": "+ statusText;
+        }
         setAlert(messageError, "error");
         return Promise.reject(error);
     });

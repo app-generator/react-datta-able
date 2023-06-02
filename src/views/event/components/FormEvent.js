@@ -4,10 +4,11 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import CrudButton from '../../../components/Button/CrudButton';
 import FormArtifact from '../../artifact/components/FormArtifact'
+import FileUpload  from '../../../components/UploadFiles/FileUpload/FileUpload'
+import FileList from '../../../components/UploadFiles/FileList/FileList'
 import { postArtifact } from "../../../api/services/artifact";
-import { validateCidr, validateURL, validateSpaces} from '../../../components/Validator/Validator';
-
-
+//import { validateCidr, validateURL, validateSpaces} from '../../../components/Validator/Validator';
+import { validateSpace, validateCidr, validateURL, validateSpaces } from '../../../utils/validators'; 
 
 
 //import TableArtifact from './artifact/tableArtifact';
@@ -33,21 +34,10 @@ const FormEvent = (props) => {
     },[props.body.artifacts, props.listArtifact])
 
     const completeField=(event)=>{ 
-        console.log(props.body.evidence)
         props.setBody({...props.body,
             [event.target.name] : event.target.value}
         )       
     }
-    /*const completeFieldFiles=(event)=>{ 
-        console.log(event.target.files)
-        props.setBody({...props.body,
-            [event.target.name] : event.target.files}
-        ) 
-       
-        console.log(props.body.evidence)
-        
-
-    }*/
 
     const selectArtefact=(event)=>{ 
         props.setBody({...props.body,
@@ -63,6 +53,19 @@ const FormEvent = (props) => {
             ["evidence"] : Object.values(props.body.evidence).filter(file => file.name !== event)}
         ) 
     }
+    const handleDragOver = (event) => {
+        event.preventDefault();
+      }
+    const handleDrop = (event) => {
+        event.preventDefault();
+        const filesToUpload = event.dataTransfer.files
+        props.setEvidence([...props.evidence, ...filesToUpload]);
+    };
+    const removeFile = (position) => {
+        if (props.evidence.length>0){
+            props.setEvidence(props.evidence.filter((file, index) => index !== position));
+        }
+      }
     
     
     const createArtifact = () => {
@@ -313,16 +316,13 @@ const FormEvent = (props) => {
     
             <Form>   
                 <Form.Group controlId="formGridAddress1">
-                <Form.Label>Evidencia</Form.Label>
-                    
-                    <Form.Control 
-                    type="file"
-                    maxlength="150" 
-                    multiple
-                    onChange={(e)=>props.setEvidence(e.target.files)}
-                    name="evidence"/>
-                    
-                    
+                    <div
+                        className="dropzone"
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}>
+                        <FileUpload files={props.evidence} setFiles={props.setEvidence} removeFile={removeFile} />
+                        <FileList files={props.evidence} removeFile={removeFile} />
+                    </div>
                 </Form.Group>   
                 
 
@@ -379,13 +379,7 @@ const FormEvent = (props) => {
                         </Col> 
                     </Row>
                 </Modal.Body>
-            </Modal>
-        
-            
-                
-                 
-            
-            
+            </Modal>      
         </Card.Body>
         </Card>
         <Button variant="primary" onClick={props.createEvent} >Guardar</Button> 
