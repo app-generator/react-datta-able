@@ -157,4 +157,4 @@ const mergeCase = (urlParent, urlChildren) => {
     });
 }
 
-export { getCases, getAllCases, getOrderingCases, getCase, postCase, putCase, deleteCase, mergeCase, getImage };
+export { getCases, getAllCases, getOrderingCases, getCase, postCase, putCase, deleteCase, mergeCase };
