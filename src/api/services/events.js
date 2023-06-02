@@ -47,23 +47,20 @@ const deleteEvent = (url) => {
     });
 }
 const mergeEvent = (urlParent, urlChildren) => {
+    let messageSuccess = `Los eventps han sido mergeados correctamente.`;
+    let messageError = `Los eventos no han sido mergeados. `;
     return apiInstance.patch(urlChildren,
     {
         parent : urlParent
-    }, 
-    {
-        validateStatus: function (status) {
-            switch(status) {
-                case 200:
-                    setAlert(`Caso mergeado`, "success");
-                    break;
-                case 404: 
-                    setAlert(`No se pudo mergear`, "error");
-                    break;
-            }
-            return status;
-        }
-    });
+    }).then(response => {
+        setAlert(messageSuccess , "success");
+        return response;
+    }).catch( error => { 
+        let statusText = error.response.statusText;
+        messageError += statusText;
+        setAlert(messageError , "error");
+        return Promise.reject(error);
+    })
 }
 
 export { getEvents , postEvent, putEvent, deleteEvent, mergeEvent, getEvent};
