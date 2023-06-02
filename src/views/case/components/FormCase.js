@@ -3,8 +3,6 @@ import {Button, Col, Form, Row} from 'react-bootstrap';
 import { getPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { getUsers } from '../../../api/services/users';
-import {getEvidence} from '../../../api/services/evidences';
-import { getImage } from '../../../api/services/cases';
 
 const FormCase = (props) => { 
 // props: ifConfirm, save, date, setDate, lifecycle, setLifecycle, priority, setPriority, tlp, setTlp, state, setState

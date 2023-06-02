@@ -157,8 +157,4 @@ const mergeCase = (urlParent, urlChildren) => {
     });
 }
 
-const getImage = (url) => {
-    return apiInstance.get(url);
-}
-
 export { getCases, getAllCases, getOrderingCases, getCase, postCase, putCase, deleteCase, mergeCase, getImage };
