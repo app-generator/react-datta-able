@@ -77,7 +77,9 @@ function ListUser() {
               </Col> 
           </Row>                                 
           </Card.Header>
-          <TableUsers users={users} loading={loading} /> 
+          <Card.Body>
+            <TableUsers users={users} loading={loading} /> 
+          </Card.Body>
           <Card.Footer >
                             <Row className="justify-content-md-center">
                                 <Col md="auto"> 

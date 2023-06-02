@@ -33,6 +33,9 @@ const EditCase = () => {
     //Alert
     const [showAlert, setShowAlert] = useState(false);
 
+    //desactivar button al hacer post
+    const [ifClick, setIfClick] = useState(false);
+
     useEffect(()=> {
 
         let listStates =[]
@@ -64,19 +67,44 @@ const EditCase = () => {
 
     //Edit
     const editCase = () => {
-        console.log(attend_date)
-        console.log(solve_date)
         console.log(comments)
         console.log(evidences)
+        setIfClick(true);
+        const form = new FormData();
+        form.append("date", date)
+        form.append("lifecycle",lifecycle)
+        if(parent != null) {
+            form.append("parent", parent)
+        }
+        form.append("priority", priority)
+        form.append("tlp", tlp)
+        if(assigned != null) {
+            form.append("assigned", assigned)
+        }
+        form.append("state", state)
+        form.append("comments", null)
+        form.append("attend_date", attend_date)
+        form.append("solve_date", solve_date)
+        //form.append("evidence", evidences)
+        if (evidences !== null){
+            for (let index=0; index< evidences.length  ; index++){
+            form.append("evidence", evidences[index])
+            console.log(evidences[index])
+            }
+        }else{
+            form.append("evidence", evidences)
+        }
+        console.log(form)
 
-        putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
+        putCase(url, form)
+        //putCase(url, date, lifecycle, parent, priority, tlp, assigned, state, comments, evidences, attend_date, solve_date)
         .then((response) => { 
             console.log(response)
             window.location.href = "/cases"
         })
         .catch((error) => {
             setShowAlert(true)
-            console.log(error)
+            setIfClick(false)
         });    
     };
 
@@ -108,7 +136,7 @@ const EditCase = () => {
                                         attend_date={attend_date} setAttend_date={setAttend_date}
                                         solve_date={solve_date} setSolve_date={setSolve_date}
 
-                                        ifConfirm={editCase} edit={true} save='Guardar Cambios'/>
+                                        ifConfirm={editCase} edit={true} save='Guardar Cambios' ifClick={ifClick}/>
                                 </Col>
                             </Row>
                         </Card.Body>

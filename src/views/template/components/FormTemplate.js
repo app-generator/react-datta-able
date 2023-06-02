@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Card, Form, Button,Row, Col} from 'react-bootstrap'
-import { validateCidr, validateURL, validateSpaces} from '../../../components/Validator/Validator';
+import { validateCidr, validateURL, validateSpaces} from '../../../utils/validators';
 
 const FormTemplate = (props) => {
 
@@ -26,7 +26,7 @@ const FormTemplate = (props) => {
     <React.Fragment>
         <Card>
             <Card.Header>
-                <Card.Title as="h5">Condiciones</Card.Title>
+                <Card.Title as="h5">Ante un evento</Card.Title>
             </Card.Header>
       <Card.Body>
         <Form>
@@ -80,7 +80,7 @@ const FormTemplate = (props) => {
             
             <Col sm={12} lg={4}>
             <Form.Group controlId="formGridAddress1">
-                <Form.Label>Cidr afectado</Form.Label>
+                <Form.Label>CIDR afectado</Form.Label>
                 <Form.Control 
                     placeholder="Ingrese " 
                     maxlength="150" 
@@ -111,7 +111,7 @@ const FormTemplate = (props) => {
         </Card>
         <Card>
             <Card.Header>
-                <Card.Title as="h5">Acciones</Card.Title>
+                <Card.Title as="h5">Crear un caso</Card.Title>
             </Card.Header>
             <Card.Body>
                 
@@ -137,24 +137,7 @@ const FormTemplate = (props) => {
                    {(props.body.case_tlp !== "-1") ? '' : <div className="invalid-feedback">Seleccione un tlp</div>}
                </Form.Group>
                </Col>
-              <Col sm={12} lg={4}>
-              <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Ciclo de vida</Form.Label>
-                <Form.Control  
-                    type="choice"
-                    as="select" 
-                    name="case_lifecycle" 
-                    value ={props.body.case_lifecycle} 
-                    onChange={(e)=>completeField(e)} isInvalid={props.body.case_lifecycle === "-1"}
-                    isValid={props.body.case_lifecycle !== "-1"}>
-                    <option value="-1">Seleccione un tipo</option>
-                    {lifeCicle.map((type) => {
-                        return(<option value={type}> {type} </option>)
-                    })}
-                 
-                </Form.Control>
-        </Form.Group>
-              </Col>
+              
               <Col sm={12} lg={4}>
               <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>Prioridades</Form.Label>
@@ -174,8 +157,6 @@ const FormTemplate = (props) => {
                 {(props.body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Prioridad</div>}
                 </Form.Group>
               </Col>
-              </Row>
-              <Row>
               <Col sm={12} lg={4}>
               <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>Estado</Form.Label>
@@ -195,20 +176,39 @@ const FormTemplate = (props) => {
                 </Form.Group>
               </Col>
               </Row>
+              <Row>
+              <Col sm={12} lg={4}>
+              <Form.Group controlId="exampleForm.ControlSelect1">
+                <Form.Label>Ciclo de vida</Form.Label>
+                <Form.Control  
+                    type="choice"
+                    as="select" 
+                    name="case_lifecycle" 
+                    value ={props.body.case_lifecycle} 
+                    onChange={(e)=>completeField(e)} isInvalid={props.body.case_lifecycle === "-1"}
+                    isValid={props.body.case_lifecycle !== "-1"}>
+                    <option value="-1">Seleccione un tipo</option>
+                    {lifeCicle.map((type) => {
+                        return(<option value={type}> {type} </option>)
+                    })}
+                 
+                </Form.Control>
+                </Form.Group>
+              </Col>
+             
+              </Row>
 
               
                
-        </Form>  
+        </Form>    
                      
       </Card.Body>
       </Card>
-      <Card>
-            
-            <Card.Body>
-                <Button variant="primary" onClick={props.createTemplate} >Guardar</Button> 
-                <Button variant="primary" href="/templates">Cancelar</Button>  
-            </Card.Body>
-        </Card>
+    <Button variant="primary" onClick={props.createTemplate} >Guardar</Button> 
+    <Button variant="primary" href="/templates">Cancelar</Button>
+      
+                
+           
          
     </React.Fragment>
   )

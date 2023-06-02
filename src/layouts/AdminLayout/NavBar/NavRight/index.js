@@ -18,15 +18,10 @@ import avatar4 from '../../../../assets/images/user/avatar-4.jpg';
 import Alert from './../../../../components/Alert/Alert'; 
 
 const NavRight = () => {
-    const [showAlert, setShowAlert] = useState(false);
 
     const [listOpen, setListOpen] = useState(false);
 
     const { dispatch } = store;
-
-    const resetShowAlert = () => {
-        setShowAlert(false);
-    }
 
     const handleLogout = () => {
 
@@ -40,7 +35,6 @@ const NavRight = () => {
 
     return (
         <React.Fragment>
-            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
             <ListGroup as="ul" bsPrefix=" " className="navbar-nav ml-auto" id="navbar-right">
                 {/* <ListGroup.Item as="li" bsPrefix=" ">
                     <Dropdown>

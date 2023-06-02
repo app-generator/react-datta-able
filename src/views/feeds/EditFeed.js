@@ -53,19 +53,15 @@ const EditFeed = () => {
                         <Card.Body>
                             <Form>       
                                 <Row>
-                                    <Col sm={12} lg={5}>
+                                    <Col sm={12} lg={6}>
                                         <Form.Group>
                                             <Form.Label>Nombre <b style={{color:"red"}}>*</b></Form.Label>
                                             <Form.Control type="text"  defaultValue={feed.name} onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)} />
                                             {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
                                         </Form.Group>
                                     </Col>
-                                    <Col sm={12} lg={1}>
-                                        <Form.Group>
-                                            <Form.Label>Estado</Form.Label>
-                                            <DropdownState state={feed.active} setActive={setActive}></DropdownState>
-                                        </Form.Group>   
-                                    </Col>
+                                </Row>
+                                <Row>
                                     <Col sm={12} lg={6}>
                                         <Form.Group>
                                             <Form.Label>Descripcion <b style={{color:"red"}}>*</b></Form.Label>
@@ -73,15 +69,25 @@ const EditFeed = () => {
                                             {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
                                         </Form.Group>
                                     </Col>
-                                </Row>                                                         
-                                <Form.Group as={Col}>
+                                </Row>
+                                <Row>
+                                    <Col sm={12} lg={1}>
+                                        <Form.Group>
+                                            <Form.Label>Estado</Form.Label>
+                                            <DropdownState state={feed.active} setActive={setActive}></DropdownState>
+                                        </Form.Group>   
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Form.Group as={Col}>
                                     { validateName(name) && validateDescription(description) ?
                                         <Button variant="primary" onClick={editFeed}>Guardar</Button>
                                         :
                                         <Button variant="primary" disabled>Guardar</Button>                                        
                                     }                            
                                     <Button variant="info" href='/feeds'>Cancelar</Button>
-                                </Form.Group>
+                                    </Form.Group>
+                                </Row>                                            
                             </Form>
                         </Card.Body>
                     </Card>

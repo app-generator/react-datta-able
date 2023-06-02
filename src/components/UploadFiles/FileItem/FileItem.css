@@ -1,0 +1,50 @@
+.file-item {
+    list-style: none;
+    margin: 1.2em 0;
+    background-color: #306ef538;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 1.2em 1.5em;
+  }
+  
+  .file-item svg {
+    color: #2521f5;
+  }
+  
+  .file-item svg:first-child {
+    font-size: 1.2em;
+    margin-right: 0.8em;
+  }
+  
+  .file-item p {
+    flex: 1;
+    font-size: 0.9rem;
+  }
+  
+  .file-item .actions {
+    justify-self: flex-end;
+    cursor: pointer;
+  }
+  
+  .file-item .actions .fa-spinner {
+    font-size: 1.2em;
+  }
+  
+  .delete-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+  }
+  
+  .delete-icon {
+    font-size: 14px;
+    color: red;
+  }
+
+
+
+
+

@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react'
 import {Card, Form, Button, Row, Col} from 'react-bootstrap'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { validateCidr} from '../../../components/Validator/Validator';
+import { validateCidr} from '../../../utils/validators';
 
 
 const animatedComponents = makeAnimated();
@@ -42,7 +42,7 @@ const FormState = ({body, setBody, createState, childernes}) => {
             <Row>
                 <Col>
                     <Form.Group controlId="formGridAddress1">
-                        <Form.Label>nombre</Form.Label>
+                        <Form.Label>Nombre</Form.Label>
                         <Form.Control 
                         placeholder="Ingrese un nombre" 
                         maxlength="100" 
@@ -55,7 +55,7 @@ const FormState = ({body, setBody, createState, childernes}) => {
                 </Col>
                 <Col>
                     <Form.Group controlId="exampleForm.ControlSelect1">
-                        <Form.Label>atendido</Form.Label>
+                        <Form.Label>Atendido</Form.Label>
                         <Form.Control  
                             type="choice"
                             as="select" 
@@ -72,7 +72,7 @@ const FormState = ({body, setBody, createState, childernes}) => {
                 </Col>
                 <Col>
                     <Form.Group controlId="exampleForm.ControlSelect1">
-                        <Form.Label>resuelto</Form.Label>
+                        <Form.Label>Resuelto</Form.Label>
                         <Form.Control  
                             type="choice"
                             as="select" 
@@ -90,9 +90,9 @@ const FormState = ({body, setBody, createState, childernes}) => {
             </Row>
 
             <Form.Group controlId="formGridAddress1">
-                <Form.Label>descripción</Form.Label>
+                <Form.Label>Descripción</Form.Label>
                 <Form.Control 
-                placeholder="Ingrese un color" 
+                placeholder="Ingrese una descripcion" 
                 maxlength="150" 
                 value ={body.description} 
                 name="description"
@@ -102,7 +102,7 @@ const FormState = ({body, setBody, createState, childernes}) => {
             </Form.Group>
 
             <Form.Group controlId="formGridAddress1">
-                <Form.Label>hijos</Form.Label>
+                <Form.Label>Hijos</Form.Label>
                 <Select
                     closeMenuOnSelect={false}
                     components={animatedComponents}
