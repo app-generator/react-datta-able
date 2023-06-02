@@ -128,7 +128,7 @@ const EditEvent = () => {
 
 
     const editEvent=()=>{
-      const f = new FormData();
+      const formDataEvent = new FormData();
 
       //se eliminan las evidencias
       if (evidence instanceof FileList){
@@ -140,35 +140,35 @@ const EditEvent = () => {
       }
       //console.log(fecha.toISOString())//YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]
       
-      f.append("date", body.date)// tengo que hacer esto porque solo me acepta este formato, ver a futuro
+      formDataEvent.append("date", body.date)// tengo que hacer esto porque solo me acepta este formato, ver a futuro
       //f.append("date", fecha.toISOString())
-      f.append("priority",body.priority)
-      f.append("tlp", body.tlp)
-      f.append("taxonomy", body.taxonomy)
-      f.append("artifacts", body.artifacts)
-      f.append("feed", body.feed)
-      f.append("domain", body.domain)
-      f.append("todos", body.todos)
-      f.append("comments", body.comments)
+      formDataEvent.append("priority",body.priority)
+      formDataEvent.append("tlp", body.tlp)
+      formDataEvent.append("taxonomy", body.taxonomy)
+      formDataEvent.append("artifacts", body.artifacts)
+      formDataEvent.append("feed", body.feed)
+      formDataEvent.append("domain", body.domain)
+      formDataEvent.append("todos", body.todos)
+      formDataEvent.append("comments", body.comments)
       //f.append("cidr", body.cidr)// 'null' does not appear to be an IPv4 or IPv6 network"
-      f.append("notes", body.notes)
+      formDataEvent.append("notes", body.notes)
       //f.append("parent", body.parent) //"Invalid hyperlink - No URL match."]
-      f.append("reporter", body.reporter)
+      formDataEvent.append("reporter", body.reporter)
       //f.append("case", body.case) //"Invalid hyperlink - No URL match.
-      f.append("tasks", body.tasks)
+      formDataEvent.append("tasks", body.tasks)
       if (evidence !== null){
         for (let index=0; index< evidence.length  ; index++){
-          f.append("evidence", evidence[index])
+          formDataEvent.append("evidence", evidence[index])
        
         }
       }else{
-        f.append("evidence", evidence)
+        formDataEvent.append("evidence", evidence)
       }
       body.artifacts.forEach((item) => {
         console.log(item)
-        f.append('artifacts', item);
+        formDataEvent.append('artifacts', item);
       });
-      putEvent(body.url,f).then(() => {
+      putEvent(body.url,formDataEvent).then(() => {
         window.location.href = '/events';
       })
       .catch((error) => {

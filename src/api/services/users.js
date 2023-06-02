@@ -62,14 +62,11 @@ const postUser = (username, first_name, last_name, email, priority, is_active) =
             if(error.response.data.username =="A user with that username already exists." ){
                 messageError = `El usuario ${username} se pudo crear correctamente porque ya existe en el sistema`;   
             }
-
         }else if(error.message == "Cannot read properties of undefined (reading 'code')"){
             //el backend o servidor no funciona
             messageError = `El usuario ${username} no puede ser creado porque el servidor no responde`;
-
         }
         setAlert(messageError, "error");
-        
         return Promise.reject(error);
     });
 }
@@ -88,19 +85,16 @@ const putUser = ( url,username, first_name, last_name, email, priority, is_activ
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        if (error.message == "Request failed with status code 400"){
+        if (error.response.status == 400){
             //se informa que existe el username con ese nombre
-            messageError = `El usuario ${username} se pudo crear correctamente porque ya existe en el sistema`;
-            setAlert(messageError, "error");
-
+            if(error.response.data.username =="A user with that username already exists." ){
+                messageError = `El usuario ${username} se pudo edita correctamente porque ya existe en el sistema`;   
+            }
         }else if(error.message == "Cannot read properties of undefined (reading 'code')"){
             //el backend o servidor no funciona
-            messageError = `El usuario ${username} no puede ser creado porque el servidor no responde`;
-            setAlert(messageError, "error");
-
-        }else{   
-            setAlert(messageError, "error");
+            messageError = `El usuario ${username} no puede ser editado porque el servidor no responde`;
         }
+        setAlert(messageError, "error");
         return Promise.reject(error);
     });
 }
@@ -119,9 +113,8 @@ const isActive = (url, active) => {
             messageError = !active ? `El usuario no pudo ser desactivado no pudo ser` : `El usuario no pudo ser activado no pudo ser`;
             setAlert(messageError, "error");
 
-        }else{
-            setAlert(messageError, "error");
         }
+        setAlert(messageError, "error");
         return Promise.reject(error);
     });
 }
@@ -133,20 +126,14 @@ const deleteUser = (url) => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        console.log(error.response)
-        setAlert(messageError, "error");
-        if (error.message == "Request failed with status code 500"){
-            //se informa que no se peude eliminar por que está siendo referencia en otra tabla
-            messageError = `El usuario no se pudo eliminar porque está siendo referencia en otro componente/tabla(?`;
-            setAlert(messageError, "error");
+        if (error.response.status == 500){
+            messageError = `El usuario no se puede eliminar porque está referenciado en un evento o caso`;
         }else if(error.message == "Cannot read properties of undefined (reading 'code')"){
             //el backend o servidor no funciona
             messageError = `El usuario  no puede ser eliminado porque el servidor no responde`;
-            setAlert(messageError, "error");
-
-        }else{   
-            setAlert(messageError, "error");
         }
+        setAlert(messageError, "error");
+        
         
         return Promise.reject(error);
     })
