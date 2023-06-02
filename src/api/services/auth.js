@@ -39,7 +39,6 @@ const refreshToken = () => {
 const logout = () => {
     return apiInstance.post(COMPONENT_URL.logout)
         .catch( error => { 
-            setAlert("No se pudo realizar el logout", "error");
             return Promise.reject(error);
         });
 }

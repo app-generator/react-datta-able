@@ -87,9 +87,8 @@ const handleDelete = () => {
   return (
     <React.Fragment>
         <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>  
-        <Card>
-            <Card.Body>
-                <ul className="list-group my-4">
+    
+               <ul className="list-group my-4"> 
                     <Table responsive hover>
                         <thead>
                             <tr>
@@ -201,9 +200,8 @@ const handleDelete = () => {
 
                         </tbody>
                     </Table>
-                </ul>
-            </Card.Body>
-        </Card>
+                </ul> 
+
     </React.Fragment>
   )
 }

@@ -77,7 +77,7 @@ const FormCreateContact = (props) => {
         <React.Fragment>
             <Form>
                 <Row>
-                    <Col sm={6} lg={6}>
+                    <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Contact.Name">
                             <Form.Label>Nombre</Form.Label>
                             <Form.Control 
@@ -93,7 +93,7 @@ const FormCreateContact = (props) => {
                             {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Contact.Rol">
                             <Form.Label>Rol</Form.Label>
                             <Form.Control
@@ -113,7 +113,7 @@ const FormCreateContact = (props) => {
                             {props.role!=='' ? '' : <div className="invalid-feedback">Seleccione el rol</div>}
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Contact.Priority" >
                             <Form.Label>Prioridad</Form.Label>
                             <Form.Control
