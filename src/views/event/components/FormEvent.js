@@ -38,16 +38,6 @@ const FormEvent = (props) => {
             [event.target.name] : event.target.value}
         )       
     }
-    /*const completeFieldFiles=(event)=>{ 
-        console.log(event.target.files)
-        props.setBody({...props.body,
-            [event.target.name] : event.target.files}
-        ) 
-       
-        console.log(props.body.evidence)
-        
-
-    }*/
 
     const selectArtefact=(event)=>{ 
         props.setBody({...props.body,
@@ -326,21 +316,13 @@ const FormEvent = (props) => {
     
             <Form>   
                 <Form.Group controlId="formGridAddress1">
-                <div
-                    className="dropzone"
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                >
-                    <FileUpload files={props.evidence} setFiles={props.setEvidence} removeFile={removeFile} />
-                    <FileList files={props.evidence} removeFile={removeFile} />
-                </div>
-                    {/*<Form.Control 
-                    type="file"
-                    maxlength="150" 
-                    multiple
-                    onChange={(e)=>props.setEvidence(e.target.files)}
-                    name="evidence"/>*/}
-                    
+                    <div
+                        className="dropzone"
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}>
+                        <FileUpload files={props.evidence} setFiles={props.setEvidence} removeFile={removeFile} />
+                        <FileList files={props.evidence} removeFile={removeFile} />
+                    </div>
                 </Form.Group>   
                 
 
