@@ -60,10 +60,3 @@ const CrudButton = ({type, name, onClick}) => {
 };
 
 export default CrudButton;
-
-            <Button 
-                className='btn-icon btn-rounded' 
-                variant='outline-danger'
-                title='Editar'>
-                    <i className='fa fa-edit' />
-            </Button>

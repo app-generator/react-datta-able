@@ -13,6 +13,9 @@ const FormCase = (props) => {
 const [allPriorities, setAllPriorities ] = useState([])
 const [allTlp, setAllTlp] = useState([])
 const [allUsers, setAllUsers] = useState([])
+const [files, setFiles] = useState(null)
+
+const [image, setImage] = useState(null) //object URL
 
     useEffect(()=> {
         
@@ -43,7 +46,9 @@ const [allUsers, setAllUsers] = useState([])
             console.log(error)
         })
 
+
     },[props.allStates])
+     
 
     const allLifecycles = [
         {
@@ -66,25 +71,16 @@ const [allUsers, setAllUsers] = useState([])
     
     //
     const selectEvidences = (event) => {
-        const files = event.target.files;
-        console.log(files)
+        const filesEvidence = event.target.files;
+        console.log(filesEvidence)
         const evidences = [];
-        for (let i = 0; i < files.length; i++) {
-          evidences.push(files[i]);
+        for (let i = 0; i < filesEvidence.length; i++) {
+          evidences.push(filesEvidence[i]);
         }
         props.setEvidences(evidences);
-        //props.f.append("evidence", evidences)
-      }
-      const selectEvidences2 = (event) => {
-        const files = event.target.files;
-        console.log(files)
-        const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-          formData.append('evidences', files[i]);
-        }
-        props.setEvidences(formData); 
       }
 
+      
     return (
         <React.Fragment>
             <Form>
@@ -137,10 +133,7 @@ const [allUsers, setAllUsers] = useState([])
                             </Form.Control>
                             {props.lifecycle ? '' : <div className="invalid-feedback">Seleccione el ciclo de vida</div>}
                         </Form.Group>
-                       
-                
-                     
-                       
+
                     </Col>
                     <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Case.Attend_date">
@@ -235,7 +228,7 @@ const [allUsers, setAllUsers] = useState([])
                 </Row>
             </Form> 
                  
-                {!props.date || !props.lifecycle || !props.priority || !props.tlp || !props.state ? 
+                {!props.date || !props.lifecycle || !props.priority || !props.tlp || !props.state || props.ifClick  ? 
                     <><Button variant="primary" disabled>{props.save}</Button></> 
                     : 
                     <><Button variant="primary" onClick={props.ifConfirm}>{props.save}</Button></>}
