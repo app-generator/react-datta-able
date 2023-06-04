@@ -15,7 +15,7 @@ const AddUser = () => {
         first_name: "", 
         last_name: "", 
         email: "", 
-        priority: '-1',
+        priority: '',
         password: ""}
 
     const [error,setError]=useState()
