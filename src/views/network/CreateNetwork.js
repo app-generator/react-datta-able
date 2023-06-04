@@ -8,7 +8,7 @@ import Alert from '../../components/Alert/Alert';
 
 const CreateNetwork = () => {
     const [cidr, setCidr] = useState(''); //required
-    const [type, setType] = useState('0'); //required
+    const [type, setType] = useState(''); //required
     const [contacts, setContacts] = useState([]); //required 
     const active = true; //required: true 
     const children = useState(null); //?
