@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Form} from 'react-bootstrap';
 import DropdownState from '../../../components/Dropdown/DropdownState';
-import { validateAlphanumeric, validateSpace } from '../../../utils/validators'
+import { validateName } from './ValidatorEntity';
 
 const FormEntity = (props) => { // props: name, setName, ifConfirm, {edit:false | true -> active, setActive}
     
@@ -17,12 +17,10 @@ const FormEntity = (props) => { // props: name, setName, ifConfirm, {edit:false 
                         maxlength="100"
                         value={props.name} 
                         onChange={(e) => props.setName(e.target.value)} 
-                        isInvalid={!validateAlphanumeric(props.name) || !validateSpace(props.name)}
-                        isValid={validateAlphanumeric(props.name) && validateSpace(props.name)}
-                        />
-                    {validateSpace(props.name) ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
-                    {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
-                
+                        isInvalid={!validateName(props.name)}
+                        isValid={validateName(props.name)}
+                    />
+                    {validateName(props.name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, letras y/o numeros y que no sea vacio</div>}
                 </Form.Group>
                 {props.edit ? 
                     <Form.Group>
@@ -32,7 +30,7 @@ const FormEntity = (props) => { // props: name, setName, ifConfirm, {edit:false 
                 :
                 <></>}
 
-                {!validateSpace(props.name) || !validateAlphanumeric(props.name) ? 
+                {!validateName(props.name) ? 
                     <><Button variant="primary" disabled>Guardar</Button></> 
                     : 
                     <><Button variant="primary" onClick={props.ifConfirm}>Guardar</Button></>}
