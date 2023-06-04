@@ -9,7 +9,7 @@ const FormEntity = (props) => { // props: name, setName, ifConfirm, {edit:false 
         <React.Fragment>
             <Form>
                 <Form.Group controlId="Form.Entity.Name">
-                    <Form.Label>Nombre</Form.Label>
+                    <Form.Label>Nombre <b style={{color:"red"}}>*</b></Form.Label>
                     <Form.Control 
                         type="text"
                         name="name" 

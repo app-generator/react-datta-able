@@ -79,7 +79,7 @@ const FormCreateContact = (props) => {
                 <Row>
                     <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Contact.Name">
-                            <Form.Label>Nombre</Form.Label>
+                            <Form.Label>Nombre <b style={{color:"red"}}>*</b></Form.Label>
                             <Form.Control 
                                 type="nombre" 
                                 placeholder="Nombre" 
@@ -94,7 +94,7 @@ const FormCreateContact = (props) => {
                     </Col>
                     <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Contact.Rol">
-                            <Form.Label>Rol</Form.Label>
+                            <Form.Label>Rol <b style={{color:"red"}}>*</b></Form.Label>
                             <Form.Control
                                 name="role"
                                 type="choice"
@@ -114,7 +114,7 @@ const FormCreateContact = (props) => {
                     </Col>
                     <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Contact.Priority" >
-                            <Form.Label>Prioridad</Form.Label>
+                            <Form.Label>Prioridad <b style={{color:"red"}}>*</b></Form.Label>
                             <Form.Control
                                 name="priority"
                                 type="choice"                                            
@@ -137,7 +137,7 @@ const FormCreateContact = (props) => {
                 <Row>
                     <Col lg={4}>
                         <Form.Group controlId="Form.Contact.Type">
-                            <Form.Label>Tipo</Form.Label>
+                            <Form.Label>Tipo <b style={{color:"red"}}>*</b></Form.Label>
                             <Form.Control
                                 name="type"
                                 type="choice"

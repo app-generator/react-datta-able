@@ -54,7 +54,7 @@ if(username){
             <React.Fragment>
 
                 <Form.Group controlId="Form.Contact.Username">
-                    <Form.Label>Contacto</Form.Label>
+                    <Form.Label>Contacto <b style={{color:"red"}}>*</b></Form.Label>
                     <Form.Control 
                         name = "Form.Contact.Username__username"
                         placeholder = {username.placeholder}
@@ -74,7 +74,7 @@ if(username){
         return (
             <React.Fragment>
                 <Form.Group controlId="Form.Contact.Username.readOnly">
-                    <Form.Label>Contacto</Form.Label>
+                    <Form.Label>Contacto <b style={{color:"red"}}>*</b></Form.Label>
                     <Form.Control readOnly 
                         placeholder = 'Aun no ha seleccionado el tipo de contacto'
                         name = "username" />
