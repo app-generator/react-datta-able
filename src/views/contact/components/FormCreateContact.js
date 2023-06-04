@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Button, Col, Row, Form} from 'react-bootstrap';
-import { validateSpace, validateAlphanumeric  } from '../../../utils/validators'; 
+import { validateName, validateContact, validateSelect } from './ValidatorContact'; 
 import FormContactSelectUsername from './FormContactSelectUSername';
 import { getPriorities } from '../../../api/services/priorities';
 
@@ -25,7 +25,7 @@ const FormCreateContact = (props) => {
     
     const roleOptions = [
         {
-            value : '0',
+            value : '',
             name : 'Seleccione'
         },
         {
@@ -52,7 +52,7 @@ const FormCreateContact = (props) => {
 
     const typeOptions = [
         {
-            value : '0',
+            value : '',
             name : 'Seleccione'
         },
         {
@@ -86,11 +86,10 @@ const FormCreateContact = (props) => {
                                 maxlength="100"
                                 value={props.name} 
                                 onChange={(e) => props.setName(e.target.value)} 
-                                isInvalid={!validateAlphanumeric(props.name) || !validateSpace(props.name)}
-                                isValid={validateAlphanumeric(props.name) && validateSpace(props.name)}
-                                />
-                            {validateSpace(props.name) ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
-                            {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
+                                isInvalid={!validateName(props.name)}
+                                isValid={validateName(props.name)}
+                            />
+                            {validateName(props.name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, letras y/o numeros y que no sea vacio</div>}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
@@ -101,8 +100,8 @@ const FormCreateContact = (props) => {
                                 type="choice"
                                 as="select"
                                 value={props.role}
-                                isInvalid={props.role === '0'}
-                                isValid={props.role !== '0'}
+                                isInvalid={!validateSelect(props.role)}
+                                isValid={validateSelect(props.role)}
                                 onChange={(e) => props.setRole(e.target.value)}>
                                 {roleOptions.map((roleItem, index) => {                
                                     return (
@@ -110,7 +109,7 @@ const FormCreateContact = (props) => {
                                     );
                                 })}
                             </Form.Control>
-                            {props.role!=='' ? '' : <div className="invalid-feedback">Seleccione el rol</div>}
+                            {validateSelect(props.role) ? '' : <div className="invalid-feedback">Seleccione el rol</div>}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
@@ -121,17 +120,17 @@ const FormCreateContact = (props) => {
                                 type="choice"                                            
                                 as="select"
                                 value={props.priority}
-                                isInvalid={props.priority == '0'}
-                                isValid={props.priority !== '0'}
+                                isInvalid={!validateSelect(props.priority)}
+                                isValid={validateSelect(props.priority)}
                                 onChange={(e) =>  props.setPriority(e.target.value)}>
-                                <option value='0'>Seleccione</option>
+                                <option value=''>Seleccione</option>
                                 {prioritiesOption.map((priorityItem, index) => {                
                                     return (
                                         <option key={index} value={priorityItem.url}>{priorityItem.name}</option>
                                     );
                                 })}
                             </Form.Control>
-                            {props.priority ? '' : <div className="invalid-feedback">Seleccione la prioridad</div>}
+                            {validateSelect(props.priority) ? '' : <div className="invalid-feedback">Seleccione la prioridad</div>}
                         </Form.Group>
                     </Col>
                 </Row>
@@ -144,8 +143,8 @@ const FormCreateContact = (props) => {
                                 type="choice"
                                 as="select"
                                 value={props.type}
-                                isInvalid={props.type == '0'}
-                                isValid={props.type !== '0'}
+                                isInvalid={!validateSelect(props.type)}
+                                isValid={validateSelect(props.type)}
                                 onChange={(e) =>  props.setType(e.target.value)}>
                                 {typeOptions.map((typeItem, index) => {                
                                     return (
@@ -153,7 +152,7 @@ const FormCreateContact = (props) => {
                                     );
                                 })}
                             </Form.Control>
-                            {props.type ? '' : <div className="invalid-feedback">Seleccione el tipo de contacto</div>}
+                            {validateSelect(props.type) ? '' : <div className="invalid-feedback">Seleccione el tipo de contacto</div>}
                         </Form.Group>
                     </Col>
                     <Col lg={8}>
@@ -172,12 +171,10 @@ const FormCreateContact = (props) => {
                         onChange = {(e) =>  {props.setKey(e.target.value)}} />
                 </Form.Group>
                 <Form.Group>
-                    {(!validateSpace(props.name) || !validateAlphanumeric(props.name) 
-                    || (props.role == '0') || (props.priority == '0' ) || (props.type == '0')
-                    || !validateSpace(props.contact) || (!validContact)) ? 
-                        <><Button variant="primary" disabled>Guardar</Button></> 
-                        : 
+                    {(validateName(props.name) && validateSelect(props.role) && validateSelect(props.priority) && validateSelect(props.type) && validateContact(props.contact) && (validContact)) ? 
                         <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>
+                        : 
+                        <><Button variant="primary" disabled>Guardar</Button></>                         
                     }
                         <Button variant="primary" onClick={props.ifCancel}>Cancelar</Button>
                 </Form.Group>

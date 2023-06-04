@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
-import { validateSpace, validateEmail, validateAlphanumeric, validateNumbers, validateURL } from '../../../utils/validators'; 
+import { validateContactMail, validateContactTelegram, validateContactPhone, validateContactURI } from './ValidatorContact'; 
 
 const FormContactSelectUsername = (props) => { 
     // props: selectedType, contact, setContact, setValidContact
@@ -14,34 +14,34 @@ if(username){
         {
             name : 'email',
             placeholder : 'Ingrese email', 
-            isInvalid : JSON.parse(!validateSpace(props.contact) || !validateEmail(props.contact)),
-            isValid : JSON.parse(validateSpace(props.contact) && validateEmail(props.contact)),
-            condition : JSON.parse(validateEmail(props.contact)),
+            isInvalid : JSON.parse(!validateContactMail(props.contact)),
+            isValid : JSON.parse(validateContactMail(props.contact)),
+            condition : JSON.parse(validateContactMail(props.contact)),
             messageDanger : 'Ingrese un email valido'
             
         },
         {
             name : 'telegram',
             placeholder : 'Ingrese contacto de telegram', 
-            isInvalid : JSON.parse(!validateSpace(props.contact) || !validateAlphanumeric(props.contact)),
-            isValid : JSON.parse(validateSpace(props.contact) && validateAlphanumeric(props.contact)),
-            condition : JSON.parse(validateAlphanumeric(props.contact)),
+            isInvalid : JSON.parse(!validateContactTelegram(props.contact)),
+            isValid : JSON.parse(validateContactTelegram(props.contact)),
+            condition : JSON.parse(validateContactTelegram(props.contact)),
             messageDanger : 'Ingrese un contacto de telegram valido'
         },
         {
             name : 'phone',
             placeholder : 'Ingrese telefono', 
-            isInvalid : JSON.parse(!validateSpace(props.contact) || !validateNumbers(props.contact)),
-            isValid : JSON.parse(validateSpace(props.contact) && validateNumbers(props.contact)),
-            condition : JSON.parse(validateNumbers(props.contact)),
+            isInvalid : JSON.parse(!validateContactPhone(props.contact)),
+            isValid : JSON.parse(validateContactPhone(props.contact)),
+            condition : JSON.parse(validateContactPhone(props.contact)),
             messageDanger : 'Ingrese un telefono valido'
         },
         {
             name : 'uri',
             placeholder : 'Ingrese URI', 
-            isInvalid : JSON.parse(!validateSpace(props.contact) || !validateURL(props.contact)),
-            isValid : JSON.parse(validateSpace(props.contact) && validateURL(props.contact)),
-            condition : JSON.parse(validateURL(props.contact)),
+            isInvalid : JSON.parse(!validateContactURI(props.contact)),
+            isValid : JSON.parse(validateContactURI(props.contact)),
+            condition : JSON.parse(validateContactURI(props.contact)),
             messageDanger : 'Ingrese un URI valido'
         }
     ]
