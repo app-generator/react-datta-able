@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom';
 import GetUserName from './components/GetUserName';
 import { getUser } from '../../api/services/users';
 import BadgeItem from '../../components/Button/BadgeItem';
-import { getImage } from '../../api/services/cases';
 import ViewFiles from './components/ViewFiles';
 
 const ReadCase = () => { 
@@ -22,12 +21,9 @@ const ReadCase = () => {
     const [solve_date, setSolve_Date] = useState('');
     const [created, setCreated] = useState('');
     const [modified, setModified] = useState('');
-    const [error, setError] = useState(null)
 
     const [modalShowEvent, setModalShowEvent] = useState(false);
     const [modalShowEvidence, setModalShowEvidence] = useState(false);
-    
-    const [image, setImage] = useState(null);
     
     useEffect (() => {
         
@@ -54,12 +50,13 @@ const ReadCase = () => {
             }
     }
 }, []) 
-
+//a.nav-link
+//mr-auto.ml-2 div.toast-header
     return (
         caseItem &&
         <React.Fragment>
             <Row>
-                <Navigation actualPosition="Detalle" path="/cases/view" index ="Casos"/>
+                <Navigation actualPosition="Detalle" path="/cases" index ="Casos"/>
             </Row>
             <Row>
                 <Col sm={12}>
