@@ -111,7 +111,7 @@ const deleteEntity = (url, name) => {
 const isActive = (url, active, name) => { 
     let messageSuccess = !active ? `La entidad ${name} se ha desactivado.` : `La entidad ${name} se ha activado.`;
     let messageError = !active ? `La entidad ${name} no se ha desactivado. ` : `La entidad ${name} no se ha activado. `;
-    return apiInstance.patch(url+"123sdfgh", {
+    return apiInstance.patch(url, {
         active: active
     }).then(response => {
         setAlert(messageSuccess , "success");

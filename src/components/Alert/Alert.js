@@ -10,9 +10,11 @@ const Alert = ({ showAlert , resetShowAlert}) => {
     const [show, setShow] = useState(false);
     const [text, setText] = useState('');
     const [type, setType] = useState('');
+    const [time, setTime] = useState(0);
  
     const textMessage = store.getState().message.text;
     const typeAlert = store.getState().message.typeMessage;
+//    const timeAlert = store.getState().message.time;
 
     useEffect(() => {
         if (showAlert === true && textMessage  !== '') {
@@ -83,7 +85,7 @@ const Alert = ({ showAlert , resetShowAlert}) => {
 
     return( 
         <div id="toastAlert">
-            <Toast id={type==='success' ? 'alertStyleGreen' : 'alertStyleRed'} onClose={() => resetAlert()} show={show} >
+            <Toast id={type==='success' ? 'alertStyleGreen' : 'alertStyleRed'} onClose={() => resetAlert()} show={show} autohide >
                     <i id="alertStyle__icon" className={type==='success' ? 'feather icon-check-circle mx-1' : 'feather icon-alert-triangle mx-1'} />
                     <tr id="alertStyle__text" plaintext readOnly>{text}</tr>                    
                     <i id="alertStyle__close" class="material-icons" title="Cerrar" onClick={() => resetAlert()}>close</i>

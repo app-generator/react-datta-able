@@ -7,16 +7,23 @@
     --green: rgba(72, 217, 134, 0.9);/*#48D986;*/
     --black: #555555;
     --grey: #999999;
+    --blu: #049DD9;
+}
+a .nav-link:hover {
+    box-shadow: 0px 0px 5px 5px whitesmoke;
+    transform:scale(1.1);
+
 }
 #toastAlert {
+    /*position: static;*/
     position: fixed;
     top: 50%;
     left: 45%;
     top: 2rem;
-    z-index:99999;
-
+    z-index:1031;
 }
 #alertStyleGreen, #alertStyleRed {
+    position:fixed;
     display: grid;
     grid-template-columns: 1fr 5fr 1fr;
     width: 100%;
@@ -51,11 +58,11 @@
     cursor: pointer;
 }
 #alertStyleGreen #alertStyle__text {
-    color: var(--black);
+    color: whitesmoke;
     padding: 0.9rem 0;
 }
 #alertStyleRed #alertStyle__text {
-    color: black;
+    color: whitesmoke;
     padding: 0.9rem 0;
 }
 /*#endregion*/

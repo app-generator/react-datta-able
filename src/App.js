@@ -7,6 +7,7 @@ import { BASENAME } from './config/constant';
 const App = () => {
     return (
         <React.Fragment>
+            
             <Router basename={BASENAME}>{renderRoutes(routes)}</Router>
         </React.Fragment>
     );
