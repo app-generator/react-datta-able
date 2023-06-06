@@ -1,4 +1,4 @@
-import { validateEmail,validateFieldText,validateUsername, validateLength, isEmpty} from '../../../utils/validators';
+import { validateEmail,validateFieldText,validateUsername, validateLength, isEmpty} from '../validators';
 
 
 const validateUserName = (name) =>{

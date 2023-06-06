@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import Select from 'react-select';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation'
-import { validateName, validateDescription, validateType } from './components/ValidatorTaxonomy';
+import { validateName, validateDescription, validateType } from '../../utils/validators/taxonomy';
 import { putTaxonomy, getTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
 
 

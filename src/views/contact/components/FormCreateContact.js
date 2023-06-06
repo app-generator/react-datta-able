@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Button, Col, Row, Form} from 'react-bootstrap';
-import { validateName, validateContact, validateSelect } from './ValidatorContact'; 
+import { validateName, validateContact, validateSelect } from '../../../utils/validators/contact'; 
 import FormContactSelectUsername from './FormContactSelectUSername';
 import { getPriorities } from '../../../api/services/priorities';
 

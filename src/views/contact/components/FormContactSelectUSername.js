@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
-import { validateContactMail, validateContactTelegram, validateContactPhone, validateContactURI } from './ValidatorContact'; 
+import { validateContactMail, validateContactTelegram, validateContactPhone, validateContactURI } from '../../../utils/validators/contact'; 
 
 const FormContactSelectUsername = (props) => { 
     // props: selectedType, contact, setContact, setValidContact

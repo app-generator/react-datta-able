@@ -1,7 +1,7 @@
 import React from 'react'
-import { validateEmail,validateFieldText,validateUsername,validateSpaces} from '../../../utils/validators';
-import { validateUserName, validateName, validateSelect, validateUserMail } from './ValidatorUser';
 import { Button, Row, Form, Spinner, Col} from 'react-bootstrap';
+import { validateSpaces} from '../../../utils/validators';
+import { validateUserName, validateName, validateSelect, validateUserMail } from '../../../utils/validators/user';
 
 const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
 

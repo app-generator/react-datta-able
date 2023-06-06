@@ -5,7 +5,7 @@ import { getAllNetworks } from '../../../api/services/networks';
 import CrudButton from '../../../components/Button/CrudButton';
 import FormCreateContact from '../../contact/components/FormCreateContact';
 import { postContact } from '../../../api/services/contacts';
-import { validateSelect, validateNetworkCIDR, validateNetworkDomain } from './ValidatorNetwork';
+import { validateSelect, validateNetworkCIDR, validateNetworkDomain } from '../../../utils/validators/network';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import DropdownState from '../../../components/Dropdown/DropdownState';

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Form} from 'react-bootstrap';
 import DropdownState from '../../../components/Dropdown/DropdownState';
-import { validateName } from './ValidatorEntity';
+import { validateName } from '../../../utils/validators/entity';
 
 const FormEntity = (props) => { // props: name, setName, ifConfirm, {edit:false | true -> active, setActive}
     

@@ -1,4 +1,4 @@
-import { validateAlphanumeric, validateSpace, validateLength, validateEmail,validateNumbers, validateURL, isEmpty } from "../../../utils/validators"
+import { validateAlphanumeric, validateSpace, validateLength, validateEmail,validateNumbers, validateURL, isEmpty } from "../validators"
 
 const validateName = (name) =>{
     return (validateAlphanumeric(name) && validateLength(name, 100) && validateSpace(name))

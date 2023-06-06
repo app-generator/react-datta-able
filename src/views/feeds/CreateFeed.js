@@ -3,7 +3,7 @@ import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import DropdownState from '../../components/Dropdown/DropdownState'
 import { postFeed } from '../../api/services/feeds';
 import Alert from '../../components/Alert/Alert';
-import { validateName, validateDescription } from './components/ValidatorFeed';
+import { validateName, validateDescription } from '../../utils/validators/feed';
 import Navigation from '../../components/Navigation/Navigation'
 
 const CreateFeed = () => {    
