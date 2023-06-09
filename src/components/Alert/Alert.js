@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Toast from 'react-bootstrap/Toast';
 
 import { store } from '../../store';
@@ -14,7 +14,6 @@ const Alert = ({ showAlert , resetShowAlert}) => {
  
     const textMessage = store.getState().message.text;
     const typeAlert = store.getState().message.typeMessage;
-//    const timeAlert = store.getState().message.time;
 
     useEffect(() => {
         if (showAlert === true && textMessage  !== '') {
@@ -36,53 +35,6 @@ const Alert = ({ showAlert , resetShowAlert}) => {
 
     }
     
-    /*const styles = 
-        {
-            div: 
-            { 
-                display: 'flex', 
-                position:'fixed', 
-                top: '2%', 
-                right: '0', 
-                left: '0', 
-                justifyContent: 'center', 
-                alignContent:'center' , 
-                zIndex:99999,
-                
-            },
-            toast: 
-            {
-                flexBasis: '30%', 
-                maxWidth: '30%', 
-                zIndex:99999 , 
-                backgroundColor: backgroundColor
-            },
-            header: {
-                width: '100%',
-    
-            },
-            h6: {
-                color: '#5e5e5e'
-            }, 
-            i: 
-            {
-                color: backgroundColor
-            },
-            otro: 
-            {
-                width: '100%',
-                borderRadius: 70,
-                margin: '10%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 20,
-                color: '#fff',
-            }
-        }*/
-
     return( 
         <div id="toastAlert">
             <Toast id={type==='success' ? 'alertStyleGreen' : 'alertStyleRed'} onClose={() => resetAlert()} show={show} autohide >
@@ -95,22 +47,3 @@ const Alert = ({ showAlert , resetShowAlert}) => {
  }
 
 export default Alert;
-/*
-    return( 
-
-        <div  style={styles.div}> 
-            <Toast id="alertStyle" style={styles.toast} onClose={() => resetAlert()} show={show} delay={50000000} autohide >
-                <Toast.Header>   
-                    <h6 className="mr-auto mt-2" style={styles.h6}> 
-                        <i className={type==='success' ? 'feather icon-check-circle mx-1' : 'feather icon-alert-triangle mx-1'} style={styles.i}/>
-                        {text}  
-                    </h6>
-                </Toast.Header>
-            </Toast>
-       </div>      
-
-    );
- }
-
-export default Alert;
-*/
