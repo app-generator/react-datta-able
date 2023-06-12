@@ -33,7 +33,7 @@ const getTask = (url) => {
     .then(response => {        
         return response;
     }).catch( error => { 
-        setAlert(messageError, "error");
+        setAlert(messageError, "error", "playbook");
         return Promise.reject(error);
     });
 }
@@ -47,12 +47,12 @@ const postTask = (name, description, priority, playbook) => {
         priority: priority,
         playbook: playbook
     }).then(response => {
-        setAlert(messageSuccess, "success");
+        setAlert(messageSuccess, "success", "playbook");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "playbook");
         return Promise.reject(error);
     });
 }
@@ -67,12 +67,12 @@ const putTask = (url, name, description, priority, playbook) => {
         priority: priority,
         playbook: playbook
     }).then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "playbook");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "playbook");
         return Promise.reject(error);
     });
 }
@@ -83,12 +83,12 @@ const deleteTask = (url, name) => {
     let messageError = `La tarea ${name} no se ha eliminado. `;
     return apiInstance.delete(url)
     .then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "playbook");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "playbook");
         return Promise.reject(error);
     });
 }

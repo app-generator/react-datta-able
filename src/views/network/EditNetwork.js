@@ -73,7 +73,7 @@ const EditNetwork = () => {
 
     return (
         <React.Fragment>
-            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>  
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="network"/>  
             <Row>
                 <Navigation actualPosition="Editar Red" path="/networks" index ="Redes"/>
             </Row>

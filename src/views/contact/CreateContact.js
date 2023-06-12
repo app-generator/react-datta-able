@@ -29,7 +29,7 @@ const CreateContact = () => {
 
     return (
         <React.Fragment>
-        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="contact"/>
             <Row>
                 <Navigation actualPosition="Crear Contacto" path="/contacts" index ="Contactos"/>
             </Row>

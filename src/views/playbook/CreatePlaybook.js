@@ -64,7 +64,7 @@ const CreatePlaybook = () => {
 
     return (
     <React.Fragment>
-        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="playbook"/>
         <Row>
             <Navigation actualPosition="Agregar Playbook" path="/playbooks" index ="Playbook"/>
         </Row>

@@ -69,7 +69,7 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
 
     return (
         <React.Fragment>
-            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="playbook"/>
                 <Table responsive hover className="text-center">
                     <thead>
                         <tr>

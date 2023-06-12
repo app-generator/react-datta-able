@@ -93,7 +93,7 @@ const CreateCase = () => {
 
     return (
         <React.Fragment>
-            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/> 
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="case"/> 
             <Row>
                 <Navigation actualPosition="Crear Caso" path="/cases" index ="Casos"/>
             </Row>

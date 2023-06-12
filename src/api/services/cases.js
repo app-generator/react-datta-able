@@ -10,7 +10,7 @@ const getCases = (currentPage) => {
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "case");
         return Promise.reject(error);
     });
 }
@@ -23,7 +23,7 @@ const getCase = (url) => {
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "case");
         return Promise.reject(error);
     });
 }
@@ -78,7 +78,7 @@ const postCase = (formData) => {
         solve_date: solve_date  
     }*/
     .then(response => {
-        setAlert(messageSuccess, "success");
+        setAlert(messageSuccess, "success", "case");
         return response;
     }).catch( error => { 
         console.log(error.response.data)
@@ -90,7 +90,7 @@ const postCase = (formData) => {
                 messageError += 'El usuario asignado no es valido. ';             
             } 
         }        
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "case");
         return Promise.reject(error);
     });
 }
@@ -114,12 +114,12 @@ const postCase = (formData) => {
             solve_date: solve_date  
         }*/
         ).then(response => {
-            setAlert(messageSuccess , "success");
+            setAlert(messageSuccess , "success", "case");
             return response;
         }).catch( error => { 
             let statusText = error.response.statusText;
             messageError += statusText;
-            setAlert(messageError , "error");
+            setAlert(messageError , "error", "case");
             return Promise.reject(error);
         });
     }
@@ -130,12 +130,12 @@ const deleteCase = (url) => {
     let messageError = `El caso no se ha eliminado. `;
     return apiInstance.delete(url)
     .then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "case");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "case");
         return Promise.reject(error);
     });
 }
@@ -147,12 +147,12 @@ const mergeCase = (urlParent, urlChildren) => {
     {
         parent : urlParent
     }).then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "case");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "case");
         return Promise.reject(error);
     });
 }

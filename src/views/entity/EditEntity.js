@@ -29,7 +29,7 @@ const EditEntity = () => {
 
     return (
         <React.Fragment>
-            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="entity"/>
             <Row>
                 <Navigation actualPosition="Editar Entidad" path="/entities" index ="Entidades"/>
             </Row>

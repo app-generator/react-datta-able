@@ -10,7 +10,7 @@ const getPlaybooks = (currentPage) => {
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "playbook");
         return Promise.reject(error);
     });
 }
@@ -39,7 +39,7 @@ const getPlaybook = (url) => {
     }).catch( error => {
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "playbook");
         return Promise.reject(error);
     });
 }
@@ -52,12 +52,12 @@ const postPlaybook = (name, taxonomy) => {
         name: name,
         taxonomy: taxonomy, //[]
     }).then(response => {
-        setAlert(messageSuccess, "success");
+        setAlert(messageSuccess, "success", "playbook");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "playbook");
         return Promise.reject(error);
     });
 }
@@ -70,12 +70,12 @@ const putPlaybook = (url, name, taxonomy) => {
         name: name,
         taxonomy : taxonomy
     }).then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "playbook");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "playbook");
         return Promise.reject(error);
     });
 }
@@ -85,12 +85,12 @@ const deletePlaybook = (url, name) => {
     let messageError = `El playbook ${name} no se ha eliminado. `;
     return apiInstance.delete(url)
     .then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "playbook");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "playbook");
         return Promise.reject(error);
     });
 }
