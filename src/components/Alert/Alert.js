@@ -3,20 +3,19 @@ import Toast from 'react-bootstrap/Toast';
 
 import { store } from '../../store';
 import { CLEAR_MESSAGE } from '../../store/actions';
-import { Form, ToastHeader } from 'react-bootstrap';
 
 
-const Alert = ({ showAlert , resetShowAlert}) => {
+const Alert = ({ showAlert , resetShowAlert, component}) => {
     const [show, setShow] = useState(false);
     const [text, setText] = useState('');
     const [type, setType] = useState('');
-    const [time, setTime] = useState(0);
  
     const textMessage = store.getState().message.text;
     const typeAlert = store.getState().message.typeMessage;
+    const typeComponent = store.getState().message.typeComponent;
 
     useEffect(() => {
-        if (showAlert === true && textMessage  !== '') {
+        if (showAlert === true && textMessage  !== '' && typeComponent === component) {
             setText(textMessage);
             setType(typeAlert);
             setShow(true); 

@@ -10,7 +10,7 @@ const getEntities = (currentPage) => {
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "entity");
         return Promise.reject(error);
     });
 }
@@ -23,7 +23,7 @@ const getEntity = (url) => {
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "entity");
         return Promise.reject(error);
     });
 }
@@ -51,7 +51,7 @@ const postEntity = (name, active) => {
         name: name, 
         active: active 
     }).then(response => {
-        setAlert(messageSuccess, "success");
+        setAlert(messageSuccess, "success", "entity");
         return response;
     }).catch( error => { 
         console.log(error.response.data)
@@ -61,7 +61,7 @@ const postEntity = (name, active) => {
         }
         
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "entity");
         return Promise.reject(error);
     });
 }
@@ -80,13 +80,13 @@ const putEntity = (url, name, active) => {
         name: name, 
         active: active 
     }).then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "entity");
         return response;
     }).catch( error => { 
         let statusText = error.response.data;
 
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "entity");
         return Promise.reject(error);
     });
 }
@@ -96,14 +96,14 @@ const deleteEntity = (url, name) => {
     let messageError = `La entidad ${name} no se ha eliminado. `;
     return apiInstance.delete(url)
     .then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "entity");
         return response;
     }).catch( error => { 
         console.log(error.response.data)
         let status = error.response.status;
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "entity");
         return Promise.reject(error);
     });
 }
@@ -114,12 +114,12 @@ const isActive = (url, active, name) => {
     return apiInstance.patch(url, {
         active: active
     }).then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "entity");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "entity");
         return Promise.reject(error);
     });
 }
