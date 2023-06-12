@@ -114,35 +114,19 @@ const EditCase = () => {
             <Row>
                 <Navigation actualPosition="Editar Caso" path="/cases" index ="Casos"/>
             </Row>
-            <Row>
-                <Col sm={12}>
-                    <Card>
-                        <Card.Header>
-                            <Card.Title as="h5">Casos</Card.Title>
-                            <span className="d-block m-t-5">Editar Caso</span>
-                        </Card.Header>
-                        <Card.Body>
-                            <Row>
-                                <Col sm={12} lg={12}>
-                                    <FormCase 
-                                        date={date} setDate={setDate}
-                                        lifecycle={lifecycle} setLifecycle={setLifecycle}
-                                        priority={priority} setPriority={setPriority}
-                                        tlp={tlp} setTlp={setTlp}
-                                        assigned={assigned} setAssigned={setAssigned}
-                                        state={state} setState={setState} allStates={allStates} 
-                                        
-                                        evidences={evidences} setEvidences={setEvidences}
-                                        attend_date={attend_date} setAttend_date={setAttend_date}
-                                        solve_date={solve_date} setSolve_date={setSolve_date}
+            <FormCase 
+                date={date} setDate={setDate}
+                lifecycle={lifecycle} setLifecycle={setLifecycle}
+                priority={priority} setPriority={setPriority}
+                tlp={tlp} setTlp={setTlp}
+                assigned={assigned} setAssigned={setAssigned}
+                state={state} setState={setState} allStates={allStates} 
+                
+                evidences={evidences} setEvidences={setEvidences}
+                attend_date={attend_date} setAttend_date={setAttend_date}
+                solve_date={solve_date} setSolve_date={setSolve_date}
 
-                                        ifConfirm={editCase} edit={true} save='Guardar Cambios' ifClick={ifClick}/>
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
+                ifConfirm={editCase} edit={true} save='Guardar Cambios' ifClick={ifClick}/>
         </React.Fragment>
     );
 };

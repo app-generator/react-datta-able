@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import GetUserName from './components/GetUserName';
 import { getUser } from '../../api/services/users';
 import BadgeItem from '../../components/Button/BadgeItem';
-import ViewFiles from './components/ViewFiles';
+import ViewFiles from '../../components/Button/ViewFiles';
 
 const ReadCase = () => { 
     //attend_date: por defecto +3horas 
