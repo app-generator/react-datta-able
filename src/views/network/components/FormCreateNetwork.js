@@ -166,8 +166,8 @@ const FormCreateNetwork = (props) => {
                                 placeholder="Dominio" 
                                 maxlength="100"
                                 value={ props.domain } 
-                                isValid={validateNetworkDomain(props.domain)}
-                                isInvalid={!validateNetworkDomain(props.domain)}
+                                isValid={(props.domain != undefined) ? validateNetworkDomain(props.domain) : false}
+                                isInvalid={(props.domain != undefined) ? !validateNetworkDomain(props.domain) : false}
                                 onChange={ (e) => props.setDomain(e.target.value) } 
                             />
                             {!validateNetworkDomain(props.domain) ? <div className="invalid-feedback">Ingrese un dominio valido</div> : ''}

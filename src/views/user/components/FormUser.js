@@ -58,8 +58,8 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                     name="first_name"
                     value ={body.first_name} 
                     onChange={(e)=>completeField(e)} 
-                    isInvalid={!validateName(body.first_name)}
-                    isValid={validateName(body.first_name)}/>
+                    isInvalid={(body.first_name != '') ? !validateName(body.first_name) : false}
+                    isValid={(body.first_name != '') ? validateName(body.first_name) : false}/>
                     {validateName(body.first_name) ? "" : <div className="invalid-feedback"> Ingrese un nombre que contenga hasta 150 caracteres, solo letras y que no sea vacio </div>}
                 </Form.Group>
             </Col>
@@ -72,8 +72,8 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                     value ={body.last_name}
                     name="last_name" 
                     onChange={(e)=>completeField(e)} 
-                    isInvalid={!validateName(body.last_name)}
-                    isValid={validateName(body.last_name)}/>
+                    isInvalid={(body.last_name != '')?!validateName(body.last_name):false}
+                    isValid={(body.last_name != '')?validateName(body.last_name):false}/>
                     {validateName(body.last_name) ? ""  : <div className="invalid-feedback"> Ingrese un nombre que contenga hasta 150 caracteres, solo letras y que no sea vacio </div>}
                 </Form.Group>
             </Col>
@@ -121,8 +121,8 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                         value ={body.email}
                         name="email" 
                         onChange={(e)=>completeField(e)} 
-                        isInvalid={!validateUserMail(body.email)}
-                        isValid={validateUserMail(body.email)}/>
+                        isInvalid={(body.email != '')?!validateUserMail(body.email):false}
+                        isValid={(body.email != '')?validateUserMail(body.email):false}/>
                     {validateUserMail(body.email) ? ""  : <div className="invalid-feedback"> Ingrese un email valido </div>}
                 </Form.Group>
 
