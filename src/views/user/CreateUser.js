@@ -16,7 +16,8 @@ const AddUser = () => {
         last_name: "", 
         email: "", 
         priority: '',
-        password: ""}
+        password: "",
+        passwordConfirmation: ""}
 
     const [error,setError]=useState()
     const [body,setBody]=useState(formEmpty)

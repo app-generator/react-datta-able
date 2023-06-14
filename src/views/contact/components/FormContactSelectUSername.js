@@ -5,9 +5,9 @@ import { validateContactMail, validateContactTelegram, validateContactPhone, val
 const FormContactSelectUsername = (props) => { 
     // props: selectedType, contact, setContact, setValidContact
     useEffect( ()=> {
-if(username){
-    props.setValidContact(!props.contact || username.condition)
-}
+        if(username){
+            props.setValidContact(!props.contact || username.condition)
+        }
     },[props.contact, props.selectedType]);    
     
     const typeValue = [

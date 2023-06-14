@@ -19,10 +19,8 @@ const FormEvent = (props) => {
     const [artifactsValueLabel, setArtifactsValueLabel] = useState([])
     const [modalCreate, setModalCreate] = useState(false)
     const [error,setError]=useState()
-    const [bodyArtifact, setBodyArtifact] = useState({
-        type:"-1",
-        value:""
-    })
+    const [typeArtifact, setTypeArtifact] = useState('0')
+    const [value, setValue] = useState("")
 
     useEffect(()=> {
 
@@ -70,14 +68,12 @@ const FormEvent = (props) => {
     
     const createArtifact = () => {
     
-        postArtifact(bodyArtifact.type, Math.floor(bodyArtifact.value))
+        postArtifact(typeArtifact, Math.floor(value))
         .then((response) => { 
             props.setContactsCreated(response) //
             setModalCreate(false) //
-            setBodyArtifact({
-                type:"-1",
-                value:""
-            })
+            setTypeArtifact("-1")
+            setValue("")
         })
         .catch((error) => {
             setError(error)
@@ -327,25 +323,6 @@ const FormEvent = (props) => {
                 
 
                 {/*<Form.Group controlId="formGridAddress1">
-                <Form.Label>Evidencia</Form.Label>
-                <div className="custom-file">
-                <Form.Control
-                    type="file"
-                    className="custom-file-input"
-                     id="validatedCustomFile"
-                    multiple
-                    value ={body.evidence}
-                    name="evidence"
-                    onChange={(e) => completeField(e)}/>
-                <Form.Label className="custom-file-label" htmlFor="validatedCustomFile">
-                    Choose file...
-                </Form.Label>
-                </div>
-            </Form.Group>*/}
-
-                
-
-                {/*<Form.Group controlId="formGridAddress1">
                 <Form.Label>Padres ¿que deveria ingresar aca?</Form.Label>
                 <Form.Control 
                     placeholder="Ingrese" 
@@ -372,7 +349,8 @@ const FormEvent = (props) => {
                                 </Card.Header>
                                 <Card.Body>
                                 <FormArtifact 
-                                     body={bodyArtifact} setBody={setBodyArtifact}
+                                     value={value} setValue={setValue}
+                                     type={typeArtifact} setType={setTypeArtifact}
                                     ifConfirm={createArtifact} ifCancel={() => setModalCreate(false)} />
                                 </Card.Body>
                             </Card>

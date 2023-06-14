@@ -49,36 +49,7 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                     {validateUserName(body.username)  ? "" : <div className="invalid-feedback"> Solo se permiten letras, numeros y los cateacteres especiales '@', '.' , '+', '-', '_' </div>}
                 </Form.Group>
             </Col>
-            <Col>
-                <Form.Group controlId="formGridAddress1">
-                <Form.Label>Nombre/s</Form.Label>
-                <Form.Control 
-                    placeholder="Ingrese el nombre/s" 
-                    maxlength="150" 
-                    name="first_name"
-                    value ={body.first_name} 
-                    onChange={(e)=>completeField(e)} 
-                    isInvalid={(validateUnrequiredInput(body.first_name)) ? !validateName(body.first_name) : false}
-                    isValid={(validateUnrequiredInput(body.first_name)) ? validateName(body.first_name) : false}/>
-                    {validateName(body.first_name) ? "" : <div className="invalid-feedback"> Ingrese un nombre que contenga hasta 150 caracteres, solo letras y que no sea vacio </div>}
-                </Form.Group>
-            </Col>
-            <Col>
-                <Form.Group controlId="formGridAddress1">
-                <Form.Label>Apellido</Form.Label>
-                <Form.Control 
-                    placeholder="Ingrese el apellido" 
-                    maxlength="150" 
-                    value ={body.last_name}
-                    name="last_name" 
-                    onChange={(e)=>completeField(e)} 
-                    isInvalid={(validateUnrequiredInput(body.last_name)) ? !validateName(body.last_name) : false}
-                    isValid={(validateUnrequiredInput(body.last_name)) ? validateName(body.last_name) : false}/>
-                    {validateName(body.last_name) ? ""  : <div className="invalid-feedback"> Ingrese un nombre que contenga hasta 150 caracteres, solo letras y que no sea vacio </div>}
-                </Form.Group>
-            </Col>
-        </Row>
-        <Row>
+            
             <Col>
                 <Form.Group controlId="exampleForm.ControlSelect1">
                     <Form.Label>Prioridad <b style={{color:"red"}}>*</b></Form.Label>
@@ -97,21 +68,9 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                         
                     </Form.Control>
                     {(validateSelect(body.priority)) ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
-                </Form.Group>
-                
-            </Col>
-            <Col>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Contraseña</Form.Label>
-                <Form.Control 
-                    type="password" 
-                    placeholder="ingrese una Contraseña"
-                    name="password"
-                    onChange={(e)=>fieldPassword(e)}  />
-                </Form.Group>
+                </Form.Group>                
             </Col>
 
-                
             <Col>
                 <Form.Group controlId="formGridEmail">
                     <Form.Label>Email</Form.Label>
@@ -128,13 +87,74 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
 
             </Col>
         </Row>
+        <Row>
+                         
+         <Col>
+                <Form.Group controlId="formGridAddress1">
+                <Form.Label>Nombre/s</Form.Label>
+                <Form.Control 
+                    placeholder="Ingrese el nombre/s" 
+                    maxlength="150" 
+                    name="first_name"
+                    value ={body.first_name} 
+                    onChange={(e)=>completeField(e)} 
+                    isInvalid={(validateUnrequiredInput(body.first_name)) ? !validateName(body.first_name) : false}
+                    isValid={(validateUnrequiredInput(body.first_name)) ? validateName(body.first_name) : false}/>
+                    {validateName(body.first_name) ? "" : <div className="invalid-feedback"> Ingrese un nombre que contenga hasta 150 caracteres, solo letras y que no sea vacio </div>}
+                </Form.Group>
+            </Col>
+
+            <Col>
+                <Form.Group controlId="formGridAddress1">
+                <Form.Label>Apellido</Form.Label>
+                <Form.Control 
+                    placeholder="Ingrese el apellido" 
+                    maxlength="150" 
+                    value ={body.last_name}
+                    name="last_name" 
+                    onChange={(e)=>completeField(e)} 
+                    isInvalid={(validateUnrequiredInput(body.last_name)) ? !validateName(body.last_name) : false}
+                    isValid={(validateUnrequiredInput(body.last_name)) ? validateName(body.last_name) : false}/>
+                    {validateName(body.last_name) ? ""  : <div className="invalid-feedback"> Ingrese un nombre que contenga hasta 150 caracteres, solo letras y que no sea vacio </div>}
+                </Form.Group>
+            </Col>
+        </Row>
+
+        <Row>
+            <Col>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Contraseña</Form.Label>
+                    <Form.Control 
+                        type="password" 
+                        placeholder="ingrese una Contraseña"
+                        name="password"
+                        onChange={(e)=>fieldPassword(e)}  />
+                </Form.Group>
+
+            </Col>    
+            
+            <Col>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Contraseña confirmar</Form.Label>
+                    <Form.Control 
+                        type="password" 
+                        placeholder="ingrese una Contraseña"
+                        name="passwordConfirmation"
+                        isInvalid={body.passwordConfirmation == "" || body.passwordConfirmation !== body.password}
+                        isValid={body.passwordConfirmation !== "" && body.passwordConfirmation == body.password}
+                        
+                        onChange={(e)=>fieldPassword(e)}  />
+                        {!(body.passwordConfirmation !== body.password) ? ""  : <div className="invalid-feedback">   las contraseñas no coinciden</div>}
+                </Form.Group>
+            </Col>      
+        </Row>             
         
-        
-        {(validateUserName(body.username) && validateSelect(body.priority))  ?
+            {(validateUserName(body.username) && validateSelect(body.priority))  ?
             <><Button variant="primary" onClick={createUser} >Guardar</Button></>
             : 
             <><Button variant="primary" disabled>Guardar</Button></> }
-        <Button variant="primary" href="/users">Cancelar</Button>
+            <Button variant="primary" href="/users">Cancelar</Button>
+        
         
     </Form>
   )
