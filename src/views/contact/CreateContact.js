@@ -7,11 +7,11 @@ import Alert from '../../components/Alert/Alert';
 
 const CreateContact = () => {
     const [supportedName, setSupportedName] = useState('');
-    const [selectRol, setSelectRol] = useState('0');
-    const [supportedPriority, setSupportedPriority] = useState('0');
+    const [selectRol, setSelectRol] = useState('');
+    const [supportedPriority, setSupportedPriority] = useState('');
     const [supportedContact, setSupportedContact] = useState('');
     const [supportedKey, setSupportedKey] = useState(null);
-    const [selectType, setSelectType] = useState('0');
+    const [selectType, setSelectType] = useState('');
     
     //Alert
     const [showAlert, setShowAlert] = useState(false);

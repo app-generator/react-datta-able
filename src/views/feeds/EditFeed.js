@@ -4,7 +4,7 @@ import DropdownState from '../../components/Dropdown/DropdownState'
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import { putFeed } from '../../api/services/feeds';
-import { validateName, validateDescription } from './components/ValidatorFeed';
+import { validateName, validateDescription } from '../../utils/validators/feed';
 import Navigation from '../../components/Navigation/Navigation';
 
 
