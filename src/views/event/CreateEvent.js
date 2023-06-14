@@ -16,11 +16,11 @@ const CreateEvent = () => {
     children: [], 
     todos: [],
     artifacts: [], 
-    comments: null, 
+    comments: null, // verificar aca si escribo y borro todo, se envia "" lo mismo para notes
     cidr: "",
     domain: "", //cuidado con cargar "" , si o si tiene que ser requerido me lo pide por que no tine un atributo filter
     date: "",
-    notes: null, //cuidado con cargar ""
+    notes: null, 
     parent: [],
     priority: "-1",
     tlp: "-1",
