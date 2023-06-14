@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Row, Form, Spinner, Col} from 'react-bootstrap';
 import { validateSpaces} from '../../../utils/validators';
-import { validateUserName, validateName, validateSelect, validateUserMail } from '../../../utils/validators/user';
+import { validateUserName, validateName, validateSelect, validateUserMail, validateUnrequiredInput } from '../../../utils/validators/user';
 
 const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
 
@@ -58,8 +58,8 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                     name="first_name"
                     value ={body.first_name} 
                     onChange={(e)=>completeField(e)} 
-                    isInvalid={(body.first_name != '') ? !validateName(body.first_name) : false}
-                    isValid={(body.first_name != '') ? validateName(body.first_name) : false}/>
+                    isInvalid={(validateUnrequiredInput(body.first_name)) ? !validateName(body.first_name) : false}
+                    isValid={(validateUnrequiredInput(body.first_name)) ? validateName(body.first_name) : false}/>
                     {validateName(body.first_name) ? "" : <div className="invalid-feedback"> Ingrese un nombre que contenga hasta 150 caracteres, solo letras y que no sea vacio </div>}
                 </Form.Group>
             </Col>
@@ -72,8 +72,8 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                     value ={body.last_name}
                     name="last_name" 
                     onChange={(e)=>completeField(e)} 
-                    isInvalid={(body.last_name != '')?!validateName(body.last_name):false}
-                    isValid={(body.last_name != '')?validateName(body.last_name):false}/>
+                    isInvalid={(validateUnrequiredInput(body.last_name)) ? !validateName(body.last_name) : false}
+                    isValid={(validateUnrequiredInput(body.last_name)) ? validateName(body.last_name) : false}/>
                     {validateName(body.last_name) ? ""  : <div className="invalid-feedback"> Ingrese un nombre que contenga hasta 150 caracteres, solo letras y que no sea vacio </div>}
                 </Form.Group>
             </Col>
@@ -121,8 +121,8 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                         value ={body.email}
                         name="email" 
                         onChange={(e)=>completeField(e)} 
-                        isInvalid={(body.email != '')?!validateUserMail(body.email):false}
-                        isValid={(body.email != '')?validateUserMail(body.email):false}/>
+                        isInvalid={(validateUnrequiredInput(body.email)) ? !validateUserMail(body.email) : false}
+                        isValid={(validateUnrequiredInput(body.email)) ? validateUserMail(body.email) : false}/>
                     {validateUserMail(body.email) ? ""  : <div className="invalid-feedback"> Ingrese un email valido </div>}
                 </Form.Group>
 

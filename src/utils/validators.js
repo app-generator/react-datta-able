@@ -26,6 +26,14 @@ const isEmpty = (text) =>{
   return (text.trim().length === 0)
 }
 
+const isBlank = (text) =>{
+  return (text === '')
+}
+
+const isNull = (text) =>{
+  return (text == undefined)
+}
+
 const validateAlphanumeric = (text) =>{
   return (/^[A-Za-zÁÉÍÓÚáéíóúñÑ'0-9 ]+$/g).test(text)
 }
@@ -68,5 +76,5 @@ const validateCidr = (address) => {
       return false;
   }
 }
-export {validateHours, validateMinutes,validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, validateLength, isEmpty};
+export {validateHours, validateMinutes,validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, validateLength, isEmpty, isBlank, isNull};
 

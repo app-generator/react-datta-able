@@ -5,7 +5,7 @@ import { getAllNetworks } from '../../../api/services/networks';
 import CrudButton from '../../../components/Button/CrudButton';
 import FormCreateContact from '../../contact/components/FormCreateContact';
 import { postContact } from '../../../api/services/contacts';
-import { validateSelect, validateNetworkCIDR, validateNetworkDomain } from '../../../utils/validators/network';
+import { validateSelect, validateNetworkCIDR, validateNetworkDomain, validateUnrequiredInput } from '../../../utils/validators/network';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import DropdownState from '../../../components/Dropdown/DropdownState';
@@ -166,8 +166,8 @@ const FormCreateNetwork = (props) => {
                                 placeholder="Dominio" 
                                 maxlength="100"
                                 value={ props.domain } 
-                                isValid={(props.domain != undefined) ? validateNetworkDomain(props.domain) : false}
-                                isInvalid={(props.domain != undefined) ? !validateNetworkDomain(props.domain) : false}
+                                isValid={(validateUnrequiredInput(props.domain)) ? validateNetworkDomain(props.domain) : false}
+                                isInvalid={(validateUnrequiredInput(props.domain)) ? !validateNetworkDomain(props.domain) : false}
                                 onChange={ (e) => props.setDomain(e.target.value) } 
                             />
                             {!validateNetworkDomain(props.domain) ? <div className="invalid-feedback">Ingrese un dominio valido</div> : ''}
