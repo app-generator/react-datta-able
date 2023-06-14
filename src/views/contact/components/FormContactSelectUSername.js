@@ -1,47 +1,47 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
-import { validateSpace, validateEmail, validateAlphanumeric, validateNumbers, validateURL } from '../../../utils/validators'; 
+import { validateContactMail, validateContactTelegram, validateContactPhone, validateContactURI } from '../../../utils/validators/contact'; 
 
 const FormContactSelectUsername = (props) => { 
     // props: selectedType, contact, setContact, setValidContact
     useEffect( ()=> {
-if(username){
-    props.setValidContact(!props.contact || username.condition)
-}
+        if(username){
+            props.setValidContact(!props.contact || username.condition)
+        }
     },[props.contact, props.selectedType]);    
     
     const typeValue = [
         {
             name : 'email',
             placeholder : 'Ingrese email', 
-            isInvalid : JSON.parse(!validateSpace(props.contact) || !validateEmail(props.contact)),
-            isValid : JSON.parse(validateSpace(props.contact) && validateEmail(props.contact)),
-            condition : JSON.parse(validateEmail(props.contact)),
+            isInvalid : JSON.parse(!validateContactMail(props.contact)),
+            isValid : JSON.parse(validateContactMail(props.contact)),
+            condition : JSON.parse(validateContactMail(props.contact)),
             messageDanger : 'Ingrese un email valido'
             
         },
         {
             name : 'telegram',
             placeholder : 'Ingrese contacto de telegram', 
-            isInvalid : JSON.parse(!validateSpace(props.contact) || !validateAlphanumeric(props.contact)),
-            isValid : JSON.parse(validateSpace(props.contact) && validateAlphanumeric(props.contact)),
-            condition : JSON.parse(validateAlphanumeric(props.contact)),
+            isInvalid : JSON.parse(!validateContactTelegram(props.contact)),
+            isValid : JSON.parse(validateContactTelegram(props.contact)),
+            condition : JSON.parse(validateContactTelegram(props.contact)),
             messageDanger : 'Ingrese un contacto de telegram valido'
         },
         {
             name : 'phone',
             placeholder : 'Ingrese telefono', 
-            isInvalid : JSON.parse(!validateSpace(props.contact) || !validateNumbers(props.contact)),
-            isValid : JSON.parse(validateSpace(props.contact) && validateNumbers(props.contact)),
-            condition : JSON.parse(validateNumbers(props.contact)),
+            isInvalid : JSON.parse(!validateContactPhone(props.contact)),
+            isValid : JSON.parse(validateContactPhone(props.contact)),
+            condition : JSON.parse(validateContactPhone(props.contact)),
             messageDanger : 'Ingrese un telefono valido'
         },
         {
             name : 'uri',
             placeholder : 'Ingrese URI', 
-            isInvalid : JSON.parse(!validateSpace(props.contact) || !validateURL(props.contact)),
-            isValid : JSON.parse(validateSpace(props.contact) && validateURL(props.contact)),
-            condition : JSON.parse(validateURL(props.contact)),
+            isInvalid : JSON.parse(!validateContactURI(props.contact)),
+            isValid : JSON.parse(validateContactURI(props.contact)),
+            condition : JSON.parse(validateContactURI(props.contact)),
             messageDanger : 'Ingrese un URI valido'
         }
     ]
@@ -54,7 +54,7 @@ if(username){
             <React.Fragment>
 
                 <Form.Group controlId="Form.Contact.Username">
-                    <Form.Label>Contacto</Form.Label>
+                    <Form.Label>Contacto <b style={{color:"red"}}>*</b></Form.Label>
                     <Form.Control 
                         name = "Form.Contact.Username__username"
                         placeholder = {username.placeholder}
@@ -74,7 +74,7 @@ if(username){
         return (
             <React.Fragment>
                 <Form.Group controlId="Form.Contact.Username.readOnly">
-                    <Form.Label>Contacto</Form.Label>
+                    <Form.Label>Contacto <b style={{color:"red"}}>*</b></Form.Label>
                     <Form.Control readOnly 
                         placeholder = 'Aun no ha seleccionado el tipo de contacto'
                         name = "username" />

@@ -26,6 +26,14 @@ const isEmpty = (text) =>{
   return (text.trim().length === 0)
 }
 
+const isBlank = (text) =>{
+  return (text === '')
+}
+
+const isNull = (text) =>{
+  return (text == undefined)
+}
+
 const validateAlphanumeric = (text) =>{
   return (/^[A-Za-zÁÉÍÓÚáéíóúñÑ'0-9 ]+$/g).test(text)
 }
@@ -68,5 +76,42 @@ const validateCidr = (address) => {
       return false;
   }
 }
-export {validateHours, validateMinutes,validateEmail, validateFieldText, validateUsername, validateSpaces, validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, validateLength, isEmpty};
+
+const validateIP =(ip)=> {
+  const patronIP = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+  if (!patronIP.test(ip)) {
+    return false; // No coincide con el formato xxx.xxx.xxx.xxx
+  }
+  
+  const octetos = ip.split('.');
+  for (let i = 0; i < octetos.length; i++) {
+    const octeto = parseInt(octetos[i], 10);
+    if (octeto < 0 || octeto > 255) {
+      return false; // Cada octeto debe estar entre 0 y 255
+    }
+  }
+  
+  return true; // La IP es válida
+}
+
+const validateAutonomousSystem = (autonomousSystem) =>{
+  const regex = /^[0-9]{1,5}$/;
+  return regex.test(autonomousSystem);
+}
+
+const validateUserAgent=(userAgent) =>{
+  var patron = /^[a-zA-Z0-9\-.\(\)\/_\s]+$/;
+  return patron.test(userAgent);
+}
+
+const validateFQDN=(fqdn)=> {
+  // Expresión regular para validar el FQDN
+  var fqdnRegex = /^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$/;
+  
+  return fqdnRegex.test(fqdn);
+}
+
+export {validateHours, validateMinutes,validateEmail, validateFieldText, validateUsername, validateSpaces, 
+        validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, 
+        validateLength, isEmpty, isBlank, isNull, validateIP, validateAutonomousSystem, validateUserAgent, validateFQDN};
 

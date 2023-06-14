@@ -136,10 +136,12 @@ select.form-control-lg:not([size]):not([multiple]) {
 .was-validated .form-control:valid,
 .form-control.is-valid {
     background-position: calc(100% - 10px) calc(0.375em + 0.4875rem);
+    background-image: none;
 }
 
 .was-validated .form-control:invalid ~ .invalid-feedback {
     background: #fff;
     margin-top: 0;
     padding-top: 0.25em;
+    background-image: none;
 }

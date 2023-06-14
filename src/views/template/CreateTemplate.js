@@ -18,7 +18,7 @@ const CreateTemplate = () => {
     priority: "-1",
     event_taxonomy: "-1",
     event_feed: "-1",
-    case_lifecycle: "-1",
+    case_lifecycle: "",
     case_tlp: "-1",
     case_state: "-1"
 

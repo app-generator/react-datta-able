@@ -3,7 +3,7 @@ import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation'
-import { validateName, validateDescription, validateType } from './components/ValidatorTaxonomy';
+import { validateName, validateDescription, validateType } from '../../utils/validators/taxonomy';
 import { postTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
 
 const CreateTaxonomy = () => {

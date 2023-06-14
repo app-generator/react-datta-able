@@ -5,7 +5,7 @@ import { getAllNetworks } from '../../../api/services/networks';
 import CrudButton from '../../../components/Button/CrudButton';
 import FormCreateContact from '../../contact/components/FormCreateContact';
 import { postContact } from '../../../api/services/contacts';
-import { validateSpace, validateCidr, validateURL, validateSpaces } from '../../../utils/validators'; 
+import { validateSelect, validateNetworkCIDR, validateNetworkDomain, validateUnrequiredInput } from '../../../utils/validators/network';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import DropdownState from '../../../components/Dropdown/DropdownState';
@@ -28,11 +28,11 @@ const FormCreateNetwork = (props) => {
     //Create Contact
     const [modalCreate, setModalCreate] = useState(false)
     const [supportedName, setSupportedName] = useState('');
-    const [selectRol, setSelectRol] = useState('0');
-    const [supportedPriority, setSupportedPriority] = useState('0');
+    const [selectRol, setSelectRol] = useState('');
+    const [supportedPriority, setSupportedPriority] = useState('');
     const [supportedContact, setSupportedContact] = useState('');
     const [supportedKey, setSupportedKey] = useState(null);
-    const [selectType, setSelectType] = useState('0');
+    const [selectType, setSelectType] = useState('');
 
     useEffect(()=> {
         
@@ -91,13 +91,14 @@ const FormCreateNetwork = (props) => {
         });
     };
     
+    /*
     const handlerDomain = (url) => {// Network.Domain permite valores nulos
         if (url == null) {
           return true; 
         }
         return validateURL( url);
       }
-
+    */ 
 
     return (
         <React.Fragment>
@@ -105,35 +106,36 @@ const FormCreateNetwork = (props) => {
                 <Row>
                     <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Network.Type">
-                            <Form.Label>Tipo</Form.Label>
+                            <Form.Label>Tipo <b style={{color:"red"}}>*</b></Form.Label>
                             <Form.Control
                                 name="type"
                                 type="choice"
                                 as="select"
                                 value={props.type}
                                 onChange={(e) =>  props.setType(e.target.value)}
-                                isInvalid={props.type === '0'}
-                                isValid={props.type !== '0'}
+                                isInvalid={!validateSelect(props.type)}
+                                isValid={validateSelect(props.type)}
                                 >
-                                    <option key={0} value='0'>Seleccione</option>
-                                    <option key={1} value='internal'>Interna</option>
-                                    <option key={2} value='external'>Externa</option>
+                                <option key={0} value=''>Seleccione</option>
+                                <option key={1} value='internal'>Interna</option>
+                                <option key={2} value='external'>Externa</option>                                
                             </Form.Control>
+                            {validateSelect(props.type) ? '' : <div className="invalid-feedback">Seleccione el tipo de red</div>}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
                         <Form.Group controlId="Form.Network.Cidr">
-                            <Form.Label>CIDR</Form.Label>
+                            <Form.Label>CIDR <b style={{color:"red"}}>*</b></Form.Label>
                             <Form.Control 
                                 type="cidr" 
                                 placeholder="CIDR" 
                                 maxlength="18"
                                 value={props.cidr} 
-                                isValid={ validateCidr(props.cidr) && validateSpace(props.cidr) }
-                                isInvalid={ !validateSpace(props.cidr) || !validateCidr(props.cidr) }
+                                isValid={ validateNetworkCIDR(props.cidr) }
+                                isInvalid={ !validateNetworkCIDR(props.cidr) }
                                 onChange={(e) => props.setCidr(e.target.value)}
                                 />
-                            {!props.cidr || validateCidr(props.cidr) ? "" : <div className="invalid-feedback">Ingrese un cidr valido</div>}
+                            {validateNetworkCIDR(props.cidr) ? "" : <div className="invalid-feedback">Ingrese un CIDR valido</div>}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
@@ -164,11 +166,11 @@ const FormCreateNetwork = (props) => {
                                 placeholder="Dominio" 
                                 maxlength="100"
                                 value={ props.domain } 
-                                isValid={(props.domain == null) || validateURL(props.domain)}
-                                isInvalid={(props.domain != null) && !validateURL(props.domain)}
+                                isValid={(validateUnrequiredInput(props.domain)) ? validateNetworkDomain(props.domain) : false}
+                                isInvalid={(validateUnrequiredInput(props.domain)) ? !validateNetworkDomain(props.domain) : false}
                                 onChange={ (e) => props.setDomain(e.target.value) } 
                             />
-                            {(!(validateURL(props.domain) || validateSpaces(props.domain)) || !validateURL(props.domain)) ? <div className="invalid-feedback">Ingrese caracteres validos</div> : ''}
+                            {!validateNetworkDomain(props.domain) ? <div className="invalid-feedback">Ingrese un dominio valido</div> : ''}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
@@ -193,7 +195,7 @@ const FormCreateNetwork = (props) => {
                 <Row>
                     <Col sm={12} lg={8}>
                         <Form.Group controlId="Form.Network.Contacts.Multiselect">
-                            <Form.Label>Contactos</Form.Label>
+                            <Form.Label>Contactos <b style={{color:"red"}}>*</b></Form.Label>
                             <Select
                                 value={contactsValueLabel}
                                 placeholder='Seleccione Contactos'
@@ -227,8 +229,7 @@ const FormCreateNetwork = (props) => {
                 <Row>
                     <Col>
                         <Form.Group>
-                            { validateCidr(props.cidr) && (validateURL(props.domain) || props.domain===null) && 
-                            (props.type != '0') && (props.contacts.length > 0) ? // 
+                            { validateNetworkCIDR(props.cidr) && validateSelect(props.type) && (props.contacts.length > 0) ?  
                                 <><Button variant="primary" onClick={props.ifConfirm } >Guardar</Button></>
                                 : 
                                 <><Button variant="primary" disabled>Guardar</Button></> //disabled
