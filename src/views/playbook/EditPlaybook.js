@@ -58,7 +58,7 @@ const EditPlaybook = () => {
    
     return (
     <React.Fragment>
-        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="playbook"/>
         <Row>
             <Navigation actualPosition="Editar Playbook" path="/playbooks" index ="Playbook"/>
         </Row>

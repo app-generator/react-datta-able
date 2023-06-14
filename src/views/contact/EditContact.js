@@ -33,7 +33,7 @@ const EditContact = () => {
 
     return (
         <React.Fragment>
-        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="contact"/>
             <Row>
                 <Navigation actualPosition="Editar Contacto" path="/contacts" index ="Contactos"/>
             </Row>

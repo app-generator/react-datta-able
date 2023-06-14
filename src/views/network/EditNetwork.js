@@ -18,7 +18,7 @@ const EditNetwork = () => {
     const [url, setUrl] = useState(network.url);///
     const [children, setChildren] = useState(network.children);
     const [cidr, setCidr] = useState(network.cidr===null ? '' : network.cidr); //* 
-    const [domain, setDomain] = useState(network.domain===null ? '' : network.domain); // null 
+    const [domain, setDomain] = useState(network.domain); // null 
     const [active, setActive] = useState(network.active); //* true 
     const [type, setType] = useState(network.type); //* internal external
     const [parent, setParent] = useState(network.parent);
@@ -73,7 +73,7 @@ const EditNetwork = () => {
 
     return (
         <React.Fragment>
-            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>  
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="network"/>  
             <Row>
                 <Navigation actualPosition="Editar Red" path="/networks" index ="Redes"/>
             </Row>

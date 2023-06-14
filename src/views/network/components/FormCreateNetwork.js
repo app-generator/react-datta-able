@@ -232,7 +232,7 @@ const FormCreateNetwork = (props) => {
                             { validateNetworkCIDR(props.cidr) && validateSelect(props.type) && (props.contacts.length > 0) ?  
                                 <><Button variant="primary" onClick={props.ifConfirm } >Guardar</Button></>
                                 : 
-                                <><Button variant="primary" disabled>Guardar</Button></> 
+                                <><Button variant="primary" disabled>Guardar</Button></> //disabled
                             }
                             <Button variant="primary" href="/networks">Cancelar</Button>
                         </Form.Group>
