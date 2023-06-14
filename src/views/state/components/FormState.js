@@ -61,8 +61,8 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             as="select" 
                             name="attended" 
                             value ={body.attended}
-                            isInvalid={body.attended === null}
-                            isValid={body.attended !== null} 
+                            isInvalid={body.attended === "-1"}
+                            isValid={body.attended !== "-1"} 
                             onChange={(e)=>completeField(e)}>
                             <option value="-1">Seleccione un opcion</option> 
                             <option value={true}>verdadero</option>
@@ -78,8 +78,8 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             as="select" 
                             name="solved" 
                             value ={body.solved} 
-                            isInvalid={body.solved === null}
-                            isValid={body.solved !== null} 
+                            isInvalid={body.solved === "-1"}
+                            isValid={body.solved !== "-1"} 
                             onChange={(e)=>completeField(e)}>
                             <option value="-1">Seleccione un opcion</option> 
                             <option value={true}>verdadero</option>

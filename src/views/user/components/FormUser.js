@@ -73,6 +73,41 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                 </Form.Group>
             </Col>
             <Col>
+            <Form.Group controlId="exampleForm.ControlSelect1">
+                <Form.Label>Prioridad</Form.Label>
+                <Form.Control  
+                    type="choice"
+                    as="select" 
+                    name="priority" 
+                    value ={body.priority} 
+                    onChange={(e)=>completeField(e)} isInvalid={body.priority === "-1"}
+                    isValid={body.priority !== "-1"}>
+                    <option value="-1">Seleccione una prioridad</option>
+                    {priorities.map((priority, index) => {
+                        return(<option value={priority.url}> {priority.name} </option>)
+                    })}
+                </Form.Control>
+                {(body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
+                </Form.Group>
+            
+            </Col>
+            <Col>
+                <Form.Group controlId="formGridEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control  
+                        placeholder="Ingrese el Email" 
+                        maxlength="254"  
+                        value ={body.email}
+                        name="email" 
+                        onChange={(e)=>completeField(e)} 
+                        isInvalid={body.email !== "" && !validateEmail(body.email)}
+                        isValid={body.email === "" || validateEmail(body.email)}/>
+                    {validateEmail(body.email) ? ""  : <div className="invalid-feedback">   Ingrese un email valido</div>}
+                </Form.Group>
+            </Col>
+        </Row>
+        <Row>
+        <Col>
                 <Form.Group controlId="formGridAddress1">
                 <Form.Label>Nombre/s</Form.Label>
                 <Form.Control 
@@ -102,59 +137,31 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
             </Col>
         </Row>
         <Row>
-        <Col>
-            <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Prioridad</Form.Label>
-                <Form.Control  
-                    type="choice"
-                    as="select" 
-                    name="priority" 
-                    value ={body.priority} 
-                    onChange={(e)=>completeField(e)} isInvalid={body.priority === "-1"}
-                    isValid={body.priority !== "-1"}>
-                    <option value="-1">Seleccione una prioridad</option>
-                    {priorities.map((priority, index) => {
-                        return(<option value={priority.url}> {priority.name} </option>)
-                    })}
-                    
-                </Form.Control>
-                {(body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
+            <Col>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Contraseña</Form.Label>
+                    <Form.Control 
+                        type="password" 
+                        placeholder="ingrese una Contraseña"
+                        name="password"
+                        onChange={(e)=>fieldPassword(e)}  />
                 </Form.Group>
-            
             </Col>
             <Col>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Contraseña</Form.Label>
-            <Form.Control 
-                type="password" 
-                placeholder="ingrese una Contraseña"
-                name="password"
-                onChange={(e)=>fieldPassword(e)}  />
-        </Form.Group>
-
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Contraseña confirmar</Form.Label>
+                    <Form.Control 
+                        type="password" 
+                        placeholder="ingrese una Contraseña"
+                        name="passwordConfirmation"
+                        isInvalid={body.passwordConfirmation == "" || body.passwordConfirmation !== body.password}
+                        isValid={body.passwordConfirmation !== "" && body.passwordConfirmation == body.password}
+                        
+                        onChange={(e)=>fieldPassword(e)}  />
+                        {!(body.passwordConfirmation !== body.password) ? ""  : <div className="invalid-feedback">   las contraseñas no coinciden</div>}
+                </Form.Group>
             </Col>
-
-            
-            <Col>
-            <Form.Group controlId="formGridEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control  
-                placeholder="Ingrese el Email" 
-                maxlength="254"  
-                value ={body.email}
-                name="email" 
-                onChange={(e)=>completeField(e)} 
-                isInvalid={body.email !== "" && !validateEmail(body.email)}
-                isValid={body.email === "" || validateEmail(body.email)}/>
-            {validateEmail(body.email) ? ""  : <div className="invalid-feedback">   Ingrese un email valido</div>}
-        </Form.Group>
-
-            </Col>
-            
-            
         </Row>
-        
-        
         {(activateBooton(body)) ? 
                                     <><Button variant="primary" onClick={createUser} >Guardar</Button></>
                                     : 

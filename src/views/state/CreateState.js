@@ -14,17 +14,14 @@ const AddState = () => {
      //slug no es unico ¿deberia serlo? ademas es un campo requerido pero toma el valor de nombre
  
     const formEmpty={ 
-        slug: "",//requerido
         name: "",//requerido
-        attended: null,//requerido
-        solved: null,//requerido
+        attended: "-1",//requerido
+        solved: "-1",//requerido
         active: null,
-        description: "",
+        description: null,
         children: []
     }
     const [body, setBody] = useState(formEmpty)
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
     const [error,setError]=useState()
     const [childernes, setChildernes]=useState([])
     const [showAlert, setShowAlert] = useState(false)
