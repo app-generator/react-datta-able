@@ -68,7 +68,7 @@ const TableEntity = ({setIsModify, list, loading }) => {
         };
     
     //Update Entity
-    const pressActive = (name, active, url) => {
+    const pressActive = (url, active, name) => {
         setUrl(url)
         setName(name)
         setActive(active)
@@ -110,7 +110,7 @@ const TableEntity = ({setIsModify, list, loading }) => {
                                     <th scope="row">{index+1}</th>
                                     <td>{entity.name}</td>
                                     <td>
-                                        <ActiveButton active={entity.active} onClick={() => pressActive(entity.name, entity.active, entity.url)} />
+                                        <ActiveButton active={entity.active} onClick={() => pressActive(entity.url, entity.active, entity.name)} />
                                     </td>
                                     <td>5</td>
                                     <td>

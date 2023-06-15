@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getEvidence } from '../../../api/services/evidences';
+import { getEvidence } from '../../api/services/evidences';
 import { Button } from 'react-bootstrap';
 
 

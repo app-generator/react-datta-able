@@ -10,7 +10,7 @@ const getNetworks = (currentPage) => {
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "network");
         return Promise.reject(error);
     });
 }
@@ -22,7 +22,7 @@ const getNetwork = (url) => {
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "network");
         return Promise.reject(error);
     });
 }
@@ -55,12 +55,12 @@ const postNetwork = (children, cidr, domain, active, type, parent, network_entit
         network_entity: network_entity,
         contacts: contacts //*
     }).then(response => {
-        setAlert(messageSuccess, "success");
+        setAlert(messageSuccess, "success", "network");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "network");
         return Promise.reject(error);
     });
 }
@@ -79,12 +79,12 @@ const putNetwork = (url, children, cidr, domain, active, type, parent, network_e
         network_entity: network_entity,
         contacts: contacts //*
     }).then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "network");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "network");
         return Promise.reject(error);
     });
 }
@@ -95,12 +95,12 @@ const deleteNetwork = (url, name) => {
     let messageError = `La red ${name} no se ha eliminado. `;
     return apiInstance.delete(url)
     .then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "network");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "network");
         return Promise.reject(error);
     });
 }
@@ -111,12 +111,12 @@ const isActive = (url, active, name) => {
     return apiInstance.patch(url, {
         active: active
     }).then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "network");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "network");
         return Promise.reject(error);
     });
 }

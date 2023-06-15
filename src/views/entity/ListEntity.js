@@ -29,7 +29,12 @@ const ListEntity = () => {
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }
-    
+    useEffect( ()=> {
+
+
+        
+    }, [])
+
     useEffect( ()=> {
 
         getAllEntities()
@@ -73,7 +78,7 @@ const ListEntity = () => {
 
 return (
     <React.Fragment>
-        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="entity"/>
         <Row>
             <Navigation actualPosition={'Entidades'}/>  
         </Row>

@@ -65,7 +65,7 @@ const ListNetwork = () => {
 
     return (
     <React.Fragment>
-        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="network"/>
         <Row>
             <Navigation actualPosition={'Redes'}/>  
         </Row>

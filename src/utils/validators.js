@@ -26,6 +26,14 @@ const isEmpty = (text) =>{
   return (text.trim().length === 0)
 }
 
+const isBlank = (text) =>{
+  return (text === '')
+}
+
+const isNull = (text) =>{
+  return (text == undefined)
+}
+
 const validateAlphanumeric = (text) =>{
   return (/^[A-Za-zÁÉÍÓÚáéíóúñÑ'0-9 ]+$/g).test(text)
 }
@@ -68,6 +76,7 @@ const validateCidr = (address) => {
       return false;
   }
 }
+
 const validateIP =(ip)=> {
   const patronIP = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
   if (!patronIP.test(ip)) {
@@ -101,7 +110,8 @@ const validateFQDN=(fqdn)=> {
   
   return fqdnRegex.test(fqdn);
 }
+
 export {validateHours, validateMinutes,validateEmail, validateFieldText, validateUsername, validateSpaces, 
         validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, 
-        validateLength, isEmpty, validateIP, validateAutonomousSystem, validateUserAgent, validateFQDN};
+        validateLength, isEmpty, isBlank, isNull, validateIP, validateAutonomousSystem, validateUserAgent, validateFQDN};
 

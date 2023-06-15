@@ -8,7 +8,7 @@ import Alert from '../../components/Alert/Alert';
 
 const CreateNetwork = () => {
     const [cidr, setCidr] = useState(''); //required
-    const [type, setType] = useState('0'); //required
+    const [type, setType] = useState(''); //required
     const [contacts, setContacts] = useState([]); //required 
     const active = true; //required: true 
     const children = useState(null); //?
@@ -64,7 +64,7 @@ const CreateNetwork = () => {
 
     return (
         <React.Fragment>
-        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
+        <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="network"/>
             <Row>
                 <Navigation actualPosition="Crear Red" path="/networks" index ="Redes"/>
             </Row>

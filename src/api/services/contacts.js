@@ -10,7 +10,7 @@ const getContacts = (currentPage) => {
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "contact");
         return Promise.reject(error);
     });
 }
@@ -23,7 +23,7 @@ const getContact = (url) => {
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "contact");
         return Promise.reject(error);
     });
 }
@@ -55,13 +55,13 @@ const postContact = (name, username, public_key, type, role, priority) => {
         role: role, //*
         priority: priority //*
         }).then(response => {
-            setAlert(messageSuccess, "success");
+            setAlert(messageSuccess, "success", "contact");
             return response;
         }).catch( error => {
 
             let statusText = error.response.data.username;
             messageError += statusText;
-            setAlert(messageError , "error");
+            setAlert(messageError , "error", "contact");
             return Promise.reject(error);
         });
     }
@@ -79,12 +79,12 @@ const putContact = (url, name, username, public_key, type, role, priority) => {
         role: role, 
         priority: priority
     }).then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "contact");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "contact");
         return Promise.reject(error);
     });
 }
@@ -94,12 +94,12 @@ const deleteContact = (url, name) => {
     let messageError = `El contacto ${name} no se ha eliminado. `;
     return apiInstance.delete(url)
     .then(response => {
-        setAlert(messageSuccess , "success");
+        setAlert(messageSuccess , "success", "contact");
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
         messageError += statusText;
-        setAlert(messageError , "error");
+        setAlert(messageError , "error", "contact");
         return Promise.reject(error);
     });
 }

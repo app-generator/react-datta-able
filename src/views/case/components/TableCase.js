@@ -120,7 +120,7 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                             <th>
                                 <Form.Group>
                                     <Form.Check custom type="checkbox" id={"selectAll"} 
-                                        onChange={handleSelectAll} checked={selectedCases.length != 0 ? isCheckAll : false} /> {/*|| selectedCases == list.filter(item => item.solve_date == null).length */}
+                                        onChange={handleSelectAll} checked={selectedCases.length != 0 ? isCheckAll : false} /> 
                                 </Form.Group>
                             </th>
                             <th>Id</th>
