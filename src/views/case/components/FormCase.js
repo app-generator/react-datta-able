@@ -4,6 +4,8 @@ import { getPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { getUsers } from '../../../api/services/users';
 import ViewFiles from '../../../components/Button/ViewFiles';
+import FileUpload  from '../../../components/UploadFiles/FileUpload/FileUpload'
+import FileList from '../../../components/UploadFiles/FileList/FileList'
 
 const FormCase = (props) => { 
 // props: ifConfirm, save, date, setDate, lifecycle, setLifecycle, priority, setPriority, tlp, setTlp, state, setState
@@ -79,7 +81,21 @@ const [allUsers, setAllUsers] = useState([])
         props.setEvidences(evidences);
       }
 
-      
+    /***************************************/
+    const handleDragOver = (event) => {
+        event.preventDefault();
+      }
+    const handleDrop = (event) => {
+        event.preventDefault();
+        const filesToUpload = event.dataTransfer.files
+        props.setEvidences([...props.evidences, ...filesToUpload]);
+    };
+    const removeFile = (position) => {
+        if (props.evidences.length>0){
+            props.setEvidences(props.evidences.filter((file, index) => index !== position));
+        }
+      }
+
     return (
         <React.Fragment>    
             <Card>
@@ -308,6 +324,27 @@ const [allUsers, setAllUsers] = useState([])
             </Card>
 
             }
+
+
+        <Card>
+            <Card.Header>
+                <Card.Title as="h5">Evidencias</Card.Title>
+            </Card.Header>
+            <Card.Body>
+                <Form>   
+                    <Form.Group controlId="formGridAddress1">
+                        <div
+                            className="dropzone"
+                            onDragOver={handleDragOver}
+                            onDrop={handleDrop}>
+                            <FileUpload files={props.evidences} setFiles={props.setEvidences} removeFile={removeFile} />
+                            <FileList files={props.evidences} removeFile={removeFile} />
+                        </div>
+                    </Form.Group>
+                </Form>
+            </Card.Body>
+        </Card>
+
 
                  
             {!props.date || !props.lifecycle || !props.priority || !props.tlp || !props.state || props.ifClick  ? 

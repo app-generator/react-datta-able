@@ -19,7 +19,7 @@ const CreateCase = () => {
 
     const [comments, setComments] = useState([]) // ??
     
-    const [evidences, setEvidences] = useState(null) 
+    const [evidences, setEvidences] = useState([]) 
 
     const [attend_date, setAttend_date] = useState(null) //imprime la hora actual +3horas
     const [solve_date, setSolve_date] = useState(null)
