@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Row, Form, Spinner, Col} from 'react-bootstrap';
 import { validateSpaces} from '../../../utils/validators';
-import { validateUserName, validateName, validateSelect, validateUserMail, validateUnrequiredInput } from '../../../utils/validators/user';
+import { validateUserName, validateName, validateSelect, validateUserMail, validatePassword, validateUnrequiredInput } from '../../../utils/validators/user';
 
 const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
 
@@ -35,7 +35,7 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
   return (
       <Form>
         <Row>
-            <Col>
+            <Col sm={12} lg={4}>
                 <Form.Group controlId="formGridAddress1">
                     <Form.Label>Nombre de usuario <b style={{color:"red"}}>*</b></Form.Label>
                     <Form.Control 
@@ -43,35 +43,14 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                         maxlength="150" 
                         value ={body.username} 
                         name="username" 
-                        isInvalid={!validateUserName(body.username)}
-                        isValid={validateUserName(body.username)} 
+                        isInvalid={!validateUserName(body.username)}                         
                         onChange={(e)=>FieldUsername(e)}/>
                     {validateUserName(body.username)  ? "" : <div className="invalid-feedback"> Solo se permiten letras, numeros y los cateacteres especiales '@', '.' , '+', '-', '_' </div>}
                 </Form.Group>
-            </Col>
+            </Col>      
             
-            <Col>
-                <Form.Group controlId="exampleForm.ControlSelect1">
-                    <Form.Label>Prioridad <b style={{color:"red"}}>*</b></Form.Label>
-                    <Form.Control  
-                        type="choice"
-                        as="select" 
-                        name="priority" 
-                        value ={body.priority} 
-                        onChange={(e)=>completeField(e)} 
-                        isInvalid={!validateSelect(body.priority)}
-                        isValid={validateSelect(body.priority)}>
-                        <option value=''>Seleccione una prioridad</option>
-                        {priorities.map((priority, index) => {
-                            return(<option value={priority.url}> {priority.name} </option>)
-                        })}
-                        
-                    </Form.Control>
-                    {(validateSelect(body.priority)) ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
-                </Form.Group>                
-            </Col>
 
-            <Col>
+            <Col sm={12} lg={5}>
                 <Form.Group controlId="formGridEmail">
                     <Form.Label>Email</Form.Label>
                     <Form.Control  
@@ -81,15 +60,36 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                         name="email" 
                         onChange={(e)=>completeField(e)} 
                         isInvalid={(validateUnrequiredInput(body.email)) ? !validateUserMail(body.email) : false}
-                        isValid={(validateUnrequiredInput(body.email)) ? validateUserMail(body.email) : false}/>
+                    />
                     {validateUserMail(body.email) ? ""  : <div className="invalid-feedback"> Ingrese un email valido </div>}
                 </Form.Group>
 
             </Col>
+
+            <Col sm={12} lg={3}>
+                <Form.Group controlId="exampleForm.ControlSelect1">
+                    <Form.Label>Prioridad <b style={{color:"red"}}>*</b></Form.Label>
+                    <Form.Control  
+                        type="choice"
+                        as="select" 
+                        name="priority" 
+                        value ={body.priority} 
+                        onChange={(e)=>completeField(e)} 
+                        isInvalid={!validateSelect(body.priority)}
+                    >
+                        <option value=''>Seleccione una prioridad</option>
+                        {priorities.map((priority, index) => {
+                            return(<option value={priority.url}> {priority.name} </option>)
+                        })}
+                        
+                    </Form.Control>
+                    {(validateSelect(body.priority)) ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
+                </Form.Group>                
+            </Col>
         </Row>
         <Row>
                          
-         <Col>
+         <Col sm={12} lg={6}>
                 <Form.Group controlId="formGridAddress1">
                 <Form.Label>Nombre/s</Form.Label>
                 <Form.Control 
@@ -99,12 +99,12 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                     value ={body.first_name} 
                     onChange={(e)=>completeField(e)} 
                     isInvalid={(validateUnrequiredInput(body.first_name)) ? !validateName(body.first_name) : false}
-                    isValid={(validateUnrequiredInput(body.first_name)) ? validateName(body.first_name) : false}/>
+                />
                     {validateName(body.first_name) ? "" : <div className="invalid-feedback"> Ingrese un nombre que contenga hasta 150 caracteres, solo letras y que no sea vacio </div>}
                 </Form.Group>
             </Col>
 
-            <Col>
+            <Col sm={12} lg={6}>
                 <Form.Group controlId="formGridAddress1">
                 <Form.Label>Apellido</Form.Label>
                 <Form.Control 
@@ -114,14 +114,14 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                     name="last_name" 
                     onChange={(e)=>completeField(e)} 
                     isInvalid={(validateUnrequiredInput(body.last_name)) ? !validateName(body.last_name) : false}
-                    isValid={(validateUnrequiredInput(body.last_name)) ? validateName(body.last_name) : false}/>
+                />
                     {validateName(body.last_name) ? ""  : <div className="invalid-feedback"> Ingrese un nombre que contenga hasta 150 caracteres, solo letras y que no sea vacio </div>}
                 </Form.Group>
             </Col>
         </Row>
 
         <Row>
-            <Col>
+            <Col sm={12} lg={6}>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Contraseña</Form.Label>
                     <Form.Control 
@@ -133,18 +133,16 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
 
             </Col>    
             
-            <Col>
+            <Col sm={12} lg={6}>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Contraseña confirmar</Form.Label>
                     <Form.Control 
                         type="password" 
                         placeholder="ingrese una Contraseña"
                         name="passwordConfirmation"
-                        isInvalid={body.passwordConfirmation == "" || body.passwordConfirmation !== body.password}
-                        isValid={body.passwordConfirmation !== "" && body.passwordConfirmation == body.password}
-                        
+                        isInvalid={(validateUnrequiredInput(body.password)) ?!validatePassword(body.password, body.passwordConfirmation) : false}                  
                         onChange={(e)=>fieldPassword(e)}  />
-                        {!(body.passwordConfirmation !== body.password) ? ""  : <div className="invalid-feedback">   las contraseñas no coinciden</div>}
+                        {!validatePassword(body.password, body.passwordConfirmation) ? ""  : <div className="invalid-feedback">   las contraseñas no coinciden</div>}
                 </Form.Group>
             </Col>      
         </Row>             
