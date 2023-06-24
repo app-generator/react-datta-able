@@ -1,4 +1,4 @@
-import { validateFieldText, validateLength, isEmpty } from '../validators'
+import { validateFieldText, validateLength, isEmpty, isBlank } from '../validators'
 
 const validateName = (name) =>{
     return (validateFieldText(name) && validateLength(name, 100) && !isEmpty(name))
@@ -12,4 +12,8 @@ const validateType = (type) =>{
     return (!isEmpty(type))
 }
 
-export {validateName, validateDescription, validateType}
+const validateUnrequiredInput = (input) =>{
+    return (!isBlank(input))
+}
+
+export {validateName, validateDescription, validateType, validateUnrequiredInput}
