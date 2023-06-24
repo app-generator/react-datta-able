@@ -17,8 +17,7 @@ const FormEntity = (props) => { // props: name, setName, ifConfirm, {edit:false 
                         maxlength="100"
                         value={props.name} 
                         onChange={(e) => props.setName(e.target.value)} 
-                        isInvalid={!validateName(props.name)}
-                        isValid={validateName(props.name)}
+                        isInvalid={!validateName(props.name)}                        
                     />
                     {validateName(props.name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, letras y/o numeros y que no sea vacio</div>}
                 </Form.Group>
