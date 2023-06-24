@@ -86,8 +86,7 @@ const FormCreateContact = (props) => {
                                 maxlength="100"
                                 value={props.name} 
                                 onChange={(e) => props.setName(e.target.value)} 
-                                isInvalid={!validateName(props.name)}
-                                isValid={validateName(props.name)}
+                                isInvalid={!validateName(props.name)}                                
                             />
                             {validateName(props.name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, letras y/o numeros y que no sea vacio</div>}
                         </Form.Group>
@@ -100,8 +99,7 @@ const FormCreateContact = (props) => {
                                 type="choice"
                                 as="select"
                                 value={props.role}
-                                isInvalid={!validateSelect(props.role)}
-                                isValid={validateSelect(props.role)}
+                                isInvalid={!validateSelect(props.role)}                               
                                 onChange={(e) => props.setRole(e.target.value)}>
                                 {roleOptions.map((roleItem, index) => {                
                                     return (
@@ -120,8 +118,7 @@ const FormCreateContact = (props) => {
                                 type="choice"                                            
                                 as="select"
                                 value={props.priority}
-                                isInvalid={!validateSelect(props.priority)}
-                                isValid={validateSelect(props.priority)}
+                                isInvalid={!validateSelect(props.priority)}                                
                                 onChange={(e) =>  props.setPriority(e.target.value)}>
                                 <option value=''>Seleccione</option>
                                 {prioritiesOption.map((priorityItem, index) => {                
@@ -143,8 +140,7 @@ const FormCreateContact = (props) => {
                                 type="choice"
                                 as="select"
                                 value={props.type}
-                                isInvalid={!validateSelect(props.type)}
-                                isValid={validateSelect(props.type)}
+                                isInvalid={!validateSelect(props.type)}                                
                                 onChange={(e) =>  props.setType(e.target.value)}>
                                 {typeOptions.map((typeItem, index) => {                
                                     return (
