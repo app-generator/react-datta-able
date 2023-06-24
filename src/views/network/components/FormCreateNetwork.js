@@ -114,8 +114,7 @@ const FormCreateNetwork = (props) => {
                                 value={props.type}
                                 onChange={(e) =>  props.setType(e.target.value)}
                                 isInvalid={!validateSelect(props.type)}
-                                isValid={validateSelect(props.type)}
-                                >
+                            >
                                 <option key={0} value=''>Seleccione</option>
                                 <option key={1} value='internal'>Interna</option>
                                 <option key={2} value='external'>Externa</option>                                
@@ -131,10 +130,9 @@ const FormCreateNetwork = (props) => {
                                 placeholder="CIDR" 
                                 maxlength="18"
                                 value={props.cidr} 
-                                isValid={ validateNetworkCIDR(props.cidr) }
                                 isInvalid={ !validateNetworkCIDR(props.cidr) }
                                 onChange={(e) => props.setCidr(e.target.value)}
-                                />
+                            />
                             {validateNetworkCIDR(props.cidr) ? "" : <div className="invalid-feedback">Ingrese un CIDR valido</div>}
                         </Form.Group>
                     </Col>
@@ -166,7 +164,6 @@ const FormCreateNetwork = (props) => {
                                 placeholder="Dominio" 
                                 maxlength="100"
                                 value={ props.domain } 
-                                isValid={(validateUnrequiredInput(props.domain)) ? validateNetworkDomain(props.domain) : false}
                                 isInvalid={(validateUnrequiredInput(props.domain)) ? !validateNetworkDomain(props.domain) : false}
                                 onChange={ (e) => props.setDomain(e.target.value) } 
                             />
