@@ -1,7 +1,0 @@
-{
-    "api-server":"https://api-server-nodejs.appseed.us/api/",
-    "name":"react-datta-able",
-    "framework": "react",
-    "type": "static"
-
-}
