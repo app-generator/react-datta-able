@@ -8,12 +8,12 @@ const validateDescription = (description) =>{
     return (validateLength(description, 250) && !isEmpty(description))
 }
 
-const validateType = (type) =>{
-    return (!isEmpty(type))
+const validateSelect = (option) =>{
+    return (!isEmpty(option))
 }
 
 const validateUnrequiredInput = (input) =>{
     return (!isBlank(input))
 }
 
-export {validateName, validateDescription, validateType, validateUnrequiredInput}
+export {validateName, validateDescription, validateSelect, validateUnrequiredInput}

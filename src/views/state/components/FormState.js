@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react'
 import {Card, Form, Button, Row, Col} from 'react-bootstrap'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { validateName, validateDescription, validateType, validateUnrequiredInput } from '../../../utils/validators/state';
+import { validateName, validateDescription, validateSelect, validateUnrequiredInput } from '../../../utils/validators/state';
 
 
 const animatedComponents = makeAnimated();
@@ -62,7 +62,7 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             as="select" 
                             name="attended" 
                             value ={body.attended}
-                            isInvalid={(validateUnrequiredInput(body.attended)) ? !validateType(body.attended) : false}                             
+                            isInvalid={(validateUnrequiredInput(body.attended)) ? !validateSelect(body.attended) : false}                             
                             onChange={(e)=>completeField(e)}>
                             <option value="">Seleccione un opcion</option> 
                             <option value={true}>verdadero</option>
@@ -78,7 +78,7 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             as="select" 
                             name="solved" 
                             value ={body.solved} 
-                            isInvalid={(validateUnrequiredInput(body.solved)) ? !validateType(body.solved) : false}                            
+                            isInvalid={(validateUnrequiredInput(body.solved)) ? !validateSelect(body.solved) : false}                            
                             onChange={(e)=>completeField(e)}>
                             <option value="">Seleccione un opcion</option> 
                             <option value={true}>verdadero</option>
