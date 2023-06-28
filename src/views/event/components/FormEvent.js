@@ -285,9 +285,9 @@ const FormEvent = (props) => {
                         placeholder="Ingrese" 
                         maxlength="150"
                         value ={props.body.domain} 
-                        isValid={ validateURL(props.body.domain) || validateSpaces(props.body.domain) }
-                        isInvalid={ props.body.domain !=='' && !validateURL(props.body.domain) }
-                        onChange={(e)=>completeField(e)} 
+                        isValid={ validateSpaces(props.body.domain) }
+                        isInvalid={ props.body.domain !==''  }
+                        onChange={(e)=>completeField(e)} //el problema es el validateUrl
                         name="domain"/>
                     </Form.Group> 
                 </Col>

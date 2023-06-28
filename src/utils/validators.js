@@ -95,23 +95,62 @@ const validateIP =(ip)=> {
 }
 
 const validateAutonomousSystem = (autonomousSystem) =>{
-  const regex = /^[0-9]{1,5}$/;
-  return regex.test(autonomousSystem);
+  var min = 0;
+  var max = 4294967295;
+
+  return (autonomousSystem > min && autonomousSystem <= max)
 }
 
 const validateUserAgent=(userAgent) =>{
-  var patron = /^[a-zA-Z0-9\-.\(\)\/_\s]+$/;
-  return patron.test(userAgent);
+  console.log(userAgent)
+  return (/^[a-zA-Z0-9\s\.,\/#!$%\^&\*;:{}=\-_`~()@\+\?><\[\]\+]*$/).test(userAgent);
 }
 
-const validateFQDN=(fqdn)=> {
-  // Expresión regular para validar el FQDN
-  var fqdnRegex = /^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$/;
-  
-  return fqdnRegex.test(fqdn);
+
+const validateDomain=(dominio)=> {
+  // Expresión regular para verificar la sintaxis del dominio
+  var patron = /^[a-zA-Z0-9]+([\-\.]{1}[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
+  // Verificar si el dominio coincide con el patrón
+  return patron.test(dominio)
+}
+const validateHexadecimal32=(valueHexadecimal)=> {
+  // Verificar la longitud de la cadena
+  if (valueHexadecimal.length !== 32) {
+    return false;
+  }
+  // Verificar si la cadena es hexadecimal
+  return (/^[0-9a-fA-F]+$/).test(valueHexadecimal);
+}
+
+const validateHexadecimal40=(valueHexadecimal)=> {
+  // Verificar la longitud de la cadena
+  if (valueHexadecimal.length !== 40) {
+    return false;
+  }
+  // Verificar si la cadena es hexadecimal
+  return (/^[0-9a-fA-F]+$/).test(valueHexadecimal);
+}
+
+const validateHexadecimal64=(valueHexadecimal)=> {
+  // Verificar la longitud de la cadena
+  if (valueHexadecimal.length !== 64) {
+    return false;
+  }
+  // Verificar si la cadena es hexadecimal
+  return (/^[0-9a-fA-F]+$/).test(valueHexadecimal);
+}
+
+const validateHexadecimal128=(valueHexadecimal)=> {
+  // Verificar la longitud de la cadena
+  if (valueHexadecimal.length !== 128) {
+    return false;
+  }
+  // Verificar si la cadena es hexadecimal
+  return (/^[0-9a-fA-F]+$/).test(valueHexadecimal);
 }
 
 export {validateHours, validateMinutes,validateEmail, validateFieldText, validateUsername, validateSpaces, 
         validateNumber, validateAlphanumeric, validateNumbers, validateSpace, validateURL, validateCidr, 
-        validateLength, isEmpty, isBlank, isNull, validateIP, validateAutonomousSystem, validateUserAgent, validateFQDN};
+        validateLength, isEmpty, isBlank, isNull, validateIP, validateAutonomousSystem, validateUserAgent, 
+        validateDomain, validateHexadecimal32, validateHexadecimal40, validateHexadecimal64, validateHexadecimal128};
 
