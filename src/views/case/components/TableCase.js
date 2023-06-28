@@ -170,7 +170,7 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                                         <Link to={{pathname:'/cases/view', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
                                             <CrudButton type='read'/>
                                         </Link>
-                                            <Link to={{pathname:'/cases/edit', state: caseItem}} >
+                                            <Link to={{pathname:'/cases/edit', state: caseItem.url}} >
                                             {caseItem.solve_date == null ? 
                                                 <CrudButton type='edit'/>
                                                 :   

@@ -9,6 +9,8 @@ import { validateSelect, validateNetworkCIDR, validateNetworkDomain, validateUnr
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import DropdownState from '../../../components/Dropdown/DropdownState';
+import Alert from '../../../components/Alert/Alert';
+
 
 const animatedComponents = makeAnimated();
 
@@ -34,13 +36,11 @@ const FormCreateNetwork = (props) => {
     const [supportedKey, setSupportedKey] = useState(null);
     const [selectType, setSelectType] = useState('');
 
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
+
     useEffect(()=> {
-        
-        //selected contacts 
-        let listDefaultContact = props.allContacts.filter(elemento => props.contacts.includes(elemento.value))
-        .map(elemento => ({value: elemento.value, label: elemento.label}));
-        setContactsValueLabel(listDefaultContact)
-        
+                
         getAllEntities()
             .then((response) => {
                 setEntitiesOption(response)
@@ -58,6 +58,15 @@ const FormCreateNetwork = (props) => {
             .catch((error)=>{
                 setError(error)
             })
+        
+        },[])
+
+    useEffect(()=> {
+    
+        //selected contacts 
+        let listDefaultContact = props.allContacts.filter(elemento => props.contacts.includes(elemento.value))
+        .map(elemento => ({value: elemento.value, label: elemento.label}));
+        setContactsValueLabel(listDefaultContact)
         
         },[props.contacts, props.allContacts])
 
@@ -85,23 +94,15 @@ const FormCreateNetwork = (props) => {
         .catch((error) => {
             setError(error)
             console.log(error)
-            props.setShowAlert(true);
         })
         .finally(()=> {
+            setShowAlert(true);
         });
     };
-    
-    /*
-    const handlerDomain = (url) => {// Network.Domain permite valores nulos
-        if (url == null) {
-          return true; 
-        }
-        return validateURL( url);
-      }
-    */ 
 
     return (
         <React.Fragment>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="contact"/>
             <Form>
                 <Row>
                     <Col sm={12} lg={4}>
