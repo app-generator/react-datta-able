@@ -15,10 +15,10 @@ const AddState = () => {
  
     const formEmpty={ 
         name: "",//requerido
-        attended: "-1",//requerido
-        solved: "-1",//requerido
+        attended: "",//requerido
+        solved: "",//requerido
         active: null,
-        description: null,
+        description: "",
         children: []
     }
     const [body, setBody] = useState(formEmpty)

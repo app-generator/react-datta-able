@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react'
 import {Card, Form, Button, Row, Col} from 'react-bootstrap'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { validateCidr} from '../../../utils/validators';
+import { validateName, validateDescription, validateSelect, validateUnrequiredInput } from '../../../utils/validators/state';
 
 
 const animatedComponents = makeAnimated();
@@ -42,15 +42,16 @@ const FormState = ({body, setBody, createState, childernes}) => {
             <Row>
                 <Col>
                     <Form.Group controlId="formGridAddress1">
-                        <Form.Label>Nombre</Form.Label>
+                        <Form.Label>Nombre <b style={{color:"red"}}>*</b></Form.Label>
                         <Form.Control 
-                        placeholder="Ingrese un nombre" 
-                        maxlength="100" 
-                        value ={body.name} 
-                        name="name"
-                        isInvalid={body.name === ""}
-                        isValid={body.name !== ""}
-                        onChange={(e)=>completeField(e)}/>
+                            placeholder="Ingrese un nombre" 
+                            maxlength="100" 
+                            value ={body.name} 
+                            name="name"
+                            isInvalid={validateName(body.name)}                        
+                            onChange={(e)=>completeField(e)}
+                        />
+                        {validateName(body.name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
                     </Form.Group>
                 </Col>
                 <Col>
@@ -61,10 +62,9 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             as="select" 
                             name="attended" 
                             value ={body.attended}
-                            isInvalid={body.attended === "-1"}
-                            isValid={body.attended !== "-1"} 
+                            isInvalid={(validateUnrequiredInput(body.attended)) ? !validateSelect(body.attended) : false}                             
                             onChange={(e)=>completeField(e)}>
-                            <option value="-1">Seleccione un opcion</option> 
+                            <option value="">Seleccione un opcion</option> 
                             <option value={true}>verdadero</option>
                             <option value={false}>falso</option>       
                         </Form.Control>
@@ -78,10 +78,9 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             as="select" 
                             name="solved" 
                             value ={body.solved} 
-                            isInvalid={body.solved === "-1"}
-                            isValid={body.solved !== "-1"} 
+                            isInvalid={(validateUnrequiredInput(body.solved)) ? !validateSelect(body.solved) : false}                            
                             onChange={(e)=>completeField(e)}>
-                            <option value="-1">Seleccione un opcion</option> 
+                            <option value="">Seleccione un opcion</option> 
                             <option value={true}>verdadero</option>
                             <option value={false}>falso</option>       
                         </Form.Control>
@@ -92,13 +91,14 @@ const FormState = ({body, setBody, createState, childernes}) => {
             <Form.Group controlId="formGridAddress1">
                 <Form.Label>Descripción</Form.Label>
                 <Form.Control 
-                placeholder="Ingrese una descripcion" 
-                maxlength="150" 
-                value ={body.description} 
-                name="description"
-                isInvalid={body.description === ""}
-                isValid={body.description !== ""}
-                onChange={(e)=>completeField(e)}/>
+                    placeholder="Ingrese una descripcion" 
+                    maxlength="150" 
+                    value ={body.description} 
+                    name="description"
+                    isInvalid={(validateUnrequiredInput(body.description)) ? !validateDescription(body.description) : false}                
+                    onChange={(e)=>completeField(e)}
+                />
+                {validateDescription(body.description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
             </Form.Group>
 
             <Form.Group controlId="formGridAddress1">

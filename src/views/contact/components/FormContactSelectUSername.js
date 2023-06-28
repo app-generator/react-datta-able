@@ -14,8 +14,7 @@ const FormContactSelectUsername = (props) => {
         {
             name : 'email',
             placeholder : 'Ingrese email', 
-            isInvalid : JSON.parse(!validateContactMail(props.contact)),
-            isValid : JSON.parse(validateContactMail(props.contact)),
+            isInvalid : JSON.parse(!validateContactMail(props.contact)),            
             condition : JSON.parse(validateContactMail(props.contact)),
             messageDanger : 'Ingrese un email valido'
             
@@ -23,24 +22,21 @@ const FormContactSelectUsername = (props) => {
         {
             name : 'telegram',
             placeholder : 'Ingrese contacto de telegram', 
-            isInvalid : JSON.parse(!validateContactTelegram(props.contact)),
-            isValid : JSON.parse(validateContactTelegram(props.contact)),
+            isInvalid : JSON.parse(!validateContactTelegram(props.contact)),            
             condition : JSON.parse(validateContactTelegram(props.contact)),
             messageDanger : 'Ingrese un contacto de telegram valido'
         },
         {
             name : 'phone',
             placeholder : 'Ingrese telefono', 
-            isInvalid : JSON.parse(!validateContactPhone(props.contact)),
-            isValid : JSON.parse(validateContactPhone(props.contact)),
+            isInvalid : JSON.parse(!validateContactPhone(props.contact)),            
             condition : JSON.parse(validateContactPhone(props.contact)),
             messageDanger : 'Ingrese un telefono valido'
         },
         {
             name : 'uri',
             placeholder : 'Ingrese URI', 
-            isInvalid : JSON.parse(!validateContactURI(props.contact)),
-            isValid : JSON.parse(validateContactURI(props.contact)),
+            isInvalid : JSON.parse(!validateContactURI(props.contact)),            
             condition : JSON.parse(validateContactURI(props.contact)),
             messageDanger : 'Ingrese un URI valido'
         }
@@ -61,9 +57,8 @@ const FormContactSelectUsername = (props) => {
                         value = {props.contact}
                         maxlength="255"
                         onChange = {(e) =>  {props.setContact(e.target.value)}} 
-                        isInvalid = {username.isInvalid}
-                        isValid = {username.isValid}
-                        />
+                        isInvalid = {username.isInvalid}                        
+                    />
                     {!props.contact || username.condition ? "" : <div className="invalid-feedback"> {username.messageDanger} </div>}
                 </Form.Group>
                         

@@ -16,8 +16,12 @@ const validateSelect = (option) =>{
     return (!isEmpty(option))
 }
 
+const validatePassword = (password, passwordConfirmation) =>{
+    return (!isBlank(password) && (password === passwordConfirmation))
+}
+
 const validateUnrequiredInput = (input) =>{
     return (!isBlank(input))
 }
 
-export {validateUserName, validateName, validateUserMail, validateSelect, validateUnrequiredInput}
+export {validateUserName, validateName, validateUserMail, validateSelect, validatePassword, validateUnrequiredInput}

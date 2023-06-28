@@ -3,7 +3,7 @@ import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation'
-import { validateName, validateDescription, validateType } from '../../utils/validators/taxonomy';
+import { validateName, validateDescription, validateType, validateUnrequiredInput } from '../../utils/validators/taxonomy';
 import { postTaxonomy, getAllTaxonomies } from '../../api/services/taxonomies';
 
 const CreateTaxonomy = () => {
@@ -64,14 +64,25 @@ const CreateTaxonomy = () => {
                                     <Col sm={12} lg={4}>
                                         <Form.Group>
                                             <Form.Label>Nombre <b style={{color:"red"}}>*</b></Form.Label>
-                                            <Form.Control type="text" placeholder="Nombre" onChange={(e) => setName(e.target.value)} isValid={validateName(name)} isInvalid={!validateName(name)}/>
+                                            <Form.Control 
+                                                type="text" 
+                                                placeholder="Nombre" 
+                                                onChange={(e) => setName(e.target.value)} 
+                                                isInvalid={!validateName(name)}
+                                            />
                                             {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
                                         </Form.Group>
                                     </Col>     
                                     <Col sm={12} lg={4}>
                                         <Form.Group>
                                             <Form.Label>Tipo <b style={{color:"red"}}>*</b></Form.Label>
-                                            <Form.Control type="choice" as="select" value={type} onChange={(e) => setType(e.target.value)} isValid={validateType(type)} isInvalid={!validateType(type)} >                                                                     
+                                            <Form.Control 
+                                                type="choice" 
+                                                as="select" 
+                                                value={type} 
+                                                onChange={(e) => setType(e.target.value)} 
+                                                isInvalid={!validateType(type)} 
+                                            >                                                                     
                                                 <option key={0} value=''>Seleccione</option>
                                                 <option key={1} value='vulnerability'>Vulnerabilidad</option>
                                                 <option key={2} value='incident'>Incidente</option>
@@ -89,14 +100,20 @@ const CreateTaxonomy = () => {
                                     <Row>
                                     <Col sm={12} lg={12}>
                                         <Form.Group> 
-                                            <Form.Label>Descripcion <b style={{color:"red"}}>*</b></Form.Label>
-                                            <Form.Control as="textarea" rows={3} placeholder="Descripcion" onChange={(e) => setDescription(e.target.value)}  isValid={validateDescription(description)} isInvalid={!validateDescription(description)} />
+                                            <Form.Label>Descripcion</Form.Label>
+                                            <Form.Control 
+                                                as="textarea" 
+                                                rows={3} 
+                                                placeholder="Descripcion" 
+                                                onChange={(e) => setDescription(e.target.value)}  
+                                                isInvalid={(validateUnrequiredInput(description)) ? !validateDescription(description) : false} 
+                                            />
                                             {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
                                         </Form.Group>
                                     </Col>
                                 </Row>
                                 <Form.Group as={Col}>
-                                    { validateType(type) && validateName(name) && validateDescription(description) ?
+                                    { validateType(type) && validateName(name) ?
                                         <Button variant="primary" onClick={createTaxonomy}>Guardar</Button>                                    
                                         : 
                                         <Button variant="primary" disabled>Guardar</Button>                                    
