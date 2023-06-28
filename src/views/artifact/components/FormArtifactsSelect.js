@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
-import { validateSpace, validateEmail, validateURL, validateIP, validateAutonomousSystem, validateUserAgent,validateFQDN } from '../../../utils/validators'; 
+import { validateSpace, validateEmail, validateURL, validateIP, validateAutonomousSystem, 
+    validateUserAgent,validateFQDN, validateDomain, validateHexadecimal32, 
+    validateHexadecimal40, validateHexadecimal64, validateHexadecimal128 } from '../../../utils/validators'; 
 
 const FormArtifactsSelect = (props) => {
    // props: selectedType,.value, setContact, setValidContact
@@ -22,17 +24,17 @@ const FormArtifactsSelect = (props) => {
             {
                 name : 'domain',
                 placeholder : 'Ingrese dominio', 
-                isInvalid : JSON.parse(!validateSpace(props.value) || !validateURL(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateURL(props.value)),
-                condition : JSON.parse(validateURL(props.value)),
+                isInvalid : JSON.parse(!validateSpace(props.value) || !validateDomain(props.value)),
+                isValid : JSON.parse(validateSpace(props.value) && validateDomain(props.value)),
+                condition :"",
                 messageDanger : 'Ingrese un dominio valido'
             },//cual es la diferencia entre estos 2 dominio y url
             {
                 name : 'url',
                 placeholder : 'Ingrese URI', 
-                isInvalid : JSON.parse(!validateSpace(props.value) || !validateURL(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateURL(props.value)),
-                condition : JSON.parse(validateURL(props.value)),
+                isInvalid : JSON.parse(!validateSpace(props.value) ),
+                isValid : JSON.parse(validateSpace(props.value)),
+                condition :"",
                 messageDanger : 'Ingrese un URL valido'
             }
             ,
@@ -64,27 +66,34 @@ const FormArtifactsSelect = (props) => {
             {
                 name : 'fqdn',
                 placeholder : 'Ingrese fqdn', 
-                isInvalid : JSON.parse(!validateSpace(props.value) || !validateFQDN(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateFQDN(props.value)),
-                condition : JSON.parse(validateFQDN(props.value)),
-                messageDanger : 'Ingrese un URI valido'
+                isInvalid : JSON.parse(!validateSpace(props.value) || !validateDomain(props.value)),
+                isValid : JSON.parse(validateSpace(props.value) && validateDomain(props.value)),
+                condition : JSON.parse(validateDomain(props.value)),
+                messageDanger : 'Ingrese un fqdn valido'
             }
-            
-
+            ,
+            {
+                name : 'other',
+                placeholder : 'Ingrese Otro tipo de dato', 
+                isInvalid : JSON.parse(!validateSpace(props.value)),
+                isValid : JSON.parse(validateSpace(props.value)),
+                condition : "",
+                messageDanger : 'Ingrese un URI valido'
+            },
+            {
+                name : 'hash',
+                placeholder : 'Ingrese un valor hexadecimal de 32 caracteres', 
+                isInvalid : JSON.parse(!validateSpace(props.value) || (!validateHexadecimal32(props.value)&& !validateHexadecimal40(props.value) 
+                                        && !validateHexadecimal64(props.value) && !validateHexadecimal128(props.value))),
+                isValid : JSON.parse(validateSpace(props.value) && (validateHexadecimal32(props.value)|| validateHexadecimal40(props.value) 
+                                    || validateHexadecimal64(props.value) || validateHexadecimal128(props.value))),
+                condition : JSON.parse(validateHexadecimal32(props.value) || validateHexadecimal40(props.value) 
+                                        || validateHexadecimal64(props.value) || validateHexadecimal128(props.value)),
+                messageDanger : 'Ingrese un hash de 32 valido'
+            }
         ]
         /*const typeValue = [
  
-            
-            
-            {
-                name : 'hash',
-                placeholder : 'Ingrese URI', 
-                isInvalid : JSON.parse(!validateSpace(props.value) || !validateURL(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateURL(props.value)),
-                condition : JSON.parse(validateURL(props.value)),
-                messageDanger : 'Ingrese un URI valido'
-            }
-            ,
             {
                 name : 'file',
                 placeholder : 'Ingrese URI', 
@@ -93,15 +102,7 @@ const FormArtifactsSelect = (props) => {
                 condition : JSON.parse(validateURL(props.value)),
                 messageDanger : 'Ingrese un URI valido'
             }
-            ,
-            {
-                name : 'other',
-                placeholder : 'Ingrese URI', 
-                isInvalid : JSON.parse(!validateSpace(props.value) || !validateURL(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateURL(props.value)),
-                condition : JSON.parse(validateURL(props.value)),
-                messageDanger : 'Ingrese un URI valido'
-            }
+            
             ,
             
             
@@ -114,10 +115,10 @@ const FormArtifactsSelect = (props) => {
             return (
                 <React.Fragment>
     
-                    <Form.Group controlId="Form.Contact.Username">
-                        <Form.Label>Contacto</Form.Label>
+                    <Form.Group controlId="formGridAddress1">
+                        <Form.Label>Valor</Form.Label>
                         <Form.Control 
-                            name = "Form.Contact.Username__username"
+                            
                             placeholder = {username.placeholder}
                             value = {props.value}
                             maxlength="255"
@@ -125,8 +126,11 @@ const FormArtifactsSelect = (props) => {
                             isInvalid = {username.isInvalid}
                             isValid = {username.isValid}
                             />
+                        
                         {!props.value || username.condition ? "" : <div className="invalid-feedback"> {username.messageDanger} </div>}
                     </Form.Group>
+                   
+    
                             
                 </React.Fragment>
             );
@@ -135,7 +139,7 @@ const FormArtifactsSelect = (props) => {
             return (
                 <React.Fragment>
                     <Form.Group controlId="Form.Contact.Username.readOnly">
-                        <Form.Label>Contacto</Form.Label>
+                        <Form.Label>Valor</Form.Label>
                         <Form.Control readOnly 
                             placeholder = 'Aun no ha seleccionado el tipo de contacto'
                             name = "username" />
