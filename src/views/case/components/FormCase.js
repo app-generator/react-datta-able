@@ -4,17 +4,36 @@ import { getPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { getUsers } from '../../../api/services/users';
 import ViewFiles from '../../../components/Button/ViewFiles';
+import FileUpload  from '../../../components/UploadFiles/FileUpload/FileUpload'
+import FileList from '../../../components/UploadFiles/FileList/FileList'
+import Alert from '../../../components/Alert/Alert';
+import { putCase, postCase } from '../../../api/services/cases';
 
-const FormCase = (props) => { 
-// props: ifConfirm, save, date, setDate, lifecycle, setLifecycle, priority, setPriority, tlp, setTlp, state, setState
-// put: commentarios, 
-// evidencia, solve_date, attend_date
+const FormCase = (props) => {  // props: edit, caseitem, allStates 
 
-//select
-const [allPriorities, setAllPriorities ] = useState([])
-const [allTlp, setAllTlp] = useState([])
-const [allUsers, setAllUsers] = useState([])
+    const [url, setUrl] = useState(props.edit ? props.caseItem.url : null) 
+    const [date, setDate] = useState(props.caseItem.date  != null ? props.caseItem.date.substr(0,16) : '') 
+    const [lifecycle, setLifecycle] = useState(props.caseItem.lifecycle) 
+    const [parent, setParent] = useState(props.caseItem.parent) 
+    const [priority, setPriority] = useState(props.caseItem.priority) 
+    const [tlp, setTlp] = useState(props.caseItem.tlp) 
+    const [assigned, setAssigned] = useState(props.caseItem.assigned)
+    const [state, setState] = useState(props.caseItem.state) 
+    const [comments, setComments] = useState(props.caseItem.comments) 
+    const [evidences, setEvidences] = useState(props.caseItem.evidence)
+    const [attend_date, setAttend_date] = useState(props.caseItem.attend_date != null ? props.caseItem.attend_date.substr(0,16) : '') 
+    const [solve_date, setSolve_date] = useState(props.caseItem.solve_date!= null ? props.caseItem.solve_date.substr(0,16) : '')
 
+    //select
+    const [allPriorities, setAllPriorities ] = useState([])
+    const [allTlp, setAllTlp] = useState([])
+    const [allUsers, setAllUsers] = useState([])
+
+    //Alert
+    const [showAlert, setShowAlert] = useState(false);
+
+    //desactivar button al hacer post
+    const [ifClick, setIfClick] = useState(false);
 
     useEffect(()=> {
         
@@ -72,16 +91,118 @@ const [allUsers, setAllUsers] = useState([])
     const selectEvidences = (event) => {
         const filesEvidence = event.target.files;
         console.log(filesEvidence)
-        const evidences = [];
+        const evidence = [];
         for (let i = 0; i < filesEvidence.length; i++) {
-          evidences.push(filesEvidence[i]);
+          evidence.push(filesEvidence[i]);
         }
-        props.setEvidences(evidences);
+        setEvidences(evidence);
       }
 
-      
+    /***************************************/
+    const handleDragOver = (event) => {
+        event.preventDefault();
+        console.log('1-------------------------')
+      }
+    const handleDrop = (event) => {
+        console.log('2-------------------------')
+        event.preventDefault();
+        const filesToUpload = event.dataTransfer.files
+        setEvidences([...evidences, ...filesToUpload]);
+        console.log('3-------------------------')
+    };
+    const removeFile = (position) => {
+        if (evidences.length>0){
+            setEvidences(evidences.filter((file, index) => index !== position));
+        }
+      }
+/********************************************** */
+
+    //Edit
+    const editCase = () => {
+        console.log(comments)
+        console.log(evidences)
+        setIfClick(true);
+        const form = new FormData();
+        form.append("date", date)
+        form.append("lifecycle",lifecycle)
+        if(parent != null) {
+            form.append("parent", parent)
+        }
+        form.append("priority", priority)
+        form.append("tlp", tlp)
+        if(assigned != null) {
+            form.append("assigned", assigned)
+        }
+        form.append("state", state)
+        form.append("comments", null)
+        form.append("attend_date", attend_date)
+        form.append("solve_date", solve_date)
+        //form.append("evidence", evidences)
+        if (evidences !== null){
+            for (let index=0; index< evidences.length  ; index++){
+            form.append("evidence", evidences[index])
+            console.log(evidences[index])
+            }
+        }else{
+            form.append("evidence", evidences)
+        }
+        console.log(form)
+
+        putCase(url, form)
+        .then((response) => { 
+            console.log(response)
+            window.location.href = "/cases"
+        })
+        .catch((error) => {
+            setShowAlert(true)
+            setIfClick(false)
+        });    
+    };
+
+    //Create
+    const addCase = () => {
+        setIfClick(true);
+        const form = new FormData();
+        form.append("date", date)
+        form.append("lifecycle",lifecycle)
+        if(parent != null) {
+            form.append("parent", parent)
+        }
+        form.append("priority", priority)
+        form.append("tlp", tlp)
+        if(assigned != null) {
+            form.append("assigned", assigned)
+        }
+        form.append("state", state)
+        form.append("comments", null)
+        form.append("attend_date", attend_date)
+        form.append("solve_date", solve_date)
+        //form.append("evidence", evidences)
+        if (evidences !== null){
+            for (let index=0; index< evidences.length  ; index++){
+            form.append("evidence", evidences[index])
+            console.log(evidences[index])
+            }
+        }else{
+            form.append("evidence", evidences)
+        }
+        console.log(form)
+
+        postCase(form)
+        .then((response) => { 
+            console.log(response)
+            window.location.href = "/cases"
+        })
+        .catch((error) => {
+            console.log(error.data)
+            setShowAlert(true)
+            setIfClick(false)
+        });    
+    };
+    
     return (
-        <React.Fragment>    
+        <React.Fragment>  
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="case"/>
             <Card>
                 <Card.Header>
                     <Card.Title as="h5">Fechas</Card.Title>
@@ -92,29 +213,29 @@ const [allUsers, setAllUsers] = useState([])
                             <Form.Group controlId="Form.Case.Date">
                                 <Form.Label>Fecha de ocurrencia</Form.Label>
                                 <Form.Control type="datetime-local" //2023-03-24T01:40:14.181622Z 
-                                    value={props.date} //yyyy-mm-ddThh:mm
+                                    value={date} //yyyy-mm-ddThh:mm
                                     min="2000-01-01T00:00" max="2030-01-01T00:00" 
-                                    isInvalid={props.date == null}
-                                    isValid={props.date !== null}
-                                    onChange={(e) =>  props.setDate(e.target.value)}/>
+                                    isInvalid={date == null}
+                                    isValid={date !== null}
+                                    onChange={(e) => setDate(e.target.value)}/>
                             </Form.Group>
                         </Col>
                         <Col lg={4} sm={12}>
                             <Form.Group controlId="Form.Case.Attend_date">
                                 <Form.Label>Fecha de atencion</Form.Label>
                                 <Form.Control type="datetime-local"
-                                    value={props.attend_date} //yyyy-mm-ddThh:mm
+                                    value={attend_date} //yyyy-mm-ddThh:mm
                                     min="2000-01-01T00:00" max="2030-01-01T00:00" 
-                                    onChange={(e) =>  props.setAttend_date(e.target.value)}/>
+                                    onChange={(e) => setAttend_date(e.target.value)}/>
                             </Form.Group> 
                         </Col>
                         <Col sm={12} lg={4}>
                             <Form.Group controlId="Form.Case.Solve_date">
                                 <Form.Label>Fecha de resolucion</Form.Label>
                                 <Form.Control type="datetime-local"
-                                    value={props.solve_date} //yyyy-mm-ddThh:mm
+                                    value={solve_date} //yyyy-mm-ddThh:mm
                                     min="2000-01-01T00:00" max="2030-01-01T00:00" 
-                                    onChange={(e) =>  props.setSolve_date(e.target.value)}/>
+                                    onChange={(e) => setSolve_date(e.target.value)}/>
                             </Form.Group>
                         </Col>
                     </Row>
@@ -135,10 +256,10 @@ const [allUsers, setAllUsers] = useState([])
                                     name="priority"
                                     type="choice"                                            
                                     as="select"
-                                    value={props.priority}
-                                    isInvalid={props.priority == '0'}
-                                    isValid={props.priority !== '0'}
-                                    onChange={(e) =>  props.setPriority(e.target.value)}>
+                                    value={priority}
+                                    isInvalid={priority == '0'}
+                                    isValid={priority !== '0'}
+                                    onChange={(e) => setPriority(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {allPriorities.map((priorityItem, index) => {                
                                         return (
@@ -146,7 +267,7 @@ const [allUsers, setAllUsers] = useState([])
                                         );
                                     })}
                                 </Form.Control>
-                                {props.priority ? '' : <div className="invalid-feedback">Seleccione la prioridad</div>}
+                                {priority ? '' : <div className="invalid-feedback">Seleccione la prioridad</div>}
                             </Form.Group>
                         </Col>
                         
@@ -159,10 +280,10 @@ const [allUsers, setAllUsers] = useState([])
                                     name="lifecycle"
                                     type="choice"                                            
                                     as="select"
-                                    value={props.lifecycle}
-                                    isInvalid={props.lifecycle == '0'}
-                                    isValid={props.lifecycle !== '0'}
-                                    onChange={(e) =>  props.setLifecycle(e.target.value)}>
+                                    value={lifecycle}
+                                    isInvalid={lifecycle == '0'}
+                                    isValid={lifecycle !== '0'}
+                                    onChange={(e) => setLifecycle(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {allLifecycles.map((lifecycleItem, index) => {                
                                         return (
@@ -170,7 +291,7 @@ const [allUsers, setAllUsers] = useState([])
                                         );
                                     })}
                                 </Form.Control>
-                                {props.lifecycle ? '' : <div className="invalid-feedback">Seleccione el ciclo de vida</div>}
+                                {lifecycle ? '' : <div className="invalid-feedback">Seleccione el ciclo de vida</div>}
                             </Form.Group>
                         </Col>
 
@@ -184,10 +305,10 @@ const [allUsers, setAllUsers] = useState([])
                                     name="tlp"
                                     type="choice"                                            
                                     as="select"
-                                    value={props.tlp}
-                                    isInvalid={props.tlp == '0'}
-                                    isValid={props.tlp !== '0'}
-                                    onChange={(e) =>  props.setTlp(e.target.value)}>
+                                    value={tlp}
+                                    isInvalid={tlp == '0'}
+                                    isValid={tlp !== '0'}
+                                    onChange={(e) => setTlp(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {allTlp.map((tlpItem, index) => {                
                                         return (
@@ -195,7 +316,7 @@ const [allUsers, setAllUsers] = useState([])
                                         );
                                     })}
                                 </Form.Control>
-                                {props.tlp ? '' : <div className="invalid-feedback">Seleccione</div>}
+                                {tlp ? '' : <div className="invalid-feedback">Seleccione</div>}
                             </Form.Group>
                         </Col>
 
@@ -208,10 +329,10 @@ const [allUsers, setAllUsers] = useState([])
                                     name="state"
                                     type="choice"                                            
                                     as="select"
-                                    value={props.state}
-                                    isInvalid={props.state == '0'}
-                                    isValid={props.state !== '0'}
-                                    onChange={(e) =>  props.setState(e.target.value)}>
+                                    value={state}
+                                    isInvalid={state == '0'}
+                                    isValid={state !== '0'}
+                                    onChange={(e) => setState(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {props.allStates.map((stateItem, index) => {                
                                     return (
@@ -219,7 +340,7 @@ const [allUsers, setAllUsers] = useState([])
                                     );
                                 })}
                                 </Form.Control>
-                                {props.state ? '' : <div className="invalid-feedback">Seleccione el estado</div>}
+                                {state ? '' : <div className="invalid-feedback">Seleccione el estado</div>}
                             </Form.Group>
                         </Col>
 
@@ -233,8 +354,8 @@ const [allUsers, setAllUsers] = useState([])
                                     name="assigned"
                                     type="choice"
                                     as="select"
-                                    value={props.assigned}
-                                    onChange={(e) =>  props.setAssigned(e.target.value)}>
+                                    value={assigned}
+                                    onChange={(e) => setAssigned(e.target.value)}>
                                     <option value={null}>Sin designar</option>
                                     {allUsers.map((userItem, index) => {                
                                         return (
@@ -266,25 +387,27 @@ const [allUsers, setAllUsers] = useState([])
                 </Card.Header>
                 <Card.Body>
                     <Row>
-                    {props.evidences.map((url, index) => {
-                        console.log(url)
-                        return  (
-                        <Col>
-                            <ViewFiles url={url} index={index+1}  />
-                        </Col> )
-                    })}
-                        <Col>
-                            <Form.Group controlId="Form.Case.Evidences.Drag&Drop">                       
-                                <Form.Control 
-                                type="file"
-                                placeholder="Ingrese " 
-                                maxlength="150" 
-                                multiple
-                                onChange={(e)=>selectEvidences(e)}
-                                name="evidence"/>
-                            </Form.Group> 
-                        </Col>
+                        {evidences.map((url, index) => {
+                            console.log(url)
+                            return  (
+                                <Col>
+                                    <ViewFiles url={url} index={index+1} /> {/*setIfDelete={setIfDelete} */}
+                                </Col> )
+                        })}
                     </Row>
+                </Card.Body>
+                <Card.Body>
+                    <Form>   
+                        <Form.Group controlId="Form.Case.Evidences.Drag&Drop">
+                            <div
+                                className="dropzone"
+                                onDragOver={handleDragOver}
+                                onDrop={handleDrop}>
+                                <FileUpload files={evidences} setFiles={setEvidences} removeFile={removeFile} />
+                                <FileList files={evidences} removeFile={removeFile} />
+                            </div>
+                        </Form.Group>
+                    </Form>
                 </Card.Body>
             </Card>
 
@@ -295,25 +418,49 @@ const [allUsers, setAllUsers] = useState([])
                     <Card.Title as="h5">Evidencias</Card.Title>              
                 </Card.Header>
                 <Card.Body>
-                    <Form.Group controlId="Form.Case.Evidences.Drag&Drop">                       
-                        <Form.Control 
-                            type="file"
-                            placeholder="Ingrese " 
-                            maxlength="150" 
-                            multiple
-                            onChange={(e)=>selectEvidences(e)}
-                            name="evidence"/>
-                    </Form.Group> 
+                    <Form>   
+                        <Form.Group controlId="Form.Case.Evidences.Drag&Drop">
+                            <div
+                                className="dropzone"
+                                onDragOver={handleDragOver}
+                                onDrop={handleDrop}>
+                                <FileUpload files={evidences} setFiles={setEvidences} removeFile={removeFile} />
+                                <FileList files={evidences} removeFile={removeFile} />
+                            </div>
+                        </Form.Group>
+                    </Form>
                 </Card.Body>
             </Card>
 
             }
 
+{/*
+        <Card>
+            <Card.Header>
+                <Card.Title as="h5">Evidencias</Card.Title>
+            </Card.Header>
+            <Card.Body>
+                <Form>   
+                    <Form.Group controlId="Form.Case.Evidences.Drag&Drop">                       
+                        <Form.Control 
+                        type="file"
+                        placeholder="Ingrese " 
+                        maxlength="150" 
+                        multiple
+                        onChange={(e)=>selectEvidences(e)}
+                        name="evidence"/>
+                    </Form.Group> 
+                </Form>
+            </Card.Body>
+        </Card>
+            */}
+
+
                  
-            {!props.date || !props.lifecycle || !props.priority || !props.tlp || !props.state || props.ifClick  ? 
+            {!date || !lifecycle || !priority || !tlp || !state || ifClick  ? 
                 <><Button variant="primary" disabled>{props.save}</Button></> 
                 : 
-                <><Button variant="primary" onClick={props.ifConfirm}>{props.save}</Button></>
+                <><Button variant="primary" onClick={props.edit ? editCase : addCase}>{props.save}</Button></>
             }
             <Button variant="primary" href="/cases">Cancelar</Button>
         </React.Fragment>

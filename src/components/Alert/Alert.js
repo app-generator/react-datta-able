@@ -19,7 +19,9 @@ const Alert = ({ showAlert , resetShowAlert, component}) => {
             setText(textMessage);
             setType(typeAlert);
             setShow(true); 
-        }
+        } else if (showAlert === true && textMessage  !== '' && typeComponent !== component) {
+            resetAlert(); 
+        } 
     });
 
     const resetAlert = () => {
