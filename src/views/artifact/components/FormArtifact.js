@@ -70,7 +70,7 @@ const FormArtifact = (props) => {
                             onChange={(e)=>props.setType(e.target.value)} 
                             isInvalid={props.type === "-1"}
                             isValid={props.type !== "-1"}>
-                            <option value="-1">Seleccione un tipo</option>
+                         
                             {typeOptions.map((t) => {
                                 return(<option value={t.value}> {t.name} </option>)
                             })}
