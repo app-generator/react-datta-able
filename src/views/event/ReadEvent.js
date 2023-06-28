@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 import Navigation from '../../components/Navigation/Navigation'
 import { getArtefact } from '../../api/services/artifact';
 import CrudButton from '../../components/Button/CrudButton';
-import ViewFiles from './components/ViewFiles';
+import ViewFiles from '../../components/Button/ViewFiles';
 
 const ReadEvent = () => {
     const location = useLocation();
