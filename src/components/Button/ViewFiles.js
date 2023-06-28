@@ -8,13 +8,13 @@ const ViewFiles = (props) => {
 
     useEffect( ()=> { 
     
-        getEvidence(props.url)
+        /*getEvidence(props.url)
             .then((response) => {
                 console.log(response.data)
                 setData(response.data)
             })
             .catch();  
-
+*/
     },[])
 
     const openFile = () => {
@@ -25,6 +25,7 @@ const ViewFiles = (props) => {
         deleteEvidence(props.url)
             .then((response) => {
                 console.log(response.data)
+                //no mostrar button
             })
             
     }
