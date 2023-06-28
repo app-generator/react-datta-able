@@ -435,7 +435,6 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
             }
 
 {/*
-*/}
         <Card>
             <Card.Header>
                 <Card.Title as="h5">Evidencias</Card.Title>
@@ -454,6 +453,7 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                 </Form>
             </Card.Body>
         </Card>
+            */}
 
 
                  
