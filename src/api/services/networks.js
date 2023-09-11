@@ -58,7 +58,8 @@ const postNetwork = (children, cidr, domain, active, type, parent, network_entit
         setAlert(messageSuccess, "success", "network");
         return response;
     }).catch( error => { 
-        let statusText = error.response.statusText;
+        console.log(error.response);
+        let statusText = error.response.data.cidr; //status: 400, statusText: "Bad Request", data: cidr: ['Already exists ...']
         messageError += statusText;
         setAlert(messageError , "error", "network");
         return Promise.reject(error);
