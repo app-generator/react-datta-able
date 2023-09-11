@@ -54,25 +54,16 @@ const postEntity = (name, active) => {
         setAlert(messageSuccess, "success", "entity");
         return response;
     }).catch( error => { 
-        console.log(error.response.data)
-        let statusText = ""; 
-        if (error.response.status == 500 ) { //el response no dice que ya existe
+        console.log(error.response)
+        let statusText = error.response.data.slug; 
+        /*if (error.response.status == 500 ) {
             statusText = "El nombre ya existe. ";
-        }
-        
+        }*/
         messageError += statusText;
         setAlert(messageError , "error", "entity");
         return Promise.reject(error);
     });
 }
-/*
-                console.log(JSON.stringify(error.config.url));
-                console.log(JSON.stringify(error.config.method));
-                console.log(JSON.stringify(error.config.data));
-                console.log(JSON.stringify(error.response.status));
-                console.log(JSON.stringify(error.response.data.msg));
-
-*/
 const putEntity = (url, name, active) => {
     let messageSuccess = `La entidad ${name} se ha editado correctamente.`;
     let messageError = `La entidad ${name} no se ha editado. `;
