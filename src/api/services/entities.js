@@ -55,10 +55,13 @@ const postEntity = (name, active) => {
         return response;
     }).catch( error => { 
         console.log(error.response)
-        let statusText = error.response.data.slug; 
-        /*if (error.response.status == 500 ) {
-            statusText = "El nombre ya existe. ";
-        }*/
+        let statusText = ''; 
+        let substring = error.response.data.slug[0].substring(0, 44);
+        if (substring == 'Ya existe una entidad NetworkEntity con slug' ) {
+            statusText = "Ingrese un nombre diferente. "; 
+        } else {
+            statusText = "CAPTURAR NUEVO ERROR"
+        }
         messageError += statusText;
         setAlert(messageError , "error", "entity");
         return Promise.reject(error);

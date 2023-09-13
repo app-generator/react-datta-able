@@ -59,7 +59,13 @@ const postNetwork = (children, cidr, domain, active, type, parent, network_entit
         return response;
     }).catch( error => { 
         console.log(error.response);
-        let statusText = error.response.data.cidr; //status: 400, statusText: "Bad Request", data: cidr: ['Already exists ...']
+        let statusText = ''; //status: 400, statusText: "Bad Request", data: cidr: ['Already exists ...']
+        let substring = error.response.data.cidr[0]; 
+        if (substring == 'Already exists a network with this cidr' ) {
+            statusText = "Ingrese un CIDR diferente. "; 
+        } else {
+            statusText = "CAPTURAR NUEVO ERROR"
+        }
         messageError += statusText;
         setAlert(messageError , "error", "network");
         return Promise.reject(error);

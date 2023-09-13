@@ -182,7 +182,9 @@ const FormCreateNetwork = (props) => {
                                 onChange={(e) => props.setNetwork_entity(e.target.value)}>
                                     {props.edit ? '' : <option key={0} value={null}> </option>}
                                     {entitiesOption.map((entityItem, index) => {                
+                                         console.log(entityItem);
                                         return (
+                                           
                                             <option key={index} value={entityItem.url}>{entityItem.name}</option>
                                         );
                                     })}

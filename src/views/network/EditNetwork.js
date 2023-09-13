@@ -60,7 +60,6 @@ const EditNetwork = () => {
 
     //Update
     const editNetwork = () => {
-
         putNetwork (url, children, cidr, domain, active, type, parent, network_entity, contacts) 
             .then((response) => { 
                 window.location.href = "/networks"
