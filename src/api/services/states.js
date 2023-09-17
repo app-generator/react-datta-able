@@ -79,6 +79,21 @@ const putState = ( url,name,attended,solved,active,description,children) => {
         setAlert(messageSuccess, "success");
         return response;
     }).catch( error => { 
+
+        let statusText = ""; 
+        if (error.response.status == 400){
+            console.log("status 400")
+            if (error.response.data.attended && error.response.data.attended[0] === "Must be a valid boolean.") {
+                statusText = "Debe ingresar un valor en el campo 'Atendido'.";
+            } else if (error.response.data.solved && error.response.data.solved[0] === "Must be a valid boolean.") {
+                statusText = "Debe ingresar un valor en el campo 'Resuelto'.";
+            } else if (error.response.data.slug && error.response.data.slug[0].includes("Ya existe una entidad State con slug")) {
+                statusText = "Ingrese un nombre diferente.";
+                console.log("Error de slug");
+            }
+        }
+
+        messageError += statusText;
         setAlert(messageError, "error");
         return Promise.reject(error);
     });
