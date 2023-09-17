@@ -42,6 +42,7 @@ const TablePriorities = ({Priorities, loading}) => {
             window.location.href = '/priorities';
           })
           .catch((error) => {
+            setRemove(false)
             setShowAlert(true)
             setError(error);
           })

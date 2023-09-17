@@ -113,7 +113,7 @@ const putPriority = ( url, name, color, severity, attend_time, solve_time) => {
                 statusText = "Ingrese un color valido. ";   
                 console.log("COLOR")
             } 
-            
+
         }else if(error.message == "Cannot read properties of undefined (reading 'code')"){
             //el backend o servidor no funciona
             messageError = `El usuario ${name} no puede ser creado porque el servidor no responde`;
@@ -127,12 +127,17 @@ const putPriority = ( url, name, color, severity, attend_time, solve_time) => {
 }
 
 const deletePriority = (url) => {
-    let messageSuccess = `La prioridad se pudo eliminar correctamente`;
+    let messageSuccess = `La prioridad se pudo eliminar correctamente. `;
     let messageError = `La prioridad no se pudo eliminar`;
     return apiInstance.delete(url).then(response => {
         setAlert(messageSuccess , "success");
         return response;
-    }).catch( error => { 
+    }).catch( error => {
+        let statusText = ""; 
+        if(error.response.data.error && error.response.data.error[0].includes("Cannot delete some instances of model 'Priority' because they are referenced through protected foreign keys")){
+            statusText = ", esta referenciada.";
+        }
+        messageError += statusText;
         setAlert(messageError, "error");
         return Promise.reject(error);
     });

@@ -38,7 +38,7 @@ const TableStates = ({states, callback, loading}) => {
 
     }
     const handleDelete = () => {
-        deleteState(deleteUrl).then(() => {
+        deleteState(deleteUrl, deleteName).then(() => {
             window.location.href = '/states';
           })
           .catch((error) => {

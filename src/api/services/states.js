@@ -32,8 +32,8 @@ const getAllStates = (currentPage = 1, results = [], limit = 100) => {
 }
 
 const postState = ( name,attended,solved,active,description,children) => {  
-    let messageSuccess = `El estado ${name} se pudo crear correctamente`;
-    let messageError = `El estado ${name} no se pudo crear`; 
+    let messageSuccess = `El estado ${name} se ha creado correctamente. `;
+    let messageError = `El estado ${name} no se ha creado. `; 
     return apiInstance.post(COMPONENT_URL.state, {
         name: name,
         attended: attended,
@@ -45,6 +45,21 @@ const postState = ( name,attended,solved,active,description,children) => {
         setAlert(messageSuccess, "success");
         return response;
     }).catch( error => { 
+
+        let statusText = ""; 
+        if (error.response.status == 400){
+            console.log("status 400")
+            if (error.response.data.attended && error.response.data.attended[0] === "Must be a valid boolean.") {
+                statusText = "Debe ingresar un valor en el campo 'Atendido'.";
+            } else if (error.response.data.solved && error.response.data.solved[0] === "Must be a valid boolean.") {
+                statusText = "Debe ingresar un valor en el campo 'Resuelto'.";
+            } else if (error.response.data.slug && error.response.data.slug[0].includes("Ya existe una entidad State con slug")) {
+                statusText = "Ingrese un nombre diferente.";
+                console.log("Error de slug");
+            }
+        }
+
+        messageError += statusText;
         setAlert(messageError, "error");
         return Promise.reject(error);
     });
@@ -69,26 +84,19 @@ const putState = ( url,name,attended,solved,active,description,children) => {
     });
 }
 
-const deleteState = ( url) => {
-    let messageSuccess = `El estado se pudo eliminar correctamente`;
-    let messageError = `El estado no se pudo eliminar`;
+const deleteState = (url, name) => {//
+
+    let messageSuccess = `El estado ${name} se ha eliminado correctamente.`;
+    let messageError = `El estado ${name} no se ha eliminado`;
     return apiInstance.delete(url).then(response => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-
-
-        let statusText = ''; 
-        let substring = error.response.split('\\")')[0];
-        console.log(error) 
-        if (substring == "(Cannot delete some instances of model 'State' because they are referenced through protected foreign keys: 'Case.state'.") {
-            statusText = "Ingrese un CIDR diferente. "; 
-        } else {
-            statusText = "CAPTURAR NUEVO ERROR"
+        let statusText = ""; 
+        if(error.response.data.error && error.response.data.error[0].includes("Cannot delete some instances of model 'State' because they are referenced through protected foreign keys")){
+            statusText = ", esta referenciado.";
         }
         messageError += statusText;
-
-
         setAlert(messageError, "error");
         return Promise.reject(error);
     });
@@ -120,3 +128,4 @@ const getState = (url) => {
 }
 
 export { getStates, getAllStates, postState, putState, deleteState, isActive, getState }
+
