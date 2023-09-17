@@ -76,6 +76,19 @@ const deleteState = ( url) => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
+
+
+        let statusText = ''; 
+        let substring = error.response.split('\\")')[0];
+        console.log(error) 
+        if (substring == "(Cannot delete some instances of model 'State' because they are referenced through protected foreign keys: 'Case.state'.") {
+            statusText = "Ingrese un CIDR diferente. "; 
+        } else {
+            statusText = "CAPTURAR NUEVO ERROR"
+        }
+        messageError += statusText;
+
+
         setAlert(messageError, "error");
         return Promise.reject(error);
     });
