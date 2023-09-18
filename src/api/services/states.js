@@ -89,7 +89,6 @@ const putState = ( url,name,attended,solved,active,description,children) => {
                 statusText = "Debe ingresar un valor en el campo 'Resuelto'.";
             } else if (error.response.data.slug && error.response.data.slug[0].includes("Ya existe una entidad State con slug")) {
                 statusText = "Ingrese un nombre diferente.";
-                console.log("Error de slug");
             }
         }
 

@@ -105,13 +105,10 @@ const putPriority = ( url, name, color, severity, attend_time, solve_time) => {
             //se informa que existe el username con ese nombre
             if(error.response.data.slug && error.response.data.slug[0].substring(0, 39) == "Ya existe una entidad Priority con slug") {
                 statusText = "Ingrese un nombre diferente. "; 
-                console.log("SLUG")
             } else if(error.response.data.severity && error.response.data.severity[0] == "priority with this severity already exists." ){
                 statusText = `Ingrese una severidad diferente.`;   
-                console.log("SEVERIDAD")
             } else if(error.response.data.color && error.response.data.color[0] == "Enter a valid hex color, eg. #000000") {
                 statusText = "Ingrese un color valido. ";   
-                console.log("COLOR")
             } 
 
         }else if(error.message == "Cannot read properties of undefined (reading 'code')"){
