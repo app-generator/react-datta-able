@@ -130,7 +130,6 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                         name="password"
                         onChange={(e)=>fieldPassword(e)}  />
                 </Form.Group>
-
             </Col>    
             
             <Col sm={12} lg={6}>
