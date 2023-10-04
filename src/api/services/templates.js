@@ -26,8 +26,16 @@ const getTemplate = (url) => {
 const postTemplate = (cidr,domain,active,priority,event_taxonomy,event_feed,case_lifecycle,case_tlp,case_state) => {
   let messageSuccess = `La plantilla se pudo crear correctamente`;
   let messageError = `La plantilla no se pudo crear`;
-    
-  return apiInstance.post(COMPONENT_URL.template, {
+  const body = domain == "" ?  {
+    cidr: cidr,
+    active: active,
+    priority: priority,
+    event_taxonomy: event_taxonomy,
+    event_feed: event_feed,
+    case_lifecycle: case_lifecycle,
+    case_tlp: case_tlp,
+    case_state: case_state
+  } : {
     cidr: cidr,
     domain: domain,
     active: active,
@@ -37,7 +45,8 @@ const postTemplate = (cidr,domain,active,priority,event_taxonomy,event_feed,case
     case_lifecycle: case_lifecycle,
     case_tlp: case_tlp,
     case_state: case_state
-  }).then(response => {
+  }
+  return apiInstance.post(COMPONENT_URL.template, body).then(response => {
     setAlert(messageSuccess, "success");
     return response;
 }).catch( error => { 

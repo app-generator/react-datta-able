@@ -3,7 +3,6 @@ import {
   Button,Card, Table , Modal, Row,Col, Form, CloseButton, Spinner
 } from 'react-bootstrap';
 import {Link} from 'react-router-dom'
-import { deletePriority } from "../../../api/services/priorities";
 import CrudButton from '../../../components/Button/CrudButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import CallBackendByName from '../../../components/CallBackendByName'; 

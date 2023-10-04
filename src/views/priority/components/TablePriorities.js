@@ -134,6 +134,12 @@ const TablePriorities = ({Priorities, loading}) => {
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Cantidad de notificaciones</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={priority.notification_amount} />
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Creación</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={priority.created ? priority.created.slice(0,10)+" "+priority.created.slice(11,19) : ""} />

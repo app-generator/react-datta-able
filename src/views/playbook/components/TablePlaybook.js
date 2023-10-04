@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { Row, Table, Spinner } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Row, Table, Spinner,Form } from 'react-bootstrap';
 import CrudButton from '../../../components/Button/CrudButton';
 import { getPlaybook, deletePlaybook } from '../../../api/services/playbooks';
 import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import ModalDetailPlaybook from './ModalDetailPlaybook';
-import FormGetName from '../../../components/Form/FormGetName';
 import { getTaxonomy } from '../../../api/services/taxonomies';
 import Alert from '../../../components/Alert/Alert';
 
@@ -17,9 +16,58 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
 
     const [url, setUrl] = useState(null)
     const [name, setName] = useState(null)
+    const [listPlaybook, setlistPlaybook] = useState([])
 
+    
     //Alert
     const [showAlert, setShowAlert] = useState(false);
+
+    const textareaStyle = {
+        resize:"none", 
+        backgroundColor:"transparent", 
+        border:"none", 
+        boxShadow: "none"
+    }
+
+    useEffect( ()=> { 
+        async function processList(list) {
+            if (Array.isArray(list)) {
+              try {
+                const list4 = await Promise.all(
+                  list.map(async (item) => {
+                    const itemAux = { ...item };
+                    const list3 = [];
+          
+                    for (const taxonomyItem of item.taxonomy) {
+                      try {
+                        const response = await getTaxonomy(taxonomyItem);
+                        console.log(response.data.name);
+                        list3.push(response.data.name);
+                        console.log(list3);
+                      } catch (error) {
+                        console.error('Error:', error);
+                      }
+                    }
+          
+                    itemAux.taxonomy = list3;
+                    return itemAux;
+                  })
+                );
+          
+                console.log(list4);
+                setlistPlaybook(list4);
+              } catch (error) {
+                console.error('Error:', error);
+              }
+            } else {
+              console.error('list is not an array:', list);
+            }
+          }
+          
+          // Llama a la función processList con tu lista
+          processList(list);
+    
+    },[list])
 
     if (loading) {
         return (
@@ -28,6 +76,7 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
             </Row>
         );    
     } 
+    
 
     //Read Playbook
     const showPlaybook = (url)=> {
@@ -80,17 +129,14 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((book, index) => {
+                        { listPlaybook.map((book, index) => {
                             return (
                                 <tr key={book.url}>
                                     <th scope="row">{index+1}</th>
                                     <td>{book.name}</td>
                                     <td>
-                                        {Object.values(book.taxonomy).map((taxonomyItem, index)=>{
-                                            return (
-                                                <><FormGetName form={false} get={getTaxonomy} url={taxonomyItem} key={index} /><br/></>
-                                            )})
-                                        }
+
+                                    <Form.Control style={textareaStyle} as="textarea" rows={3} readOnly value={book.taxonomy} />
                                     </td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showPlaybook(book.url)} />

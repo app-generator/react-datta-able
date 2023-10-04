@@ -68,7 +68,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
                value ={body.name} 
                name="name"
                isInvalid={!validateFieldText(body.name)}
-               isValid={body.name !== ""}
                onChange={(e)=>completeField(e)}/>
                {body.name !== "" ? ""  : <div className="invalid-feedback">   Ingrese un nombre </div>}
       </Form.Group>
@@ -82,7 +81,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
                value ={body.severity} 
                name="severity"
                isInvalid={!validateNumber(body.severity)}
-               isValid={body.severity != ""}
                onChange={(e)=>completeField(e)}/>
                {body.severity !== "" ? ""  : <div className="invalid-feedback">   Ingrese el numero de gravedad </div>}
       </Form.Group>
@@ -96,7 +94,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
               value ={body.color} 
               name="color" 
               isInvalid={body.color === ""}
-              isValid={body.color !== ""}
               onChange={(e)=>completeField(e)}/>
                {body.color !== "" ? ""  : <div className="invalid-feedback">Ingrese un color </div>}
       </Form.Group>
@@ -113,7 +110,7 @@ const FormPriority = ({body, setBody, createPriority}) => {
                         value ={body.attend_time_days} 
                         name="attend_time_days"
                         isInvalid={body.attend_time_days!=="" && !validateNumber(body.attend_time_days)}
-                        isValid={body.attend_time_days=="" || validateNumber(body.attend_time_days)}
+
                         onChange={(e)=>completeField(e)} />
                 </Form.Group>
         </Col>
@@ -125,7 +122,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
                         value ={body.attend_time_hours} 
                         name="attend_time_hours"
                         isInvalid={body.attend_time_hours!=="" && !validateHours(body.attend_time_hours)}
-                        isValid={body.attend_time_hours=="" || validateHours(body.attend_time_hours)}
                         onChange={(e)=>completeField(e)} />
                 </Form.Group>
         </Col>
@@ -137,7 +133,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
                         value ={body.attend_time_minutes} 
                         name="attend_time_minutes"
                         isInvalid={body.attend_time_minutes!=="" && !validateMinutes(body.attend_time_minutes)}
-                        isValid={body.attend_time_minutes=="" || validateMinutes(body.attend_time_minutes)}
                         onChange={(e)=>completeField(e)} />
                 </Form.Group>
         </Col> 
@@ -152,7 +147,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
                 value ={body.solve_time_days} 
                 name="solve_time_days"
                 isInvalid={body.solve_time_days!=="" && !validateNumber(body.solve_time_days)}
-                isValid={body.solve_time_days=="" || validateNumber(body.solve_time_days)}
                 onChange={(e)=>completeField(e)} />
                 
         </Form.Group>
@@ -164,7 +158,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
                         maxlength="2" 
                         value ={body.solve_time_hours} 
                         isInvalid={body.solve_time_hours!=="" && !validateHours(body.solve_time_hours)}
-                        isValid={body.solve_time_hours=="" || validateHours(body.solve_time_hours)}
                         name="solve_time_hours"
                         onChange={(e)=>completeField(e)} />
                         
@@ -177,7 +170,6 @@ const FormPriority = ({body, setBody, createPriority}) => {
                         maxlength="2" 
                         value ={body.solve_time_minutes} 
                         isInvalid={body.solve_time_minutes!=="" && !validateMinutes(body.solve_time_minutes)}
-                        isValid={body.solve_time_minutes=="" || validateMinutes(body.solve_time_minutes)}
                         name="solve_time_minutes"
                         onChange={(e)=>completeField(e)} /> 
                 </Form.Group>

@@ -5,23 +5,26 @@ import { validateCidr, validateURL, validateSpaces} from '../../../utils/validat
 const FormTemplate = (props) => {
 
   const lifeCicle= ["manual","auto","auto_open","auto_close"]
+
   const completeField=(event)=>{ 
     props.setBody({...props.body,
         [event.target.name] : event.target.value}
     )    
-    const formEmpty={ 
-      cidr: null,
-      domain: "",
-      active: false,
-      priority: null,
-      event_taxonomy: null,
-      event_feed: null,
-      case_lifecycle: null,
-      case_tlp: null,
-      case_state: null
+  }
   
-    } 
-} 
+  const invalidDomain =()=>{
+    if(props.body.cidr !== ""){
+        return false
+    }  
+    return props.body.domain === '' || !validateURL(props.body.domain)
+  }
+
+  const invalidCidr =() =>{
+    if (props.body.domain !== ""){
+        return false
+    }  
+    return !validateCidr(props.body.cidr)  || props.body.cidr === '' 
+  }
   return (
     <React.Fragment>
         <Card>
@@ -40,8 +43,8 @@ const FormTemplate = (props) => {
                     as="select" 
                     name="event_taxonomy" 
                     value ={props.body.event_taxonomy} 
-                    onChange={(e)=>completeField(e)} isInvalid={props.body.event_taxonomy === "-1"}
-                    isValid={props.body.event_taxonomy !== "-1"}>
+                    onChange={(e)=>completeField(e)} 
+                    isInvalid={props.body.event_taxonomy === "-1"}>
                     <option value="-1">Seleccione una taxonomia</option>
                     {props.taxonomy.map((taxonomy, index) => {
                         return(<option value={taxonomy.url}> {taxonomy.name} </option>)
@@ -51,11 +54,7 @@ const FormTemplate = (props) => {
                 {(props.body.event_taxonomy !== "-1") ? '' : <div className="invalid-feedback">Seleccione una taxonomia</div>}
                 
                 </Form.Group>
-              </Col>
-             
-              
-            
-            
+              </Col>            
               <Col sm={12} lg={4}>
               <Form.Group controlId="exampleForm.ControlSelect1">
                 <Form.Label>Fuente de Informacion</Form.Label>
@@ -64,8 +63,8 @@ const FormTemplate = (props) => {
                     as="select" 
                     name="event_feed" 
                     value ={props.body.event_feed} 
-                    onChange={(e)=>completeField(e)} isInvalid={props.body.event_feed === "-1"}
-                    isValid={props.body.event_feed !== "-1"}>
+                    onChange={(e)=>completeField(e)} 
+                    isInvalid={props.body.event_feed === "-1"}>
                     <option value="-1">Seleccione una Fuente de Informacion</option>
                     {props.feeds.map((feed, index) => {
                         return(<option value={feed.url}> {feed.name} </option>)
@@ -75,19 +74,17 @@ const FormTemplate = (props) => {
                 {(props.body.event_feed !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Fuente de Informacion</div>}
                 </Form.Group>
               </Col>
-           
-              
-            
             <Col sm={12} lg={4}>
             <Form.Group controlId="formGridAddress1">
                 <Form.Label>CIDR afectado</Form.Label>
                 <Form.Control 
                     placeholder="Ingrese " 
                     maxlength="150" 
+                    disabled={ props.body.domain !== "" }
                     value ={props.body.cidr} 
                     onChange={(e)=>completeField(e)}
-                    isInvalid={!validateCidr(props.body.cidr)  && props.body.cidr !== null}
-                    isValid={validateCidr(props.body.cidr) || props.body.cidr == null}
+                    
+                    isInvalid={invalidCidr() }
                     name="cidr"/>
                 </Form.Group>  
                 </Col>
@@ -98,10 +95,10 @@ const FormTemplate = (props) => {
                 <Form.Control 
                     placeholder="Ingrese" 
                     maxlength="150"
+                    disabled={props.body.cidr !== "" }
                     value ={props.body.domain} 
                     onChange={(e)=>completeField(e)} 
-                    isValid={ validateURL(props.body.domain) }
-                    isInvalid={ props.body.domain === '' || !validateURL(props.body.domain) }
+                    isInvalid={ invalidDomain()}
                     name="domain"/>
                 </Form.Group> 
                 </Col>
@@ -113,8 +110,7 @@ const FormTemplate = (props) => {
             <Card.Header>
                 <Card.Title as="h5">Crear un caso</Card.Title>
             </Card.Header>
-            <Card.Body>
-                
+            <Card.Body>  
 <Form>
     <Row>
     <Col sm={12} lg={4}>
@@ -126,8 +122,8 @@ const FormTemplate = (props) => {
                        as="select" 
                        name="case_tlp" 
                        value ={props.body.case_tlp} 
-                       onChange={(e)=>completeField(e)} isInvalid={props.body.case_tlp === "-1"}
-                       isValid={props.body.case_tlp !== "-1"}>
+                       onChange={(e)=>completeField(e)} 
+                       isInvalid={props.body.case_tlp === "-1"}>
                        <option value="-1">Seleccione un tlp</option>
                        {props.tlp.map((tlp, index) => {
                            return(<option value={tlp.url}> {tlp.name} </option>)
@@ -146,8 +142,8 @@ const FormTemplate = (props) => {
                     as="select" 
                     name="priority" 
                     value ={props.body.priority} 
-                    onChange={(e)=>completeField(e)} isInvalid={props.body.priority === "-1"}
-                    isValid={props.body.priority !== "-1"}>
+                    onChange={(e)=>completeField(e)} 
+                    isInvalid={props.body.priority === "-1"}>
                     <option value="-1">Seleccione una Prioridad</option>
                     {props.priorities.map((priority, index) => {
                         return(<option value={priority.url}> {priority.name} </option>)
@@ -165,8 +161,8 @@ const FormTemplate = (props) => {
                     as="select" 
                     name="case_state" 
                     value ={props.body.case_state} 
-                    onChange={(e)=>completeField(e)} isInvalid={props.body.case_state === "-1"}
-                    isValid={props.body.case_state !== "-1"}>
+                    onChange={(e)=>completeField(e)} 
+                    isInvalid={props.body.case_state === "-1"}>
                     <option value="-1">Seleccione un Estado</option>
                     {props.states.map((state, index) => {
                         return(<option value={state.url}> {state.name} </option>)
@@ -185,9 +181,7 @@ const FormTemplate = (props) => {
                     as="select" 
                     name="case_lifecycle" 
                     value ={props.body.case_lifecycle} 
-                    onChange={(e)=>completeField(e)} isInvalid={props.body.case_lifecycle === "-1"}
-                    isValid={props.body.case_lifecycle !== "-1"}>
-                    <option value="-1">Seleccione un tipo</option>
+                    onChange={(e)=>completeField(e)} >
                     {lifeCicle.map((type) => {
                         return(<option value={type}> {type} </option>)
                     })}
@@ -195,20 +189,12 @@ const FormTemplate = (props) => {
                 </Form.Control>
                 </Form.Group>
               </Col>
-             
               </Row>
-
-              
-               
-        </Form>    
-                     
+        </Form>                  
       </Card.Body>
       </Card>
     <Button variant="primary" onClick={props.createTemplate} >Guardar</Button> 
-    <Button variant="primary" href="/templates">Cancelar</Button>
-      
-                
-           
+    <Button variant="primary" href="/templates">Cancelar</Button>       
          
     </React.Fragment>
   )

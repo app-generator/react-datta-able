@@ -216,7 +216,6 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                                     value={date} //yyyy-mm-ddThh:mm
                                     min="2000-01-01T00:00" max="2030-01-01T00:00" 
                                     isInvalid={date == null}
-                                    isValid={date !== null}
                                     onChange={(e) => setDate(e.target.value)}/>
                             </Form.Group>
                         </Col>
@@ -258,7 +257,6 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                                     as="select"
                                     value={priority}
                                     isInvalid={priority == '0'}
-                                    isValid={priority !== '0'}
                                     onChange={(e) => setPriority(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {allPriorities.map((priorityItem, index) => {                
@@ -282,7 +280,6 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                                     as="select"
                                     value={lifecycle}
                                     isInvalid={lifecycle == '0'}
-                                    isValid={lifecycle !== '0'}
                                     onChange={(e) => setLifecycle(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {allLifecycles.map((lifecycleItem, index) => {                
@@ -307,7 +304,6 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                                     as="select"
                                     value={tlp}
                                     isInvalid={tlp == '0'}
-                                    isValid={tlp !== '0'}
                                     onChange={(e) => setTlp(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {allTlp.map((tlpItem, index) => {                
@@ -331,7 +327,6 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                                     as="select"
                                     value={state}
                                     isInvalid={state == '0'}
-                                    isValid={state !== '0'}
                                     onChange={(e) => setState(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {props.allStates.map((stateItem, index) => {                

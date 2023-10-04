@@ -10,6 +10,7 @@ const animatedComponents = makeAnimated();
 const FormCreatePlaybook = (props) => { 
     // props:  ifConfirm name setName taxonomy setTaxonomy allTaxonomies save
     const [taxonomiesDefaultValue, setTaxonomiesDefaultValue] = useState([])
+    const [isSelectValid, setSelectValid] = useState(false);
 
     useEffect(()=> {
                 //selected taxonomies: value-label
@@ -42,7 +43,6 @@ const FormCreatePlaybook = (props) => {
                                 value={props.name} 
                                 onChange={(e) => props.setName(e.target.value)}
                                 isInvalid={!validateAlphanumeric(props.name) || !validateSpace(props.name)}
-                                isValid={validateAlphanumeric(props.name) && validateSpace(props.name)}
                                 />
                             {validateSpace(props.name) ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
                             {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
@@ -61,6 +61,7 @@ const FormCreatePlaybook = (props) => {
                                 isMulti
                                 onChange={selectTaxonomies}
                                 options={props.allTaxonomies}
+                                className={'invalid-select'}
                             />
                         </Form.Group>
                     </Col>

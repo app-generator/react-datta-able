@@ -68,8 +68,7 @@ const FormArtifact = (props) => {
                             as="select" 
                             value ={props.type} 
                             onChange={(e)=>props.setType(e.target.value)} 
-                            isInvalid={props.type === "-1"}
-                            isValid={props.type !== "-1"}>
+                            isInvalid={props.type === "-1"}>
                          
                             {typeOptions.map((t) => {
                                 return(<option value={t.value}> {t.name} </option>)
@@ -77,9 +76,6 @@ const FormArtifact = (props) => {
                             
                         </Form.Control>
                 </Form.Group>
-                {/* <FormContactSelectUsername selectedType={props.type} 
-                            contact={props.contact} setContact={props.setContact}
-                            setValidContact={setValidContact} />*/}
 
                 <FormArtifactsSelect 
                         value={props.value} setValue={props.setValue}
@@ -95,33 +91,6 @@ const FormArtifact = (props) => {
                 <Button variant="primary" onClick={props.ifCancel}>Cancelar</Button>
             </Form>
         </Card.Body>
-        {/*<Row>
-                    <Col lg={4}>
-                        <Form.Group controlId="Form.Contact.Type">
-                            <Form.Label>Tipo</Form.Label>
-                            <Form.Control
-                                name="type"
-                                type="choice"
-                                as="select"
-                                value={props.type}
-                                isInvalid={props.type == '0'}
-                                isValid={props.type !== '0'}
-                                onChange={(e) =>  props.setType(e.target.value)}>
-                                {typeOptions.map((typeItem, index) => {                
-                                    return (
-                                        <option key={index} value={typeItem.value}>{typeItem.name}</option>
-                                    );
-                                })}
-                            </Form.Control>
-                            {props.type ? '' : <div className="invalid-feedback">Seleccione el tipo de contacto</div>}
-                        </Form.Group>
-                    </Col>
-                    <Col lg={8}>
-                        <FormContactSelectUsername selectedType={props.type} 
-                            contact={props.contact} setContact={props.setContact}
-                            setValidContact={setValidContact} />
-                    </Col>
-                            </Row>*/}
     </div>
   )
 }

@@ -7,7 +7,10 @@ const validateFieldText = (text) =>{
 }
 
 const validateUsername = (text) =>{
-    return (/^[A-Za-z0-9@.+_' ]+$/g).test(text)
+    if (text === ""){
+      return true
+    }
+    return (/^[a-zA-Z0-9@.+_\-]+$/).test(text)
 }
 
 const  validateSpaces= (text) => {
