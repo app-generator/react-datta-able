@@ -121,23 +121,30 @@ const isActive = (url, active) => {
 }
 
 const deleteUser = (url) => {
-    let messageSuccess = `El usuario se pudo eliminar correctamente`;
-    let messageError = `EL usuario no se pudo eliminar`;
+    let messageSuccess = `El usuario se ha eliminado correctamente.`;
+    let messageError = `EL usuario no se ha eliminado`;
     return apiInstance.delete(url).then(response => {
         setAlert(messageSuccess , "success");
         return response;
     }).catch( error => { 
-        if (error.response.status == 500){
-            messageError = `El usuario no se puede eliminar porque está referenciado en un evento o caso`;
-        }else if(error.message == "Cannot read properties of undefined (reading 'code')"){
+        let statusText = ""; 
+        if(error.response.data.error && error.response.data.error[0].includes("Cannot delete some instances of model 'User' because they are referenced through protected foreign keys")){
+            statusText = ", esta referenciado.";
+        } else if(error.message == "Cannot read properties of undefined (reading 'code')"){
             //el backend o servidor no funciona
-            messageError = `El usuario  no puede ser eliminado porque el servidor no responde`;
+            statusText = `. El servidor no responde.`;
         }
+        messageError += statusText;
         setAlert(messageError, "error");
         
         
         return Promise.reject(error);
     })
 }
-
+/*
+"error": [
+        "(\"Cannot delete some instances of model 'User' because they are referenced through protected foreign keys: 
+        'Case.user_creator', 'Case.assigned', 'Event.reporter'.\", {<Case: 1>, <Event: 1:unlp.com>})"
+    ]
+*/
 export { getUsers, getUser, getAllUsers, postUser, putUser, deleteUser, isActive };

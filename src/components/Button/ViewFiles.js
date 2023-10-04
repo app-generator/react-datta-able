@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { getEvidence, deleteEvidence } from '../../api/services/evidences';
-import { Badge, Button } from 'react-bootstrap';
-import CrudButton from './../Button/CrudButton';
+import { Button } from 'react-bootstrap';
 
 const ViewFiles = (props) => {
     const [data, setData] = useState({})
 
     useEffect( ()=> { 
     
-        /*getEvidence(props.url)
-            .then((response) => {
-                console.log(response.data)
-                setData(response.data)
-            })
-            .catch();  
-*/
+
     },[])
 
     const openFile = () => {
-        window.open(data.file, '_blank');
+        getEvidence(props.url)
+            .then((response) => {
+                console.log(response.data)
+                window.open(response.data.file, props.index);
+            })
+            .catch();
     }
 
     const deleteFile = () => {

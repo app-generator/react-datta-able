@@ -112,7 +112,7 @@ const TableEntity = ({setIsModify, list, loading }) => {
                                     <td>
                                         <ActiveButton active={entity.active} onClick={() => pressActive(entity.url, entity.active, entity.name)} />
                                     </td>
-                                    <td>5</td>
+                                    <td>{entity.networks.length}</td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showEntity(entity.url)} />
                                         <Link to={{pathname:'/entities/edit', state: entity}}> 

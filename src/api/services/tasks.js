@@ -12,10 +12,10 @@ const getTasks = (currentPage) => {
 }
 
 const getAllTasks = (currentPage = 1, results = [], limit = 100) => {
-    return apiInstance.get(COMPONENT_URL.task, { params: { page: currentPage, page_size: limit } })       
+    return apiInstance.get(COMPONENT_URL.task, { params: { page: currentPage } })//, page_size: limit
         .then((response) => {
             let res = [...results, ...response.data.results]                                    
-            if(response.data.next != undefined){                                
+            if(response.data.next !== null){                                
                 return getAllTasks(++currentPage, res, limit)
             }
             else{

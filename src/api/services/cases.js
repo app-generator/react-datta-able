@@ -29,15 +29,15 @@ const getCase = (url) => {
 }
 
 const getAllCases = (currentPage = 1, results = [], limit = 100) => {
-    return apiInstance.get(COMPONENT_URL.case, { params: { page: currentPage, page_size: limit } })       
+    return apiInstance.get(COMPONENT_URL.case, { params: { page: currentPage } })//, page_size: limit
         .then((response) => {
             let res = [...results, ...response.data.results]                                    
-            if(response.data.next != undefined){                                
+            if(response.data.next !== null){                                
                 return getAllCases(++currentPage, res, limit)
             }
             else{
                 return res;     
-            }                  
+            }
         })
         .catch((error) => {
             return Promise.reject(error);            
@@ -45,10 +45,10 @@ const getAllCases = (currentPage = 1, results = [], limit = 100) => {
 }
 
 const getOrderingCases = (currentPage = 1, results = [], limit = 100, id='+id') => {
-    return apiInstance.get(COMPONENT_URL.case, { params: { page: currentPage, page_size: limit, ordering : id } })       
+    return apiInstance.get(COMPONENT_URL.case, { params: { page: currentPage, ordering : id } })//, page_size: limit
         .then((response) => {
             let res = [...results, ...response.data.results]                                    
-            if(response.data.next != undefined){                                
+            if(response.data.next !== null){                                
                 return getOrderingCases(++currentPage, res, limit, id)
             }
             else{
@@ -83,10 +83,10 @@ const postCase = (formData) => {
     }).catch( error => { 
         console.log(error.response.data)
         if (error.response.status == 400 ) { 
-            if(error.response.data.parent != null) {
+            if(error.response.data.parent !== null) {
                 messageError += 'La red padre no es valida. ';
             }
-            else if(error.response.data.assigned != null) {
+            else if(error.response.data.assigned !== null) {
                 messageError += 'El usuario asignado no es valido. ';             
             } 
         }        

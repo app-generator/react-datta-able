@@ -23,9 +23,24 @@ const CreateTaxonomy = () => {
                 listTaxonomies.push({value:taxonomy.url, label:taxonomy.name})
             })
             setTaxonomies(listTaxonomies)
-        })                          
+        })
+        
+        const handleResize = (e) => {
+            e.preventDefault(); // Detiene el comportamiento predeterminado del evento de redimensionamiento
+            // Tu lógica de manejo de redimensionamiento aquí (si es necesario)
+          };
+      
+          // Agrega un listener de redimensionamiento cuando el componente se monta
+          window.addEventListener('resize', handleResize);
+      
+          // Elimina el listener cuando el componente se desmonta
+          return () => {
+            console.log('desmon')
+            window.removeEventListener('resize', handleResize);
+          };
     }, []);    
    
+
 
     const createTaxonomy = ()=> {
         let active = true
@@ -93,7 +108,7 @@ const CreateTaxonomy = () => {
                                     <Col sm={12} lg={4}>
                                             <Form.Group>
                                                 <Form.Label>Padre</Form.Label>
-                                                <Select options={taxonomies} onChange={(e) => setParent(e.value)} />
+                                                <Select options={taxonomies} placeholder="Ingrese" onChange={(e) => setParent(e.value)} />
                                             </Form.Group>
                                     </Col>                           
                                 </Row>

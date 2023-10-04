@@ -29,11 +29,6 @@ const ListEntity = () => {
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }
-    useEffect( ()=> {
-
-
-        
-    }, [])
 
     useEffect( ()=> {
 
