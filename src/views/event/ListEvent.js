@@ -27,7 +27,6 @@ const ListEvent = () => {
   //merge
   const [selectedEvent, setSelectedEvent] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedEventId, setSelectedEventId] = useState([]);
 
   function updatePage(chosenPage){
     setCurrentPage(chosenPage);
@@ -59,7 +58,7 @@ const ListEvent = () => {
     }
 
     fetchEvents()
-  }, [countItems, currentPage])
+  }, [countItems, currentPage,ifModify])
 
   const mergeConfirm = () => {
     //setId
@@ -75,6 +74,7 @@ const ListEvent = () => {
             .finally(() => {
                 setSelectedEvent([])
                 setShowModal(false)
+               
             })
     });
 }
@@ -125,13 +125,13 @@ const ListEvent = () => {
          <TableEvents events={events} taxonomy={taxonomy} loading={loading} loadingTaxonomy={loadingTaxonomy} selectedEvent={selectedEvent} setSelectedEvent={setSelectedEvent}/> 
         </Card.Body>
         <Card.Footer >
-                            <Row className="justify-content-md-center">
-                                <Col md="auto"> 
-                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
-                                </Col>
-                            </Row>
-                        </Card.Footer>
-                        <ModalConfirm type='merge' component='casos' name={selectedEvent} showModal={showModal} onHide={() => setShowModal(false)} ifConfirm={() => merge()}/>
+          <Row className="justify-content-md-center">
+              <Col md="auto"> 
+                  <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+              </Col>
+          </Row>
+      </Card.Footer>
+      <ModalConfirm type='merge' component='eventos' name={selectedEvent} showModal={showModal} onHide={() => setShowModal(false)} ifConfirm={() => merge()}/>
       </Card>            
     </div>
   )

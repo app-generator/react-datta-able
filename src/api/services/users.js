@@ -41,7 +41,7 @@ const getAllUsers = (currentPage = 1, results = [], limit = 100) => {
 
 }
 
-const postUser = (username, first_name, last_name, email, priority, is_active) => {
+const postUser = (username, first_name, last_name, email, priority, is_active, password) => {
     let messageSuccess = `El usuario ${username} se pudo crear correctamente`;
     let messageError = `El usuario ${username} no se pudo crear`;
     
@@ -51,7 +51,8 @@ const postUser = (username, first_name, last_name, email, priority, is_active) =
         last_name: last_name, 
         email: email, 
         priority: priority,
-        is_active: is_active
+        is_active: is_active,
+        password: password
     }).then(response => {
         setAlert(messageSuccess, "success");
         return response;

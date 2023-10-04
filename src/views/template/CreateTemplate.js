@@ -18,7 +18,7 @@ const CreateTemplate = () => {
     priority: "-1",
     event_taxonomy: "-1",
     event_feed: "-1",
-    case_lifecycle: "",
+    case_lifecycle: "auto",
     case_tlp: "-1",
     case_state: "-1"
 
@@ -102,7 +102,6 @@ const CreateTemplate = () => {
   }
 
   const createTemplate=()=>{
-    console.log(body)
     postTemplate(body.cidr,body.domain,body.active,body.priority,body.event_taxonomy,body.event_feed,body.case_lifecycle,body.case_tlp,body.case_state)
     .then(() => {
       window.location.href = '/templates';

@@ -16,7 +16,6 @@ const FormArtifactsSelect = (props) => {
                 name : 'mail',
                 placeholder : 'Ingrese email', 
                 isInvalid : JSON.parse(!validateSpace(props.value) || !validateEmail(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateEmail(props.value)),
                 condition : JSON.parse(validateEmail(props.value)),
                 messageDanger : 'Ingrese un email valido'
                 
@@ -25,7 +24,6 @@ const FormArtifactsSelect = (props) => {
                 name : 'domain',
                 placeholder : 'Ingrese dominio', 
                 isInvalid : JSON.parse(!validateSpace(props.value) || !validateDomain(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateDomain(props.value)),
                 condition :"",
                 messageDanger : 'Ingrese un dominio valido'
             },//cual es la diferencia entre estos 2 dominio y url
@@ -33,7 +31,6 @@ const FormArtifactsSelect = (props) => {
                 name : 'url',
                 placeholder : 'Ingrese URI', 
                 isInvalid : JSON.parse(!validateSpace(props.value) ),
-                isValid : JSON.parse(validateSpace(props.value)),
                 condition :"",
                 messageDanger : 'Ingrese un URL valido'
             }
@@ -42,7 +39,6 @@ const FormArtifactsSelect = (props) => {
                 name : 'ip',
                 placeholder : 'Ingrese IP', 
                 isInvalid : JSON.parse(!validateSpace(props.value) || !validateIP(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateIP(props.value)),
                 condition : JSON.parse(validateIP(props.value)),
                 messageDanger : 'Ingrese una ip valida'
             },
@@ -50,7 +46,6 @@ const FormArtifactsSelect = (props) => {
                 name : 'autonomous-system',
                 placeholder : 'Ingrese Número de Sistema Autónomo', 
                 isInvalid : JSON.parse(!validateSpace(props.value) || !validateAutonomousSystem(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateAutonomousSystem(props.value)),
                 condition : JSON.parse(validateAutonomousSystem(props.value)),
                 messageDanger : 'Ingrese un número de Sistema Autónomo valido'
             },// preguntar si este validador esta bien
@@ -58,7 +53,6 @@ const FormArtifactsSelect = (props) => {
                 name : 'user-agent',
                 placeholder : 'Ingrese user-agent', 
                 isInvalid : JSON.parse(!validateSpace(props.value) || !validateUserAgent(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateUserAgent(props.value)),
                 condition : JSON.parse(validateUserAgent(props.value)),
                 messageDanger : 'Ingrese un user-agent valido'
             }
@@ -67,7 +61,6 @@ const FormArtifactsSelect = (props) => {
                 name : 'fqdn',
                 placeholder : 'Ingrese fqdn', 
                 isInvalid : JSON.parse(!validateSpace(props.value) || !validateDomain(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateDomain(props.value)),
                 condition : JSON.parse(validateDomain(props.value)),
                 messageDanger : 'Ingrese un fqdn valido'
             }
@@ -76,7 +69,6 @@ const FormArtifactsSelect = (props) => {
                 name : 'other',
                 placeholder : 'Ingrese Otro tipo de dato', 
                 isInvalid : JSON.parse(!validateSpace(props.value)),
-                isValid : JSON.parse(validateSpace(props.value)),
                 condition : "",
                 messageDanger : 'Ingrese un URI valido'
             },
@@ -85,28 +77,11 @@ const FormArtifactsSelect = (props) => {
                 placeholder : 'Ingrese un valor hexadecimal de 32 caracteres', 
                 isInvalid : JSON.parse(!validateSpace(props.value) || (!validateHexadecimal32(props.value)&& !validateHexadecimal40(props.value) 
                                         && !validateHexadecimal64(props.value) && !validateHexadecimal128(props.value))),
-                isValid : JSON.parse(validateSpace(props.value) && (validateHexadecimal32(props.value)|| validateHexadecimal40(props.value) 
-                                    || validateHexadecimal64(props.value) || validateHexadecimal128(props.value))),
                 condition : JSON.parse(validateHexadecimal32(props.value) || validateHexadecimal40(props.value) 
                                         || validateHexadecimal64(props.value) || validateHexadecimal128(props.value)),
                 messageDanger : 'Ingrese un hash de 32 valido'
             }
         ]
-        /*const typeValue = [
- 
-            {
-                name : 'file',
-                placeholder : 'Ingrese URI', 
-                isInvalid : JSON.parse(!validateSpace(props.value) || !validateURL(props.value)),
-                isValid : JSON.parse(validateSpace(props.value) && validateURL(props.value)),
-                condition : JSON.parse(validateURL(props.value)),
-                messageDanger : 'Ingrese un URI valido'
-            }
-            
-            ,
-            
-            
-        ]*/
         
         const username = typeValue.find(t => t.name === props.type)
         
@@ -124,7 +99,6 @@ const FormArtifactsSelect = (props) => {
                             maxlength="255"
                             onChange = {(e) =>  {props.setValue(e.target.value)}} 
                             isInvalid = {username.isInvalid}
-                            isValid = {username.isValid}
                             />
                         
                         {!props.value || username.condition ? "" : <div className="invalid-feedback"> {username.messageDanger} </div>}

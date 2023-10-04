@@ -10,6 +10,8 @@ const animatedComponents = makeAnimated();
 
 const FormState = ({body, setBody, createState, childernes}) => {
     const [childernesValueLabel, setChildernesValueLabel] = useState([])
+    const messageToPlaceholder = "Seleccione una opción"
+    const messageWithoutOptions = "No hay opciones"
 
     useEffect(()=> {
 
@@ -61,12 +63,10 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             type="choice"
                             as="select" 
                             name="attended" 
-                            value ={body.attended}
-                            isInvalid={(validateUnrequiredInput(body.attended)) ? !validateSelect(body.attended) : false}                             
+                            value ={body.attended}                          
                             onChange={(e)=>completeField(e)}>
-                            <option value="">Seleccione un opcion</option> 
-                            <option value={true}>verdadero</option>
-                            <option value={false}>falso</option>       
+                            <option value={true}>Verdadero</option>
+                            <option value={false}>Falso</option>       
                         </Form.Control>
                     </Form.Group>
                 </Col>
@@ -78,11 +78,9 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             as="select" 
                             name="solved" 
                             value ={body.solved} 
-                            isInvalid={(validateUnrequiredInput(body.solved)) ? !validateSelect(body.solved) : false}                            
                             onChange={(e)=>completeField(e)}>
-                            <option value="">Seleccione un opcion</option> 
-                            <option value={true}>verdadero</option>
-                            <option value={false}>falso</option>       
+                            <option value={true}>Verdadero</option>
+                            <option value={false}>Falso</option>       
                         </Form.Control>
                     </Form.Group>
                 </Col>
@@ -106,6 +104,8 @@ const FormState = ({body, setBody, createState, childernes}) => {
                 <Select
                     closeMenuOnSelect={false}
                     components={animatedComponents}
+                    placeholder={messageToPlaceholder}
+                    noOptionsMessage={()=>messageWithoutOptions}
                     isMulti
                     value={childernesValueLabel}
                     onChange={completeChildernes}

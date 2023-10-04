@@ -15,8 +15,6 @@ const EditTemplate = () => {
     const location = useLocation();
     const fromState = location.state;
     const [template, setTemplate] = useState(fromState);
-
-    console.log(template)
     const[body,setBody]=useState(template);
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
@@ -29,7 +27,14 @@ const EditTemplate = () => {
     const [loading, setLoading] = useState(true)
     const [showAlert, setShowAlert] = useState(false)
 
+    console.log(body)
+
     useEffect( ()=> {
+        body.domain = body.domain === null ? "": body.domain
+        body.cidr = body.cidr === null ? "": body.cidr
+
+        setBody(body)
+
         const fetchPosts = async () => {
             setLoading(true)
     

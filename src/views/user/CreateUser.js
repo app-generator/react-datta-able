@@ -15,6 +15,7 @@ const AddUser = () => {
         first_name: "", 
         last_name: "", 
         email: "", 
+        is_active:true,
         priority: '',
         password: "",
         passwordConfirmation: ""}
@@ -24,7 +25,7 @@ const AddUser = () => {
     const [priorities, setPriorities] = useState()
     const [loading, setLoading] = useState(true)
     const [showAlert, setShowAlert] = useState(false)
-
+        console.log(body)
     useEffect( ()=> {
         const fetchPosts = async () => {
             setLoading(true)
@@ -47,7 +48,7 @@ const AddUser = () => {
 
     const createUser=(e)=>{
         
-        postUser(body.username,body.first_name,body.last_name,body.email, body.priority)
+        postUser(body.username,body.first_name,body.last_name,body.email, body.priority,body.is_active, body.password)
         .then(() => {
             window.location.href = '/users';
         })

@@ -21,6 +21,7 @@ const EditUser = () => {
     const [loading, setLoading] = useState(true)
     const [priorities, setPriorities] = useState()
     const [showAlert, setShowAlert] = useState(false)
+    console.log(user)
 
     useEffect( ()=> {
         

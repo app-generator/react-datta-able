@@ -12,6 +12,7 @@ const animatedComponents = makeAnimated();
 const FormCreatePlaybook = (props) => { 
     // props:  ifConfirm name setName taxonomy setTaxonomy allTaxonomies save
     const [taxonomiesDefaultValue, setTaxonomiesDefaultValue] = useState([])
+    const [isSelectValid, setSelectValid] = useState(false);
 
     useEffect(()=> {
                 //selected taxonomies: value-label
@@ -60,6 +61,7 @@ const FormCreatePlaybook = (props) => {
                                 isMulti
                                 onChange={selectTaxonomies}
                                 options={props.allTaxonomies}
+                                className={'invalid-select'}
                             />
                         </Form.Group>
                     </Col>
