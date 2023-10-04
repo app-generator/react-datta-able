@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import ButtonView from './components/ButtonView';
 import CrudButton from '../../components/Button/CrudButton';
-import ButtonState from './components/ButtonState';
-import ButtonDelete from './components/ButtonDelete';
 import Alert from '../../components/Alert/Alert';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 import Navigation from '../../components/Navigation/Navigation'
 import { getTaxonomies } from '../../api/services/taxonomies';
+import Search from '../../components/Search/Search';
+import TableTaxonomy from './components/TableTaxonomy';
 
 const ListTaxonomies = () => {
     const [taxonomies, setTaxonomies] = useState([]);
-    const [error, setError] = useState(null);
+    const [isModify, setIsModify] = useState(null);
+
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true)
-    const [showAlert, setShowAlert] = useState(false)
+
+    const [showAlert, setShowAlert] = useState(false);
+
     const [currentPage, setCurrentPage] = useState(1)
     const [countItems, setCountItems] = useState(0);
 
-    
+
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }
@@ -31,19 +33,14 @@ const ListTaxonomies = () => {
             setTaxonomies(response.data.results)
         })
         .catch((error)=>{
-            setError(error)                        
+            //alert
         })
         .finally(() => {
             setShowAlert(true)
             setLoading(false)
         })
-    }, [countItems, currentPage]); 
-    
-    
-    const resetShowAlert = () => {
-        setShowAlert(false);
-    }
-    
+    }, [countItems, currentPage, isModify]); 
+        
     //valores ingresados
     const searcher = (e) => {
         setSearch(e.target.value) //actualizar
@@ -66,12 +63,13 @@ const ListTaxonomies = () => {
             </Row>
         );    
     }      
-    
+
     return (
         <React.Fragment>
-            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} />
+            
             <Row>
-                <Navigation actualPosition={'Taxonomia'}/>  
+                <Navigation actualPosition={'Taxonomias'}/>  
             </Row>
             <Row>
                 <Col>             
@@ -79,55 +77,18 @@ const ListTaxonomies = () => {
                         <Card.Header>
                             <Row>
                                 <Col sm={12} lg={9}>
-                                <React.Fragment>
-                                        <div className="input-group">
-                                            <input value={search} onChange={searcher} type="text" id="m-search" className="form-control" placeholder="Buscar taxonomia . . ." />
-                                            <span className="search-btn btn btn-primary">
-                                                <i className="feather icon-search " />
-                                            </span>
-                                        </div>
-                                    </React.Fragment>                                 
+                                    <Search type="entidad" action={searcher} search={search} setSearch={setSearch}/>
                                 </Col> 
+                                
                                 <Col sm={12} lg={3}>
-                                    <React.Fragment>                                        
-                                        <Link to={{pathname:'./taxonomies/create'}} >
-                                            <CrudButton type='create' name='Taxonomia' />
-                                        </Link>
-                                    </React.Fragment>                           
+                                    <Link to={{pathname:'./taxonomies/create'}} >
+                                        <CrudButton type='create' name='Taxonomia' />
+                                    </Link>
                                 </Col>  
-                            </Row>                                                                           
+                            </Row>
                         </Card.Header>
-                        <Card.Body>                            
-                            <Table responsive hover>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nombre</th>
-                                        <th>Activo</th>     
-                                        <th>Reportes</th>                                                                         
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {list.sort((a, b) => (a.name < b.name ? -1 : 1)).map((taxonomy,i) => (
-                                        <tr key={i}>
-                                            <th scope="row">{i+1}</th>
-                                            <td>{taxonomy.name}</td>
-                                            <td>
-                                                <ButtonState taxonomy={taxonomy}></ButtonState>
-                                            </td>                                           
-                                            <td>{taxonomy.reports.length}</td>
-                                            <td>
-                                                <ButtonView taxonomy={taxonomy}></ButtonView> 
-                                                <Link to={{pathname:"./taxonomies/edit", state:taxonomy}} >
-                                                    <CrudButton type="edit" />                                                    
-                                                </Link>                                                
-                                                <ButtonDelete taxonomy={taxonomy}></ButtonDelete>                                                 
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
+                        <Card.Body>
+                            <TableTaxonomy setIsModify={setIsModify} list={taxonomies} loading={loading} currentPage={currentPage}/>
                         </Card.Body>
                         <Card.Footer >
                             <Row className="justify-content-md-center">
@@ -138,7 +99,7 @@ const ListTaxonomies = () => {
                         </Card.Footer>
                     </Card>
                 </Col>
-            </Row>            
+            </Row>
         </React.Fragment>
     );
 };

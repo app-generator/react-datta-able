@@ -3,6 +3,8 @@ import { Button, Col, Row, Form } from 'react-bootstrap';
 import { validateAlphanumeric, validateSpace } from '../../../utils/validators'; 
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { validatePlaybookName, validateUnrequiredInput } from '../../../utils/validators/playbooks';
+
 
 
 const animatedComponents = makeAnimated();
@@ -34,25 +36,22 @@ const FormCreatePlaybook = (props) => {
                 <Row>
                     <Col sm={12} lg={6}>
                         <Form.Group controlId="Form.Playbook.Name">
-                            <Form.Label>Nombre</Form.Label>
+                            <Form.Label>Nombre <b style={{color:"red"}}>*</b></Form.Label>
                             <Form.Control 
                                 type="name" 
                                 placeholder="Ingrese nombre" 
-                                maxlength="100"
                                 value={props.name} 
                                 onChange={(e) => props.setName(e.target.value)}
-                                isInvalid={!validateAlphanumeric(props.name) || !validateSpace(props.name)}
-                                isValid={validateAlphanumeric(props.name) && validateSpace(props.name)}
+                                isInvalid={(validateUnrequiredInput(props.name)) ? !validateAlphanumeric(props.name) : false}
                                 />
-                            {validateSpace(props.name) ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
-                            {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
+                            {!validatePlaybookName(props.name) ? <div className="invalid-feedback">Ingrese caracteres validos</div> : ''}
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
                     <Col sm={12} lg={6}>
                         <Form.Group controlId="Form.Playbook.Taxonomy.Multiselect">
-                            <Form.Label>Taxonomias</Form.Label>
+                            <Form.Label>Taxonomias <b style={{color:"red"}}>*</b></Form.Label>
                             <Select
                                 value={taxonomiesDefaultValue}
                                 placeholder='Seleccione Taxonomias'
@@ -66,10 +65,9 @@ const FormCreatePlaybook = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    {/*<Col sm={12} lg={10} />*/}
                     <Col>
                         <Form.Group>
-                            { validateAlphanumeric(props.name) && (props.taxonomy.length > 0) ? // 
+                            { validatePlaybookName(props.name) && (props.taxonomy.length > 0) ? // 
                                 <><Button variant="primary" onClick={props.ifConfirm}>{props.save}</Button></>
                                 : 
                                 <><Button variant="primary" disabled>{props.save}</Button></> 

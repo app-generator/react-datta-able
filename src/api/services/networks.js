@@ -27,14 +27,14 @@ const getNetwork = (url) => {
     });
 }
 const getAllNetworks = (currentPage = 1, results = [], limit = 100) => {
-    return apiInstance.get(COMPONENT_URL.network, { params: { page: currentPage, page_size: limit } })       
+    return apiInstance.get(COMPONENT_URL.network, { params: { page: currentPage } })//, page_size: limit
         .then((response) => {
             let res = [...results, ...response.data.results]                                    
-            if(response.data.next != undefined){                                
+            if(response.data.next !== null){                                
                 return getAllNetworks(++currentPage, res, limit)
             }
             else{
-                return res;     
+                return res;
             }                  
         })
         .catch((error) => {
@@ -61,7 +61,7 @@ const postNetwork = (children, cidr, domain, active, type, parent, network_entit
         console.log(error.response);
         let statusText = ''; //status: 400, statusText: "Bad Request", data: cidr: ['Already exists ...']
         let substring = error.response.data.cidr[0]; 
-        if (substring == 'Already exists a network with this cidr' ) {
+        if (substring === 'Already exists a network with this cidr' ) {
             statusText = "Ingrese un CIDR diferente. "; 
         } else {
             statusText = "CAPTURAR NUEVO ERROR"

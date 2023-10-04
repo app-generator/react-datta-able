@@ -12,7 +12,8 @@ function ButtonDelete({taxonomy}) {
 
   const removeTaxonomy = (taxonomy)=> {
     deleteTaxonomy(taxonomy.url, taxonomy.name)
-    .then(() => {      
+    .then(() => {
+      
       window.location.href = '/taxonomies';
     })
     .catch((error) => {

@@ -25,6 +25,7 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
     //checkbox
     const [isCheckAll, setIsCheckAll] = useState(false);
   
+
     useEffect(() => {
 
         getPriorities()
@@ -73,6 +74,10 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
         );    
     }
 
+    const storageCaseUrl = (url) => {
+        localStorage.setItem('case', url);    
+    }
+
     //Remove Case
     const Delete = (url, id) => {
         setId(id)
@@ -108,9 +113,6 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
             setSelectedCases(selectedCases.filter(item => item !== id));
         }
     };
-
-    let hover = document.getElementById("button_hover");
-    
     
     return (
             <React.Fragment>
@@ -143,7 +145,7 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                                 <tr key={caseItem.url}>
                                     <td>
                                         <Form.Group>
-                                            <Form.Check disabled={caseItem.solve_date != null ? true : false} 
+                                            <Form.Check disabled={caseItem.solve_date !== null ? true : false} 
                                                 type="checkbox" id={caseItem.url} 
                                                 onChange={handleClick} checked={selectedCases.includes(caseItem.url)} />
                                         </Form.Group>
@@ -167,8 +169,8 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                                         </td> 
                                     }
                                     <td>
-                                        <Link to={{pathname:'/cases/view', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
-                                            <CrudButton type='read'/>
+                                        <Link to={{pathname:'/cases/view'}}>
+                                            <CrudButton type='read' onClick={() => storageCaseUrl(caseItem.url)}/>
                                         </Link>
                                             <Link to={{pathname:'/cases/edit', state: caseItem.url}} >
                                             {caseItem.solve_date == null ? 

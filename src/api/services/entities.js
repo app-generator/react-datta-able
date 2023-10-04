@@ -29,13 +29,16 @@ const getEntity = (url) => {
 }
 
 const getAllEntities = (currentPage = 1, results = [], limit = 100) => {
-    return apiInstance.get(COMPONENT_URL.entity, { params: { page: currentPage, page_size: limit } })       
+    return apiInstance.get(COMPONENT_URL.entity, { params: { page: currentPage } })//, page_size: limit
         .then((response) => {
             let res = [...results, ...response.data.results]
-            if(response.data.next != undefined){
+            if(response.data.next !== null){
                 return getAllEntities(++currentPage, res, limit)
             }
             else{
+                res.sort((p, q) => {
+                    return p.slug > q.slug ? 1 : -1;
+                });
                 return res;     
             }
         })
@@ -57,7 +60,7 @@ const postEntity = (name, active) => {
         console.log(error.response)
         let statusText = ''; 
         let substring = error.response.data.slug[0].substring(0, 44);
-        if (substring == 'Ya existe una entidad NetworkEntity con slug' ) {
+        if (substring === 'Ya existe una entidad NetworkEntity con slug' ) {
             statusText = "Ingrese un nombre diferente. "; 
         } else {
             statusText = "CAPTURAR NUEVO ERROR"
@@ -94,7 +97,6 @@ const deleteEntity = (url, name) => {
         return response;
     }).catch( error => { 
         console.log(error.response.data)
-        let status = error.response.status;
         let statusText = error.response.statusText;
         messageError += statusText;
         setAlert(messageError , "error", "entity");
