@@ -39,7 +39,6 @@ const FormCreateTask = (props) => {
                                 value={props.name} 
                                 onChange={(e) => props.setName(e.target.value)} 
                                 isInvalid={!validateAlphanumeric(props.name) || !validateSpace(props.name)}
-                                isValid={validateAlphanumeric(props.name) && validateSpace(props.name)}
                                 />
                             {validateSpace(props.name) ? '' : <div className="invalid-feedback">Ingrese nombre</div>}
                             {!props.name || validateAlphanumeric(props.name) ? "" : <div className="invalid-feedback">Ingrese caracteres validos</div>}
@@ -56,7 +55,6 @@ const FormCreateTask = (props) => {
                                 as="select"
                                 value={props.priority}
                                 isInvalid={props.priority == '0'}
-                                isValid={props.priority !== '0'}
                                 onChange={(e) =>  props.setPriority(e.target.value)}>
                                 <option value='0'>Seleccione</option>
                                 {priorityOption.map((priorityItem, index) => {                
@@ -81,7 +79,6 @@ const FormCreateTask = (props) => {
                                 value={props.description} 
                                 onChange={(e) => props.setDescription(e.target.value)}  
                                 isInvalid={!validateSpace(props.description)}
-                                isValid={validateSpace(props.description)}
                                 />
                             {validateSpace(props.description) ? '' : <div className="invalid-feedback">Ingrese una descripcion de la tarea</div>}
                         </Form.Group>

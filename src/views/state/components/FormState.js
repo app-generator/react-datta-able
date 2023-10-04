@@ -63,12 +63,10 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             type="choice"
                             as="select" 
                             name="attended" 
-                            value ={body.attended}
-                            isInvalid={(validateUnrequiredInput(body.attended)) ? !validateSelect(body.attended) : false}                             
+                            value ={body.attended}                          
                             onChange={(e)=>completeField(e)}>
-                            <option value="">Seleccione una opción</option> 
-                            <option value={true}>verdadero</option>
-                            <option value={false}>falso</option>       
+                            <option value={true}>Verdadero</option>
+                            <option value={false}>Falso</option>       
                         </Form.Control>
                     </Form.Group>
                 </Col>
@@ -80,11 +78,9 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             as="select" 
                             name="solved" 
                             value ={body.solved} 
-                            isInvalid={(validateUnrequiredInput(body.solved)) ? !validateSelect(body.solved) : false}                            
                             onChange={(e)=>completeField(e)}>
-                            <option value="">Seleccione una opción</option> 
-                            <option value={true}>verdadero</option>
-                            <option value={false}>falso</option>       
+                            <option value={true}>Verdadero</option>
+                            <option value={false}>Falso</option>       
                         </Form.Control>
                     </Form.Group>
                 </Col>

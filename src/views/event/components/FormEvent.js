@@ -19,6 +19,7 @@ const FormEvent = (props) => {
     const [typeArtifact, setTypeArtifact] = useState('0')
     const [value, setValue] = useState("")
     const [showAlert, setShowAlert] = useState(false)
+    const [showErrorMessage, setShowErrorMessage] = useState(false)
 
     const resetShowAlert = () => {
         setShowAlert(false);
@@ -34,20 +35,24 @@ const FormEvent = (props) => {
     },[props.body.artifacts, props.listArtifact])
 
     const completeFieldStringIdentifier=(event)=>{ 
-        props.setBody({...props.body,[event.target.name] : event.target.value})
-
-        if (event.target.value !== ""){
+       
+        if (event.target.value !==""){ 
             postStringIdentifier(event.target.value).then((response) => { 
                 console.log(response.data.artifact_type)
                 console.log(event.target.value)
-                
+                setShowErrorMessage(response.data.artifact_type === "OTHER" )        
             })
             .catch((error) => {
                 setError(error)
             }).finally(() => {
                 console.log("finalizo")
             })   
+        }
+
+        if (event.target.value === "" ){
+            setShowErrorMessage(false)//para que no aparesca en rojo si esta esta el input vacio en el formulario
         }   
+        props.setBody({...props.body,[event.target.name] : event.target.value})
     }
 
     const completeField=(event)=>{ 
@@ -266,9 +271,9 @@ const FormEvent = (props) => {
                         maxlength="150" 
                         value ={props.body.address_value} 
                         onChange={(e)=>completeFieldStringIdentifier(e)}
-                        isInvalid
+                        isInvalid={showErrorMessage || props.body.address_value === ""}
                         name="address_value"/>
-                        {false  ? "" : <div className="invalid-feedback"> Debe ingresar IPv4,IPv6, Nombre de domino o Email</div>}
+                        {showErrorMessage  || props.body.address_value === ""  ?  <div className="invalid-feedback"> Debe ingresar IPv4,IPv6, Nombre de domino o Email</div>  : "" }
                     </Form.Group> 
                 </Col>
             </Row>

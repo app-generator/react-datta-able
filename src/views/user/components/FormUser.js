@@ -75,10 +75,10 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                         name="priority" 
                         value ={body.priority} 
                         onChange={(e)=>completeField(e)} 
-                        isInvalid={!validateSelect(body.priority)}
+                       
                     >
                         <option value=''>Seleccione una prioridad</option>
-                        {priorities.map((priority, index) => {
+                        {priorities.map((priority) => {
                             return(<option value={priority.url}> {priority.name} </option>)
                         })}
                         
