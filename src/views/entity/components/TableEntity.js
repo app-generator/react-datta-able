@@ -13,12 +13,12 @@ const TableEntity = ({setIsModify, list, loading }) => {
     const [modalShow, setModalShow] = useState(false) 
     const [modalDelete, setModalDelete] = useState(false) 
     const [modalState, setModalState] = useState(false) 
-    const [url, setUrl] = useState(null) 
-    const [id, setId] = useState(null) 
-    const [name, setName] = useState(null) 
-    const [created, setCreated] = useState(null) 
-    const [modified, setModified] = useState(null) 
-    const [active,setActive] = useState(null) 
+    const [url, setUrl] = useState('') 
+    const [id, setId] = useState('') 
+    const [name, setName] = useState('') 
+    const [created, setCreated] = useState('') 
+    const [modified, setModified] = useState('') 
+    const [active,setActive] = useState('') 
 
     if (loading) {
         return (
@@ -90,6 +90,10 @@ const TableEntity = ({setIsModify, list, loading }) => {
             })
     };
     
+    const storageEntityUrl = (url) => {
+        localStorage.setItem('entity', url);    
+    }
+
     return (
             <React.Fragment>
                 <Table responsive hover className="text-center">
@@ -116,7 +120,7 @@ const TableEntity = ({setIsModify, list, loading }) => {
                                     <td>
                                         <CrudButton type='read' onClick={() => showEntity(entity.url)} />
                                         <Link to={{pathname:'/entities/edit', state: entity}}> 
-                                            <CrudButton type='edit'/>
+                                            <CrudButton type='edit' onClick={() => storageEntityUrl(entity.url)}/>
                                         </Link>
                                         <CrudButton type='delete' onClick={() => Delete(entity.url, entity.name)} />
                                     </td>

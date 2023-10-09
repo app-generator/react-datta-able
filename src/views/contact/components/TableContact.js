@@ -11,13 +11,13 @@ const TableContact = ({setIsModify, list, loading }) => {
 
     const [modalShow, setModalShow] = useState(false)
     const [modalDelete, setModalDelete] = useState(false)
-    const [url, setUrl] = useState(null)
-    const [id, setId] = useState(null)
-    const [name, setName] = useState(null);
-    const [created, setCreated] = useState(null)
-    const [modified, setModified] = useState(null)
-    const [type, setType] = useState(null)
-    const [role, setRole] = useState(null)
+    const [url, setUrl] = useState('')
+    const [id, setId] = useState('')
+    const [name, setName] = useState('');
+    const [created, setCreated] = useState('')
+    const [modified, setModified] = useState('')
+    const [type, setType] = useState('')
+    const [role, setRole] = useState('')
 
     if (loading) {
         return (
@@ -85,6 +85,10 @@ const TableContact = ({setIsModify, list, loading }) => {
         uri : 'URI',
     };
 
+    const storageContactUrl = (url) => {
+        localStorage.setItem('contact', url);    
+    }
+
     return (
             <React.Fragment>
                 <Table responsive hover className="text-center">
@@ -110,7 +114,7 @@ const TableContact = ({setIsModify, list, loading }) => {
                                 <td>
                                     <CrudButton type='read' onClick={() => showContact(contact.url)} />
                                     <Link to={{pathname:'/contacts/edit', state: contact}} >
-                                        <CrudButton type='edit'/>
+                                        <CrudButton type='edit' onClick={() => storageContactUrl(contact.url)}/>
                                     </Link>
                                     <CrudButton type='delete' onClick={() => Delete(contact.url, contact.name)} />
                                 </td>
