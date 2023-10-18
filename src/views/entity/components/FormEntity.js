@@ -52,16 +52,8 @@ const FormEntity = (props) => { // props: name, setName, ifConfirm, {edit:false 
                         </Form.Group>
                     </Col>
                     :
-                    <Col sm={12} lg={4} >
-                            <Form.Label>Estado Inicial</Form.Label>
-                            <Form.Control
-                                name="create"
-                                type="choice"
-                                as="select"
-                                disabled>
-                                <option>Activo</option>
-                            </Form.Control>
-                    </Col>
+                    <></>
+
                 }
                 </Row>
 

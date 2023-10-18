@@ -31,10 +31,13 @@ const ListCase = () => {
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }  
+    //ORDER
+    const [order, setOrder] = useState("");
+
     
     useEffect( ()=> {
 
-        getCases(currentPage) 
+        getCases(currentPage, order) 
             .then((response) => {
                 setCases(response.data.results)
                 // Pagination
@@ -47,7 +50,7 @@ const ListCase = () => {
                 setLoading(false)
             })
         
-        }, [countItems, currentPage, ifModify])
+        }, [countItems, currentPage, ifModify, order])
 
     // ------- SEARCH --------
     const action = () => {
@@ -122,7 +125,7 @@ const ListCase = () => {
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableCase setIfModify={setIfModify} list={cases} loading={loading} selectedCases={selectedCases} setSelectedCases={setSelectedCases} />
+                        <TableCase setOrder={setOrder} setIfModify={setIfModify} list={cases} loading={loading} setLoading={setLoading} selectedCases={selectedCases} setSelectedCases={setSelectedCases} />
                     </Card.Body>
                     <Card.Footer >
                         <Row className="justify-content-md-center">

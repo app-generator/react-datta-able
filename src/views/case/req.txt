@@ -1,0 +1,32 @@
+http://localhost:8000/api/case/
+    ?date=<ingresado>
+    &attend_date=<ingresado>
+    &solve_date=<ingresado>
+    &lifecycle=<manual, auto, auto_open, auto_close>
+    &priority=<id>
+    &tlp=<id>
+    &casetemplate_creator=<id>
+    &uuid=<ingresado>
+    &parent=<id>
+    &parent__isnull=<unknown, true, false>
+    &assigned=<id>
+    &assigned__isnull=<unknown, true, false>
+    &state=<id>
+    &id=<ingresado>
+    &created=<ingresado>
+    &created_range_after=<ingresado>
+    &created_range_before=<ingresado>
+    &modified=<ingresado>
+    &modified_range_after=<ingresado>
+    &modified_range_before=<ingresado>
+    &date_range_after=<ingresado>
+    &date_range_before=<ingresado>
+    &attend_date_range_after=<ingresado>
+    &attend_date_range_before=<ingresado>
+    &solve_date_range_after=<ingresado>
+    &solve_date_range_before=<ingresado>
+    &event_cidr=<ingresado>
+    &event_domain=<ingresado>
+
+
+    http://localhost:8000/api/case/?date=&attend_date=&solve_date=&lifecycle=&priority=&tlp=&casetemplate_creator=&uuid=&parent=&parent__isnull=unknown&assigned=&assigned__isnull=unknown&state=&id=&created=&created_range_after=&created_range_before=&modified=&modified_range_after=&modified_range_before=&date_range_after=&date_range_before=&attend_date_range_after=&attend_date_range_before=&solve_date_range_after=&solve_date_range_before=&event_cidr=&event_domain=
