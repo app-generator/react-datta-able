@@ -40,6 +40,8 @@ const ListCase = () => {
         getCases(currentPage, order) 
             .then((response) => {
                 setCases(response.data.results)
+                setLoading(false)
+
                 // Pagination
                 setCountItems(response.data.count);
             })

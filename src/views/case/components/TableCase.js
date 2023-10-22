@@ -10,7 +10,6 @@ import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import BadgeItem from '../../../components/Button/BadgeItem';
 import { getStates } from '../../../api/services/states'; 
 import { getUser } from '../../../api/services/users';
-import { getCases } from '../../../api/services/cases';
 import GetUserName from './GetUserName';
 
 const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSelectedCases, setOrder }) => {

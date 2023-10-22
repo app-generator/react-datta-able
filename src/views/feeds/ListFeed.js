@@ -9,6 +9,7 @@ import CrudButton from '../../components/Button/CrudButton';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
+import TableFeed from './components/TableFeed';
 
 
 const ListFeed = () => {    
@@ -23,25 +24,23 @@ const ListFeed = () => {
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }
-    
-    useEffect(() => {                
-        getFeeds(currentPage)
+    //ORDER
+    const [order, setOrder] = useState("");
+
+    useEffect(() => {
+        getFeeds(currentPage, order)
         .then((response) => {
-            setCountItems(response.data.count)
             setFeeds(response.data.results)
+            setLoading(false)
+            //PAGINATION
+            setCountItems(response.data.count)
         })
         .catch((error)=>{
-            setError(error)
         })
         .finally(() => {
-            setShowAlert(true)
             setLoading(false)
         })
-    }, [countItems, currentPage]);  
-
-    const resetShowAlert = () => {
-        setShowAlert(false);
-    }
+    }, [countItems, currentPage, order]);  
     
     //valores ingresados
     const searcher = (e) => {
@@ -68,7 +67,7 @@ const ListFeed = () => {
         
     return (
         <React.Fragment>
-            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
             <Row>
                 <Navigation actualPosition={'Fuentes de Información'}/>
             </Row>
@@ -78,55 +77,26 @@ const ListFeed = () => {
                         <Card.Header>
                             <Row>
                                 <Col sm={12} lg={9}>
-                                    <React.Fragment>
+                                  
                                         <div className="input-group">
                                             <input value={search} onChange={searcher} type="text" id="m-search" className="form-control" placeholder="Buscar fuente de informacion . . ." />
                                             <span className="search-btn btn btn-primary">
                                                 <i className="feather icon-search " />
                                             </span>
                                         </div>
-                                    </React.Fragment>                                 
+                                               
                                 </Col>
                                 <Col sm={12} lg={3}>
-                                    <React.Fragment>                                        
+                                                 
                                         <Link to={{pathname:'./feeds/create'}} >
                                             <CrudButton type='create' name='Fuente' />
                                         </Link>
-                                    </React.Fragment>                           
+                                         
                                 </Col>  
                             </Row>                                                                           
                         </Card.Header>
-                        <Card.Body>                            
-                            <Table responsive hover>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nombre</th>
-                                        <th>Activo</th>
-                                        <th>Casos Asociados</th>                                                                                  
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {list.sort((a, b) => (a.name < b.name ? -1 : 1)).map((feed,i) => (
-                                        <tr key={i}>
-                                            <th scope="row">{i+1}</th>
-                                            <td>{feed.name}</td>
-                                            <td>
-                                                <ButtonState feed={feed}></ButtonState>
-                                            </td>
-                                            <td>24256</td>
-                                            <td>
-                                                <ButtonView feed={feed}></ButtonView>
-                                                <Link to={{pathname:"./feeds/edit", state:feed}} >
-                                                    <CrudButton type="edit" />                                                    
-                                                </Link>    
-                                                <ButtonDelete feed={feed}></ButtonDelete>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
+                        <Card.Body>
+                            <TableFeed setOrder={setOrder} list={feeds} loading={loading} setLoading={setLoading}/>
                         </Card.Body>
                         <Card.Footer >
                             <Row className="justify-content-md-center">
