@@ -41,7 +41,7 @@ const RestLogin = ({ className, ...rest }) => {
                         .then((response) => {
                             dispatch({
                                 type: LOGIN,
-                                payload: { user: response.data.user, token: response.data.token }
+                                payload: { user: response.data.user, token: response.data.access }
                             });
                         })
                         .catch((error) => {

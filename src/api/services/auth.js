@@ -1,6 +1,8 @@
 import apiInstance from "../api";
 import { COMPONENT_URL } from '../../config/constant';
 import setAlert from '../../utils/setAlert';
+import { REFRESH_TOKEN, LOGOUT, CLEAR_MESSAGE } from '../../store/actions';
+import { store } from '../../store';
 
 
 const register = (username, password, email) => {
@@ -33,7 +35,42 @@ const login = (username, password) => {
 }
 
 const refreshToken = () => {
-    return apiInstance.post(COMPONENT_URL.refreshCookieToken, {}); 
+    return apiInstance.post(COMPONENT_URL.refreshCookieToken, {
+    }).then(response => {
+
+            console.log(response);
+            const { dispatch } = store;
+
+            try {
+                dispatch({
+                 type: REFRESH_TOKEN,
+                 payload: { token: response.data.access }
+                });
+
+                return response;
+            } catch(e){
+                console.log('Error en el dispatch')
+            }
+            
+    }).catch( error => { 
+
+        const { dispatch } = store;
+
+        try {
+            dispatch({
+                type: LOGOUT
+            });
+            dispatch({
+                type: CLEAR_MESSAGE
+            });
+        } catch(e){
+            console.log('Error en el dispatch')
+        }
+
+        console.log("ERROR en el refresh desde auth");
+
+        return Promise.reject(error);
+    }); 
 }
 
 const logout = () => {
