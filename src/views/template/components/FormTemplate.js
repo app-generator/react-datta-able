@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import {Card, Form, Button,Row, Col} from 'react-bootstrap'
 import { postStringIdentifier } from "../../../api/services/stringIdentifier";
+import Select from 'react-select';
 
 const FormTemplate = (props) => {
 
