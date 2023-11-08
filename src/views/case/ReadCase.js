@@ -2,13 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, CloseButton, Col, Form, Modal, Row, Table } from 'react-bootstrap';
 import Navigation from '../../components/Navigation/Navigation';
 import { useLocation } from 'react-router-dom';
-import GetUserName from './components/GetUserName';
-import { getUser } from '../../api/services/users';
-import BadgeItem from '../../components/Button/BadgeItem';
 import ViewFiles from '../../components/Button/ViewFiles';
 import { getCase } from '../../api/services/cases';
 import apiInstance from "../../api/api.js";
-
 
 
 const ReadCase = () => { 

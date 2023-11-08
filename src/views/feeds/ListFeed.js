@@ -21,25 +21,25 @@ const ListFeed = () => {
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }
-    
-    useEffect(() => {                
-        getFeeds(currentPage)
+    //ORDER
+    const [order, setOrder] = useState("");
+
+    useEffect(() => {
+        getFeeds(currentPage, order)
         .then((response) => {
-            setCountItems(response.data.count)
             setFeeds(response.data.results)
+            setLoading(false)
+            console.log(order);
+
+            //PAGINATION
+            setCountItems(response.data.count)
         })
         .catch((error)=>{
-            setError(error)
         })
         .finally(() => {
-            setShowAlert(true)
             setLoading(false)
         })
-    }, [countItems, currentPage]);  
-
-    const resetShowAlert = () => {
-        setShowAlert(false);
-    }
+    }, [countItems, currentPage, order]);  
     
     //valores ingresados
     const searcher = (e) => {
@@ -66,7 +66,7 @@ const ListFeed = () => {
         
     return (
         <React.Fragment>
-            <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
+            <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
             <Row>
                 <Navigation actualPosition={'Fuentes de Información'}/>
             </Row>
@@ -76,21 +76,21 @@ const ListFeed = () => {
                         <Card.Header>
                             <Row>
                                 <Col sm={12} lg={9}>
-                                    <React.Fragment>
+                                  
                                         <div className="input-group">
                                             <input value={search} onChange={searcher} type="text" id="m-search" className="form-control" placeholder="Buscar fuente de informacion . . ." />
                                             <span className="search-btn btn btn-primary">
                                                 <i className="feather icon-search " />
                                             </span>
                                         </div>
-                                    </React.Fragment>                                 
+                                               
                                 </Col>
                                 <Col sm={12} lg={3}>
-                                    <React.Fragment>                                        
+                                                 
                                         <Link to={{pathname:'./feeds/create'}} >
                                             <CrudButton type='create' name='Fuente' />
                                         </Link>
-                                    </React.Fragment>                           
+                                         
                                 </Col>  
                             </Row>                                                                           
                         </Card.Header>

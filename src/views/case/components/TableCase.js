@@ -12,7 +12,7 @@ import { getStates } from '../../../api/services/states';
 import { getUser } from '../../../api/services/users';
 import GetUserName from './GetUserName';
 
-const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases }) => {
+const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSelectedCases, setOrder }) => {
     
     const [url, setUrl] = useState(null) 
     const [modalDelete, setModalDelete] = useState(false)
@@ -25,6 +25,10 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
     //checkbox
     const [isCheckAll, setIsCheckAll] = useState(false);
   
+    //ORDER
+    const blu = 'royalblue'//'#04A9F5';
+    const [arrowDirection, setArrowDirection] = useState({id: 'up', date: 'up', priority: 'up'});
+    const [arrowStyle, setArrowStyle] = useState({id: `${blu}`, date: 'grey', priority: 'grey'});
 
     useEffect(() => {
 
@@ -66,14 +70,6 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
         
     },[list]);
 
-    if (loading) {
-        return (
-            <Row className='justify-content-md-center'>
-                <Spinner animation='border' variant='primary' size='sm' />
-            </Row>
-        );    
-    }
-
     const storageCaseUrl = (url) => {
         localStorage.setItem('case', url);    
     }
@@ -113,29 +109,71 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
             setSelectedCases(selectedCases.filter(item => item !== id));
         }
     };
+
+    //ORDENAMIENTO
+    const orderBy = (str) => {
+        if(arrowStyle[str] === 'grey'){
+            setArrowStyle({id: 'grey', date: 'grey', priority: 'grey', [str]: blu});
+        } else {
+            setArrowDirection({...arrowDirection, [str]: arrowDirection[str] === 'up' ? 'down' : 'up'});
+        }
+        setOrder(arrowDirection[str] === 'up' ? `-${str}` : `${str}`)
+        setLoading(true);
+    }
+
     
     return (
             <React.Fragment>
                 <Table responsive hover className="text-center">
                     <thead>
                         <tr>
+                            {list.length > 0 ?
                             <th>
                                 <Form.Group>
                                     <Form.Check custom type="checkbox" id={"selectAll"} 
                                         onChange={handleSelectAll} checked={selectedCases.length != 0 ? isCheckAll : false} /> 
                                 </Form.Group>
                             </th>
-                            <th>Id</th>
-                            <th>Fecha</th>
-                            <th>Prioridad</th>
+                            :
+                            <th>
+                                <Form.Group>
+                                    <Form.Check custom type="checkbox" disabled />
+                                </Form.Group>
+                            </th>
+                            }
+                            <th>Id
+                                <a href="#" id="sort-arrow" onClick={() => orderBy('id')}>
+                                    <i class={`sm feather icon-arrow-${arrowDirection.id}`} style={{color:`${arrowStyle.id}`}}></i>
+                                </a>
+                            </th>
+                            <th>Fecha
+                                <a href="#" id="sort-arrow" onClick={() => orderBy('date')}>
+                                    <i class={`sm feather icon-arrow-${arrowDirection.date}`} style={{color:`${arrowStyle.date}`}}></i>
+                                </a>
+                            </th>
+                            <th>Prioridad
+                                <a href="#" id="sort-arrow" onClick={() => orderBy('priority')}>
+                                    <i class={`sm feather icon-arrow-${arrowDirection.priority}`} style={{color:`${arrowStyle.priority}`}}></i>
+                                </a>
+                            </th>
                             <th>TLP</th>
                             <th>Estado</th>
                             <th>Asignado</th>
                             <th>Accion</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((caseItem, index) => {
+                    {loading ? 
+                        <tr>
+                            <td colSpan="7">
+                                <Row className="justify-content-md-center">
+                                    <Spinner animation="border" variant="primary" size="sm" />
+                                </Row>
+                            </td>
+                        </tr>
+                        :
+                        list.map((caseItem, index) => {
                             let datetime = caseItem.date.split('T');
                             datetime = datetime[0] + ' ' + datetime[1].slice(0,8)
                             let idItem = caseItem.url.split('/')[(caseItem.url.split('/')).length-2]

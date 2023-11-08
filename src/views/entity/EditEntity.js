@@ -5,21 +5,39 @@ import { putEntity } from '../../api/services/entities';
 import FormEntity from './components/FormEntity';
 import Navigation from '../../components/Navigation/Navigation';
 import Alert from '../../components/Alert/Alert';
+import { getEntity } from '../../api/services/entities';
 
 const EditEntity = () => {
     const location = useLocation();
     const fromState = location.state;
     const [entity, setEntity] = useState(fromState);
-    const [name, setName] = useState(entity.name);
-    const [active, setActive] = useState(entity.active);
+    const [name, setName] = useState('');
+    const [active, setActive] = useState('');
 
     //Alert
     const [showAlert, setShowAlert] = useState(false);
+
+    useEffect(() => {
+
+        if(entity){
+            setName(entity.name);
+            setActive(entity.active);
+        } else {
+            const entityUrl = localStorage.getItem('entity');
+            console.log("STORAGE")
+            getEntity(entityUrl)
+            .then((response) => {
+                setEntity(response.data)
+            }).catch(error => console.log(error));
+          
+          }
+    }, [entity]);
 
     //Update
     const editEntity = () => {
         putEntity(entity.url, name, active)
         .then((response) => { 
+            localStorage.removeItem('entity');
             window.location.href = "/entities"
         })
         .catch(() => {
