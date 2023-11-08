@@ -10,6 +10,7 @@ import { postArtifact } from "../../../api/services/artifact";
 import { postStringIdentifier } from "../../../api/services/stringIdentifier";
 import Alert from '../../../components/Alert/Alert';
 
+
 const animatedComponents = makeAnimated();
 //{createEvent, setBody, body, feeds, taxonomy, tlp, priorities, users, listArtifact, setContactsCreated}
 const FormEvent = (props) => {
@@ -116,88 +117,79 @@ const FormEvent = (props) => {
                         
                             <th></th>
                             <Form.Group controlId="formGridAddress1">
-                            <Form.Label>Fecha </Form.Label>
+                            <Form.Label>Fecha <b style={{color:"red"}}>*</b></Form.Label>
                             <Form.Control 
                                 type ="datetime-local"
                                 maxlength="150" 
                                 value ={props.body.date} 
                                 onChange={(e)=>completeField(e)}
-                                isInvalid={props.body.date === ""}
                                 name="date"/>
                             </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
                         <Form.Group controlId="exampleForm.ControlSelect1">
-                        <Form.Label>TLP</Form.Label>
+                        <Form.Label>TLP<b style={{color:"red"}}>*</b></Form.Label>
                         <Form.Control  
                             type="choice"
                             as="select" 
                             name="tlp" 
                             value ={props.body.tlp} 
-                            onChange={(e)=>completeField(e)} 
-                            isInvalid={props.body.tlp === "-1"}>
+                            onChange={(e)=>completeField(e)} >
                             <option value="-1">Seleccione un tlp</option>
                             {props.tlp.map((tlp) => {
                                 return(<option value={tlp.url}> {tlp.name} </option>)
                             })}
                         </Form.Control>
-                        {(props.body.tlp !== "-1") ? '' : <div className="invalid-feedback">Seleccione un tlp</div>}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
                         <Form.Group controlId="exampleForm.ControlSelect1">
-                        <Form.Label>Taxonomia</Form.Label>
+                        <Form.Label>Taxonomia<b style={{color:"red"}}>*</b></Form.Label>
                         <Form.Control  
                             type="choice"
                             as="select" 
                             name="taxonomy" 
                             value ={props.body.taxonomy} 
-                            onChange={(e)=>completeField(e)} 
-                            isInvalid={props.body.taxonomy === "-1"}>
+                            onChange={(e)=>completeField(e)} >
                             <option value="-1">Seleccione una taxonomia</option>
                             {props.taxonomy.map((taxonomy) => {
                                 return(<option value={taxonomy.url}> {taxonomy.name} </option>)
                             })}
                         </Form.Control>
-                        {(props.body.taxonomy !== "-1") ? '' : <div className="invalid-feedback">Seleccione una taxonomia</div>}
                         </Form.Group>
                     </Col>
                 </Row>       
                 <Row>
                 <Col sm={12} lg={4}>
                     <Form.Group controlId="exampleForm.ControlSelect1">
-                    <Form.Label>Fuente de Informacion</Form.Label>
+                    <Form.Label>Fuente de Informacion<b style={{color:"red"}}>*</b></Form.Label>
                     <Form.Control  
                         type="choice"
                         as="select" 
                         name="feed" 
                         value ={props.body.feed} 
-                        onChange={(e)=>completeField(e)} 
-                        isInvalid={props.body.feed === "-1"}>
+                        onChange={(e)=>completeField(e)} >
                         <option value="-1">Seleccione una Fuente de Informacion</option>
                         {props.feeds.map((feed) => {
                             return(<option value={feed.url}> {feed.name} </option>)
                         })}
                     </Form.Control>
-                    {(props.body.feed !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Fuente de Informacion</div>}
                     </Form.Group>
                 </Col>
                 <Col sm={12} lg={4}>
                     <Form.Group controlId="exampleForm.ControlSelect1">
-                    <Form.Label>Prioridades</Form.Label>
+                    <Form.Label>Prioridades<b style={{color:"red"}}>*</b></Form.Label>
                     <Form.Control  
                         type="choice"
                         as="select" 
                         name="priority" 
                         value ={props.body.priority} 
-                        onChange={(e)=>completeField(e)} 
-                        isInvalid={props.body.priority === "-1"}>
+                        onChange={(e)=>completeField(e)} >
                         <option value="-1">Seleccione una Prioridad</option>
                         {props.priorities.map((priority) => {
                             return(<option value={priority.url}> {priority.name} </option>)
                         })}
                     </Form.Control>
-                    {(props.body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Prioridad</div>}
                     </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
@@ -262,7 +254,7 @@ const FormEvent = (props) => {
                 <Card.Title as="h5">Recursos afectados</Card.Title>
             </Card.Header>
            <Card.Body>
-            <Form.Label>CIDR, Domino o Email</Form.Label>
+            <Form.Label>CIDR, Domino o Email<b style={{color:"red"}}>*</b></Form.Label>
                 <Row>
                 <Col sm={12} lg={6}>
                     <Form.Group controlId="formGridAddress1">
@@ -271,9 +263,9 @@ const FormEvent = (props) => {
                         maxlength="150" 
                         value ={props.body.address_value} 
                         onChange={(e)=>completeFieldStringIdentifier(e)}
-                        isInvalid={showErrorMessage || props.body.address_value === ""}
+                        isInvalid={showErrorMessage }
                         name="address_value"/>
-                        {showErrorMessage  || props.body.address_value === ""  ?  <div className="invalid-feedback"> Debe ingresar IPv4,IPv6, Nombre de domino o Email</div>  : "" }
+                        {showErrorMessage    ?  <div className="invalid-feedback"> Debe ingresar IPv4,IPv6, Nombre de domino o Email</div>  : "" }
                     </Form.Group> 
                 </Col>
             </Row>

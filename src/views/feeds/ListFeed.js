@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getFeeds } from '../../api/services/feeds';
-import ButtonView from './components/ButtonView';
-import ButtonDelete from './components/ButtonDelete';
-import ButtonState from './components/ButtonState';
 import CrudButton from '../../components/Button/CrudButton';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation';
@@ -97,9 +94,7 @@ const ListFeed = () => {
                                 </Col>  
                             </Row>                                                                           
                         </Card.Header>
-                        <Card.Body>
-                            <TableFeed setOrder={setOrder} list={feeds} loading={loading} setLoading={setLoading}/>
-                        </Card.Body>
+                        <TableFeed feeds={feeds} loading={loading}/>
                         <Card.Footer >
                             <Row className="justify-content-md-center">
                                 <Col md="auto"> 

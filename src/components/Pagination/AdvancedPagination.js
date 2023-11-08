@@ -1,7 +1,7 @@
 import Pagination from 'react-bootstrap/Pagination';
 import React, { useState, useEffect } from 'react';
 
-const AdvancedPagination = ({ countItems, updatePage, parentCurrentPage = -1 }) => {
+const AdvancedPagination = ({ countItems, updatePage,updatePagination, setUpdatePagination, parentCurrentPage = -1 }) => {
 
   const [currentPage, setCurrentPage ] = useState(1); 
   const [initPage, setInitPage] = useState(1);
@@ -15,8 +15,9 @@ const AdvancedPagination = ({ countItems, updatePage, parentCurrentPage = -1 }) 
   useEffect(() => { 
 
     // First time to set lastPage
-    if (countItems > 10 && lastPage === 1) {
+    if (updatePagination) {// no se actualiza por lastpage
       setLastPage(Math.ceil(countItems / 10));
+      setUpdatePagination(false)
     }
 
     if (parentCurrentPage ===-1) {
@@ -39,7 +40,7 @@ const AdvancedPagination = ({ countItems, updatePage, parentCurrentPage = -1 }) 
 
     }
    
-  }, [countItems, lastPage]);
+  }, [countItems, lastPage, updatePagination]);
 
   const updateCurrentPage = (chosenPage) => { 
     setCurrentPage(chosenPage);

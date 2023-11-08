@@ -53,6 +53,7 @@ function TableUsers({users, loading}) {
 
   const showModalUser = (user) => {
     setUser(user)
+    console.log("algo")
     setModalShow(true)
    
   }
@@ -71,21 +72,10 @@ function TableUsers({users, loading}) {
         .catch((error) => {
             setError(error);
             setShowAlert(true)           
-          })
+            })
         .finally(()=>{
             setShowState(false)
         })
-        /*.then((response) => {
-            callback(message, true)
-        })
-        .catch((error) => {
-                setError(error)
-                callback(message, false)
-            })
-            .finally(() => {
-                setShowState(false)
-                setModalShow(false)
-            })*/
     }
     const resetShowAlert = () => {
         setShowAlert(false);
@@ -116,11 +106,11 @@ function TableUsers({users, loading}) {
                                         <td>{user.first_name}</td>
                                         <td>{user.email}</td>
                                         <td>
-                                        <ActiveButton active={+user.is_active} onClick={() => showModalChangeState(user.url,user.username, user.is_active)} />
+                                        <ActiveButton active={user.is_active} onClick={() => showModalChangeState(user.url,user.username, user.is_active)} />
                                         </td>
                                         <td>{user.last_login ? user.last_login.slice(0,10)+" "+user.last_login.slice(11,19) : "No inicio sesion"}</td>
                                         <td>
-                                        <CrudButton  type='read' onClick={() => showModalUser(user) }/>
+                                        <CrudButton  type='read'  onClick={() => showModalUser(user) }/>
                                         <Link to={{pathname:"/users/edit", state: user}} >
                                             <CrudButton  type='edit' />
                                         </Link>

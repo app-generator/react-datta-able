@@ -23,11 +23,11 @@ const getTemplate = (url) => {
 });
 }
 
-const postTemplate = (cidr,domain,active,priority,event_taxonomy,event_feed,case_lifecycle,case_tlp,case_state) => {
+const postTemplate = (address_value,active,priority,event_taxonomy,event_feed,case_lifecycle,case_tlp,case_state) => {
   let messageSuccess = `La plantilla se pudo crear correctamente`;
   let messageError = `La plantilla no se pudo crear`;
-  const body = domain == "" ?  {
-    cidr: cidr,
+  const body = {
+    address_value: address_value,
     active: active,
     priority: priority,
     event_taxonomy: event_taxonomy,
@@ -35,17 +35,7 @@ const postTemplate = (cidr,domain,active,priority,event_taxonomy,event_feed,case
     case_lifecycle: case_lifecycle,
     case_tlp: case_tlp,
     case_state: case_state
-  } : {
-    cidr: cidr,
-    domain: domain,
-    active: active,
-    priority: priority,
-    event_taxonomy: event_taxonomy,
-    event_feed: event_feed,
-    case_lifecycle: case_lifecycle,
-    case_tlp: case_tlp,
-    case_state: case_state
-  }
+  } 
   return apiInstance.post(COMPONENT_URL.template, body).then(response => {
     setAlert(messageSuccess, "success");
     return response;
@@ -55,12 +45,11 @@ const postTemplate = (cidr,domain,active,priority,event_taxonomy,event_feed,case
 });
 }
 
-const putTemplate = ( url, cidr,domain,active,priority,event_taxonomy,event_feed,case_lifecycle,case_tlp,case_state) => {
+const putTemplate = ( url, address_value,active,priority,event_taxonomy,event_feed,case_lifecycle,case_tlp,case_state) => {
   let messageSuccess = `La plantilla se pudo editar correctamente`;
     let messageError = `La plantilla no se pudo editar`;
   return apiInstance.put(url, {
-    cidr: cidr,
-    domain: domain,
+    address_value: address_value,
     active: active,
     priority: priority,
     event_taxonomy: event_taxonomy,
@@ -89,6 +78,24 @@ const deleteTemplate = (url) => {
 })
 }
 
+const getAllTemplate = (currentPage = 1, results = [], limit = 100) => {
+            
+  return apiInstance.get(COMPONENT_URL.template, { params: { page: currentPage, page_size: limit } })       
+      .then((response) => {
+          let res = [...results, ...response.data.results]                                    
+          if(response.data.next != undefined){                                
+              return getAllTemplate(++currentPage, res, limit)
+          }
+          else{
+              return res;     
+          }                  
+      })
+      .catch((error) => {
+          return Promise.reject(error);            
+      })   
+
+}
+
 const isActive = (url, active) =>{
   let messageSuccess = !active ? `La plantilla ha sido desactivado` : `La plantilla ha sido activado`;
   let messageError = `La plantilla no se pudo modificar`;
@@ -103,4 +110,4 @@ const isActive = (url, active) =>{
 });
 }
 
-export  {getTemplates, getTemplate, postTemplate, putTemplate, deleteTemplate, isActive}
+export  {getTemplates, getTemplate, postTemplate, putTemplate, deleteTemplate, isActive, getAllTemplate}
