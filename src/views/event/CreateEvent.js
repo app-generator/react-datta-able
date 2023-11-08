@@ -51,6 +51,7 @@ const CreateEvent = () => {
   useEffect( ()=> {
     const fetchPosts = async () => {
         setLoading(true)
+        
         getTLP().then((response) => { 
           console.log(response.data.results)
           setTLP(response.data.results)

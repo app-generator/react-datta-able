@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Spinner } from 'react-bootstrap';
+import { Row, Col, Card, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getFeeds } from '../../api/services/feeds';
-import ButtonView from './components/ButtonView';
-import ButtonDelete from './components/ButtonDelete';
-import ButtonState from './components/ButtonState';
 import CrudButton from '../../components/Button/CrudButton';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
+import TableFeed from './components/TableFeed';
 
 
 const ListFeed = () => {    
@@ -96,38 +94,7 @@ const ListFeed = () => {
                                 </Col>  
                             </Row>                                                                           
                         </Card.Header>
-                        <Card.Body>                            
-                            <Table responsive hover>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nombre</th>
-                                        <th>Activo</th>
-                                        <th>Casos Asociados</th>                                                                                  
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {list.sort((a, b) => (a.name < b.name ? -1 : 1)).map((feed,i) => (
-                                        <tr key={i}>
-                                            <th scope="row">{i+1}</th>
-                                            <td>{feed.name}</td>
-                                            <td>
-                                                <ButtonState feed={feed}></ButtonState>
-                                            </td>
-                                            <td>24256</td>
-                                            <td>
-                                                <ButtonView feed={feed}></ButtonView>
-                                                <Link to={{pathname:"./feeds/edit", state:feed}} >
-                                                    <CrudButton type="edit" />                                                    
-                                                </Link>    
-                                                <ButtonDelete feed={feed}></ButtonDelete>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
-                        </Card.Body>
+                        <TableFeed feeds={feeds} loading={loading}/>
                         <Card.Footer >
                             <Row className="justify-content-md-center">
                                 <Col md="auto"> 

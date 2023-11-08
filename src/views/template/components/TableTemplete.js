@@ -1,6 +1,6 @@
 import React,{ useState} from 'react'
 import {
-    Button,Card, Table , Modal, Row,Col, Form, Badge,CloseButton, Spinner
+    Button,Card, Table , Modal, Row,Col, Form, CloseButton, Spinner
   } from 'react-bootstrap';
 import CrudButton from '../../../components/Button/CrudButton';
 import {Link} from 'react-router-dom'
@@ -8,7 +8,9 @@ import ActiveButton from '../../../components/Button/ActiveButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import { deleteTemplate, isActive } from "../../../api/services/templates";
 import Alert from '../../../components/Alert/Alert';
-
+import CallBackendByName from '../../../components/CallBackendByName'; 
+import { getTaxonomy } from '../../../api/services/taxonomies';
+import { getFeed } from '../../../api/services/feeds';
 
 const TableTemplete = (props) => {
   const [deleteName, setDeleteName] = useState()
@@ -70,19 +72,29 @@ const handleDelete = () => {
     .finally(()=>{ 
         setShowTemplate(false)
     })
-
-    /*.catch((error) => {
-            console.log(error)
-            setError(error)
-        })
-        .finally(() => {
-            setShowTemplate(false)
-        })*/
     }
+
     const resetShowAlert = () => {
         setShowAlert(false);
     }
-   
+
+    const callbackTaxonomy = (url ,setPriority) => {
+        getTaxonomy(url)
+        .then((response) => {
+         
+            setPriority(response.data)
+        })
+        .catch();
+    }
+    const callbackFeed = (url ,setPriority) => {
+        getFeed(url)
+        .then((response) => {
+         
+            setPriority(response.data)
+        })
+        .catch();
+    }
+   console.log(props.list)
 
   return (
     <React.Fragment>
@@ -93,9 +105,10 @@ const handleDelete = () => {
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Cidr</th>
+                                <th>Fuentes de información</th>
+                                <th>Taxonomia </th>
+                                <th>Dominio afectado</th>
                                 <th>Estado</th>
-                                <th>Dominio</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
@@ -104,11 +117,12 @@ const handleDelete = () => {
                             return (
                                         <tr>
                                             <th >{index + 1 }</th>
-                                            <td>{template.cidr}</td>
+                                            <td><CallBackendByName url={template.event_feed} callback={callbackFeed} useBadge={false}/></td>
+                                            <td><CallBackendByName url={template.event_taxonomy} callback={callbackTaxonomy} useBadge={false}/> </td>
+                                            <td>{template.address_value} </td>
                                             <td>
                                             <ActiveButton active={+template.active} onClick={() => modalChangeState(template.url, template.cidr, template.active)} />
                                             </td>
-                                            <td>{template.domain} </td>
                                             <td>
                                             <CrudButton  type='read' onClick={() => showModalTemplate(template) }/>
                                             <Link to={{pathname:"/templates/edit", state: template}} >

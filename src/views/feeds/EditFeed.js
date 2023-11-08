@@ -1,27 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Button, Breadcrumb } from 'react-bootstrap';
-import DropdownState from '../../components/Dropdown/DropdownState'
+import { Row, Col, Card, } from 'react-bootstrap';
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import { putFeed } from '../../api/services/feeds';
-import { validateName, validateDescription, validateUnrequiredInput } from '../../utils/validators/feed';
 import Navigation from '../../components/Navigation/Navigation';
+import FormFeed from './components/FormFeed'
+import { getFeed } from '../../api/services/feeds';
 
 
 const EditFeed = () => {
     const location = useLocation();
     const fromState = location.state;
-    const [feed, setFeed] = useState(fromState);
-
-    const [name, setName] = useState(feed.name);
-    const [active, setActive] = useState(feed.active);
-    const [description, setDescription] = useState(feed.description);
+    const [url, setUrl] = useState("");
+    const [name, setName] = useState("");
+    const [active, setActive] = useState(true);
+    const [description, setDescription] = useState("");
     const [error, setError] = useState(null);
     const [showAlert, setShowAlert] = useState(false)
 
-    
+    useEffect(() => {                
+        getFeed(fromState.url).then((response) => {
+            setUrl(response.data.url)
+            setName(response.data.name)
+            setActive(response.data.active)
+            setDescription(response.data.description)
+            console.log(response.data)
+        })
+        .catch((error)=>{
+            setError(error)
+        })
+        .finally(() => {
+
+        })
+    }, []);
+
     const editFeed = ()=> {
-        putFeed(feed.url, name, description, active)
+        putFeed(url, name, description, active)
         .then(() => {
             window.location.href = '/feeds';
         })
@@ -51,55 +65,7 @@ const EditFeed = () => {
                             <Card.Title as="h5">Fuente de Informacion</Card.Title>
                         </Card.Header>
                         <Card.Body>
-                            <Form>       
-                                <Row>
-                                    <Col sm={12} lg={6}>
-                                        <Form.Group>
-                                            <Form.Label>Nombre <b style={{color:"red"}}>*</b></Form.Label>
-                                            <Form.Control 
-                                                type="text"  
-                                                defaultValue={feed.name} 
-                                                onChange={(e) => setName(e.target.value)}  
-                                                isInvalid={!validateName(name)} 
-                                            />
-                                            {validateName(name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col sm={12} lg={6}>
-                                        <Form.Group>
-                                            <Form.Label>Descripcion</Form.Label>
-                                            <Form.Control 
-                                                as="textarea" 
-                                                rows={3} 
-                                                defaultValue={feed.description} 
-                                                onChange={(e) => setDescription(e.target.value)} 
-                                                isInvalid={(validateUnrequiredInput(description)) ? !validateDescription(description) : false} 
-                                            />
-                                            {validateDescription(description) ? '' : <div className="invalid-feedback">Ingrese una descripcion que contenga hasta 250 caracteres y que no sea vacía</div>}
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col sm={12} lg={1}>
-                                        <Form.Group>
-                                            <Form.Label>Estado</Form.Label>
-                                            <DropdownState state={feed.active} setActive={setActive}></DropdownState>
-                                        </Form.Group>   
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Form.Group as={Col}>
-                                    { validateName(name) ?
-                                        <Button variant="primary" onClick={editFeed}>Guardar</Button>
-                                        :
-                                        <Button variant="primary" disabled>Guardar</Button>                                        
-                                    }                            
-                                    <Button variant="info" href='/feeds'>Cancelar</Button>
-                                    </Form.Group>
-                                </Row>                                            
-                            </Form>
+                        <FormFeed  name={name} setName={setName} active={active} setActive={setActive} description={description} setDescription={setDescription} createFeed={editFeed}/>
                         </Card.Body>
                     </Card>
                 </Col>                    

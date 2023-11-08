@@ -5,15 +5,12 @@ import {
 import CallBackendByName from '../../components/CallBackendByName'; 
 import CallBackendByType from '../../components/CallBackendByType'; 
 import { getTaxonomy } from '../../api/services/taxonomies';
-import { getEvidence } from '../../api/services/evidences';
-import { getEvent } from '../../api/services/events';
 import { getPriority } from '../../api/services/priorities';
 import { getTLPSpecific } from '../../api/services/tlp';
 import { getFeed } from '../../api/services/feeds';
 import { useLocation } from "react-router-dom";
 import Navigation from '../../components/Navigation/Navigation'
 import { getArtefact } from '../../api/services/artifact';
-import CrudButton from '../../components/Button/CrudButton';
 import ViewFiles from '../../components/Button/ViewFiles';
 
 const ReadEvent = () => {

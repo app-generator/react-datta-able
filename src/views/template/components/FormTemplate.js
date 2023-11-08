@@ -1,30 +1,41 @@
-import React, {useState} from 'react'
+import React,{useState} from 'react'
 import {Card, Form, Button,Row, Col} from 'react-bootstrap'
-import { validateCidr, validateURL, validateSpaces} from '../../../utils/validators';
+import { postStringIdentifier } from "../../../api/services/stringIdentifier";
+import Select from 'react-select';
 
 const FormTemplate = (props) => {
 
   const lifeCicle= ["manual","auto","auto_open","auto_close"]
+  const [showErrorMessage, setShowErrorMessage] = useState(false)
+  const [error,setError]=useState()
 
   const completeField=(event)=>{ 
     props.setBody({...props.body,
         [event.target.name] : event.target.value}
     )    
   }
-  
-  const invalidDomain =()=>{
-    if(props.body.cidr !== ""){
-        return false
-    }  
-    return props.body.domain === '' || !validateURL(props.body.domain)
+
+  const completeFieldStringIdentifier=(event)=>{ 
+       
+    if (event.target.value !==""){ 
+        postStringIdentifier(event.target.value).then((response) => { 
+            console.log(response.data.artifact_type)
+            console.log(event.target.value)
+            setShowErrorMessage(response.data.artifact_type === "OTHER" )        
+        })
+        .catch((error) => {
+            setError(error)
+        }).finally(() => {
+            console.log("finalizo")
+        })   
+    }
+
+    if (event.target.value === "" ){
+        setShowErrorMessage(false)//para que no aparesca en rojo si esta esta el input vacio en el formulario
+    }   
+    props.setBody({...props.body,[event.target.name] : event.target.value}) 
   }
 
-  const invalidCidr =() =>{
-    if (props.body.domain !== ""){
-        return false
-    }  
-    return !validateCidr(props.body.cidr)  || props.body.cidr === '' 
-  }
   return (
     <React.Fragment>
         <Card>
@@ -46,7 +57,7 @@ const FormTemplate = (props) => {
                     onChange={(e)=>completeField(e)} 
                     isInvalid={props.body.event_taxonomy === "-1"}>
                     <option value="-1">Seleccione una taxonomia</option>
-                    {props.taxonomy.map((taxonomy, index) => {
+                    {props.taxonomy.map((taxonomy) => {
                         return(<option value={taxonomy.url}> {taxonomy.name} </option>)
                     })}
                  
@@ -66,7 +77,7 @@ const FormTemplate = (props) => {
                     onChange={(e)=>completeField(e)} 
                     isInvalid={props.body.event_feed === "-1"}>
                     <option value="-1">Seleccione una Fuente de Informacion</option>
-                    {props.feeds.map((feed, index) => {
+                    {props.feeds.map((feed) => {
                         return(<option value={feed.url}> {feed.name} </option>)
                     })}
                  
@@ -74,37 +85,32 @@ const FormTemplate = (props) => {
                 {(props.body.event_feed !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Fuente de Informacion</div>}
                 </Form.Group>
               </Col>
-            <Col sm={12} lg={4}>
-            <Form.Group controlId="formGridAddress1">
-                <Form.Label>CIDR afectado</Form.Label>
-                <Form.Control 
-                    placeholder="Ingrese " 
-                    maxlength="150" 
-                    disabled={ props.body.domain !== "" }
-                    value ={props.body.cidr} 
-                    onChange={(e)=>completeField(e)}
-                    
-                    isInvalid={invalidCidr() }
-                    name="cidr"/>
-                </Form.Group>  
-                </Col>
-            
-                <Col sm={12} lg={4}>
-                <Form.Group controlId="formGridAddress1">
-                <Form.Label>Dominio afectado</Form.Label>
-                <Form.Control 
-                    placeholder="Ingrese" 
-                    maxlength="150"
-                    disabled={props.body.cidr !== "" }
-                    value ={props.body.domain} 
-                    onChange={(e)=>completeField(e)} 
-                    isInvalid={ invalidDomain()}
-                    name="domain"/>
-                </Form.Group> 
-                </Col>
+           
             </Row>
             </Form>
             </Card.Body>
+        </Card>
+        <Card>
+            <Card.Header>
+                <Card.Title as="h5">Recursos afectados</Card.Title>
+            </Card.Header>
+           <Card.Body>
+            <Form.Label>CIDR, Domino o Email<b style={{color:"red"}}>*</b></Form.Label>
+                <Row>
+                <Col sm={12} lg={6}>
+                    <Form.Group controlId="formGridAddress1">
+                    <Form.Control 
+                        placeholder="Ingrese IPv4,IPv6, Nombre de domino o Email" 
+                        maxlength="150" 
+                        value ={props.body.address_value} 
+                        onChange={(e)=>completeFieldStringIdentifier(e)}
+                        isInvalid={showErrorMessage }
+                        name="address_value"/>
+                        {showErrorMessage    ?  <div className="invalid-feedback"> Debe ingresar IPv4,IPv6, Nombre de domino o Email</div>  : "" }
+                    </Form.Group> 
+                </Col>
+            </Row>
+          </Card.Body>
         </Card>
         <Card>
             <Card.Header>
@@ -125,7 +131,7 @@ const FormTemplate = (props) => {
                        onChange={(e)=>completeField(e)} 
                        isInvalid={props.body.case_tlp === "-1"}>
                        <option value="-1">Seleccione un tlp</option>
-                       {props.tlp.map((tlp, index) => {
+                       {props.tlp.map((tlp) => {
                            return(<option value={tlp.url}> {tlp.name} </option>)
                        })}
                    
@@ -145,7 +151,7 @@ const FormTemplate = (props) => {
                     onChange={(e)=>completeField(e)} 
                     isInvalid={props.body.priority === "-1"}>
                     <option value="-1">Seleccione una Prioridad</option>
-                    {props.priorities.map((priority, index) => {
+                    {props.priorities.map((priority) => {
                         return(<option value={priority.url}> {priority.name} </option>)
                     })}
                  
@@ -164,7 +170,7 @@ const FormTemplate = (props) => {
                     onChange={(e)=>completeField(e)} 
                     isInvalid={props.body.case_state === "-1"}>
                     <option value="-1">Seleccione un Estado</option>
-                    {props.states.map((state, index) => {
+                    {props.states.map((state) => {
                         return(<option value={state.url}> {state.name} </option>)
                     })}
                 </Form.Control>
