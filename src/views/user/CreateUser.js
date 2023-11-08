@@ -3,7 +3,6 @@ import { Card, Form } from 'react-bootstrap';
 import { postUser } from "../../api/services/users";
 import { getAllPriorities } from "../../api/services/priorities";
 import Alert from '../../components/Alert/Alert';
-import setAlert from '../../utils/setAlert';
 import FormUser from './components/FormUser'
 import Navigation from '../../components/Navigation/Navigation'
 

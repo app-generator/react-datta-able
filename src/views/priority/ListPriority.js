@@ -17,13 +17,14 @@ const ListPriorities = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [countItems, setCountItems] = useState(0);
   const [showAlert, setShowAlert] = useState(false)
+  const [wordToSearch, setWordToSearch]= useState('')
 
   function updatePage(chosenPage){
     setCurrentPage(chosenPage);
   }
 
   useEffect(() => {
-      getPriorities('?page='+currentPage).then((response) => {
+      getPriorities('?'+wordToSearch+'page='+currentPage).then((response) => {
           //es escencial mantener este orden ya que si no proboca bugs en el paginado
           setPriorities(response.data.results)
           setCountItems(response.data.count)
@@ -36,10 +37,14 @@ const ListPriorities = () => {
         setLoading(false)
     })
   
-  }, [countItems, currentPage])
+  }, [countItems, currentPage, wordToSearch])
   
-  const action = () => {
-    console.log("llamada backend")
+  const action = (search) => {
+    setWordToSearch("search="+search+'&')
+    if (wordToSearch !== "search="+search+'&'){ // este if esta porque si no hay cambios en el WordToSearch 
+                                                //haciendo que no se vuelva a ejecutar el useEffect y qeu al setearce setloading en true quede en un bucle infinito
+      setLoading(true)
+    }
   }
 
   const resetShowAlert = () => {

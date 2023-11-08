@@ -50,7 +50,7 @@ const CrudButton = ({type, name, onClick}) => {
             <Button 
                 className={button[type].class} 
                 variant={button[type].variant} 
-                title={button[type].title}
+                tite={button[type].title}
                 onClick={onClick}>
                     <i className={button[type].icon} />
                 {button[type].text}
