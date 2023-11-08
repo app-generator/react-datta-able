@@ -25,11 +25,9 @@ const TableFeed = ({ setOrder, list, loading, setLoading }) => {
             setArrowDirection({...arrowDirection, [str]: arrowDirection[str] === 'up' ? 'down' : 'up'});
         }
         setOrder(arrowDirection[str] === 'up' ? `-${str}` : `${str}`)
-
         //setLoading(true);
-        
     }
-
+    
 
     const storageFeedUrl = (url) => {
         localStorage.setItem('feed', url);    

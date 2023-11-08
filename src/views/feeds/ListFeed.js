@@ -32,6 +32,8 @@ const ListFeed = () => {
         .then((response) => {
             setFeeds(response.data.results)
             setLoading(false)
+            console.log(order);
+
             //PAGINATION
             setCountItems(response.data.count)
         })

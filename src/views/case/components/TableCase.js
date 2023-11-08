@@ -112,11 +112,15 @@ const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSe
 
     //ORDENAMIENTO
     const orderBy = (str) => {
-        setLoading(true);
-        setArrowDirection({...arrowDirection, [str]: arrowDirection[str] === 'up' ? 'down' : 'up'});
-        setArrowStyle({id: 'grey', date: 'grey', priority: 'grey', [str]: blu});
+        if(arrowStyle[str] === 'grey'){
+            setArrowStyle({id: 'grey', date: 'grey', priority: 'grey', [str]: blu});
+        } else {
+            setArrowDirection({...arrowDirection, [str]: arrowDirection[str] === 'up' ? 'down' : 'up'});
+        }
         setOrder(arrowDirection[str] === 'up' ? `-${str}` : `${str}`)
+        setLoading(true);
     }
+
     
     return (
             <React.Fragment>

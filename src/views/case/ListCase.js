@@ -36,12 +36,12 @@ const ListCase = () => {
 
     
     useEffect( ()=> {
-
+        
         getCases(currentPage, order) 
             .then((response) => {
                 setCases(response.data.results)
                 setLoading(false)
-
+                console.log(order);
                 // Pagination
                 setCountItems(response.data.count);
             })
