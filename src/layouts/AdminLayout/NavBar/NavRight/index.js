@@ -6,7 +6,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import axios from 'axios';
 
 import ChatList from './ChatList';
-import { LOGOUT } from './../../../../store/actions';
+import { LOGOUT, CLEAR_MESSAGE } from './../../../../store/actions';
 import { logout } from '../../../../api/services/auth';
 import { store } from './../../../../store';
 
@@ -28,6 +28,9 @@ const NavRight = () => {
         logout().finally(() => {
             dispatch({
                 type: LOGOUT,
+            });
+            dispatch({
+                type: CLEAR_MESSAGE
             });
         });
         
