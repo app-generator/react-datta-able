@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {Button, Col, Row, Form} from 'react-bootstrap';
 import { validateName, validateContact, validateSelect } from '../../../utils/validators/contact'; 
 import FormContactSelectUsername from './FormContactSelectUSername';
-import { getPriorities } from '../../../api/services/priorities';
+import { getAllPriorities } from '../../../api/services/priorities';
 
 const FormCreateContact = (props) => { 
     // props: name, setName, role, setRole, priority, setPriority, type, setType, contact, setContact, keypgp, setKey, ifConfirm, ifCancel
@@ -12,9 +12,9 @@ const FormCreateContact = (props) => {
 
     useEffect(()=> {
 
-        getPriorities()
+        getAllPriorities()
             .then((response) => {
-                setPrioritiesOption(Object.values(response.data.results))
+                setPrioritiesOption(Object.values(response))
                 console.log(response.data.results)
             })
             .catch((error)=>{
@@ -88,7 +88,6 @@ const FormCreateContact = (props) => {
                                 onChange={(e) => props.setName(e.target.value)} 
                                 isInvalid={!validateName(props.name)}                                
                             />
-                            {validateName(props.name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, letras y/o numeros y que no sea vacio</div>}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
@@ -107,7 +106,6 @@ const FormCreateContact = (props) => {
                                     );
                                 })}
                             </Form.Control>
-                            {validateSelect(props.role) ? '' : <div className="invalid-feedback">Seleccione el rol</div>}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
@@ -127,7 +125,6 @@ const FormCreateContact = (props) => {
                                     );
                                 })}
                             </Form.Control>
-                            {validateSelect(props.priority) ? '' : <div className="invalid-feedback">Seleccione la prioridad</div>}
                         </Form.Group>
                     </Col>
                 </Row>
@@ -148,7 +145,6 @@ const FormCreateContact = (props) => {
                                     );
                                 })}
                             </Form.Control>
-                            {validateSelect(props.type) ? '' : <div className="invalid-feedback">Seleccione el tipo de contacto</div>}
                         </Form.Group>
                     </Col>
                     <Col lg={8}>

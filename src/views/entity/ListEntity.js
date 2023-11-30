@@ -25,15 +25,12 @@ const ListEntity = () => {
     //AdvancedPagination
     const [currentPage, setCurrentPage] = useState(1);
     const [countItems, setCountItems] = useState(0);
+    const [updatePagination, setUpdatePagination] = useState(false)
+    const [disabledPagination, setDisabledPagination] = useState(true)
 
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }
-    useEffect( ()=> {
-
-
-        
-    }, [])
 
     useEffect( ()=> {
 
@@ -50,6 +47,10 @@ const ListEntity = () => {
                 setEntities(response.data.results);
                 // Pagination
                 setCountItems(response.data.count);
+                if(currentPage === 1){
+                    setUpdatePagination(true)  
+                }
+                setDisabledPagination(false)
             })
             .catch((error) => {
                 // Show alert
@@ -59,7 +60,7 @@ const ListEntity = () => {
                 setLoading(false)
             })
         
-    }, [countItems, currentPage, isModify])
+    }, [currentPage, isModify])
 
     // ------- SEARCH --------
     const action = () => {
@@ -98,12 +99,12 @@ return (
                         </Row>
                     </Card.Header>
                     <Card.Body>
-                        <TableEntity setIsModify={setIsModify} list={entities} loading={loading} currentPage={currentPage}/>
+                        <TableEntity setIsModify={setIsModify} list={entities} loading={loading} currentPage={currentPage} />
                     </Card.Body>
                     <Card.Footer >
                         <Row className="justify-content-md-center">
                             <Col md="auto"> 
-                                <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+                                <AdvancedPagination countItems={countItems} updatePage={updatePage} updatePagination={updatePagination} setUpdatePagination={setUpdatePagination} setLoading={setLoading} setDisabledPagination={setDisabledPagination} disabledPagination={disabledPagination}/> 
                             </Col>
                         </Row>
                     </Card.Footer>

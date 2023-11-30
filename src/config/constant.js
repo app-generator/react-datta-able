@@ -54,5 +54,6 @@ export const COMPONENT_URL={
     login: "ctoken/",
     searchCase: "search/case/",
     logout: "ctoken/logout/",
-    refreshCookieToken: "ctoken/refresh/"
+    refreshCookieToken: "ctoken/refresh/",
+    stringidentifier:"stringidentifier/"
 };

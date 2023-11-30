@@ -17,10 +17,11 @@ const CreateEvent = () => {
     todos: [],
     artifacts: [], 
     comments: null, // verificar aca si escribo y borro todo, se envia "" lo mismo para notes
-    cidr: "",
-    domain: "", //cuidado con cargar "" , si o si tiene que ser requerido me lo pide por que no tine un atributo filter
+    //cidr: "",
+    //domain: "", //cuidado con cargar "" , si o si tiene que ser requerido me lo pide por que no tine un atributo filter
+    address_value:"",
     date: "",
-    notes: null, 
+    notes: "", 
     parent: [],
     priority: "-1",
     tlp: "-1",
@@ -50,6 +51,7 @@ const CreateEvent = () => {
   useEffect( ()=> {
     const fetchPosts = async () => {
         setLoading(true)
+        
         getTLP().then((response) => { 
           console.log(response.data.results)
           setTLP(response.data.results)
@@ -127,6 +129,7 @@ const CreateEvent = () => {
   const createEvent=()=>{
     
     const formDataEvent = new FormData();
+    console.log(body.date)
 
     //console.log(fecha.toISOString())//YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]
 
@@ -136,15 +139,18 @@ const CreateEvent = () => {
     formDataEvent.append("tlp", body.tlp)
     formDataEvent.append("taxonomy", body.taxonomy)
     formDataEvent.append("feed", body.feed)
-    formDataEvent.append("domain", body.domain)
+    //if (body.domain !== ""){
+    //  formDataEvent.append("domain", body.domain)
+    //}
     formDataEvent.append("todos", body.todos)
     formDataEvent.append("comments", body.comments)
-    formDataEvent.append("cidr", body.cidr)
+    //formDataEvent.append("cidr", body.cidr)
     formDataEvent.append("notes", body.notes)
     formDataEvent.append("parent", body.parent)
     formDataEvent.append("reporter", body.reporter)
     formDataEvent.append("case", body.case) 
     formDataEvent.append("tasks", body.tasks)
+    formDataEvent.append("address_value", body.address_value)
     if (evidence !== null){
       for (let index=0; index< evidence.length  ; index++){
         formDataEvent.append("evidence", evidence[index])
@@ -159,9 +165,6 @@ const CreateEvent = () => {
     });
 
     postEvent(formDataEvent)
-    /*postEvent(f, body.children, body.todos, body.artifacts, body.comments, body.cidr, 
-      body.domain, body.date, body.evidence_file_path, body.notes, body.parent, body.priority, body.tlp, 
-      body.taxonomy, body.feed, body.reporter, body.case, body.tasks)*/
       .then(() => {
         window.location.href = '/events';
     })

@@ -7,9 +7,10 @@ import { deletePriority } from "../../../api/services/priorities";
 import CrudButton from '../../../components/Button/CrudButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import Alert from '../../../components/Alert/Alert';
+import Ordering from '../../../components/Ordering/Ordering'
 
 
-const TablePriorities = ({Priorities, loading}) => {
+const TablePriorities = ({Priorities, loading, order, setOrder, setLoading, currentPage}) => {
     const [remove, setRemove] = useState(false);
     const [deleteName, setDeleteName] = useState("");
     const [deleteUrl, setDeleteUrl] = useState("");
@@ -42,6 +43,7 @@ const TablePriorities = ({Priorities, loading}) => {
             window.location.href = '/priorities';
           })
           .catch((error) => {
+            setRemove(false)
             setShowAlert(true)
             setError(error);
           })
@@ -61,7 +63,7 @@ const TablePriorities = ({Priorities, loading}) => {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nombre</th>
+                            <Ordering field="name" label="Nombre" order={order} setOrder={setOrder} setLoading={setLoading} />
                             <th>Fecha limite de respuesta</th>
                             <th>Fecha limite de resolucion </th>
                             <th>Opciones</th>
@@ -69,9 +71,11 @@ const TablePriorities = ({Priorities, loading}) => {
                    </thead>
                     <tbody>
                        {Priorities.map((priority, index) => {
+                        const parts = priority.url.split("/");
+                        let itemNumber = parts[parts.length - 2];
                         return (
                             <tr>
-                                <th >{index + 1 }</th>
+                                <th >{ 1+index+10*(currentPage-1) }</th>
                                 <td>{priority.name}</td>
                                 <td>{priority.attend_time}</td>
                                 <td>{priority.solve_time}</td>
@@ -131,6 +135,12 @@ const TablePriorities = ({Priorities, loading}) => {
                                         <td>Severidad</td>
                                         <td>
                                             <Form.Control plaintext readOnly defaultValue={priority.severity} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cantidad de notificaciones</td>
+                                        <td>
+                                            <Form.Control plaintext readOnly defaultValue={priority.notification_amount} />
                                         </td>
                                     </tr>
                                     <tr>

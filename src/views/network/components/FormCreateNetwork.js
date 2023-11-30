@@ -10,6 +10,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import DropdownState from '../../../components/Dropdown/DropdownState';
 import Alert from '../../../components/Alert/Alert';
+import { postStringIdentifier } from "../../../api/services/stringIdentifier";
 
 
 const animatedComponents = makeAnimated();
@@ -35,6 +36,7 @@ const FormCreateNetwork = (props) => {
     const [supportedContact, setSupportedContact] = useState('');
     const [supportedKey, setSupportedKey] = useState(null);
     const [selectType, setSelectType] = useState('');
+    const [showErrorMessage, setShowErrorMessage] = useState(false)
 
     //Alert
     const [showAlert, setShowAlert] = useState(false);
@@ -82,6 +84,25 @@ const FormCreateNetwork = (props) => {
         console.log(contactsValueLabel);
         console.log(props.network_entity);
 
+    const completeFieldStringIdentifier=(event)=>{ 
+    
+        if (event.target.value !==""){ 
+            postStringIdentifier(event.target.value).then((response) => { 
+                setShowErrorMessage(response.data.artifact_type === "OTHER" || response.data.artifact_type === "EMAIL")        
+            })
+            .catch((error) => {
+                setError(error)
+            }).finally(() => {
+                console.log("finalizo")
+            })   
+        }
+
+        if (event.target.value === "" ){
+            setShowErrorMessage(false)//para que no aparesca en rojo si esta esta el input vacio en el formulario
+        }   
+        props.setAddress_value(event.target.value)
+    }
+
     //Create Contact
     const createContact = () => { //refactorizar al FormContact
 
@@ -120,55 +141,6 @@ const FormCreateNetwork = (props) => {
                                 <option key={1} value='internal'>Interna</option>
                                 <option key={2} value='external'>Externa</option>                                
                             </Form.Control>
-                            {validateSelect(props.type) ? '' : <div className="invalid-feedback">Seleccione el tipo de red</div>}
-                        </Form.Group>
-                    </Col>
-                    <Col sm={12} lg={4}>
-                        <Form.Group controlId="Form.Network.Cidr">
-                            <Form.Label>CIDR <b style={{color:"red"}}>*</b></Form.Label>
-                            <Form.Control 
-                                type="cidr" 
-                                placeholder="CIDR" 
-                                maxlength="18"
-                                value={props.cidr} 
-                                isInvalid={ !validateNetworkCIDR(props.cidr) }
-                                onChange={(e) => props.setCidr(e.target.value)}
-                            />
-                            {validateNetworkCIDR(props.cidr) ? "" : <div className="invalid-feedback">Ingrese un CIDR valido</div>}
-                        </Form.Group>
-                    </Col>
-                    <Col sm={12} lg={4}>
-                        <Form.Group controlId="Form.Network.Parent">
-                            <Form.Label>Red Padre</Form.Label>
-                            <Form.Control
-                                name="parent"
-                                type="choice"
-                                as="select"
-                                value={props.parent}
-                                onChange={(e) => props.setParent(e.target.value)}>
-                                    {props.edit ? '' : <option key={0} value={null}> </option>}
-                                    {networksOption.map((net, index) => {   
-                                        return (
-                                            <option key={index} value={net.cidr}>{net.cidr}</option>
-                                        )})}
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col sm={12} lg={4}>
-                        <Form.Group controlId="Form.Network.Domain">
-                            <Form.Label>Dominio</Form.Label>
-                            <Form.Control 
-                                type="domain" 
-                                placeholder="Dominio" 
-                                maxlength="100"
-                                value={ props.domain } 
-                                isInvalid={(validateUnrequiredInput(props.domain)) ? !validateNetworkDomain(props.domain) : false}
-                                onChange={ (e) => props.setDomain(e.target.value) } 
-                            />
-                            {!validateNetworkDomain(props.domain) ? <div className="invalid-feedback">Ingrese un dominio valido</div> : ''}
                         </Form.Group>
                     </Col>
                     <Col sm={12} lg={4}>
@@ -180,14 +152,32 @@ const FormCreateNetwork = (props) => {
                                 as="select"
                                 value={props.network_entity}
                                 onChange={(e) => props.setNetwork_entity(e.target.value)}>
-                                    {props.edit ? '' : <option key={0} value={null}> </option>}
+                                    {props.edit ? '' : <option key={0} value={null}>Seleccione una entidad </option>}
                                     {entitiesOption.map((entityItem, index) => {                
+                                         
                                         return (
+                                           
                                             <option key={index} value={entityItem.url}>{entityItem.name}</option>
                                         );
                                     })}
                             </Form.Control>
-                        </Form.Group>
+                        </Form.Group>                        
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col sm={12} lg={8}>
+                        <Form.Label>CIDR o Domino<b style={{color:"red"}}>*</b></Form.Label>
+                        <Form.Group controlId="formGridAddress1">
+                        <Form.Control 
+                            placeholder="Ingrese IPv4,IPv6, Nombre de domino o Email" 
+                            maxlength="150" 
+                            onChange={(e)=>completeFieldStringIdentifier(e)}
+                            value ={props.address_value} 
+                            isInvalid={showErrorMessage }
+                            name="address_value"/>
+                            {showErrorMessage    ?  <div className="invalid-feedback"> Debe ingresar IPv4,IPv6 o Nombre de domino </div>  : "" }
+                        </Form.Group> 
                     </Col>
                 </Row>
                 <Row>
@@ -227,7 +217,7 @@ const FormCreateNetwork = (props) => {
                 <Row>
                     <Col>
                         <Form.Group>
-                            { validateNetworkCIDR(props.cidr) && validateSelect(props.type) && (props.contacts.length > 0) ?  
+                            { validateSelect(props.type) && (props.contacts.length > 0) ?  
                                 <><Button variant="primary" onClick={props.ifConfirm } >Guardar</Button></>
                                 : 
                                 <><Button variant="primary" disabled>Guardar</Button></> //disabled

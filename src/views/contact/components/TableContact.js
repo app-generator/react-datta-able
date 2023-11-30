@@ -6,18 +6,18 @@ import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import PriorityButton from '../../../components/Button/PriorityButton';
 
-const TableContact = ({setIsModify, list, loading }) => {
+const TableContact = ({setIsModify, list, loading ,currentPage}) => {
     const [contact, setContact] = useState('')
 
     const [modalShow, setModalShow] = useState(false)
     const [modalDelete, setModalDelete] = useState(false)
-    const [url, setUrl] = useState(null)
-    const [id, setId] = useState(null)
-    const [name, setName] = useState(null);
-    const [created, setCreated] = useState(null)
-    const [modified, setModified] = useState(null)
-    const [type, setType] = useState(null)
-    const [role, setRole] = useState(null)
+    const [url, setUrl] = useState('')
+    const [id, setId] = useState('')
+    const [name, setName] = useState('');
+    const [created, setCreated] = useState('')
+    const [modified, setModified] = useState('')
+    const [type, setType] = useState('')
+    const [role, setRole] = useState('')
 
     if (loading) {
         return (
@@ -85,6 +85,10 @@ const TableContact = ({setIsModify, list, loading }) => {
         uri : 'URI',
     };
 
+    const storageContactUrl = (url) => {
+        localStorage.setItem('contact', url);    
+    }
+
     return (
             <React.Fragment>
                 <Table responsive hover className="text-center">
@@ -102,7 +106,7 @@ const TableContact = ({setIsModify, list, loading }) => {
                         {list.map((contact, index) => {
                             return (
                                 <tr key={contact.url}>
-                                <th scope="row">{index+1}</th>
+                                <th scope="row">{ 1+index+10*(currentPage-1) }</th>
                                 <td>{contact.name}</td>
                                 <td>{labelRole[contact.role]}</td>
                                 <td>{contact.username}</td>
@@ -110,7 +114,7 @@ const TableContact = ({setIsModify, list, loading }) => {
                                 <td>
                                     <CrudButton type='read' onClick={() => showContact(contact.url)} />
                                     <Link to={{pathname:'/contacts/edit', state: contact}} >
-                                        <CrudButton type='edit'/>
+                                        <CrudButton type='edit' onClick={() => storageContactUrl(contact.url)}/>
                                     </Link>
                                     <CrudButton type='delete' onClick={() => Delete(contact.url, contact.name)} />
                                 </td>

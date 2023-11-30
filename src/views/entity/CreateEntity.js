@@ -39,7 +39,7 @@ const CreateEntity = () => {
                         </Card.Header>
                         <Card.Body>
                             <Row>
-                                <Col sm={12} lg={6}>
+                                <Col sm={12} lg={12}>
                                     <FormEntity 
                                         name={name} setName={setName} 
                                         ifConfirm={addEntity} edit={false} />

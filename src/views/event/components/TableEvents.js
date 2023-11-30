@@ -1,34 +1,33 @@
-import React,{ useState} from 'react'
+import React,{ useState, useEffect} from 'react'
 import {
   Button,Card, Table , Modal, Row,Col, Form, CloseButton, Spinner
 } from 'react-bootstrap';
 import {Link} from 'react-router-dom'
-import { deletePriority } from "../../../api/services/priorities";
 import CrudButton from '../../../components/Button/CrudButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import CallBackendByName from '../../../components/CallBackendByName'; 
 import { getTaxonomy } from '../../../api/services/taxonomies';
-import { getPriority } from '../../../api/services/priorities';
 import { getTLPSpecific } from '../../../api/services/tlp';
 import { getFeed } from '../../../api/services/feeds';
 import { deleteEvent} from "../../../api/services/events";
+import Ordering from '../../../components/Ordering/Ordering'
 
-
-
-
-
-
-const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelectedEvent}) => {
+const TableEvents = ({events, loading, selectedEvent, setSelectedEvent, order, setOrder, setLoading, currentPage}) => {
 
     const [deleteName, setDeleteName] = useState()
     const [deleteUrl, setDeleteUrl] = useState()
     const [remove, setRemove] = useState()
     const [error, setError] = useState(null);
-    const [event, setEvent] = useState({});
     const [modalShow, setModalShow] = useState(false);
     //checkbox
     const [isCheckAll, setIsCheckAll] = useState(false);
-    
+    const [list, setList] = useState([]);
+
+    useEffect(() => { 
+        setList(events)
+        console.log(events)
+       
+      }, [events]);
    
     if (loading) {
         return (
@@ -37,10 +36,12 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
             </Row>
         );    
     }
+
+    
     const callbackTaxonomy = (url ,setPriority) => {
         getTaxonomy(url)
         .then((response) => {
-            console.log(response)
+         
             setPriority(response.data)
         })
         .catch();
@@ -48,7 +49,7 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
     const callbackTlp = (url ,setPriority) => {
         getTLPSpecific(url)
         .then((response) => {
-            console.log(response)
+          
             setPriority(response.data)
         })
         .catch();
@@ -56,21 +57,12 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
     const callbackFeed = (url ,setPriority) => {
         getFeed(url)
         .then((response) => {
-            console.log(response)
+         
             setPriority(response.data)
         })
         .catch();
     }
-    const callbackPriority = (url ,set) => {
-        getPriority(url)
-        .then((response) => {
-            console.log(response)
-            set(response.data)
-        })
-        .catch();
-    }
     
-
     const modalDelete = (name, url)=>{
         setDeleteName(name)
         setDeleteUrl(url) 
@@ -78,7 +70,6 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
     }
 
     const handleDelete = () => {
-        console.log(deleteUrl)
         deleteEvent(deleteUrl).then(() => {
             window.location.href = '/events';
           })
@@ -86,11 +77,6 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
             setError(error);
           })
     }
-    const showModalEvent = (event) => {
-        setEvent(event)
-        setModalShow(true)
-       
-      }
         ////////////////////////////////////////////////////
      
     const handleSelectAll = e => {
@@ -109,8 +95,6 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
         }
       };
     
-      console.log(selectedEvent);
-    
       ////////////////////////////////////////////////////
     
   return (
@@ -120,12 +104,14 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
                 <Table responsive hover>
                     <thead>
                         <tr>
-                            <th><Form.Group>
-                                    <Form.Check custom type="checkbox" id={"selectAll"} 
+                            <th>
+                                <Form.Group>
+                                    <Form.Check type="checkbox" id={"selectAll"}  
                                         onChange={handleSelectAll} checked={selectedEvent.length != 0 ? isCheckAll : false} /> {/*|| selectedCases == list.filter(item => item.solve_date == null).length */}
                                 </Form.Group>
                             </th>
-                            <th>Fecha</th>
+                            <th>#</th>
+                            <Ordering field="date" label="Fecha" order={order} setOrder={setOrder} setLoading={setLoading} />
                             <th>TLP</th>
                             <th>Taxonomia</th>
                             <th>Fuente de Informacion</th>
@@ -133,14 +119,17 @@ const TableEvents = ({events, loading, loadingTaxonomy, selectedEvent, setSelect
                         </tr>
                    </thead>
                     <tbody>
-                    {events.map((event, index) => {
+                    {list.map((event, index) => {
                         return (
                             <tr>
                                 <th ><Form.Group>
                                             <Form.Check disabled={event.solve_date != null ? true : false} 
                                                 type="checkbox" id={event.url} 
                                                 onChange={handleClick} checked={selectedEvent.includes(event.url)} />
-                                        </Form.Group></th>
+                                        </Form.Group>
+                                </th>
+                                <td>{1+index+10*(currentPage-1)}</td>
+
                                 <td>{event.date ? event.date.slice(0,10)+" "+event.date.slice(11,19): ""}</td>
                                 
                                 <td><CallBackendByName url={event.tlp} callback={callbackTlp } useBadge={true}/></td>

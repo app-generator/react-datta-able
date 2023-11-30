@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Button, Card, Col, Form, Row} from 'react-bootstrap';
-import { getPriorities } from '../../../api/services/priorities';
+import { getAllPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { getUsers } from '../../../api/services/users';
 import ViewFiles from '../../../components/Button/ViewFiles';
@@ -9,20 +9,21 @@ import FileList from '../../../components/UploadFiles/FileList/FileList'
 import Alert from '../../../components/Alert/Alert';
 import { putCase, postCase } from '../../../api/services/cases';
 
+
 const FormCase = (props) => {  // props: edit, caseitem, allStates 
 
     const [url, setUrl] = useState(props.edit ? props.caseItem.url : null) 
-    const [date, setDate] = useState(props.caseItem.date  != null ? props.caseItem.date.substr(0,16) : '') 
+    const [date, setDate] = useState(props.caseItem.date  !== null ? props.caseItem.date.substr(0,16) : '') 
     const [lifecycle, setLifecycle] = useState(props.caseItem.lifecycle) 
     const [parent, setParent] = useState(props.caseItem.parent) 
     const [priority, setPriority] = useState(props.caseItem.priority) 
     const [tlp, setTlp] = useState(props.caseItem.tlp) 
     const [assigned, setAssigned] = useState(props.caseItem.assigned)
     const [state, setState] = useState(props.caseItem.state) 
-    const [comments, setComments] = useState(props.caseItem.comments) 
+    const [comments, setComments] = useState([]) 
     const [evidences, setEvidences] = useState(props.caseItem.evidence)
-    const [attend_date, setAttend_date] = useState(props.caseItem.attend_date != null ? props.caseItem.attend_date.substr(0,16) : '') 
-    const [solve_date, setSolve_date] = useState(props.caseItem.solve_date!= null ? props.caseItem.solve_date.substr(0,16) : '')
+    const [attend_date, setAttend_date] = useState(props.caseItem.attend_date !== null ? props.caseItem.attend_date.substr(0,16) : '') 
+    const [solve_date, setSolve_date] = useState(props.caseItem.solve_date!== null ? props.caseItem.solve_date.substr(0,16) : '')
 
     //select
     const [allPriorities, setAllPriorities ] = useState([])
@@ -35,12 +36,15 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
     //desactivar button al hacer post
     const [ifClick, setIfClick] = useState(false);
 
+    //commet
+    const [ comm, setComm ] = useState();
+
     useEffect(()=> {
         
-        getPriorities()
+        getAllPriorities()
         .then((response) => {
-            setAllPriorities (Object.values(response.data.results))
-            console.log(response.data.results)
+            setAllPriorities (Object.values(response))
+            console.log(response)
         })
         .catch((error)=>{
             console.log(error)
@@ -125,26 +129,35 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
         const form = new FormData();
         form.append("date", date)
         form.append("lifecycle",lifecycle)
-        if(parent != null) {
+        if(parent !== null) {
             form.append("parent", parent)
         }
         form.append("priority", priority)
         form.append("tlp", tlp)
-        if(assigned != null) {
+        if(assigned !== null) {
             form.append("assigned", assigned)
         }
         form.append("state", state)
-        form.append("comments", null)
         form.append("attend_date", attend_date)
         form.append("solve_date", solve_date)
         //form.append("evidence", evidences)
         if (evidences !== null){
             for (let index=0; index< evidences.length  ; index++){
-            form.append("evidence", evidences[index])
-            console.log(evidences[index])
+                form.append("evidence", evidences[index])
+                console.log(evidences[index])
             }
-        }else{
+        }/*else{
             form.append("evidence", evidences)
+        }
+        */
+        if (comm !== null){
+            let array = comments;
+            array.push(comm)
+            setComments((e) => [...e, comm])
+            console.log(comm);
+            console.log(array);
+            console.log(comments);
+            form.append("comments", comm)   
         }
         console.log(form)
 
@@ -152,6 +165,7 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
         .then((response) => { 
             console.log(response)
             window.location.href = "/cases"
+            
         })
         .catch((error) => {
             setShowAlert(true)
@@ -165,16 +179,15 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
         const form = new FormData();
         form.append("date", date)
         form.append("lifecycle",lifecycle)
-        if(parent != null) {
+        if(parent !== null) {
             form.append("parent", parent)
         }
         form.append("priority", priority)
         form.append("tlp", tlp)
-        if(assigned != null) {
+        if(assigned !== null) {
             form.append("assigned", assigned)
         }
         form.append("state", state)
-        form.append("comments", null)
         form.append("attend_date", attend_date)
         form.append("solve_date", solve_date)
         //form.append("evidence", evidences)
@@ -183,15 +196,27 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
             form.append("evidence", evidences[index])
             console.log(evidences[index])
             }
-        }else{
+        }/*else{
             form.append("evidence", evidences)
         }
+        */
+        if (comm !== null){
+            let array = comments;
+            array.push(comm)
+            setComments((e) => [...e, comm])
+            console.log(comm);
+            console.log(array);
+            console.log(comments);
+            form.append("comments", array)   
+        }
+
         console.log(form)
 
         postCase(form)
         .then((response) => { 
             console.log(response)
             window.location.href = "/cases"
+
         })
         .catch((error) => {
             console.log(error.data)
@@ -199,7 +224,7 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
             setIfClick(false)
         });    
     };
-    
+
     return (
         <React.Fragment>  
             <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)} component="case"/>
@@ -211,12 +236,10 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                     <Row>
                         <Col lg={4} sm={12}>
                             <Form.Group controlId="Form.Case.Date">
-                                <Form.Label>Fecha de ocurrencia</Form.Label>
+                                <Form.Label>Fecha de ocurrencia <b style={{color:"red"}}>*</b></Form.Label>
                                 <Form.Control type="datetime-local" //2023-03-24T01:40:14.181622Z 
                                     value={date} //yyyy-mm-ddThh:mm
                                     min="2000-01-01T00:00" max="2030-01-01T00:00" 
-                                    isInvalid={date == null}
-                                    isValid={date !== null}
                                     onChange={(e) => setDate(e.target.value)}/>
                             </Form.Group>
                         </Col>
@@ -251,14 +274,12 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                     <Row>
                         <Col lg={3} sm={12}>                        
                             <Form.Group controlId="Form.Case.Priority">
-                                <Form.Label>Prioridad</Form.Label>
+                                <Form.Label>Prioridad <b style={{color:"red"}}>*</b></Form.Label>
                                 <Form.Control
                                     name="priority"
                                     type="choice"                                            
                                     as="select"
                                     value={priority}
-                                    isInvalid={priority == '0'}
-                                    isValid={priority !== '0'}
                                     onChange={(e) => setPriority(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {allPriorities.map((priorityItem, index) => {                
@@ -275,14 +296,12 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                         
                         <Col lg={3} sm={12}>
                             <Form.Group controlId="Form.Case.Lifecycle">
-                                <Form.Label>Ciclo de vida</Form.Label>
+                                <Form.Label>Ciclo de vida <b style={{color:"red"}}>*</b></Form.Label>
                                 <Form.Control
                                     name="lifecycle"
                                     type="choice"                                            
                                     as="select"
                                     value={lifecycle}
-                                    isInvalid={lifecycle == '0'}
-                                    isValid={lifecycle !== '0'}
                                     onChange={(e) => setLifecycle(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {allLifecycles.map((lifecycleItem, index) => {                
@@ -300,14 +319,12 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
 
                         <Col lg={3} sm={12}>
                             <Form.Group controlId="Form.Case.Tlp">
-                                <Form.Label>TLP</Form.Label>
+                                <Form.Label>TLP <b style={{color:"red"}}>*</b></Form.Label>
                                 <Form.Control
                                     name="tlp"
                                     type="choice"                                            
                                     as="select"
                                     value={tlp}
-                                    isInvalid={tlp == '0'}
-                                    isValid={tlp !== '0'}
                                     onChange={(e) => setTlp(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {allTlp.map((tlpItem, index) => {                
@@ -324,14 +341,12 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
 
                         <Col lg={3} sm={12}>
                             <Form.Group controlId="Form.Case.State">
-                                <Form.Label>Estado</Form.Label>
+                                <Form.Label>Estado <b style={{color:"red"}}>*</b></Form.Label>
                                 <Form.Control
                                     name="state"
                                     type="choice"                                            
                                     as="select"
                                     value={state}
-                                    isInvalid={state == '0'}
-                                    isValid={state !== '0'}
                                     onChange={(e) => setState(e.target.value)}>
                                     <option value='0'>Seleccione</option>
                                     {props.allStates.map((stateItem, index) => {                
@@ -366,15 +381,19 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                             </Form.Group>
                         </Col>
 
-                        {props.edit ? 
                         <Col lg={3} sm={12}>
                             <Form.Group controlId="Form.Case.Comments">
-                                <Form.Label>Comentarios ???</Form.Label>
-                                <Form.Control placeholder="Comentarios" />
+                                <Form.Label>Comentarios</Form.Label>
+                                <Form.Control 
+                                    type="text"
+                                    name="comment" 
+                                    placeholder="Comentarios" 
+                                    maxlength="100"
+                                    value={comm} 
+                                    onChange={(e) => setComm(e.target.value)} 
+                                />
                             </Form.Group>
-                            </Col>                        
-                        : <></>}
-
+                        </Col>
                     </Row>
                 </Card.Body>
             </Card>
@@ -433,29 +452,6 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
             </Card>
 
             }
-
-{/*
-        <Card>
-            <Card.Header>
-                <Card.Title as="h5">Evidencias</Card.Title>
-            </Card.Header>
-            <Card.Body>
-                <Form>   
-                    <Form.Group controlId="Form.Case.Evidences.Drag&Drop">                       
-                        <Form.Control 
-                        type="file"
-                        placeholder="Ingrese " 
-                        maxlength="150" 
-                        multiple
-                        onChange={(e)=>selectEvidences(e)}
-                        name="evidence"/>
-                    </Form.Group> 
-                </Form>
-            </Card.Body>
-        </Card>
-            */}
-
-
                  
             {!date || !lifecycle || !priority || !tlp || !state || ifClick  ? 
                 <><Button variant="primary" disabled>{props.save}</Button></> 

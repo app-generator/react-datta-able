@@ -16,10 +16,10 @@ const getPlaybooks = (currentPage) => {
 }
 
 const getAllPlaybooks = (currentPage = 1, results = [], limit = 100) => {
-    return apiInstance.get(COMPONENT_URL.playbook, { params: { page: currentPage, page_size: limit } })       
+    return apiInstance.get(COMPONENT_URL.playbook, { params: { page: currentPage } })//, page_size: limit
         .then((response) => {
             let res = [...results, ...response.data.results]                                    
-            if(response.data.next != undefined){                                
+            if(response.data.next != null){                                
                 return getAllPlaybooks(++currentPage, res, limit)
             }
             else{

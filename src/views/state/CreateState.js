@@ -15,8 +15,8 @@ const AddState = () => {
  
     const formEmpty={ 
         name: "",//requerido
-        attended: "",//requerido
-        solved: "",//requerido
+        attended: false,//requerido
+        solved: false,//requerido
         active: null,
         description: "",
         children: []

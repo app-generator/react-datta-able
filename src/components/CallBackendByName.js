@@ -10,7 +10,7 @@ const CallBackendByName = ({url, callback, useBadge}) => {
 
         callback(url, setData)
         
-    }, []);
+    }, [url]);
 return (
         data && 
         <React.Fragment>

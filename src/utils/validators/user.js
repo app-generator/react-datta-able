@@ -1,7 +1,7 @@
 import { validateEmail,validateFieldText,validateUsername, validateLength, isEmpty, isBlank} from '../validators';
 
 const validateUserName = (name) =>{
-    return (validateUsername(name) && validateLength(name, 150) && !isEmpty(name))
+    return (validateUsername(name) && validateLength(name, 150) )
 }
 
 const validateName = (name) =>{

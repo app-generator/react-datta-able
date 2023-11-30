@@ -3,11 +3,17 @@ const validateEmail = (email) => {
 }
 
 const validateFieldText = (text) =>{
+    if (text === ""){
+      return true
+    }
     return (/^[A-Za-zÁÉÍÓÚáéíóúñÑ' ]+$/g).test(text)
 }
 
 const validateUsername = (text) =>{
-    return (/^[A-Za-z0-9@.+_' ]+$/g).test(text)
+    if (text === ""){
+      return true
+    }
+    return (/^[a-zA-Z0-9@.+_\-]+$/).test(text)
 }
 
 const  validateSpaces= (text) => {
@@ -15,6 +21,7 @@ const  validateSpaces= (text) => {
 
 }
 const validateSpace= (text) => {
+  
   return (text.trim() != 0)
 }
 
@@ -35,6 +42,9 @@ const isNull = (text) =>{
 }
 
 const validateAlphanumeric = (text) =>{
+  if (text === ""){
+      return true
+  }
   return (/^[A-Za-zÁÉÍÓÚáéíóúñÑ'0-9 ]+$/g).test(text)
 }
 

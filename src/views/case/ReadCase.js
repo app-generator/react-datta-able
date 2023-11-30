@@ -2,18 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, CloseButton, Col, Form, Modal, Row, Table } from 'react-bootstrap';
 import Navigation from '../../components/Navigation/Navigation';
 import { useLocation } from 'react-router-dom';
-import GetUserName from './components/GetUserName';
-import { getUser } from '../../api/services/users';
-import BadgeItem from '../../components/Button/BadgeItem';
 import ViewFiles from '../../components/Button/ViewFiles';
+import { getCase } from '../../api/services/cases';
+import apiInstance from "../../api/api.js";
+
 
 const ReadCase = () => { 
-    //attend_date: por defecto +3horas 
-
-    const caseItem = useLocation().item;
-    const prioritiesOption = useLocation().priority;
-    const tlpOption = useLocation().tlp;
-    const stateOption = useLocation().state;
+    const location = useLocation();
+    const [caseItem, setCaseItem] = useState(location?.state?.item || null);
 
     const [id, setId] = useState('');
     const [date, setDate] = useState('');
@@ -22,12 +18,54 @@ const ReadCase = () => {
     const [created, setCreated] = useState('');
     const [modified, setModified] = useState('');
 
-    const [modalShowEvent, setModalShowEvent] = useState(false);
-    const [modalShowEvidence, setModalShowEvidence] = useState(false);
+    const [assigned, setAssigned] = useState('');
+    const [priority, setPriority] = useState('');
+    const [tlp, setTlp] = useState('');
+    const [state, setState] = useState('');
     
-    useEffect (() => {
-        
-        if(caseItem) {
+    const [modalShowEvent, setModalShowEvent] = useState(false);
+
+    useEffect(() => {
+        if (!caseItem) {
+            const caseUrl = localStorage.getItem('case');
+            console.log("STORAGE")
+            getCase(caseUrl)
+            .then((response) => {
+                setCaseItem(response.data)
+            }).catch(error => console.log(error));
+          
+          }
+
+        const getEvidenceFile = (url) => {
+            return apiInstance.get(url)
+        .then(response => {        
+            return response.data.file;
+        });
+        }
+        const getName = (url, set) => {
+            return apiInstance.get(url)
+            .then(response => {
+                set(response.data.name);
+            });
+        }
+        const getAssignedUser = (url) => {
+            return apiInstance.get(url)
+            .then(response => {
+                setAssigned(response.data.username);
+            });
+        }
+        const formatDate = (dateTime, set) => { //2023-09-11T17:14:20.292538Z
+            let date = dateTime.split('T')
+            set(date[0]+ ' ' + date[1].slice(0,8));
+        }
+
+        if(caseItem){
+            getEvidenceFile(caseItem.evidence).then(r => console.log(r))
+            getName(caseItem.priority, setPriority);
+            getName(caseItem.tlp, setTlp);
+            getAssignedUser(caseItem.user_creator);
+            getName(caseItem.state, setState);
+            
             let idItem = caseItem.url.split('/')[(caseItem.url.split('/')).length-2]
             setId(idItem)
 
@@ -37,21 +75,17 @@ const ReadCase = () => {
             setModified(datetime[0] + ' ' + datetime[1].slice(0,8))
 
             if(caseItem.date){
-                let datetime = caseItem.date.split('T');
-                setDate(datetime[0] + ' ' + datetime[1].slice(0,8))
+                formatDate(caseItem.date, setDate)
             }
             if(caseItem.attend_date){
-                let datetime = caseItem.attend_date.split('T');
-                setAttend_Date(datetime[0] + ' ' + datetime[1].slice(0,8))
+                formatDate(caseItem.attend_date, setAttend_Date)
             }
             if(caseItem.solve_date){
-                let datetime = caseItem.solve_date.split('T');
-                setSolve_Date(datetime[0] + ' ' + datetime[1].slice(0,8))
+                formatDate(caseItem.solve_date, setSolve_Date)
             }
-    }
-}, []) 
-//a.nav-link
-//mr-auto.ml-2 div.toast-header
+        }
+    }, [caseItem]);
+
     return (
         caseItem &&
         <React.Fragment>
@@ -60,7 +94,8 @@ const ReadCase = () => {
             </Row>
             <Row>
                 <Col sm={12}>
-                    <Card>
+
+                <Card>
                         <Card.Header>
                             <Card.Title as="h5">Principal</Card.Title>
                         </Card.Header>
@@ -74,11 +109,11 @@ const ReadCase = () => {
                                         </td>
                                         <td>Prioridad</td>
                                         <td>
-                                            <BadgeItem item={prioritiesOption[caseItem.priority]}/>
+                                            <Form.Control plaintext readOnly defaultValue={priority} />
                                         </td>
                                         <td>TLP</td>
                                         <td>
-                                            <BadgeItem item={tlpOption[caseItem.tlp]}/>
+                                            <Form.Control plaintext readOnly defaultValue={tlp} />
                                         </td>
                                     </tr>
                                     <tr>
@@ -88,23 +123,18 @@ const ReadCase = () => {
                                         </td>
                                         <td>Estado</td>
                                         <td>
-                                            <Form.Control plaintext readOnly defaultValue={stateOption[caseItem.state].name} />
+                                            <Form.Control plaintext readOnly defaultValue={state} />
                                         </td>
                                         <td>Asignado</td>
-                                        {caseItem.assigned ? 
                                         <td>
-                                            <GetUserName form={true} get={getUser} url={caseItem.assigned} />
+                                            <Form.Control plaintext readOnly defaultValue={assigned} />
                                         </td>
-                                        :
-                                        <td>
-                                            <Form.Control plaintext readOnly defaultValue='Sin asignar' />
-                                        </td> 
-                                    }
                                     </tr>
                                 </tbody>
                             </Table>
                         </Card.Body>
                     </Card>
+
                     <Card>
                         <Card.Header>
                             <Card.Title as="h5">Fechas</Card.Title>
@@ -155,6 +185,7 @@ const ReadCase = () => {
                             </Table>
                         </Card.Body>
                     </Card>
+
                     {caseItem.evidence.length > 0 
                     ?
                     <Card>
@@ -186,7 +217,7 @@ const ReadCase = () => {
                                             variant='light'
                                             title='Ir'
                                             onClick={() => setModalShowEvent(true)}>
-                                            <i class="fas fa-external-link-alt"/>
+                                            <i className="fas fa-external-link-alt"/>
                                         </Button> 
                                     </Col>
                                 </Row>
@@ -223,6 +254,9 @@ const ReadCase = () => {
                             </Card.Body>
                         </Card>
                     :<></>}
+
+
+
                     <Button variant="primary" href="/cases">Volver</Button>
                 </Col>
             </Row>
@@ -230,7 +264,7 @@ const ReadCase = () => {
             <Modal size='lg' show={modalShowEvent} onHide={() => setModalShowEvent(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
                 <Modal.Body>
                     <Row>    
-                        <Col>                 
+                        <Col>
                             <Card>
                                 <Card.Header> 
                                     <Row>
@@ -238,7 +272,7 @@ const ReadCase = () => {
                                             <Card.Title as="h5">Evento</Card.Title>
                                             <span className="d-block m-t-5">Detalle de Evento</span>
                                         </Col>
-                                        <Col sm={12} lg={4}>                       
+                                        <Col sm={12} lg={4}>
                                             <CloseButton aria-label='Cerrar' onClick={() => setModalShowEvent(false)} />
                                         </Col>
                                     </Row>         
@@ -249,29 +283,6 @@ const ReadCase = () => {
                     </Row>
                 </Modal.Body>            
             </Modal>
-            <Modal size='lg' show={modalShowEvidence} onHide={() => setModalShowEvidence(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
-                <Modal.Body>
-                    <Row>    
-                        <Col>                 
-                            <Card>
-                                <Card.Header> 
-                                    <Row>
-                                        <Col>
-                                            <Card.Title as="h5">Evidencias</Card.Title>
-                                            <span className="d-block m-t-5">Detalle de Evidencias</span>
-                                        </Col>
-                                        <Col sm={12} lg={4}>                       
-                                            <CloseButton aria-label='Cerrar' onClick={() => setModalShowEvidence(false)} />
-                                        </Col>
-                                    </Row>         
-                                </Card.Header>
-                                <Card.Body>Informacion de la evidencia</Card.Body>
-                            </Card>
-                        </Col> 
-                    </Row>
-                </Modal.Body>            
-            </Modal>
-
         </React.Fragment>
     );
 };

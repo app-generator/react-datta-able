@@ -8,9 +8,9 @@ import CrudButton from '../../../components/Button/CrudButton';
 import ActiveButton from '../../../components/Button/ActiveButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import Alert from '../../../components/Alert/Alert';
+import Ordering from '../../../components/Ordering/Ordering'
 
-
-function TableUsers({users, loading}) {
+function TableUsers({users, loading, order, setOrder, setLoading, currentPage}) {
   const [remove, setRemove] = useState(false);
   const [deleteUsername, setDeleteUsername] = useState("");
   const [deleteUrl, setDeleteUrl] = useState("");
@@ -53,6 +53,7 @@ function TableUsers({users, loading}) {
 
   const showModalUser = (user) => {
     setUser(user)
+    console.log("algo")
     setModalShow(true)
    
   }
@@ -71,21 +72,10 @@ function TableUsers({users, loading}) {
         .catch((error) => {
             setError(error);
             setShowAlert(true)           
-          })
+            })
         .finally(()=>{
             setShowState(false)
         })
-        /*.then((response) => {
-            callback(message, true)
-        })
-        .catch((error) => {
-                setError(error)
-                callback(message, false)
-            })
-            .finally(() => {
-                setShowState(false)
-                setModalShow(false)
-            })*/
     }
     const resetShowAlert = () => {
         setShowAlert(false);
@@ -99,9 +89,9 @@ function TableUsers({users, loading}) {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nombre de usuario</th>
+                            <Ordering field="username" label="Nombre de usuario" order={order} setOrder={setOrder} setLoading={setLoading} />
+                            <Ordering field="email" label="Email" order={order} setOrder={setOrder} setLoading={setLoading} />
                             <th>Nombre</th>
-                            <th>Email</th>
                             <th>Estado</th>
                             <th>Ultimo login</th>
                             <th>Opciones</th>
@@ -109,18 +99,20 @@ function TableUsers({users, loading}) {
                     </thead>
                     <tbody>
                        {users.map((user, index) => {
+                           const parts = user.url.split("/");
+                           let itemNumber = parts[parts.length - 2];
                         return (
                                     <tr>
-                                        <th >{index + 1 }</th>
+                                        <th >{ 1+index+10*(currentPage-1) }</th>
                                         <td>{user.username}</td>
-                                        <td>{user.first_name}</td>
                                         <td>{user.email}</td>
+                                        <td>{user.first_name}</td>
                                         <td>
-                                        <ActiveButton active={+user.is_active} onClick={() => showModalChangeState(user.url,user.username, user.is_active)} />
+                                        <ActiveButton active={user.is_active} onClick={() => showModalChangeState(user.url,user.username, user.is_active)} />
                                         </td>
                                         <td>{user.last_login ? user.last_login.slice(0,10)+" "+user.last_login.slice(11,19) : "No inicio sesion"}</td>
                                         <td>
-                                        <CrudButton  type='read' onClick={() => showModalUser(user) }/>
+                                        <CrudButton  type='read'  onClick={() => showModalUser(user) }/>
                                         <Link to={{pathname:"/users/edit", state: user}} >
                                             <CrudButton  type='edit' />
                                         </Link>

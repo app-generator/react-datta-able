@@ -19,6 +19,7 @@ const EditEvent = () => {
   const fromState = location.state;
   const [event, setEvent] = useState(fromState);  
 
+
     const [alert, setAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(null)
     const [error,setError]=useState()
@@ -37,8 +38,8 @@ const EditEvent = () => {
   useEffect( ()=> {
     event.date = event.date.substr(0,16)
     event.reporter = event.reporter == null ? "": event.reporter
-    event.notes = event.notes == "null" ? "": event.notes
-    console.log(event)
+    event.domain = event.domain == null ? "": event.domain
+    event.cidr = event.cidr == null ? "": event.cidr
     setBody(event)
 
     const fetchPosts = async () => {
@@ -147,7 +148,10 @@ const EditEvent = () => {
       formDataEvent.append("taxonomy", body.taxonomy)
       formDataEvent.append("artifacts", body.artifacts)
       formDataEvent.append("feed", body.feed)
-      formDataEvent.append("domain", body.domain)
+      if (body.domain !== ""){
+        formDataEvent.append("domain", body.domain)
+      }
+      formDataEvent.append("cidr", body.cidr)
       formDataEvent.append("todos", body.todos)
       formDataEvent.append("comments", body.comments)
       //f.append("cidr", body.cidr)// 'null' does not appear to be an IPv4 or IPv6 network"
@@ -156,6 +160,7 @@ const EditEvent = () => {
       formDataEvent.append("reporter", body.reporter)
       //f.append("case", body.case) //"Invalid hyperlink - No URL match.
       formDataEvent.append("tasks", body.tasks)
+
       if (evidence !== null){
         for (let index=0; index< evidence.length  ; index++){
           formDataEvent.append("evidence", evidence[index])
@@ -164,18 +169,23 @@ const EditEvent = () => {
       }else{
         formDataEvent.append("evidence", evidence)
       }
-      body.artifacts.forEach((item) => {
-        console.log(item)
+
+
+      /*body.artifacts.forEach((item) => {
         formDataEvent.append('artifacts', item);
-      });
+      });*/
+      formDataEvent.append('artifacts',body.artifacts);
+
+
       putEvent(body.url,formDataEvent).then(() => {
         window.location.href = '/events';
+        console.log(body)
       })
       .catch((error) => {
           setShowAlert(true) //hace falta?
           setError(error);           
       }) 
-      console.log(body)
+      
          
     }
 
@@ -185,10 +195,7 @@ const EditEvent = () => {
         <Row>
           <Navigation actualPosition="Editar Evento " path="/events" index ="Evento"/>
         </Row>
-          
-              <FormEvent createEvent={editEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated} evidence={evidence} setEvidence={setEvidence}/>
-
-        
+        <FormEvent createEvent={editEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated} evidence={evidence} setEvidence={setEvidence}/>
     </div>
   )
 }

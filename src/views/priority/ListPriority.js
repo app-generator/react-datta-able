@@ -13,20 +13,28 @@ const ListPriorities = () => {
   const [priorities, setPriorities] = useState([])
   const [loading, setLoading] = useState(true)
   const [error,setError]= useState()
-  const [stateAlert, setStateAlert] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [countItems, setCountItems] = useState(0);
   const [showAlert, setShowAlert] = useState(false)
+  const [wordToSearch, setWordToSearch]= useState('')
+  const [updatePagination, setUpdatePagination] = useState(false)
+  const [disabledPagination, setDisabledPagination] = useState(true)
+
+  const [order, setOrder] = useState("");
 
   function updatePage(chosenPage){
     setCurrentPage(chosenPage);
   }
 
   useEffect(() => {
-      getPriorities('?page='+currentPage).then((response) => {
+      getPriorities(currentPage, wordToSearch, order).then((response) => {
           //es escencial mantener este orden ya que si no proboca bugs en el paginado
           setPriorities(response.data.results)
           setCountItems(response.data.count)
+          if(currentPage === 1){
+            setUpdatePagination(true)  
+          }
+          setDisabledPagination(false)
            
       }).catch((error)=>{
         setError(error)
@@ -36,11 +44,7 @@ const ListPriorities = () => {
         setLoading(false)
     })
   
-  }, [countItems, currentPage])
-  
-  const action = () => {
-    console.log("llamada backend")
-  }
+  }, [ currentPage, wordToSearch, order])
 
   const resetShowAlert = () => {
     setShowAlert(false);
@@ -59,7 +63,7 @@ const ListPriorities = () => {
           
           <Row>
             <Col sm={12} lg={9}>
-              <Search type="Prioridad" action={action} />
+              <Search type="por nombre " setWordToSearch={setWordToSearch} wordToSearch={wordToSearch} setLoading={setLoading} />
             </Col>
             <Col sm={12} lg={3}>
               <Link to={"/priorities/create"} >
@@ -69,12 +73,12 @@ const ListPriorities = () => {
           </Row>                                 
         </Card.Header>
         <Card.Body>
-          <TablePriorities Priorities={priorities}  loading={loading} /> 
+          <TablePriorities Priorities={priorities}  loading={loading} order={order} setOrder={setOrder} setLoading={setLoading} currentPage={currentPage}/> 
         </Card.Body>
         <Card.Footer >
             <Row className="justify-content-md-center">
                 <Col md="auto"> 
-                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+                  <AdvancedPagination countItems={countItems} updatePage={updatePage} updatePagination={updatePagination} setUpdatePagination={setUpdatePagination} setLoading={setLoading} setDisabledPagination={setDisabledPagination} disabledPagination={disabledPagination}/>
                 </Col>
             </Row>
         </Card.Footer>

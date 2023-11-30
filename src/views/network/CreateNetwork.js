@@ -15,6 +15,8 @@ const CreateNetwork = () => {
     const [domain, setDomain] = useState(null); // null 
     const [parent, setParent] = useState(null);
     const [network_entity, setNetwork_entity] = useState(null);
+    const [address_value, setAddress_value] = useState("");
+    
     const [error, setError] = useState(null);
 
     //Dropdown
@@ -51,7 +53,7 @@ const CreateNetwork = () => {
 
     const createNetwork = () => {
 
-        postNetwork (children, cidr, domain, active, type, parent, network_entity, contacts) 
+        postNetwork (children, active, type, parent, network_entity, contacts, address_value) 
             .then((response) => { 
             window.location.href = "/networks"
         })
@@ -82,6 +84,7 @@ const CreateNetwork = () => {
                                 type={type} setType={setType}
                                 parent={parent} setParent={setParent}
                                 network_entity={network_entity} setNetwork_entity={setNetwork_entity}
+                                address_value={address_value} setAddress_value={setAddress_value}
                                 contacts={contacts} setContacts={setContacts}
                                 ifConfirm={createNetwork} edit={false}
                                 allContacts={contactsOption}

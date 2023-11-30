@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { Card, Form} from 'react-bootstrap';
-import { putUser} from "../../api/services/users";
+import { putUser, getUser} from "../../api/services/users";
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
 import { getPriorities } from "../../api/services/priorities";
@@ -13,16 +13,18 @@ const EditUser = () => {
     const location = useLocation();
     const fromState = location.state;
     const [user, setUser] = useState(fromState);
-
     const[error,setError]=useState()
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
-    const[body,setBody]=useState(user)
+    const[body,setBody]=useState({})
     const [loading, setLoading] = useState(true)
     const [priorities, setPriorities] = useState()
     const [showAlert, setShowAlert] = useState(false)
 
     useEffect( ()=> {
+
+        getUser(user.url).then((response)=> {
+            setUser(response.data.results)
+            console.log(response.data.results)
+        })
         
         const fetchPosts = async () => {
             setLoading(true)

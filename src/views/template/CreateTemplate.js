@@ -14,18 +14,17 @@ const CreateTemplate = () => {
   const formEmpty={ 
     cidr: "",
     domain: "",
+    address_value: "",
     active: false,
     priority: "-1",
     event_taxonomy: "-1",
     event_feed: "-1",
-    case_lifecycle: "",
+    case_lifecycle: "auto",
     case_tlp: "-1",
     case_state: "-1"
 
   }
   const [body, setBody] = useState(formEmpty)
-  const [alert, setAlert] = useState(null)
-  const [stateAlert, setStateAlert] = useState(null)
   const [error,setError]=useState()
   const [TLP, setTLP] = useState([])
   const [feeds, setFeeds] = useState([])
@@ -102,8 +101,7 @@ const CreateTemplate = () => {
   }
 
   const createTemplate=()=>{
-    console.log(body)
-    postTemplate(body.cidr,body.domain,body.active,body.priority,body.event_taxonomy,body.event_feed,body.case_lifecycle,body.case_tlp,body.case_state)
+    postTemplate(body.address_value,body.active,body.priority,body.event_taxonomy,body.event_feed,body.case_lifecycle,body.case_tlp,body.case_state)
     .then(() => {
       window.location.href = '/templates';
     })

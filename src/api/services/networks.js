@@ -2,9 +2,9 @@ import apiInstance from "../api";
 import setAlert from '../../utils/setAlert';
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 
-const getNetworks = (currentPage) => {
+const getNetworks = (currentPage, filters,order) => {
     let messageError = `No se ha recuperado la informacion de redes. `;
-    return apiInstance.get(COMPONENT_URL.network + PAGE + currentPage)
+    return apiInstance.get(COMPONENT_URL.network + PAGE + currentPage + '&ordering=' + order +'&' + filters)
     .then(response => {        
         return response;
     }).catch( error => { 
@@ -27,14 +27,14 @@ const getNetwork = (url) => {
     });
 }
 const getAllNetworks = (currentPage = 1, results = [], limit = 100) => {
-    return apiInstance.get(COMPONENT_URL.network, { params: { page: currentPage, page_size: limit } })       
+    return apiInstance.get(COMPONENT_URL.network, { params: { page: currentPage } })//, page_size: limit
         .then((response) => {
             let res = [...results, ...response.data.results]                                    
-            if(response.data.next != undefined){                                
+            if(response.data.next !== null){                                
                 return getAllNetworks(++currentPage, res, limit)
             }
             else{
-                return res;     
+                return res;
             }                  
         })
         .catch((error) => {
@@ -42,13 +42,12 @@ const getAllNetworks = (currentPage = 1, results = [], limit = 100) => {
         })   
 }
 
-const postNetwork = (children, cidr, domain, active, type, parent, network_entity, contacts) => {
-    let messageSuccess = `La red ${cidr} se ha creado correctamente.`;
-    let messageError = `La red ${cidr} no se ha creado. `;
+const postNetwork = (children, active, type, parent, network_entity, contacts, address_value) => {
+    let messageSuccess = `La red ${address_value} se ha creado correctamente.`;
+    let messageError 
     return apiInstance.post(COMPONENT_URL.network, {        
         children: children,
-        cidr: cidr, //*
-        domain: domain,
+        address_value: address_value,
         active: active,
         type: type,
         parent: parent,
@@ -58,21 +57,23 @@ const postNetwork = (children, cidr, domain, active, type, parent, network_entit
         setAlert(messageSuccess, "success", "network");
         return response;
     }).catch( error => { 
-        let statusText = error.response.statusText;
-        messageError += statusText;
+         if (error.response.status == 400 ) { 
+            if(error.response.data.domain[0] === "Already exists a network with this domain") {
+                messageError = 'El cidr o dominio ya existe ';
+            }
+        } 
         setAlert(messageError , "error", "network");
         return Promise.reject(error);
     });
 }
 
-const putNetwork = (url, children, cidr, domain, active, type, parent, network_entity, contacts) => {
-    let messageSuccess = `La red ${cidr} se ha editado correctamente.`;
-    let messageError = `La red ${cidr} no se ha editado. `;
+const putNetwork = (url, children, active, type, parent, network_entity, contacts, address_value) => {
+    let messageSuccess = `La red ${address_value} se ha editado correctamente.`;
+    let messageError = `La red ${address_value} no se ha editado. `;
     return apiInstance.put(url, 
     {
         children: children,
-        cidr: cidr, //*
-        domain: domain,
+        address_value:address_value,
         active: active, //*
         type: type, //*
         parent: parent,

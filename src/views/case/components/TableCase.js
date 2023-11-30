@@ -3,16 +3,17 @@ import { useState, useEffect } from 'react';
 import { Button, Row, Form, Table, Spinner } from 'react-bootstrap';
 import CrudButton from '../../../components/Button/CrudButton';
 import { deleteCase } from '../../../api/services/cases';
-import { getPriorities } from '../../../api/services/priorities';
+import { getAllPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import BadgeItem from '../../../components/Button/BadgeItem';
-import { getStates } from '../../../api/services/states'; 
+import { getAllStates } from '../../../api/services/states'; 
 import { getUser } from '../../../api/services/users';
 import GetUserName from './GetUserName';
+import Ordering from '../../../components/Ordering/Ordering'
 
-const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases }) => {
+const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSelectedCases, setOrder , order, currentPage}) => {
     
     const [url, setUrl] = useState(null) 
     const [modalDelete, setModalDelete] = useState(false)
@@ -25,15 +26,18 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
     //checkbox
     const [isCheckAll, setIsCheckAll] = useState(false);
   
+    //ORDER
+
     useEffect(() => {
 
-        getPriorities()
+        getAllPriorities()
             .then((response) => {
                 let priorityOp = {}
-                response.data.results.map((item) => {
+                response.map((item) => {
                     priorityOp[item.url] = {name: item.name, color: item.color}
                 })
                 setPrioritiesOption(priorityOp)
+                
             })
             .catch((error)=>{
                 console.log(error)
@@ -51,10 +55,10 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                 console.log(error)
             })
 
-        getStates('?page=1')
+        getAllStates()
             .then((response) => {
                 let stateOp = {}
-                response.data.results.map((item) => {
+                response.map((item) => {
                     stateOp[item.url] = {name: item.name}
                 })
                 setStateOption(stateOp)
@@ -65,12 +69,8 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
         
     },[list]);
 
-    if (loading) {
-        return (
-            <Row className='justify-content-md-center'>
-                <Spinner animation='border' variant='primary' size='sm' />
-            </Row>
-        );    
+    const storageCaseUrl = (url) => {
+        localStorage.setItem('case', url);    
     }
 
     //Remove Case
@@ -108,47 +108,61 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
             setSelectedCases(selectedCases.filter(item => item !== id));
         }
     };
-
-    let hover = document.getElementById("button_hover");
-    
-    
     return (
             <React.Fragment>
                 <Table responsive hover className="text-center">
                     <thead>
                         <tr>
+                            {list.length > 0 ?
                             <th>
                                 <Form.Group>
-                                    <Form.Check custom type="checkbox" id={"selectAll"} 
+                                    <Form.Check type="checkbox" id={"selectAll"} //lo que superpone es un parametro llamado custom
                                         onChange={handleSelectAll} checked={selectedCases.length != 0 ? isCheckAll : false} /> 
                                 </Form.Group>
                             </th>
-                            <th>Id</th>
-                            <th>Fecha</th>
-                            <th>Prioridad</th>
+                            :
+                            <th>
+                                <Form.Group>
+                                    <Form.Check custom type="checkbox" disabled />
+                                </Form.Group>
+                            </th>
+                            }
+                            <th>#</th>
+                            <Ordering field="date" label="Fecha" order={order} setOrder={setOrder} setLoading={setLoading}/>
+                            <Ordering field="priority" label="Prioridad" order={order} setOrder={setOrder} setLoading={setLoading}/>
                             <th>TLP</th>
                             <th>Estado</th>
                             <th>Asignado</th>
                             <th>Accion</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((caseItem, index) => {
+                    {loading ? 
+                        <tr>
+                            <td colSpan="7">
+                                <Row className="justify-content-md-center">
+                                    <Spinner animation="border" variant="primary" size="sm" />
+                                </Row>
+                            </td>
+                        </tr>
+                        :
+                        list.map((caseItem, index) => {
                             let datetime = caseItem.date.split('T');
                             datetime = datetime[0] + ' ' + datetime[1].slice(0,8)
                             let idItem = caseItem.url.split('/')[(caseItem.url.split('/')).length-2]
                              
                             return (
                                 list &&
-                                <tr key={caseItem.url}>
+                                <tr key={index}>
                                     <td>
                                         <Form.Group>
-                                            <Form.Check disabled={caseItem.solve_date != null ? true : false} 
+                                            <Form.Check disabled={caseItem.solve_date !== null ? true : false} 
                                                 type="checkbox" id={caseItem.url} 
                                                 onChange={handleClick} checked={selectedCases.includes(caseItem.url)} />
                                         </Form.Group>
                                     </td>
-                                    <th scope="row">{idItem}</th>
+                                    <th scope="row">{ 1+index+10*(currentPage-1) }</th>
                                     <td>{datetime}</td>
                                     <td>
                                         <BadgeItem item={prioritiesOption[caseItem.priority]}/>
@@ -167,8 +181,8 @@ const TableCase = ({setIfModify, list, loading, selectedCases, setSelectedCases 
                                         </td> 
                                     }
                                     <td>
-                                        <Link to={{pathname:'/cases/view', item: caseItem, priority: prioritiesOption, tlp: tlpOption, state: stateOption}} >
-                                            <CrudButton type='read'/>
+                                        <Link to={{pathname:'/cases/view'}}>
+                                            <CrudButton type='read' onClick={() => storageCaseUrl(caseItem.url)}/>
                                         </Link>
                                             <Link to={{pathname:'/cases/edit', state: caseItem.url}} >
                                             {caseItem.solve_date == null ? 

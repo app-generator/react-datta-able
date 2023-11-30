@@ -9,7 +9,7 @@ const validateSelect = (option) =>{
 }
 
 const validateContact = (contact) =>{
-    return (validateSpace(contact))
+    return (validateSpace(contact))// no entinedo porque un selec
 }
 
 const validateContactMail = (contactMail) =>{
