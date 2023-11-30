@@ -8,8 +8,9 @@ import ActiveButton from '../../../components/Button/ActiveButton';
 import ModalDetailNetwork from './ModalDetailNetwork';
 import { getEntity } from '../../../api/services/entities';
 import FormGetName from '../../../components/Form/FormGetName';
+import Ordering from '../../../components/Ordering/Ordering'
 
-const TableNetwork = ({setIsModify, list, loading }) => {
+const TableNetwork = ({setIsModify, list, loading, order, setOrder, setLoading , currentPage}) => {
     const [network, setNetwork] = useState('')
 
     const [modalDelete, setModalDelete] = useState(false)
@@ -92,19 +93,21 @@ const TableNetwork = ({setIsModify, list, loading }) => {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>CIDR</th>
-                            <th>Tipo</th>
+                            <th>Dominio o cidr</th>
+                            <Ordering field="type" label="Tipo" order={order} setOrder={setOrder} setLoading={setLoading} />
                             <th>Activo</th>
                             <th>Entidad</th>
                             <th>Accion</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {list.map((network, index) => {
+                        {list.map((network, index) =>
+                            
+                        {
                             return (
                                 <tr key={network.url}>
-                                    <th scope="row">{index+1}</th>
-                                    <td>{network.cidr}</td>
+                                    <th scope="row">{ 1+index+10*(currentPage-1)  }</th>
+                                    <td>{network.address_value}</td>
                                     <td>{network.type === 'internal' ? 'Interna' : 'Externa'}</td>
                                     <td>
                                         <ActiveButton active={network.active} onClick={() => pressActive(network.cidr, network.active, network.url)} />

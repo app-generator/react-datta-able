@@ -24,7 +24,6 @@ const EditCase = () => {
                 setCaseItem(response.data)
             })
             .catch(error => {
-                console.log()
             })
     
     },[])

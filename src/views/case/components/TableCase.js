@@ -3,16 +3,17 @@ import { useState, useEffect } from 'react';
 import { Button, Row, Form, Table, Spinner } from 'react-bootstrap';
 import CrudButton from '../../../components/Button/CrudButton';
 import { deleteCase } from '../../../api/services/cases';
-import { getPriorities } from '../../../api/services/priorities';
+import { getAllPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import BadgeItem from '../../../components/Button/BadgeItem';
-import { getStates } from '../../../api/services/states'; 
+import { getAllStates } from '../../../api/services/states'; 
 import { getUser } from '../../../api/services/users';
 import GetUserName from './GetUserName';
+import Ordering from '../../../components/Ordering/Ordering'
 
-const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSelectedCases, setOrder }) => {
+const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSelectedCases, setOrder , order, currentPage}) => {
     
     const [url, setUrl] = useState(null) 
     const [modalDelete, setModalDelete] = useState(false)
@@ -26,19 +27,17 @@ const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSe
     const [isCheckAll, setIsCheckAll] = useState(false);
   
     //ORDER
-    const blu = 'royalblue'//'#04A9F5';
-    const [arrowDirection, setArrowDirection] = useState({id: 'up', date: 'up', priority: 'up'});
-    const [arrowStyle, setArrowStyle] = useState({id: `${blu}`, date: 'grey', priority: 'grey'});
 
     useEffect(() => {
 
-        getPriorities()
+        getAllPriorities()
             .then((response) => {
                 let priorityOp = {}
-                response.data.results.map((item) => {
+                response.map((item) => {
                     priorityOp[item.url] = {name: item.name, color: item.color}
                 })
                 setPrioritiesOption(priorityOp)
+                
             })
             .catch((error)=>{
                 console.log(error)
@@ -56,10 +55,10 @@ const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSe
                 console.log(error)
             })
 
-        getStates('?page=1')
+        getAllStates()
             .then((response) => {
                 let stateOp = {}
-                response.data.results.map((item) => {
+                response.map((item) => {
                     stateOp[item.url] = {name: item.name}
                 })
                 setStateOption(stateOp)
@@ -109,19 +108,6 @@ const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSe
             setSelectedCases(selectedCases.filter(item => item !== id));
         }
     };
-
-    //ORDENAMIENTO
-    const orderBy = (str) => {
-        if(arrowStyle[str] === 'grey'){
-            setArrowStyle({id: 'grey', date: 'grey', priority: 'grey', [str]: blu});
-        } else {
-            setArrowDirection({...arrowDirection, [str]: arrowDirection[str] === 'up' ? 'down' : 'up'});
-        }
-        setOrder(arrowDirection[str] === 'up' ? `-${str}` : `${str}`)
-        setLoading(true);
-    }
-
-    
     return (
             <React.Fragment>
                 <Table responsive hover className="text-center">
@@ -130,7 +116,7 @@ const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSe
                             {list.length > 0 ?
                             <th>
                                 <Form.Group>
-                                    <Form.Check custom type="checkbox" id={"selectAll"} 
+                                    <Form.Check type="checkbox" id={"selectAll"} //lo que superpone es un parametro llamado custom
                                         onChange={handleSelectAll} checked={selectedCases.length != 0 ? isCheckAll : false} /> 
                                 </Form.Group>
                             </th>
@@ -141,21 +127,9 @@ const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSe
                                 </Form.Group>
                             </th>
                             }
-                            <th>Id
-                                <a href="#" id="sort-arrow" onClick={() => orderBy('id')}>
-                                    <i class={`sm feather icon-arrow-${arrowDirection.id}`} style={{color:`${arrowStyle.id}`}}></i>
-                                </a>
-                            </th>
-                            <th>Fecha
-                                <a href="#" id="sort-arrow" onClick={() => orderBy('date')}>
-                                    <i class={`sm feather icon-arrow-${arrowDirection.date}`} style={{color:`${arrowStyle.date}`}}></i>
-                                </a>
-                            </th>
-                            <th>Prioridad
-                                <a href="#" id="sort-arrow" onClick={() => orderBy('priority')}>
-                                    <i class={`sm feather icon-arrow-${arrowDirection.priority}`} style={{color:`${arrowStyle.priority}`}}></i>
-                                </a>
-                            </th>
+                            <th>#</th>
+                            <Ordering field="date" label="Fecha" order={order} setOrder={setOrder} setLoading={setLoading}/>
+                            <Ordering field="priority" label="Prioridad" order={order} setOrder={setOrder} setLoading={setLoading}/>
                             <th>TLP</th>
                             <th>Estado</th>
                             <th>Asignado</th>
@@ -180,7 +154,7 @@ const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSe
                              
                             return (
                                 list &&
-                                <tr key={caseItem.url}>
+                                <tr key={index}>
                                     <td>
                                         <Form.Group>
                                             <Form.Check disabled={caseItem.solve_date !== null ? true : false} 
@@ -188,7 +162,7 @@ const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSe
                                                 onChange={handleClick} checked={selectedCases.includes(caseItem.url)} />
                                         </Form.Group>
                                     </td>
-                                    <th scope="row">{idItem}</th>
+                                    <th scope="row">{ 1+index+10*(currentPage-1) }</th>
                                     <td>{datetime}</td>
                                     <td>
                                         <BadgeItem item={prioritiesOption[caseItem.priority]}/>

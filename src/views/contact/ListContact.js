@@ -22,6 +22,8 @@ const ListContact = () => {
     //AdvancedPagination
     const [currentPage, setCurrentPage] = useState(1);
     const [countItems, setCountItems] = useState(0);
+    const [updatePagination, setUpdatePagination] = useState(false)
+    const [disabledPagination, setDisabledPagination] = useState(true)
 
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
@@ -36,6 +38,10 @@ const ListContact = () => {
                 setContacts(response.data.results);
                 //Pagination
                 setCountItems(response.data.count);
+                if(currentPage === 1){
+                    setUpdatePagination(true)  
+                }
+                setDisabledPagination(false)
             })
             .catch((error) => {
                 // Show alert
@@ -44,7 +50,7 @@ const ListContact = () => {
                 setShowAlert(true)
                 setLoading(false)
             })
-        }, [countItems, currentPage, isModify])
+        }, [currentPage, isModify])
 
     // ------- SEARCH --------
     const action = () => {
@@ -88,7 +94,7 @@ const ListContact = () => {
                     <Card.Footer>
                         <Row className="justify-content-md-center">
                             <Col md="auto"> 
-                                <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+                                <AdvancedPagination countItems={countItems} updatePage={updatePage} updatePagination={updatePagination} setUpdatePagination={setUpdatePagination} setLoading={setLoading} setDisabledPagination={setDisabledPagination} disabledPagination={disabledPagination}/>
                             </Col>
                         </Row>
                     </Card.Footer>

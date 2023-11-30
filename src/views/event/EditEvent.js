@@ -195,10 +195,7 @@ const EditEvent = () => {
         <Row>
           <Navigation actualPosition="Editar Evento " path="/events" index ="Evento"/>
         </Row>
-          
-              <FormEvent createEvent={editEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated} evidence={evidence} setEvidence={setEvidence}/>
-
-        
+        <FormEvent createEvent={editEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated} evidence={evidence} setEvidence={setEvidence}/>
     </div>
   )
 }

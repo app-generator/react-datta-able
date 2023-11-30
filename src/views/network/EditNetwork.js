@@ -20,6 +20,7 @@ const EditNetwork = () => {
     const [cidr, setCidr] = useState(network.cidr===null ? '' : network.cidr); //* 
     const [domain, setDomain] = useState(network.domain); // null 
     const [active, setActive] = useState(network.active); //* true 
+    const [address_value, setAddress_value] = useState(network.address_value); //* true 
     const [type, setType] = useState(network.type); //* internal external
     const [parent, setParent] = useState(network.parent);
     const [network_entity, setNetwork_entity] = useState(network.network_entity);
@@ -32,6 +33,8 @@ const EditNetwork = () => {
     
     //Alert
     const [showAlert, setShowAlert] = useState(false);
+    
+    console.log(network.address_value)
 
     useEffect(()=> {
         
@@ -60,7 +63,7 @@ const EditNetwork = () => {
 
     //Update
     const editNetwork = () => {
-        putNetwork (url, children, cidr, domain, active, type, parent, network_entity, contacts) 
+        putNetwork (url, children, active, type, parent, network_entity, contacts, address_value) 
             .then((response) => { 
                 window.location.href = "/networks"
             })
@@ -94,6 +97,7 @@ const EditNetwork = () => {
                                 type={type} setType={setType}
                                 parent={parent} setParent={setParent}
                                 network_entity={network_entity} setNetwork_entity={setNetwork_entity}
+                                address_value={address_value} setAddress_value={setAddress_value}
                                 active={active} setActive={setActive} 
                                 ifConfirm={editNetwork} edit={true} 
                                 contacts={contacts} setContacts={setContacts}

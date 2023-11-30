@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 
 
-const TableEntity = ({setIsModify, list, loading }) => {
+const TableEntity = ({setIsModify, list, loading, currentPage }) => {
     const [entity, setEntity] = useState('') 
     const [modalShow, setModalShow] = useState(false) 
     const [modalDelete, setModalDelete] = useState(false) 
@@ -111,7 +111,7 @@ const TableEntity = ({setIsModify, list, loading }) => {
 
                             return (
                                 <tr key={entity.url}>
-                                    <th scope="row">{index+1}</th>
+                                    <th scope="row">{1+index+10*(currentPage-1)}</th>
                                     <td>{entity.name}</td>
                                     <td>
                                         <ActiveButton active={entity.active} onClick={() => pressActive(entity.url, entity.active, entity.name)} />

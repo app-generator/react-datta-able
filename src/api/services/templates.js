@@ -1,10 +1,10 @@
 import apiInstance from "../api";
 import setAlert from '../../utils/setAlert';
-import { COMPONENT_URL } from '../../config/constant';
+import { COMPONENT_URL, PAGE } from '../../config/constant';
 
-const getTemplates = (page="") => {
+const getTemplates = (currentPage, filters,order) => {
   let messageError = `No se pudo recuperar la informacion de las plantillas`;
-  return apiInstance.get(COMPONENT_URL.template+page)
+  return apiInstance.get(COMPONENT_URL.template + PAGE + currentPage + '&ordering=' + order +'&' + filters)
   .then(response => {        
     return response;
 }).catch( error => { 

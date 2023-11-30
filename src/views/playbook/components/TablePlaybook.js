@@ -8,7 +8,7 @@ import ModalDetailPlaybook from './ModalDetailPlaybook';
 import { getTaxonomy } from '../../../api/services/taxonomies';
 import Alert from '../../../components/Alert/Alert';
 
-const TablePlaybook = ({setIsModify, list, loading }) => {
+const TablePlaybook = ({setIsModify, list, loading, currentPage}) => {
     const [playbook, setPlaybook] = useState('')
 
     const [modalDelete, setModalDelete] = useState(false)
@@ -132,7 +132,7 @@ const TablePlaybook = ({setIsModify, list, loading }) => {
                         { listPlaybook.map((book, index) => {
                             return (
                                 <tr key={book.url}>
-                                    <th scope="row">{index+1}</th>
+                                    <th scope="row">{ 1+index+10*(currentPage-1) }</th>
                                     <td>{book.name}</td>
                                     <td>
 

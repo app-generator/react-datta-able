@@ -20,6 +20,10 @@ const ListTaxonomies = () => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [countItems, setCountItems] = useState(0);
+    const [updatePagination, setUpdatePagination] = useState(false)
+    const [disabledPagination, setDisabledPagination] = useState(true)
+
+    const [order, setOrder] = useState("");
 
 
     function updatePage(chosenPage){
@@ -27,10 +31,14 @@ const ListTaxonomies = () => {
     }
     
     useEffect(() => {        
-        getTaxonomies(currentPage)
+        getTaxonomies(currentPage,order)
         .then((response) => {
             setCountItems(response.data.count)
             setTaxonomies(response.data.results)
+            if(currentPage === 1){
+                setUpdatePagination(true)  
+            }
+            setDisabledPagination(false)
         })
         .catch((error)=>{
             //alert
@@ -39,30 +47,13 @@ const ListTaxonomies = () => {
             setShowAlert(true)
             setLoading(false)
         })
-    }, [countItems, currentPage, isModify]); 
+    }, [currentPage, isModify, order]); 
         
     //valores ingresados
     const searcher = (e) => {
         setSearch(e.target.value) //actualizar
     }
-
-    //filtro
-    let list = []
-    if (!search) {
-        list = taxonomies
-    } else {
-        list = taxonomies.filter( (item) => 
-            item.name.toLowerCase().includes(search.toLocaleLowerCase())
-        )
-    }
-
-    if (loading) {
-        return (
-            <Row className='justify-content-md-center'>
-                <Spinner animation='border' variant='primary' size='sm' />
-            </Row>
-        );    
-    }      
+      
 
     return (
         <React.Fragment>
@@ -77,7 +68,7 @@ const ListTaxonomies = () => {
                         <Card.Header>
                             <Row>
                                 <Col sm={12} lg={9}>
-                                    <Search type="entidad" action={searcher} search={search} setSearch={setSearch}/>
+                                    <Search type="por nombre" action={searcher} search={search} setSearch={setSearch}/>
                                 </Col> 
                                 
                                 <Col sm={12} lg={3}>
@@ -88,12 +79,12 @@ const ListTaxonomies = () => {
                             </Row>
                         </Card.Header>
                         <Card.Body>
-                            <TableTaxonomy setIsModify={setIsModify} list={taxonomies} loading={loading} currentPage={currentPage}/>
+                            <TableTaxonomy setIsModify={setIsModify} list={taxonomies} loading={loading} currentPage={currentPage} order={order} setOrder={setOrder} setLoading={setLoading}/>
                         </Card.Body>
                         <Card.Footer >
                             <Row className="justify-content-md-center">
                                 <Col md="auto"> 
-                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} updatePagination={updatePagination} setUpdatePagination={setUpdatePagination} setLoading={setLoading} setDisabledPagination={setDisabledPagination} disabledPagination={disabledPagination}/>
                                 </Col>
                             </Row>
                         </Card.Footer>

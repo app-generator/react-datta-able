@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Card, Collapse, Form, Button } from 'react-bootstrap';
+import { Row, Col, Card, Collapse } from 'react-bootstrap';
 import CrudButton from '../../components/Button/CrudButton';
 import TableTemplete from './components/TableTemplete';
 import Navigation from '../../components/Navigation/Navigation';
@@ -10,27 +10,29 @@ import { getAllFeeds } from "../../api/services/feeds";
 import { getAllTaxonomies } from '../../api/services/taxonomies';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 import Alert from '../../components/Alert/Alert';
-import Select from 'react-select';
+import ButtonFilter from '../../components/Button/ButtonFilter';
+import FilterSelectUrl from '../../components/Filter/FilterSelectUrl';
 
 const ListTemplete = () => {
-  const[templete, setTemplete] = useState([])
+  const [templete, setTemplete] = useState([])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [countItems, setCountItems] = useState(0);
+  const [updatePagination, setUpdatePagination] = useState(false)
+  const [disabledPagination, setDisabledPagination] = useState(true)
+
   const [showAlert, setShowAlert] = useState(false)
   const [open, setOpen] = useState(false);
 
   const [taxonomies, setTaxonomies] = useState([]);  
   const [feeds, setFeeds] = useState([])
-  const [feedName, setFeedName]= useState('')
-  const [taxonomyName, setTaxonomyName]= useState('')
 
   const [taxonomyFilter, setTaxonomyFilter]= useState('')
   const [feedFilter, setFeedFilter]= useState('')
   const [addressValues, setAddressValues]= useState([])
-  const [addressValue, setAddressValue]= useState('')
-  const [addressValueFilter, setAddressValueFilter]= useState('')
+  const [wordToSearch, setWordToSearch]= useState('')
+  const [order, setOrder] = useState("");
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }
@@ -62,10 +64,15 @@ const ListTemplete = () => {
       setFeeds(listFeeds)
     })
 
-    getTemplates('?'+taxonomyFilter+feedFilter+'page='+currentPage)
+    getTemplates(currentPage,taxonomyFilter+feedFilter+wordToSearch, order)
         .then((response) => {
             setTemplete(response.data.results);
             setCountItems(response.data.count) 
+            setCountItems(response.data.count)
+            if(currentPage === 1){
+                setUpdatePagination(true)  
+            }
+            setDisabledPagination(false)
         })
         .catch((error)=>{
             setError(error)
@@ -75,50 +82,12 @@ const ListTemplete = () => {
               setLoading(false)
           })
 
-    }, [countItems, currentPage, taxonomyFilter, feedFilter])
+    }, [currentPage, taxonomyFilter, feedFilter, wordToSearch, order])
 
     const resetShowAlert = () => {
         setShowAlert(false);
     }
 
-    const getTaxonomyUrlNumber = (taxonomy) => {
-        let taxonomyNumber = ""
-        if (taxonomy !== null){
-          const parts = taxonomy.value.split("/");
-          taxonomyNumber = parts[parts.length - 2] // El número estará en el penúltimo segmento
-          setTaxonomyName(taxonomy)
-          setTaxonomyFilter("event_taxonomy="+taxonomyNumber+'&')
-        }else{
-          setTaxonomyFilter("event_taxonomy="+taxonomyNumber+'&')
-          setTaxonomyName("")
-        }
-        if (taxonomyFilter !== "event_taxonomy="+taxonomyNumber+'&') { // este if esta porque si no hay cambios en el WordToSearch 
-          //haciendo que no se vuelva a ejecutar el useEffect y qeu al setearce setloading en true quede en un bucle infinito
-          setLoading(true)
-        }
-    }
-
-    const getFeedUrlNumber = (feed) => {
-        let feedNumber = ""
-        if(feed !== null){
-          const parts = feed.value.split("/");
-          feedNumber = parts[parts.length - 2]// El número estará en el penúltimo segmento
-          setFeedName(feed)
-          setFeedFilter("event_feed="+feedNumber+'&')
-          
-        }else{
-          setFeedFilter("event_feed="+feedNumber+'&')
-          setFeedName("")
-        }
-        if (feedFilter !== "event_feed="+feedNumber+'&'){ // este if esta porque si no hay cambios en el WordToSearch 
-          //haciendo que no se vuelva a ejecutar el useEffect y qeu al setearce setloading en true quede en un bucle infinito
-          setLoading(true)
-        }
-    }
-
-    
-
-console.log(templete)
   return (
     <React.Fragment>
         <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
@@ -131,16 +100,10 @@ console.log(templete)
                     <Card.Header>
                         <Row>
                             <Col sm={1} lg={1}>
-                                <Button variant="primary" className='text-capitalize'size="sm"
-                                    onClick={() => setOpen(!open)}
-                                    aria-expanded={open}>
-                                    <span className="material-icons">
-                                    tune
-                                    </span>
-                                </Button>
+                                <ButtonFilter open={open} setOpen={setOpen} />
                             </Col>
                             <Col sm={12} lg={8}>
-                                <Search type="red" action={""} />
+                                <Search type="cidr o dominio" setWordToSearch={setWordToSearch} wordToSearch={wordToSearch} setLoading={setLoading} />
                             </Col>
                             <Col sm={12} lg={3}>
                                 <Link to={{pathname:'/templates/create'}} >
@@ -150,36 +113,31 @@ console.log(templete)
                         </Row>
                         <Collapse in={open}>
                             <div id="example-collapse-text">
+                                <br/>
                                 <Row>
-                                
                                     <Col sm={12} lg={4}>
-                                            <Form.Group>
-                                                <Select options={taxonomies} isClearable placeholder="Filtrar por taxonomia" value={taxonomyName} onChange={(e) => getTaxonomyUrlNumber(e)} />
-                                            </Form.Group>
+                                        <FilterSelectUrl options={feeds} itemName="fuentes" partOfTheUrl="event_feed" itemFilter={feedFilter} itemFilterSetter={setFeedFilter} setLoading={setLoading}/>
                                     </Col>
                                     <Col sm={12} lg={4}>
-                                            <Form.Group>
-                                                <Select options={feeds} isClearable placeholder="Filtrar por feed" value={feedName} onChange={(e) => getFeedUrlNumber(e)} />
-                                            </Form.Group>
+                                        <FilterSelectUrl options={taxonomies} itemName="taxonomia" partOfTheUrl="event_taxonomy" itemFilter={taxonomyFilter}  itemFilterSetter={setTaxonomyFilter} setLoading={setLoading}/>
                                     </Col>
+                                    
                                 </Row>
                                 <br /> 
-                                
                             </div>
                         </Collapse>
                     </Card.Header>
                     <Card.Body>
-                        <TableTemplete list={templete} loading={loading} />
+                        <TableTemplete list={templete} loading={loading} order={order} setOrder={setOrder} setLoading={setLoading} currentPage={currentPage}/>
                     </Card.Body>
                     <Card.Footer >
                             <Row className="justify-content-md-center">
                                 <Col md="auto"> 
-                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} updatePagination={updatePagination} setUpdatePagination={setUpdatePagination} setLoading={setLoading} setDisabledPagination={setDisabledPagination} disabledPagination={disabledPagination}/>
                                 </Col>
                             </Row>
                         </Card.Footer>
                 </Card>
-                {/*<Alert/>*/}
                 </Col>
         </Row>
     </React.Fragment>

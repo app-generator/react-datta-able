@@ -41,12 +41,12 @@ const FormEvent = (props) => {
             postStringIdentifier(event.target.value).then((response) => { 
                 console.log(response.data.artifact_type)
                 console.log(event.target.value)
-                setShowErrorMessage(response.data.artifact_type === "OTHER" )        
+                setShowErrorMessage(response.data.artifact_type === "OTHER" || response.data.artifact_type === "EMAIL")        
             })
             .catch((error) => {
                 setError(error)
             }).finally(() => {
-                console.log("finalizo")
+                
             })   
         }
 

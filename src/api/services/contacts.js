@@ -2,9 +2,9 @@ import apiInstance from "../api";
 import setAlert from '../../utils/setAlert';
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 
-const getContacts = (currentPage) => {
+const getContacts = (currentPage, filters, order) => {
     let messageError = `No se ha recuperado la informacion de contactos. `;
-    return apiInstance.get(COMPONENT_URL.contact + PAGE + currentPage)
+    return apiInstance.get(COMPONENT_URL.contact + PAGE + currentPage + '&ordering=' + order +'&' + filters)
     .then(response => {        
         return response;
     }).catch( error => { 

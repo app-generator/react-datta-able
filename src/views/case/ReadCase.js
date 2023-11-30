@@ -217,7 +217,7 @@ const ReadCase = () => {
                                             variant='light'
                                             title='Ir'
                                             onClick={() => setModalShowEvent(true)}>
-                                            <i class="fas fa-external-link-alt"/>
+                                            <i className="fas fa-external-link-alt"/>
                                         </Button> 
                                     </Col>
                                 </Row>

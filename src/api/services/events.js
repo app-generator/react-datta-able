@@ -1,10 +1,10 @@
 import  apiInstance  from "../api";
-import { COMPONENT_URL } from '../../config/constant';
+import { COMPONENT_URL , PAGE} from '../../config/constant';
 import setAlert from '../../utils/setAlert';
 
-const getEvents = (page="") => {//el parametro es para completar la url con el numero de pagina
-    
-    return apiInstance.get(COMPONENT_URL.event+page);
+const getEvents = (currentPage, filters, order) => {//el parametro es para completar la url con el numero de pagina
+    console.log(COMPONENT_URL.event + PAGE + currentPage + '&ordering=' + order +'&' + filters )
+    return apiInstance.get(COMPONENT_URL.event + PAGE + currentPage + '&ordering=' + order +'&' + filters );
 }
 const postEvent = (formData) => {//el parametro es para completar la url con el numero de pagina
     let messageSuccess = `La evento se pudo crear correctamente`;
