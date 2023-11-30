@@ -25,11 +25,7 @@ const EditTemplate = () => {
     const [loading, setLoading] = useState(true)
     const [showAlert, setShowAlert] = useState(false)
 
-    console.log(body)
-
     useEffect( ()=> {
-
-        const fetchPosts = async () => {
             setLoading(true)
     
             getTLP().then((response) => { 
@@ -44,8 +40,8 @@ const EditTemplate = () => {
             })
     
             getAllTaxonomies().then((response) => { 
-              console.log(response.data.results)
-              setTaxonomy(response.data.results)
+              console.log(response)
+              setTaxonomy(response)
             })
             .catch((error) => {
                 setError(error)
@@ -55,7 +51,7 @@ const EditTemplate = () => {
             })
     
             getAllFeeds().then((response) => { //se hardcodea las paginas
-              console.log(response.data.results)
+              console.log(response)
               setFeeds(response)
             })
             .catch((error) => {
@@ -87,13 +83,13 @@ const EditTemplate = () => {
                 setLoading(false)
             })
 
-        }  
-        fetchPosts()
+        
         
       },[]);
+
       const resetShowAlert = () => {
         setShowAlert(false);
-    }
+      }
 
     const editState= ()=>{
         putTemplate(body.url,body.address_value,body.active,body.priority,body.event_taxonomy,body.event_feed,body.case_lifecycle,body.case_tlp,body.case_state)
@@ -106,6 +102,7 @@ const EditTemplate = () => {
         })
 
     }
+
   return (
     <React.Fragment>
         <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>

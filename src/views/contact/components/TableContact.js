@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import PriorityButton from '../../../components/Button/PriorityButton';
 
-const TableContact = ({setIsModify, list, loading }) => {
+const TableContact = ({setIsModify, list, loading ,currentPage}) => {
     const [contact, setContact] = useState('')
 
     const [modalShow, setModalShow] = useState(false)
@@ -106,7 +106,7 @@ const TableContact = ({setIsModify, list, loading }) => {
                         {list.map((contact, index) => {
                             return (
                                 <tr key={contact.url}>
-                                <th scope="row">{index+1}</th>
+                                <th scope="row">{ 1+index+10*(currentPage-1) }</th>
                                 <td>{contact.name}</td>
                                 <td>{labelRole[contact.role]}</td>
                                 <td>{contact.username}</td>

@@ -2,9 +2,9 @@ import apiInstance from "../api";
 import setAlert from '../../utils/setAlert';
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 
-const getEntities = (currentPage) => {
+const getEntities = (currentPage, filters,order) => {
     let messageError = `No ha recuperado la informacion de entidades. `;
-    return apiInstance.get(COMPONENT_URL.entity + PAGE + currentPage)
+    return apiInstance.get(COMPONENT_URL.entity + PAGE + currentPage + '&ordering=' + order +'&' + filters)
     .then(response => {        
         return response;
     }).catch( error => { 

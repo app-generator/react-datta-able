@@ -3,9 +3,9 @@ import { COMPONENT_URL, PAGE } from '../../config/constant';
 import setAlert from '../../utils/setAlert';
 
 
-const getTaxonomies = (currentPage) => {
+const getTaxonomies = (currentPage, order) => {
     let messageError = `No se pudo recuperar la informacion de las taxonomias`;
-    return apiInstance.get(COMPONENT_URL.taxonomy + PAGE + currentPage)
+    return apiInstance.get(COMPONENT_URL.taxonomy + PAGE + currentPage + '&ordering=' + order )
         .then(response => {
             return response;
         }).catch(error => {

@@ -7,63 +7,46 @@ import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation';
 import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 import TableFeed from './components/TableFeed';
-
+import Search from '../../components/Search/Search'
 
 const ListFeed = () => {    
     const [feeds, setFeeds] = useState([]);
     const [error, setError] = useState(null)
-    const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
     const [showAlert, setShowAlert] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [countItems, setCountItems] = useState(0);
 
+    const [order, setOrder] = useState("");
+    const [wordToSearch, setWordToSearch]= useState('')
+
+    const [updatePagination, setUpdatePagination] = useState(false)
+    const [disabledPagination, setDisabledPagination] = useState(true)
+
     function updatePage(chosenPage){
         setCurrentPage(chosenPage);
     }
     //ORDER
-    const [order, setOrder] = useState("");
 
     useEffect(() => {
-        getFeeds(currentPage, order)
+        getFeeds(currentPage, wordToSearch, order)
         .then((response) => {
             setFeeds(response.data.results)
             setLoading(false)
-            console.log(order);
-
             //PAGINATION
             setCountItems(response.data.count)
+            if(currentPage === 1){
+                setUpdatePagination(true)  
+            }
+            setDisabledPagination(false)
         })
         .catch((error)=>{
         })
         .finally(() => {
             setLoading(false)
         })
-    }, [countItems, currentPage, order]);  
-    
-    //valores ingresados
-    const searcher = (e) => {
-        setSearch(e.target.value) //actualizar
-    }
-
-    //filtro
-    let list = []
-    if (!search) {
-        list = feeds
-    } else {
-        list = feeds.filter( (item) => 
-            item.name.toLowerCase().includes(search.toLocaleLowerCase())
-        )
-    }
-
-    if (loading) {
-        return (
-            <Row className='justify-content-md-center'>
-                <Spinner animation='border' variant='primary' size='sm' />
-            </Row>
-        );    
-    }
-        
+    }, [countItems, currentPage, wordToSearch, order]);  
+ 
     return (
         <React.Fragment>
             <Alert showAlert={showAlert} resetShowAlert={() => setShowAlert(false)}/>
@@ -76,29 +59,20 @@ const ListFeed = () => {
                         <Card.Header>
                             <Row>
                                 <Col sm={12} lg={9}>
-                                  
-                                        <div className="input-group">
-                                            <input value={search} onChange={searcher} type="text" id="m-search" className="form-control" placeholder="Buscar fuente de informacion . . ." />
-                                            <span className="search-btn btn btn-primary">
-                                                <i className="feather icon-search " />
-                                            </span>
-                                        </div>
-                                               
+                                    <Search type=" por nombre o descripción" setWordToSearch={setWordToSearch} wordToSearch={wordToSearch} setLoading={setLoading} />
                                 </Col>
-                                <Col sm={12} lg={3}>
-                                                 
-                                        <Link to={{pathname:'./feeds/create'}} >
-                                            <CrudButton type='create' name='Fuente' />
-                                        </Link>
-                                         
+                                <Col sm={12} lg={3}>      
+                                    <Link to={{pathname:'./feeds/create'}} >
+                                        <CrudButton type='create' name='Fuente' />
+                                    </Link>
                                 </Col>  
                             </Row>                                                                           
                         </Card.Header>
-                        <TableFeed feeds={feeds} loading={loading}/>
+                             <TableFeed feeds={feeds} loading={loading} order={order} setOrder={setOrder} setLoading={setLoading} currentPage={currentPage}/>
                         <Card.Footer >
                             <Row className="justify-content-md-center">
                                 <Col md="auto"> 
-                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
+                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} updatePagination={updatePagination} setUpdatePagination={setUpdatePagination} setLoading={setLoading} setDisabledPagination={setDisabledPagination} disabledPagination={disabledPagination} />
                                 </Col>
                             </Row>
                         </Card.Footer>

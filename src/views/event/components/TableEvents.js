@@ -10,8 +10,9 @@ import { getTaxonomy } from '../../../api/services/taxonomies';
 import { getTLPSpecific } from '../../../api/services/tlp';
 import { getFeed } from '../../../api/services/feeds';
 import { deleteEvent} from "../../../api/services/events";
+import Ordering from '../../../components/Ordering/Ordering'
 
-const TableEvents = ({events, loading, selectedEvent, setSelectedEvent, wordToSearch}) => {
+const TableEvents = ({events, loading, selectedEvent, setSelectedEvent, order, setOrder, setLoading, currentPage}) => {
 
     const [deleteName, setDeleteName] = useState()
     const [deleteUrl, setDeleteUrl] = useState()
@@ -22,10 +23,11 @@ const TableEvents = ({events, loading, selectedEvent, setSelectedEvent, wordToSe
     const [isCheckAll, setIsCheckAll] = useState(false);
     const [list, setList] = useState([]);
 
-    useEffect(() => {
+    useEffect(() => { 
         setList(events)
-    
-    }, [list, events, wordToSearch])
+        console.log(events)
+       
+      }, [events]);
    
     if (loading) {
         return (
@@ -102,12 +104,14 @@ const TableEvents = ({events, loading, selectedEvent, setSelectedEvent, wordToSe
                 <Table responsive hover>
                     <thead>
                         <tr>
-                            <th><Form.Group>
-                                    <Form.Check custom type="checkbox" id={"selectAll"} 
+                            <th>
+                                <Form.Group>
+                                    <Form.Check type="checkbox" id={"selectAll"}  
                                         onChange={handleSelectAll} checked={selectedEvent.length != 0 ? isCheckAll : false} /> {/*|| selectedCases == list.filter(item => item.solve_date == null).length */}
                                 </Form.Group>
                             </th>
-                            <th>Fecha</th>
+                            <th>#</th>
+                            <Ordering field="date" label="Fecha" order={order} setOrder={setOrder} setLoading={setLoading} />
                             <th>TLP</th>
                             <th>Taxonomia</th>
                             <th>Fuente de Informacion</th>
@@ -115,14 +119,17 @@ const TableEvents = ({events, loading, selectedEvent, setSelectedEvent, wordToSe
                         </tr>
                    </thead>
                     <tbody>
-                    {list.map((event) => {
+                    {list.map((event, index) => {
                         return (
                             <tr>
                                 <th ><Form.Group>
                                             <Form.Check disabled={event.solve_date != null ? true : false} 
                                                 type="checkbox" id={event.url} 
                                                 onChange={handleClick} checked={selectedEvent.includes(event.url)} />
-                                        </Form.Group></th>
+                                        </Form.Group>
+                                </th>
+                                <td>{1+index+10*(currentPage-1)}</td>
+
                                 <td>{event.date ? event.date.slice(0,10)+" "+event.date.slice(11,19): ""}</td>
                                 
                                 <td><CallBackendByName url={event.tlp} callback={callbackTlp } useBadge={true}/></td>

@@ -2,9 +2,9 @@ import  apiInstance  from "../api";
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 import setAlert from '../../utils/setAlert';
 
-const getFeeds = (currentPage, order = null) => { //+- id, name, slug, created, modified
+const getFeeds = (currentPage, filters,order) => { //+- id, name, slug, created, modified
     let messageError = `No se pudo recuperar la informacion de las fuentes de informacion`;
-    return apiInstance.get(COMPONENT_URL.feed + PAGE + currentPage + '&ordering=' + order)
+    return apiInstance.get(COMPONENT_URL.feed + PAGE + currentPage + '&ordering=' + order +'&' + filters )
     .then(response => {        
         return response;
     }).catch( error => { 

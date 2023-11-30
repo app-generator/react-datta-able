@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Button, Card, Col, Form, Row} from 'react-bootstrap';
-import { getPriorities } from '../../../api/services/priorities';
+import { getAllPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
 import { getUsers } from '../../../api/services/users';
 import ViewFiles from '../../../components/Button/ViewFiles';
@@ -41,10 +41,10 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
 
     useEffect(()=> {
         
-        getPriorities()
+        getAllPriorities()
         .then((response) => {
-            setAllPriorities (Object.values(response.data.results))
-            console.log(response.data.results)
+            setAllPriorities (Object.values(response))
+            console.log(response)
         })
         .catch((error)=>{
             console.log(error)

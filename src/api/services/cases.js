@@ -2,9 +2,10 @@ import apiInstance from "../api";
 import { COMPONENT_URL, PAGE } from '../../config/constant';
 import setAlert from '../../utils/setAlert';
 
-const getCases = (currentPage, order = null) => { //+- id, date, attend_date, priority
+const getCases = (currentPage, filters,order) => { //+- id, date, attend_date, priority
     let messageError = `No se ha recuperado informacion de casos. `;
-    return apiInstance.get(COMPONENT_URL.case + PAGE + currentPage + '&ordering=' + order)
+    console.log()
+    return apiInstance.get(COMPONENT_URL.case + PAGE + currentPage + '&ordering=' + order +'&' + filters)
     .then(response => {        
         return response;
     }).catch( error => { 

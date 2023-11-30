@@ -3,6 +3,8 @@ import { Row, Col, Card, Table, Form, Spinner } from 'react-bootstrap';
 import Alert from '../../components/Alert/Alert';
 import Navigation from '../../components/Navigation/Navigation'
 import { getTLP } from '../../api/services/tlp';
+import Search from '../../components/Search/Search'
+import Ordering from '../../components/Ordering/Ordering'
 
 const ListTLP = () => {
 
@@ -11,6 +13,9 @@ const ListTLP = () => {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true)
     const [showAlert, setShowAlert] = useState(false)
+    const [wordToSearch, setWordToSearch]= useState('')
+
+    const [order, setOrder] = useState("");
 
     const textareaStyle = {
         resize:"none", 
@@ -20,7 +25,7 @@ const ListTLP = () => {
     }
 
     useEffect(() => {
-        getTLP().then((response) => {
+        getTLP(wordToSearch, order).then((response) => {
             setTLP(response.data.results)         
         })
         .catch((error)=>{
@@ -30,34 +35,11 @@ const ListTLP = () => {
         .finally(() => {
             setLoading(false)
         })
-    }, []);
+    }, [wordToSearch, order]);
 
     const resetShowAlert = () => {
         setShowAlert(false);
-    }
-
-    //valores ingresados
-    const searcher = (e) => {
-        setSearch(e.target.value) //actualizar
-    }    
-
-    //filtro
-    let list = []
-    if (!search) {
-        list = tlp
-    } else {
-        list = tlp.filter( (item) => 
-            item.name.toLowerCase().includes(search.toLocaleLowerCase())
-        )
-    }
-
-    if (loading) {
-        return (
-            <Row className='justify-content-md-center'>
-                <Spinner animation='border' variant='primary' size='sm' />
-            </Row>
-        );    
-    }
+    }   
 
     return (
         <React.Fragment>
@@ -71,14 +53,10 @@ const ListTLP = () => {
                         <Card.Header>
                             <Row>
                                 <Col>
-                                    <React.Fragment>
-                                        <div className="input-group">
-                                            <input value={search} onChange={searcher} type="text" id="m-search" className="form-control" placeholder="Buscar protocolo de semaforo . . ." />
-                                            <span className="search-btn btn btn-primary">
-                                                <i className="feather icon-search " />
-                                            </span>
-                                        </div>
-                                    </React.Fragment>                           
+
+                                    <div className="input-group">
+                                        <Search type="por codigo" setWordToSearch={setWordToSearch} wordToSearch={wordToSearch} setLoading={setLoading} />
+                                    </div>
                                 </Col>                                  
                             </Row>                                                                           
                         </Card.Header>
@@ -86,23 +64,28 @@ const ListTLP = () => {
                             <Table responsive hover>
                                 <thead>
                                     <tr>
-                                        <th>#</th>                                        
-                                        <th width="5%" >Codigo</th>
+                                        <th>#</th>
+                                        <Ordering field="code" label="Codigo" order={order} setOrder={setOrder} setLoading={setLoading}/>
                                         <th>Descripcion</th>
                                         <th>¿Cuando utilizarlo?</th>
                                         <th>¿Como compartirlo?</th>      
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {list.sort((a,b) => a.code - b.code).map((item,i) => (
-                                        <tr key={i}>
-                                            <th scope="row">{i+1}</th>
-                                            <td><p class="p-3 mb-2 bg-dark rounded" style={{color: item.color}}><b>{item.information}</b></p></td>
+                                    {tlp.map((item) => 
+                                    {
+                                        const parts = item.url.split("/");
+                                        let itemNumber = parts[parts.length - 2];
+
+                                    return(
+                                        <tr key={itemNumber}>
+                                            <th scope="row">{itemNumber}</th>
+                                            <td><p className="p-3 mb-2 bg-dark rounded" style={{color: item.color}}><b>{item.information}</b></p></td>
                                             <td><Form.Control style={textareaStyle} as="textarea" rows={3} readOnly value={item.description} /></td>
                                             <td><Form.Control style={textareaStyle} as="textarea" rows={3} readOnly value={item.when} /></td>
                                             <td><Form.Control style={textareaStyle} as="textarea" rows={3} readOnly value={item.why} /></td> 
                                         </tr>
-                                     ))}
+                                     )})}
                                 </tbody>
                             </Table>
                         </Card.Body>

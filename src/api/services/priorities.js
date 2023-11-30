@@ -1,10 +1,10 @@
 import  apiInstance  from "../api";
-import { COMPONENT_URL } from '../../config/constant';
+import { COMPONENT_URL , PAGE} from '../../config/constant';
 import setAlert from '../../utils/setAlert';
 
-const getPriorities = (page="") => {//el parametro es para completar la url con el numero de pagina
+const getPriorities = (currentPage, filters,order) => {//el parametro es para completar la url con el numero de pagina
     let messageError = `No se pudo recuperar la informacion de las prioridades`;
-    return apiInstance.get(COMPONENT_URL.priority+page)
+    return apiInstance.get(COMPONENT_URL.priority+ PAGE + currentPage + '&ordering=' + order +'&' + filters)
     .then(response => {        
         return response;
     }).catch( error => { 

@@ -7,9 +7,10 @@ import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import ButtonView from './ButtonView'
 import ButtonState from './ButtonState';
 import { deleteTaxonomy } from '../../../api/services/taxonomies';
+import Ordering from '../../../components/Ordering/Ordering'
 
 
-const TableTaxonomy = ({setIsModify, list, loading }) => {
+const TableTaxonomy = ({setIsModify, list, loading, order, setOrder, setLoading, currentPage}) => {
     const [modalDelete, setModalDelete] = useState(false) 
     const [url, setUrl] = useState(null) 
     const [name, setName] = useState(null) 
@@ -48,17 +49,20 @@ const TableTaxonomy = ({setIsModify, list, loading }) => {
                 <Table responsive hover>
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
+                            <th>#</th>  
+                            <Ordering field="name" label="Nombre" order={order} setOrder={setOrder} setLoading={setLoading} />
                             <th>Activo</th>     
                             <th>Reportes</th>                                                                         
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {list.sort((a, b) => (a.name < b.name ? -1 : 1)).map((taxonomy,i) => (
-                            <tr key={i}>
-                                <th scope="row">{i+1}</th>
+                        {list.map((taxonomy,index) =>{ 
+                            const parts = taxonomy.url.split("/");
+                            let itemNumber = parts[parts.length - 2];
+                        return(
+                            <tr key={itemNumber}>
+                                <th scope="row">{ 1+index+10*(currentPage-1) }</th>
                                 <td>{taxonomy.name}</td>
                                 <td>
                                     <ButtonState taxonomy={taxonomy}></ButtonState>
@@ -72,7 +76,7 @@ const TableTaxonomy = ({setIsModify, list, loading }) => {
                                     <CrudButton type='delete' onClick={() => Delete(taxonomy.url, taxonomy.name)} />
                                 </td>
                             </tr>
-                        ))}
+                        )})}
                     </tbody>
                 </Table>
             

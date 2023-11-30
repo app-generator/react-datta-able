@@ -13,12 +13,12 @@ const ListState = () => {
     const [loading, setLoading] = useState(true)
     const [states, setStates] = useState([])
     const [error, setError] = useState()
-    const [cantPages, setCantPages] = useState()
-    const [pages, setPages] = useState([])
-    const [stateAlert, setStateAlert] = useState(null)
-    const [alert, setAlert] = useState(null)
     const [currentPage, setCurrentPage] = useState(1)
     const [countItems, setCountItems] = useState(0);
+    const [updatePagination, setUpdatePagination] = useState(false)
+    const [disabledPagination, setDisabledPagination] = useState(true)
+
+
     const [showAlert, setShowAlert] = useState(false)
 
     const resetShowAlert = () => {
@@ -35,6 +35,10 @@ const ListState = () => {
             .then((response) => {
                 setStates(response.data.results)
                 setCountItems(response.data.count)
+                if(currentPage === 1){
+                  setUpdatePagination(true)  
+                }
+                setDisabledPagination(false)
             }).catch((error)=>{
                 setError(error)
               })
@@ -44,7 +48,7 @@ const ListState = () => {
               })
     
     
-        }, [countItems, currentPage])
+        }, [ currentPage])
 
         
     console.log(states)
@@ -72,15 +76,15 @@ const ListState = () => {
           </Row>                                 
           </Card.Header>
           <Card.Body> 
-            <TableStates states={states}  loading={loading} /> 
+            <TableStates states={states}  loading={loading} currentPage={currentPage} /> 
           </Card.Body>
           <Card.Footer >
-                            <Row className="justify-content-md-center">
-                                <Col md="auto"> 
-                                    <AdvancedPagination countItems={countItems} updatePage={updatePage} ></AdvancedPagination>
-                                </Col>
-                            </Row>
-                        </Card.Footer>
+            <Row className="justify-content-md-center">
+                <Col md="auto"> 
+                  <AdvancedPagination countItems={countItems} updatePage={updatePage} updatePagination={updatePagination} setUpdatePagination={setUpdatePagination} setLoading={setLoading} setDisabledPagination={setDisabledPagination} disabledPagination={disabledPagination}/>
+                </Col>
+            </Row>
+          </Card.Footer>
       </Card>
   </div>
   )

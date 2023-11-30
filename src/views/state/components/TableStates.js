@@ -12,7 +12,7 @@ import CallBackendByName from '../../../components/CallBackendByName';
 import { getState } from "../../../api/services/states";
 
 
-const TableStates = ({states, callback, loading}) => {
+const TableStates = ({states, callback, loading, currentPage}) => {
     const [deleteName, setDeleteName] = useState()
     const [deleteUrl, setDeleteUrl] = useState()
     const [remove, setRemove] = useState()
@@ -75,19 +75,6 @@ const TableStates = ({states, callback, loading}) => {
         .finally(()=>{
             setShowState(false)
         })
-        /*.then((response) => {
-            console.log(response)
-            
-            callback(message, true)
-        })
-        .catch((error) => {
-                console.log(error)
-                setError(error)
-                callback(message, false)
-            })
-            .finally(() => {
-                setShowState(false)
-            })*/
     }
     const showModalState = (state) => {
         setState(state)
@@ -118,7 +105,7 @@ const TableStates = ({states, callback, loading}) => {
                             {states.map((state, index) => {
                             return (
                                         <tr>
-                                            <th >{index + 1 }</th>
+                                            <th >{ 1+index+10*(currentPage-1) }</th>
                                             <td>{state.name}</td>
                                             <td>
                                             <ActiveButton active={state.active} onClick={() => modalChangeState(state.url, state.name, state.active)} />

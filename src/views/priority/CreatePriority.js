@@ -33,8 +33,6 @@ const AddPriority = () => {
        body.solve_time_minutes = body.solve_time_minutes ==""? "00" : body.solve_time_minutes.length == 1 ? "0"+body.solve_time_minutes : body.solve_time_minutes
        let attend_time=body.attend_time_days+" "+body.attend_time_hours+":"+body.attend_time_minutes+":00"
        let solve_time=body.solve_time_days+" "+body.solve_time_hours+":"+body.solve_time_minutes+":00"
-       console.log(attend_time)
-       console.log(solve_time)
     
         postPriority(body.name,body.color,body.severity,attend_time, solve_time)
         .then(() => {

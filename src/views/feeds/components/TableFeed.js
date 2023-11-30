@@ -6,8 +6,9 @@ import CrudButton from '../../../components/Button/CrudButton';
 import ActiveButton from '../../../components/Button/ActiveButton';
 import ModalConfirm from '../../../components/Modal/ModalConfirm';
 import Alert from '../../../components/Alert/Alert';
+import Ordering from '../../../components/Ordering/Ordering'
 
-const TableFeed = ({feeds, loading}) => {
+const TableFeed = ({feeds, loading, order, setOrder, setLoading, currentPage}) => {
     const [remove, setRemove] = useState(false);
     const [deleteName, setDeleteName] = useState("");
     const [deleteUrl, setDeleteUrl] = useState("");
@@ -85,16 +86,19 @@ const TableFeed = ({feeds, loading}) => {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Nombre</th>
+                        <Ordering field="name" label="Nombre" order={order} setOrder={setOrder} setLoading={setLoading} />
                         <th>Activo</th>
                         <th>Casos Asociados</th>                                                                                  
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {feeds.sort((a, b) => (a.name < b.name ? -1 : 1)).map((feed,i) => (
-                        <tr key={i}>
-                            <th scope="row">{i+1}</th>
+                    {feeds.map((feed, index) => {
+                        const parts = feed.url.split("/");
+                        let itemNumber = parts[parts.length - 2];
+                        return (
+                        <tr key={index}>
+                            <th scope="row">{1+index+10*(currentPage-1)}</th>
                             <td>{feed.name}</td>
                             <td>
                                 
@@ -109,7 +113,7 @@ const TableFeed = ({feeds, loading}) => {
                                 <CrudButton  type='delete' onClick={()=>handleShow(feed.name, feed.url)} /> 
                             </td>
                         </tr>
-                    ))}
+                    )})}
                 </tbody>
             </Table>
             <ModalConfirm type='delete' component='Fuentes de Información' name={deleteName} showModal={remove} onHide={() => setRemove(false)} ifConfirm={() => handleDelete(deleteUrl)}/>
