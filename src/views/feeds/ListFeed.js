@@ -45,7 +45,7 @@ const ListFeed = () => {
         .finally(() => {
             setLoading(false)
         })
-    }, [countItems, currentPage, wordToSearch, order]);  
+    }, [ currentPage, wordToSearch, order]);  
  
     return (
         <React.Fragment>

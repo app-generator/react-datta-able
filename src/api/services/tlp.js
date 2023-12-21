@@ -5,7 +5,8 @@ import setAlert from '../../utils/setAlert';
 const getTLP = () => {
     let messageError = `No se pudo recuperar la informacion de TLP`;
     return apiInstance.get(COMPONENT_URL.tlp)
-    .then(response => {        
+    .then(response => {   
+        console.log(response)     
         return response;
     }).catch( error => { 
         setAlert(messageError, "error");

@@ -8,7 +8,7 @@ import { putTemplate} from "../../api/services/templates";
 import { getTLP } from "../../api/services/tlp";
 import { getAllTaxonomies } from "../../api/services/taxonomies";
 import { getAllFeeds } from "../../api/services/feeds";
-import { getPriorities } from "../../api/services/priorities";
+import { getAllPriorities } from "../../api/services/priorities";
 import { getStates } from "../../api/services/states";
 
 const EditTemplate = () => {
@@ -61,9 +61,9 @@ const EditTemplate = () => {
                 setLoading(false)
             })
     
-            getPriorities().then((response) => { //se hardcodea las paginas
-              console.log(response.data.results)
-              setPriorities(response.data.results)
+            getAllPriorities().then((response) => { //se hardcodea las paginas
+              console.log(response)
+              setPriorities(response)
             })
             .catch((error) => {
                 setError(error)

@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {Button, Card, Col, Form, Row} from 'react-bootstrap';
 import { getAllPriorities } from '../../../api/services/priorities';
 import { getTLP } from '../../../api/services/tlp';
-import { getUsers } from '../../../api/services/users';
+import { getAllUsers } from '../../../api/services/users';
 import ViewFiles from '../../../components/Button/ViewFiles';
 import FileUpload  from '../../../components/UploadFiles/FileUpload/FileUpload'
 import FileList from '../../../components/UploadFiles/FileList/FileList'
 import Alert from '../../../components/Alert/Alert';
 import { putCase, postCase } from '../../../api/services/cases';
-
 
 const FormCase = (props) => {  // props: edit, caseitem, allStates 
 
@@ -40,7 +39,7 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
     const [ comm, setComm ] = useState();
 
     useEffect(()=> {
-        
+      
         getAllPriorities()
         .then((response) => {
             setAllPriorities (Object.values(response))
@@ -59,10 +58,10 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
             console.log(error)
         })
 
-        getUsers()
+        getAllUsers()
         .then((response) => {
-            setAllUsers(response.data.results)
-            console.log(response.data.results)
+            setAllUsers(response)
+            console.log(response)
         })
         .catch((error)=>{
             console.log(error)
@@ -190,6 +189,14 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
         form.append("state", state)
         form.append("attend_date", attend_date)
         form.append("solve_date", solve_date)
+        if (props.selectCase !== null){
+            
+            props.selectedEvent.forEach(selectedEvent => {
+                form.append("events", selectedEvent);
+            });
+        }
+        //form.append("evidence", "http://localhost:8000/api/event/1/")
+        //form.append("evidence", ["http://localhost:8000/api/event/1/", "http://localhost:8000/api/event/2/"])
         //form.append("evidence", evidences)
         if (evidences !== null){
             for (let index=0; index< evidences.length  ; index++){
@@ -215,7 +222,15 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
         postCase(form)
         .then((response) => { 
             console.log(response)
-            window.location.href = "/cases"
+            if (props.selectedEvent == null){
+                window.location.href = "/cases"
+            }
+            if (props.selectedEvent !== null){
+                props.setSelectedEvent([])
+                props.setSelectCase("")
+                props.setShowModalCase(false)
+            }            
+            
 
         })
         .catch((error) => {
@@ -397,8 +412,6 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
                     </Row>
                 </Card.Body>
             </Card>
-            
-
             {props.edit ?
             <Card>
                 <Card.Header>    
@@ -453,10 +466,11 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
 
             }
                  
-            {!date || !lifecycle || !priority || !tlp || !state || ifClick  ? 
+            {/*!date || !lifecycle || !priority || !tlp || !state || ifClick ? */}
+            {  date !== "" &&  priority !== '0' && lifecycle !== '0' && tlp !=='0' && state !== '0'? 
+                <><Button variant="primary" onClick={props.edit ? editCase : addCase}>{props.save}</Button></>:
                 <><Button variant="primary" disabled>{props.save}</Button></> 
-                : 
-                <><Button variant="primary" onClick={props.edit ? editCase : addCase}>{props.save}</Button></>
+                
             }
             <Button variant="primary" href="/cases">Cancelar</Button>
         </React.Fragment>

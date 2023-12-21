@@ -102,8 +102,8 @@ const TableNetwork = ({setIsModify, list, loading, order, setOrder, setLoading ,
                     </thead>
                     <tbody>
                         {list.map((network, index) =>
-                            
                         {
+                            console.log(network.network_entity)
                             return (
                                 <tr key={network.url}>
                                     <th scope="row">{ 1+index+10*(currentPage-1)  }</th>
@@ -113,7 +113,10 @@ const TableNetwork = ({setIsModify, list, loading, order, setOrder, setLoading ,
                                         <ActiveButton active={network.active} onClick={() => pressActive(network.cidr, network.active, network.url)} />
                                     </td>
                                     <td>
-                                        <FormGetName form={false} get={getEntity} url={network.network_entity} key={index} />
+                                        {network.network_entity  ?
+                                            <FormGetName form={false} get={getEntity} url={network.network_entity} key={index} />:
+                                            "-"
+                                        }
                                     </td>
                                     <td>
                                         <CrudButton type='read' onClick={() => showNetwork(network.url)} />

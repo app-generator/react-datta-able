@@ -82,7 +82,7 @@ const TableFeed = ({feeds, loading, order, setOrder, setLoading, currentPage}) =
     <div>
         <Card.Body>       
         <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>                      
-            <Table responsive hover>
+            <Table responsive hover className="text-center">
                 <thead>
                     <tr>
                         <th>#</th>

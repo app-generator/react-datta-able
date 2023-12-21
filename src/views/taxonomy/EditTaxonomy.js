@@ -134,7 +134,7 @@ const EditTaxonomy = () => {
                                     </Col>
                                 </Row>                               
                                 <Form.Group as={Col}>
-                                    { validateType(type) && validateName(name) ?
+                                    { validateType(type) && validateName(name) && name !== "" ?
                                         <Button variant="primary" onClick={editTaxonomy}>Guardar</Button>                                    
                                         : 
                                         <Button variant="primary" disabled>Guardar</Button>                                    

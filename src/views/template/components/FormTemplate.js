@@ -48,41 +48,38 @@ const FormTemplate = (props) => {
         
               <Col sm={12} lg={4}>
               <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Taxonomia</Form.Label>
+                <Form.Label>Taxonomia  <b style={{color:"red"}}>*</b></Form.Label>
                 <Form.Control  
                     type="choice"
                     as="select" 
                     name="event_taxonomy" 
                     value ={props.body.event_taxonomy} 
-                    onChange={(e)=>completeField(e)} 
-                    isInvalid={props.body.event_taxonomy === "-1"}>
+                    onChange={(e)=>completeField(e)} >
                     <option value="-1">Seleccione una taxonomia</option>
                     {props.taxonomy.map((taxonomy) => {
                         return(<option value={taxonomy.url}> {taxonomy.name} </option>)
                     })}
                  
                 </Form.Control>
-                {(props.body.event_taxonomy !== "-1") ? '' : <div className="invalid-feedback">Seleccione una taxonomia</div>}
                 
                 </Form.Group>
               </Col>            
               <Col sm={12} lg={4}>
               <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Fuente de Informacion</Form.Label>
+                <Form.Label>Fuente de Informacion  <b style={{color:"red"}}>*</b> </Form.Label>
                 <Form.Control  
                     type="choice"
                     as="select" 
                     name="event_feed" 
                     value ={props.body.event_feed} 
                     onChange={(e)=>completeField(e)} 
-                    isInvalid={props.body.event_feed === "-1"}>
+                    >
                     <option value="-1">Seleccione una Fuente de Informacion</option>
                     {props.feeds.map((feed) => {
                         return(<option value={feed.url}> {feed.name} </option>)
                     })}
                  
                 </Form.Control>
-                {(props.body.event_feed !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Fuente de Informacion</div>}
                 </Form.Group>
               </Col>
            
@@ -122,59 +119,53 @@ const FormTemplate = (props) => {
     <Col sm={12} lg={4}>
             
             <Form.Group controlId="exampleForm.ControlSelect1">
-                   <Form.Label>TLP</Form.Label>
+                   <Form.Label>TLP  <b style={{color:"red"}}>*</b></Form.Label>
                    <Form.Control  
                        type="choice"
                        as="select" 
                        name="case_tlp" 
                        value ={props.body.case_tlp} 
-                       onChange={(e)=>completeField(e)} 
-                       isInvalid={props.body.case_tlp === "-1"}>
+                       onChange={(e)=>completeField(e)} >
                        <option value="-1">Seleccione un tlp</option>
                        {props.tlp.map((tlp) => {
                            return(<option value={tlp.url}> {tlp.name} </option>)
                        })}
                    
                    </Form.Control>
-                   {(props.body.case_tlp !== "-1") ? '' : <div className="invalid-feedback">Seleccione un tlp</div>}
                </Form.Group>
                </Col>
               
               <Col sm={12} lg={4}>
               <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Prioridades</Form.Label>
+                <Form.Label>Prioridades  <b style={{color:"red"}}>*</b></Form.Label>
                 <Form.Control  
                     type="choice"
                     as="select" 
                     name="priority" 
                     value ={props.body.priority} 
-                    onChange={(e)=>completeField(e)} 
-                    isInvalid={props.body.priority === "-1"}>
+                    onChange={(e)=>completeField(e)} >
                     <option value="-1">Seleccione una Prioridad</option>
                     {props.priorities.map((priority) => {
                         return(<option value={priority.url}> {priority.name} </option>)
                     })}
                  
                 </Form.Control>
-                {(props.body.priority !== "-1") ? '' : <div className="invalid-feedback">Seleccione una Prioridad</div>}
                 </Form.Group>
               </Col>
               <Col sm={12} lg={4}>
               <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>Estado</Form.Label>
+                <Form.Label>Estado  <b style={{color:"red"}}>*</b></Form.Label>
                 <Form.Control  
                     type="choice"
                     as="select" 
                     name="case_state" 
                     value ={props.body.case_state} 
-                    onChange={(e)=>completeField(e)} 
-                    isInvalid={props.body.case_state === "-1"}>
+                    onChange={(e)=>completeField(e)}>
                     <option value="-1">Seleccione un Estado</option>
                     {props.states.map((state) => {
                         return(<option value={state.url}> {state.name} </option>)
                     })}
                 </Form.Control>
-                {(props.body.case_state !== "-1") ? '' : <div className="invalid-feedback">Seleccione un Estado</div>}
                 </Form.Group>
               </Col>
               </Row>
@@ -199,7 +190,13 @@ const FormTemplate = (props) => {
         </Form>                  
       </Card.Body>
       </Card>
-    <Button variant="primary" onClick={props.createTemplate} >Guardar</Button> 
+      { props.body.event_taxonomy !== '-1' && props.body.event_feed !== '-1' && props.body.case_tlp !== "-1"
+      && props.body.priority !== "-1" && props.body.case_state !== "-1" && props.body.address_value !== "" && !showErrorMessage ?
+            <Button variant="primary" onClick={props.createTemplate} >Guardar</Button> 
+            : 
+            <Button variant="primary" disabled>Guardar</Button>                                    
+    }
+    
     <Button variant="primary" href="/templates">Cancelar</Button>       
          
     </React.Fragment>

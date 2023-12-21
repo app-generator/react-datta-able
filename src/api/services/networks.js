@@ -9,6 +9,7 @@ const getNetworks = (currentPage, filters,order) => {
         return response;
     }).catch( error => { 
         let statusText = error.response.statusText;
+        console.log(error.response.statusText)
         messageError += statusText;
         setAlert(messageError , "error", "network");
         return Promise.reject(error);

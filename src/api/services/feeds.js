@@ -28,6 +28,7 @@ const getAllFeeds = (currentPage = 1, results = [], limit = 100) => {
     let messageError = `No se pudo recuperar la informacion de las fuentes de informacion`;            
     return apiInstance.get(COMPONENT_URL.feed, { params: { page: currentPage, page_size: limit } })       
         .then((response) => {
+            console.log(response)
             let res = [...results, ...response.data.results]                                    
             if(response.data.next != undefined){                                
                 return getAllFeeds(++currentPage, res, limit)

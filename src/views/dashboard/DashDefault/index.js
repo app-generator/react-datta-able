@@ -1,20 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import AmChartEarnings from './chart/AmChartEarnings';
 import AmChartStatistics6 from './chart/AmChartStatistics6';
+import PieBasicChart from './chart/PieBasicChart';
+import PieDonutChart from './chart/PieDonutChart';
 
 import avatar1 from '../../../assets/images/user/avatar-1.jpg';
 import avatar2 from '../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../assets/images/user/avatar-3.jpg';
+import { getDashboardFeed } from '../../../api/services/dashboards';
 
 
 const DashDefault = () => {
 
+    const [dashboardFeed, setDashboardFeed] = useState([]);
+    useEffect( ()=> {
+
+        getDashboardFeed() 
+            .then((response) => {
+                setDashboardFeed(response.data.feeds_in_events)
+                console.log(response)
+            })
+            .catch((error) => {
+                // Show alert
+            })
+            .finally(() => {
+            })
+        
+    }, [])
+
     return (
         <React.Fragment>       
             <Row>
+            <Col md={6}>
+                    <Card>
+                        <Card.Header>
+                            <Card.Title as="h5">Pie Basic Chart</Card.Title>
+                        </Card.Header>
+                        <Card.Body className="text-center">
+                            <PieBasicChart dashboardFeed={dashboardFeed}/>
+                        </Card.Body>
+                    </Card>
+                </Col>
+               <Col md={6}>
+                    <Card>
+                        <Card.Header>
+                            <Card.Title as="h5">Donut Chart</Card.Title>
+                        </Card.Header>
+                        <Card.Body className="text-center">
+                            <PieDonutChart />
+                        </Card.Body>
+                    </Card>
+    </Col>
                 <Col md={6} xl={4}>
                     <Card>
                         <Card.Body>

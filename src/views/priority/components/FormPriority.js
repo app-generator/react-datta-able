@@ -17,6 +17,12 @@ const FormPriority = ({body, setBody, createPriority}) => {
         if(!validateNumber(body.severity)){
                 return false
         }
+        if (body.name == ""){
+                return false
+        }
+        if(body.severity == ""){
+                return false
+        }
         if(body.color === "" ){
                 return false
         }
@@ -61,7 +67,7 @@ const FormPriority = ({body, setBody, createPriority}) => {
         <Row>
         <Col sm={12} lg={4}>
       <Form.Group controlId="formGridAddress1">
-              <Form.Label>Nombre</Form.Label>
+              <Form.Label>Nombre <b style={{color:"red"}}>*</b> </Form.Label>
               <Form.Control 
                placeholder="Ingrese un nombre" 
                maxlength="150" 
@@ -69,12 +75,12 @@ const FormPriority = ({body, setBody, createPriority}) => {
                name="name"
                isInvalid={!validateFieldText(body.name)}
                onChange={(e)=>completeField(e)}/>
-               {body.name !== "" ? ""  : <div className="invalid-feedback">   Ingrese un nombre </div>}
+               {validateFieldText(body.name) ? ""  : <div className="invalid-feedback"> Ingrese solo letras</div>}
       </Form.Group>
       </Col>
         <Col sm={12} lg={4}>
       <Form.Group controlId="formGridAddress1">
-              <Form.Label>Severidad</Form.Label>
+              <Form.Label>Severidad <b style={{color:"red"}}>*</b></Form.Label>
               <Form.Control 
                placeholder="Ingrese el valor de gravedad" 
                maxlength="150" 
@@ -82,20 +88,22 @@ const FormPriority = ({body, setBody, createPriority}) => {
                name="severity"
                isInvalid={!validateNumber(body.severity)}
                onChange={(e)=>completeField(e)}/>
-               {body.severity !== "" ? ""  : <div className="invalid-feedback">   Ingrese el numero de gravedad </div>}
+               {validateNumber(body.severity) ? ""  : <div className="invalid-feedback">   Ingreso solo numeros </div>}
       </Form.Group>
       </Col>
         <Col sm={12} lg={4}>
       <Form.Group controlId="formGridAddress1">
-              <Form.Label>Color</Form.Label>
+              <Form.Label>Color <b style={{color:"red"}}>*</b> </Form.Label>
               <Form.Control 
               placeholder="Ingrese un color" 
               maxlength="150" 
               value ={body.color} 
               name="color" 
-              isInvalid={body.color === ""}
               onChange={(e)=>completeField(e)}/>
-               {body.color !== "" ? ""  : <div className="invalid-feedback">Ingrese un color </div>}
+               {body.color !== "" ? ""  : <div className="invalid-feedback">Ingrese un color </div>  }
+               {
+                       //tengo ver un validador para color
+               }
       </Form.Group>
       </Col>
       </Row>

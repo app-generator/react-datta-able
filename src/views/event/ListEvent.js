@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom'
-import { Card,Row,Col, Button, Badge, Collapse, Form } from 'react-bootstrap';
+import { Card,Row,Col, Button, Badge, Collapse, Form, Modal } from 'react-bootstrap';
 import Navigation from '../../components/Navigation/Navigation'
 import Search from '../../components/Search/Search'
 import CrudButton from '../../components/Button/CrudButton';
@@ -14,6 +14,10 @@ import AdvancedPagination from '../../components/Pagination/AdvancedPagination';
 import ModalConfirm from '../../components/Modal/ModalConfirm';
 import Alert from '../../components/Alert/Alert';
 import ButtonFilter from '../../components/Button/ButtonFilter';
+import Select from 'react-select';
+import { getAllCases, patchCase } from "../../api/services/cases";
+import FormCase from '../case/components/FormCase';
+import { getStates } from '../../api/services/states';
 
 const ListEvent = () => {
   const [events, setEvents] = useState([])
@@ -28,6 +32,30 @@ const ListEvent = () => {
   //merge
   const [selectedEvent, setSelectedEvent] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
+  //modal case
+  const [showModalCase, setShowModalCase] = useState(false);
+  const [cases, setCases] = useState([])
+  const [selectCase, setSelectCase] = useState("")
+
+  //add to cases
+  const [openCases, setOpenCases] = useState(false);
+  const [opeFormCases, setOpenFormCases] = useState(false);
+  const [allStates, setAllStates] = useState([]) //multiselect
+
+  const caseItem = {
+      lifecycle: '0',//required
+      priority: '0', //required
+      tlp: '0', //required
+      state: '0', //required
+      date: null, //required
+      parent: null,
+      assigned: null,
+      attend_date: null, //imprime la hora actual +3horas
+      solve_date: null,
+      comments: [], //?
+      evidence: [],
+  }
 
   //filters and search
   const [wordToSearch, setWordToSearch]= useState('')
@@ -59,6 +87,36 @@ const ListEvent = () => {
   }
 
   useEffect(() => {
+
+    getStates().then((response) => {
+          console.log(response);
+          let listStates = []
+          response.data.results.map((stateItem)=>{
+              listStates.push({value:stateItem.url, label:stateItem.name, childrenUrl:stateItem.children})
+          })
+          setAllStates(listStates)
+
+          console.log(response.data.results)
+      })
+      .catch((error)=>{
+          console.log(error)
+      })
+
+    getAllCases().then((response) => { 
+      let list = []
+      response.map((item) => {
+        const parts = item.url.split("/");
+        let itemNumber = parts[parts.length - 2];
+        list.push({value:item.url, label:itemNumber})
+      })
+      setCases(list)
+    })
+    .catch((error) => {
+        setError(error)
+        
+    }).finally(() => {
+        setLoading(false)
+    })
 
     getAllTaxonomies()
     .then((response) => {
@@ -121,6 +179,12 @@ const ListEvent = () => {
     });
   }
 
+  const modalCase = () => {
+    //setId
+    setShowModalCase(true);
+  }
+
+
   const completeDateStar = (date) => {
     setStarDate(date)
     setStarDateFilter("created_range_after="+date+'&')
@@ -141,6 +205,22 @@ const ListEvent = () => {
     }
   }
 
+  const complete=(selectCase)=>{ 
+    setSelectCase(selectCase)
+    console.log(selectCase)
+
+  };
+
+  const addEventsToCase=()=>{ 
+    patchCase(selectCase.value,selectedEvent ).then((response) => {
+      setSelectedEvent([])
+      setSelectCase("")
+      setIfModify(response)
+
+    })
+    setShowModalCase(false);
+  };
+
   return (
      <div>
        <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
@@ -153,7 +233,7 @@ const ListEvent = () => {
         <Col sm={1} lg={1}>
           <ButtonFilter open={open} setOpen={setOpen} />
         </Col>
-        <Col sm={1} lg={6} >
+        <Col sm={8} lg={5} >
               <Search type="por taxonomia, fuentes o recurso afectado" setWordToSearch={setWordToSearch} wordToSearch={wordToSearch} setLoading={setLoading} />
         </Col>
         <Col> 
@@ -169,6 +249,17 @@ const ListEvent = () => {
                 onClick={() => mergeConfirm()}>
                 <i  className="fa fa-code-branch"/>
                     Merge&nbsp;
+                <Badge  
+                    className="badge mr-1" >
+                    {selectedEvent.length} 
+                </Badge>
+            </Button>
+            <Button 
+                disabled={selectedEvent.length > 0 ? false : true}
+                size="lm"
+                variant="outline-dark"
+                onClick={() => modalCase()}>
+                Agregar a un caso
                 <Badge  
                     className="badge mr-1" >
                     {selectedEvent.length} 
@@ -232,6 +323,42 @@ const ListEvent = () => {
           </Row>
       </Card.Footer>
       <ModalConfirm type='merge' component='eventos' name={selectedEvent} showModal={showModal} onHide={() => setShowModal(false)} ifConfirm={() => merge()}/>
+      <Modal show={showModalCase} onHide={() => setShowModalCase(false)} aria-labelledby="contained-modal-title-vcenter" centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Desea agregar estos eventos a un caso</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <ButtonFilter open={openCases} setOpen={setOpenCases} />
+                <Collapse in={openCases}>
+                  <div id="example-collapse-text">
+                  <Row>
+                    <Col sm={4} lg={4}>
+                        <Form.Group>
+                            <Form.Label>Casos</Form.Label>
+                            <Select options={cases} value={selectCase} isClearable placeholder={"Seleccione un caso"} onChange={(e) => complete(e)}  />
+                        </Form.Group>
+                    </Col>
+                    </Row>
+                    <Modal.Footer>
+                          <Button variant="outline-primary" onClick={addEventsToCase}>
+                            Confimar 
+                          </Button>
+
+                          <Button variant="outline-secondary" onClick={() => setShowModalCase(false)}>Cancelar</Button>
+                    </Modal.Footer>
+                  </div>
+                </Collapse>
+                
+                <ButtonFilter open={opeFormCases} setOpen={setOpenFormCases} />
+                <Collapse in={opeFormCases}>
+                  <div id="example-collapse-text">
+                   <FormCase caseItem={caseItem} allStates={allStates} edit={false} save='Crear' selectedEvent={selectedEvent} setSelectedEvent={setSelectedEvent}
+                              setSelectCase={setSelectCase} setShowModalCase={setShowModalCase}/>
+                  </div>
+                </Collapse>
+                </Modal.Body>
+                
+            </Modal>
       </Card>            
     </div>
   )

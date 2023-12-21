@@ -11,6 +11,7 @@ import { postStringIdentifier } from "../../../api/services/stringIdentifier";
 import Alert from '../../../components/Alert/Alert';
 
 
+
 const animatedComponents = makeAnimated();
 //{createEvent, setBody, body, feeds, taxonomy, tlp, priorities, users, listArtifact, setContactsCreated}
 const FormEvent = (props) => {
@@ -60,6 +61,15 @@ const FormEvent = (props) => {
         props.setBody({...props.body,
             [event.target.name] : event.target.value}
         )       
+    };
+
+    const complete=(event)=>{ 
+        console.log(event)
+        props.setBody({
+            ...props.body,
+            case: event.value,
+          });
+        props.setSelectCase(event)      
     };
 
     const selectArtefact=(event)=>{ 
@@ -210,6 +220,14 @@ const FormEvent = (props) => {
                     </Form.Group>
                     </Col>
                 </Row>
+                <Row>
+                    <Col sm={4} lg={4}>
+                        <Form.Group>
+                            <Form.Label>Casos</Form.Label>
+                            <Select options={props.cases} value={props.selectCase} isClearable placeholder={"Seleccione un caso"} onChange={(e) => complete(e)}  />
+                        </Form.Group>
+                    </Col>
+                </Row>
                 <Form.Group controlId="formGridAddress1">
                 <Form.Label>Notas</Form.Label>
                 <Form.Control 
@@ -233,7 +251,7 @@ const FormEvent = (props) => {
                     <Row>
                         <Col sm={12} lg={9}>
                                 <Select
-                                    placeholder='Seleccione Contactos'
+                                    placeholder='Seleccione artefactos'
                                     closeMenuOnSelect={false}
                                     components={animatedComponents}
                                     isMulti
@@ -316,6 +334,13 @@ const FormEvent = (props) => {
             </Modal>      
         </Card.Body>
         </Card>
+        
+        {/* props.body.date !== "" &&  props.body.tlp !== "-1" && props.body.taxonomy !== "-1" && props.body.feed !== "-1"
+            && props.body.priority !== "-1" && props.body.address_value !== "" && !showErrorMessage?
+            <Button variant="primary" onClick={props.createEvent} >Guardar</Button> 
+            : 
+            <Button variant="primary" disabled>Guardar</Button>                                    
+                    */}
         <Button variant="primary" onClick={props.createEvent} >Guardar</Button> 
         <Button variant="primary" href="/events">Cancelar</Button>      
     </div>

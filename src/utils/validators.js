@@ -22,7 +22,7 @@ const  validateSpaces= (text) => {
 }
 const validateSpace= (text) => {
   
-  return (text.trim() != 0)
+  return (text.trim() !== "")
 }
 
 const validateLength = (text, maxlength) =>{
@@ -49,6 +49,9 @@ const validateAlphanumeric = (text) =>{
 }
 
 const validateNumbers = (text) =>{
+  if (text === ""){
+    return true
+  }
   return (/^[0-9]+$/g).test(text)
 }
 
@@ -69,6 +72,9 @@ const validateMinutes = (minutes) => {
 }
 
 const validateNumber = (number) => {
+  if (number === ""){
+    return true
+  }
   return (/^[0-9]+$/g).test(number)
 }
 

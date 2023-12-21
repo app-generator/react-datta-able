@@ -3,7 +3,7 @@ import { Card, Form} from 'react-bootstrap';
 import { putUser, getUser} from "../../api/services/users";
 import { useLocation } from "react-router-dom";
 import Alert from '../../components/Alert/Alert';
-import { getPriorities } from "../../api/services/priorities";
+import { getAllPriorities } from "../../api/services/priorities";
 import FormUser from './components/FormUser'
 import Navigation from '../../components/Navigation/Navigation'
 
@@ -22,14 +22,14 @@ const EditUser = () => {
     useEffect( ()=> {
 
         getUser(user.url).then((response)=> {
-            setUser(response.data.results)
-            console.log(response.data.results)
+            setUser(response.data)
+            console.log(response.data)
         })
         
         const fetchPosts = async () => {
             setLoading(true)
-            getPriorities().then((response) => { 
-                setPriorities(response.data.results)
+            getAllPriorities().then((response) => { 
+                setPriorities(response)
             })
             .catch((error) => {
                 setError(error)
@@ -71,7 +71,7 @@ const EditUser = () => {
                 </Card.Header>
                 <Card.Body>
                 <Form>
-                <FormUser body={body} setBody={setBody} priorities={priorities} createUser={editUser} loading={loading}/>
+                <FormUser body={user} setBody={setUser} priorities={priorities} createUser={editUser} loading={loading}/>
                         
                     </Form>
                 </Card.Body>

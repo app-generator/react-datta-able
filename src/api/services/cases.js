@@ -124,6 +124,25 @@ const postCase = (formData) => {
             return Promise.reject(error);
         });
     }
+    const patchCase = (url, events) => {
+        let messageSuccess = `El caso se ha editado correctamente.`;
+        let messageError = `El caso no se ha editado. `;
+        return apiInstance.patch(url, 
+        {
+            events: events
+        }
+        ).then(response => {
+            setAlert(messageSuccess , "success", "case");
+            return response;
+        }).catch( error => { 
+           
+            let statusText = error.response.statusText;
+            messageError += statusText;
+            console.log(error.response.statusText)
+            setAlert(messageError , "error", "case");
+            return Promise.reject(error);
+        });
+    }
 
 
 const deleteCase = (url) => {
@@ -158,4 +177,4 @@ const mergeCase = (urlParent, urlChildren) => {
     });
 }
 
-export { getCases, getAllCases, getOrderingCases, getCase, postCase, putCase, deleteCase, mergeCase };
+export { getCases, getAllCases, getOrderingCases, getCase, postCase, putCase, deleteCase, mergeCase, patchCase };

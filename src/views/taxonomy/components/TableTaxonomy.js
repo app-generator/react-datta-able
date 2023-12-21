@@ -46,7 +46,7 @@ const TableTaxonomy = ({setIsModify, list, loading, order, setOrder, setLoading,
     
     return (
             <React.Fragment>
-                <Table responsive hover>
+                <Table responsive hover className="text-center">
                     <thead>
                         <tr>
                             <th>#</th>  

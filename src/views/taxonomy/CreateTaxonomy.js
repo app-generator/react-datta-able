@@ -96,13 +96,11 @@ const CreateTaxonomy = () => {
                                                 as="select" 
                                                 value={type} 
                                                 onChange={(e) => setType(e.target.value)} 
-                                                isInvalid={!validateType(type)} 
                                             >                                                                     
                                                 <option key={0} value=''>Seleccione</option>
                                                 <option key={1} value='vulnerability'>Vulnerabilidad</option>
                                                 <option key={2} value='incident'>Incidente</option>
                                             </Form.Control>
-                                            {validateType(type) ? '' : <div className="invalid-feedback">Ingrese un tipo de taxonomia</div>} 
                                         </Form.Group>
                                     </Col>
                                     <Col sm={12} lg={4}>
@@ -128,7 +126,7 @@ const CreateTaxonomy = () => {
                                     </Col>
                                 </Row>
                                 <Form.Group as={Col}>
-                                    { validateType(type) && validateName(name) ?
+                                    { validateType(type) && validateName(name) && name !=="" ?
                                         <Button variant="primary" onClick={createTaxonomy}>Guardar</Button>                                    
                                         : 
                                         <Button variant="primary" disabled>Guardar</Button>                                    

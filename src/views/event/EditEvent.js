@@ -12,38 +12,46 @@ import { getAllPriorities } from "../../api/services/priorities";
 import { getEvidence, deleteEvidence} from "../../api/services/evidences";
 import { getAllUsers } from "../../api/services/users";
 import { getAllArtifacts } from "../../api/services/artifact";
+import { getAllCases } from "../../api/services/cases";
+import { set } from 'js-cookie';
 
 const EditEvent = () => {
   //const [date, setDate] = useState(caseItem.date  != null ? caseItem.date.substr(0,16) : '') //required
-  const location = useLocation();
-  const fromState = location.state;
-  const [event, setEvent] = useState(fromState);  
-
-
-    const [alert, setAlert] = useState(null)
-    const [stateAlert, setStateAlert] = useState(null)
+    const location = useLocation();
+    const fromState = location.state;
+    const [event, setEvent] = useState(fromState);  
     const [error,setError]=useState()
     const [body,setBody]=useState(event)
     const [evidence, setEvidence] = useState([])
     const [TLP, setTLP] = useState([])
     const [feeds, setFeeds] = useState([])
     const [taxonomy, setTaxonomy] = useState([])
+    const [cases, setCases] = useState([])
     const [priorities, setPriorities] = useState([])
     const [users, setUsers] = useState([])
     const [listArtifact, setListArtifact] = useState([])
     const [contactCreated, setContactsCreated ] = useState(null);
     const [loading, setLoading] = useState(true)
     const [showAlert, setShowAlert] = useState(false)
+    const [selectCase, setSelectCase] = useState()
 
   useEffect( ()=> {
     event.date = event.date.substr(0,16)
-    event.reporter = event.reporter == null ? "": event.reporter
-    event.domain = event.domain == null ? "": event.domain
-    event.cidr = event.cidr == null ? "": event.cidr
+    //event.reporter = event.reporter == null ? "": event.reporter
+    //event.domain = event.domain == null ? "": event.domain
+    //event.cidr = event.cidr == null ? "": event.cidr
+    if (event.case !== null){
+      const parts = event.case.split("/");
+      let itemNumber = parts[parts.length - 2];
+      setSelectCase({value:event.case, label:itemNumber})
+    }
+   
     setBody(event)
 
     const fetchPosts = async () => {
         setLoading(true)
+
+
         var list = []
         event.evidence.forEach((url) => {
            
@@ -57,6 +65,22 @@ const EditEvent = () => {
         
         getTLP().then((response) => { 
           setTLP(response.data.results)
+        })
+        .catch((error) => {
+            setError(error)
+            
+        }).finally(() => {
+            setLoading(false)
+        })
+
+        getAllCases().then((response) => { 
+          let list = []
+          response.map((item) => {
+            const parts = item.url.split("/");
+            let itemNumber = parts[parts.length - 2];
+            list.push({value:item.url, label:itemNumber})
+          })
+          setCases(list)
         })
         .catch((error) => {
             setError(error)
@@ -148,10 +172,8 @@ const EditEvent = () => {
       formDataEvent.append("taxonomy", body.taxonomy)
       formDataEvent.append("artifacts", body.artifacts)
       formDataEvent.append("feed", body.feed)
-      if (body.domain !== ""){
-        formDataEvent.append("domain", body.domain)
-      }
-      formDataEvent.append("cidr", body.cidr)
+      formDataEvent.append("address_value", body.address_value)
+      formDataEvent.append("case", body.case)
       formDataEvent.append("todos", body.todos)
       formDataEvent.append("comments", body.comments)
       //f.append("cidr", body.cidr)// 'null' does not appear to be an IPv4 or IPv6 network"
@@ -195,7 +217,11 @@ const EditEvent = () => {
         <Row>
           <Navigation actualPosition="Editar Evento " path="/events" index ="Evento"/>
         </Row>
-        <FormEvent createEvent={editEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated} evidence={evidence} setEvidence={setEvidence}/>
+        <FormEvent createEvent={editEvent} setBody={setBody} body={body} feeds={feeds} 
+                  taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} 
+                  listArtifact={listArtifact} setContactsCreated={setContactsCreated} 
+                  evidence={evidence} setEvidence={setEvidence} cases={cases} 
+                  selectCase={selectCase} setSelectCase={setSelectCase}/>
     </div>
   )
 }

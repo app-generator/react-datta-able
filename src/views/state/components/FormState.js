@@ -50,7 +50,7 @@ const FormState = ({body, setBody, createState, childernes}) => {
                             maxlength="100" 
                             value ={body.name} 
                             name="name"
-                            isInvalid={validateName(body.name)}                        
+                            isInvalid={!validateName(body.name)}                        
                             onChange={(e)=>completeField(e)}
                         />
                         {validateName(body.name) ? '' : <div className="invalid-feedback">Ingrese un nombre que contenga hasta 100 caracteres, solo letras y que no sea vacio</div>}
@@ -112,8 +112,12 @@ const FormState = ({body, setBody, createState, childernes}) => {
                     options={childernes}
                 />
             </Form.Group>
-
-            <Button variant="primary" onClick={createState} >Guardar</Button> 
+            {body.name !== "" && validateName(body.name) ?
+            <Button variant="primary" onClick={createState} >Guardar</Button>                             
+            : 
+            <Button variant="primary" disabled>Guardar</Button>                                    
+        }
+            
             <Button variant="primary" href="/states">Cancelar</Button>  
 
         </Form>

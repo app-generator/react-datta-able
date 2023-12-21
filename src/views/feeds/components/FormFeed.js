@@ -48,7 +48,7 @@ const FormFeed = (props) => {
     </Row>     
     <Row>
         <Form.Group as={Col}>
-         { validateName(props.name) ?
+         {props.name !== "" && validateName(props.name) ?
             <Button variant="primary" onClick={props.createFeed}>Guardar</Button>                                    
             : 
             <Button variant="primary" disabled>Guardar</Button>                                    

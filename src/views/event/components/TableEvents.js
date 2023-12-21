@@ -101,7 +101,7 @@ const TableEvents = ({events, loading, selectedEvent, setSelectedEvent, order, s
     <div>
         
             <ul className="list-group my-4">
-                <Table responsive hover>
+                <Table responsive hover className="text-center">
                     <thead>
                         <tr>
                             <th>

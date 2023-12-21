@@ -102,7 +102,7 @@ const handleDelete = () => {
         <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>  
     
                <ul className="list-group my-4"> 
-                    <Table responsive hover>
+                    <Table responsive hover className="text-center">
                         <thead>
                             <tr>
                                 <th>#</th>

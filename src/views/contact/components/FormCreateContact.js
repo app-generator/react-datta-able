@@ -97,8 +97,7 @@ const FormCreateContact = (props) => {
                                 name="role"
                                 type="choice"
                                 as="select"
-                                value={props.role}
-                                isInvalid={!validateSelect(props.role)}                               
+                                value={props.role}                            
                                 onChange={(e) => props.setRole(e.target.value)}>
                                 {roleOptions.map((roleItem, index) => {                
                                     return (
@@ -115,8 +114,7 @@ const FormCreateContact = (props) => {
                                 name="priority"
                                 type="choice"                                            
                                 as="select"
-                                value={props.priority}
-                                isInvalid={!validateSelect(props.priority)}                                
+                                value={props.priority}                             
                                 onChange={(e) =>  props.setPriority(e.target.value)}>
                                 <option value=''>Seleccione</option>
                                 {prioritiesOption.map((priorityItem, index) => {                
@@ -136,8 +134,7 @@ const FormCreateContact = (props) => {
                                 name="type"
                                 type="choice"
                                 as="select"
-                                value={props.type}
-                                isInvalid={!validateSelect(props.type)}                                
+                                value={props.type}                               
                                 onChange={(e) =>  props.setType(e.target.value)}>
                                 {typeOptions.map((typeItem, index) => {                
                                     return (
@@ -163,7 +160,7 @@ const FormCreateContact = (props) => {
                         onChange = {(e) =>  {props.setKey(e.target.value)}} />
                 </Form.Group>
                 <Form.Group>
-                    {(validateName(props.name) && validateSelect(props.role) && validateSelect(props.priority) && validateSelect(props.type) && validateContact(props.contact) && (validContact)) ? 
+                    {props.name !== ""&& (validateName(props.name) && validateSelect(props.role) && validateSelect(props.priority) && validateSelect(props.type) && validateContact(props.contact) && (validContact)) ? 
                         <><Button variant="primary" onClick={props.ifConfirm} >Guardar</Button></>
                         : 
                         <><Button variant="primary" disabled>Guardar</Button></>                         

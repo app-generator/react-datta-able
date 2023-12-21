@@ -23,6 +23,7 @@ const EditPlaybook = () => {
     
     //Alert
     const [showAlert, setShowAlert] = useState(false);
+    console.log(fromState)
 
     useEffect(()=> {
         getAllTaxonomies()
