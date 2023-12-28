@@ -62,5 +62,23 @@ const mergeEvent = (urlParent, urlChildren) => {
         return Promise.reject(error);
     })
 }
+const getAllEvents = (currentPage = 1, results = [], limit = 100) => {
+    return apiInstance.get(COMPONENT_URL.event, { params: { page: currentPage } })//, page_size: limit
+        .then((response) => {
+            let res = [...results, ...response.data.results]
+            if(response.data.next !== null){
+                return getAllEvents(++currentPage, res, limit)
+            }
+            else{
+                res.sort((p, q) => {
+                    return p.slug > q.slug ? 1 : -1;
+                });
+                return res;     
+            }
+        })
+        .catch((error) => {
+            return Promise.reject(error);
+        })   
+}
 
-export { getEvents , postEvent, putEvent, deleteEvent, mergeEvent, getEvent};
+export { getEvents , postEvent, putEvent, deleteEvent, mergeEvent, getEvent, getAllEvents};

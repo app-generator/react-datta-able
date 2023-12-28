@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row } from 'react-bootstrap';
 import FormCase from './components/FormCase';
 import Navigation from '../../components/Navigation/Navigation';
-import { getStates } from '../../api/services/states';
+import { getAllStates } from '../../api/services/states';
 import Alert from '../../components/Alert/Alert';
 
 const CreateCase = () => {
@@ -27,7 +27,7 @@ const CreateCase = () => {
 
     useEffect(()=> {
 
-        getStates()
+        getAllStates()
             .then((response) => {
                 console.log(response);
                 let listStates = []

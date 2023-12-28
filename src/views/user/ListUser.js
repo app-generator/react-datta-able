@@ -74,7 +74,7 @@ function ListUser() {
         setUsernames(listUsersUsername)
       })
  
-  }, [countItems, currentPage, nameFilter, usernameFilter, emailFilter, wordToSearch, order])
+  }, [ currentPage, nameFilter, usernameFilter, emailFilter, wordToSearch, order])
   
   if (error) {
     return <p>Ups! Se produjo un error al buscar los usuarios</p>

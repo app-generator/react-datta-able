@@ -61,7 +61,7 @@ const ListTLP = () => {
                             </Row>                                                                           
                         </Card.Header>
                         <Card.Body>                            
-                            <Table responsive hover>
+                            <Table responsive hover className="text-center">
                                 <thead>
                                     <tr>
                                         <th>#</th>

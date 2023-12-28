@@ -170,7 +170,7 @@ const TableCase = ({setIfModify, list, loading, setLoading, selectedCases, setSe
                                     <td>
                                         <BadgeItem item={tlpOption[caseItem.tlp]}/>
                                     </td>
-                                    <td>{stateOption[caseItem.state].name}</td>
+                                    <td>{stateOption[caseItem.state] ? stateOption[caseItem.state].name : "No se pudo asignar un estado"}</td>
                                     {caseItem.assigned ? 
                                         <td>
                                             <GetUserName form={false} get={getUser} url={caseItem.assigned} key={index} />

@@ -57,10 +57,10 @@ const FormEntity = (props) => { // props: name, setName, ifConfirm, {edit:false 
                 }
                 </Row>
 
-                {!validateName(props.name) ? 
-                    <><Button variant="primary" disabled>Guardar</Button></> 
+                {props.name !== "" && validateName(props.name) ? 
+                     <><Button variant="primary" onClick={props.ifConfirm}>Guardar</Button></>
                     : 
-                    <><Button variant="primary" onClick={props.ifConfirm}>Guardar</Button></>
+                     <><Button variant="primary" disabled>Guardar</Button></>                    
                 }
                     
                     <Button variant="primary" href="/entities">Cancelar</Button>

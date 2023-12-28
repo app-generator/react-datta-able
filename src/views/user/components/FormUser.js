@@ -48,8 +48,24 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                     {validateUserName(body.username)  ? "" : <div className="invalid-feedback"> Solo se permiten letras, numeros y los cateacteres especiales '@', '.' , '+', '-', '_' </div>}
                 </Form.Group>
             </Col>      
-            
-
+            <Col sm={12} lg={3}>
+                <Form.Group controlId="exampleForm.ControlSelect1">
+                    <Form.Label>Prioridad <b style={{color:"red"}}>*</b></Form.Label>
+                    <Form.Control  
+                        type="choice"
+                        as="select" 
+                        name="priority" 
+                        value ={body.priority} 
+                        onChange={(e)=>completeField(e)} >
+                        <option value=''>Seleccione una prioridad</option>
+                        {priorities.map((priority) => {
+                            return(<option value={priority.url}> {priority.name} </option>)
+                        })}
+                        
+                    </Form.Control>
+                    {(validateSelect(body.priority)) ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
+                </Form.Group>                
+            </Col>
             <Col sm={12} lg={5}>
                 <Form.Group controlId="formGridEmail">
                     <Form.Label>Email</Form.Label>
@@ -63,32 +79,34 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                     />
                     {validateUserMail(body.email) ? ""  : <div className="invalid-feedback"> Ingrese un email valido </div>}
                 </Form.Group>
-
-            </Col>
-
-            <Col sm={12} lg={3}>
-                <Form.Group controlId="exampleForm.ControlSelect1">
-                    <Form.Label>Prioridad <b style={{color:"red"}}>*</b></Form.Label>
-                    <Form.Control  
-                        type="choice"
-                        as="select" 
-                        name="priority" 
-                        value ={body.priority} 
-                        onChange={(e)=>completeField(e)} 
-                       
-                    >
-                        <option value=''>Seleccione una prioridad</option>
-                        {priorities.map((priority) => {
-                            return(<option value={priority.url}> {priority.name} </option>)
-                        })}
-                        
-                    </Form.Control>
-                    {(validateSelect(body.priority)) ? '' : <div className="invalid-feedback">Seleccione una prioridad</div>}
-                </Form.Group>                
             </Col>
         </Row>
         <Row>
-                         
+            <Col sm={12} lg={6}>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Contraseña <b style={{color:"red"}}>*</b></Form.Label>
+                    <Form.Control 
+                        type="password" 
+                        placeholder="ingrese una Contraseña"
+                        name="password"
+                        onChange={(e)=>fieldPassword(e)}  />
+                </Form.Group>
+            </Col>    
+            
+            <Col sm={12} lg={6}>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Contraseña confirmar <b style={{color:"red"}}>*</b></Form.Label>
+                    <Form.Control 
+                        type="password" 
+                        placeholder="ingrese una Contraseña"
+                        name="passwordConfirmation"
+                        isInvalid={(validateUnrequiredInput(body.password)) ?!validatePassword(body.password, body.passwordConfirmation) : false}                  
+                        onChange={(e)=>fieldPassword(e)}  />
+                        {!validatePassword(body.password, body.passwordConfirmation) ? ""  : <div className="invalid-feedback">   las contraseñas no coinciden</div>}
+                </Form.Group>
+            </Col>      
+        </Row>             
+        <Row>               
          <Col sm={12} lg={6}>
                 <Form.Group controlId="formGridAddress1">
                 <Form.Label>Nombre/s</Form.Label>
@@ -119,38 +137,15 @@ const FormUser= ({body, setBody, priorities, createUser, loading}) =>{
                 </Form.Group>
             </Col>
         </Row>
-
-        <Row>
-            <Col sm={12} lg={6}>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Contraseña</Form.Label>
-                    <Form.Control 
-                        type="password" 
-                        placeholder="ingrese una Contraseña"
-                        name="password"
-                        onChange={(e)=>fieldPassword(e)}  />
-                </Form.Group>
-            </Col>    
-            
-            <Col sm={12} lg={6}>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Contraseña confirmar</Form.Label>
-                    <Form.Control 
-                        type="password" 
-                        placeholder="ingrese una Contraseña"
-                        name="passwordConfirmation"
-                        isInvalid={(validateUnrequiredInput(body.password)) ?!validatePassword(body.password, body.passwordConfirmation) : false}                  
-                        onChange={(e)=>fieldPassword(e)}  />
-                        {!validatePassword(body.password, body.passwordConfirmation) ? ""  : <div className="invalid-feedback">   las contraseñas no coinciden</div>}
-                </Form.Group>
-            </Col>      
-        </Row>             
         
-            {(validateUserName(body.username) && validateSelect(body.priority))  ?
+            {body.password !=="" && validatePassword(body.password, body.passwordConfirmation) 
+            && body.username!=="" && validateUserName(body.username) 
+            && validateSelect(body.priority)  ?
             <><Button variant="primary" onClick={createUser} >Guardar</Button></>
             : 
             <><Button variant="primary" disabled>Guardar</Button></> }
             <Button variant="primary" href="/users">Cancelar</Button>
+            <><Button variant="primary" onClick={createUser} >Guardar</Button></>
         
         
     </Form>

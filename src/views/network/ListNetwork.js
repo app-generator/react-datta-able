@@ -74,7 +74,7 @@ const ListNetwork = () => {
                 setShowAlert(true)
                 setLoading(false)
             })
-        }, [countItems, currentPage, isModify, wordToSearch, entitiesFilter, typeFilter, order])
+        }, [ currentPage, isModify, wordToSearch, entitiesFilter, typeFilter, order])
         const labelRole = {
             technical : 'Tecnico',
             administrative : 'Administrativo',

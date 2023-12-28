@@ -40,19 +40,29 @@ const ReadCase = () => {
             return apiInstance.get(url)
         .then(response => {        
             return response.data.file;
-        });
+        }).catch(error =>{
+            let statusText = error.response.statusText;
+            console.log(error)
+        })
         }
+
         const getName = (url, set) => {
             return apiInstance.get(url)
             .then(response => {
                 set(response.data.name);
-            });
+            }).catch(error =>{
+                let statusText = error.response.statusText;
+                console.log(error)
+            })
         }
         const getAssignedUser = (url) => {
             return apiInstance.get(url)
             .then(response => {
                 setAssigned(response.data.username);
-            });
+            }).catch(error =>{
+                let statusText = error.response.statusText;
+                console.log(error)
+            })
         }
         const formatDate = (dateTime, set) => { //2023-09-11T17:14:20.292538Z
             let date = dateTime.split('T')
@@ -60,7 +70,9 @@ const ReadCase = () => {
         }
 
         if(caseItem){
-            getEvidenceFile(caseItem.evidence).then(r => console.log(r))
+            if (caseItem.evidence.length > 0){// aca esta el error en los read
+                getEvidenceFile(caseItem.evidence).then(r => console.log(r))
+            }
             getName(caseItem.priority, setPriority);
             getName(caseItem.tlp, setTlp);
             getAssignedUser(caseItem.user_creator);

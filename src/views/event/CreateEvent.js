@@ -10,6 +10,7 @@ import { getAllPriorities } from "../../api/services/priorities";
 import { getAllUsers } from "../../api/services/users";
 import { getAllArtifacts } from "../../api/services/artifact";
 import Alert from '../../components/Alert/Alert';
+import { getAllCases } from "../../api/services/cases";
 
 const CreateEvent = () => {
   const formEmpty={   
@@ -17,8 +18,6 @@ const CreateEvent = () => {
     todos: [],
     artifacts: [], 
     comments: null, // verificar aca si escribo y borro todo, se envia "" lo mismo para notes
-    //cidr: "",
-    //domain: "", //cuidado con cargar "" , si o si tiene que ser requerido me lo pide por que no tine un atributo filter
     address_value:"",
     date: "",
     notes: "", 
@@ -28,21 +27,24 @@ const CreateEvent = () => {
     taxonomy: "-1",
     feed: "-1",
     reporter: [],
-    case: [],
+    case: "",
     tasks:[]
   }  
-  const [evidence, setEvidence] = useState([])
   const [body, setBody] = useState(formEmpty)
+  const [evidence, setEvidence] = useState([])
   const [error,setError]=useState()
   const [TLP, setTLP] = useState([])
   const [feeds, setFeeds] = useState([])
   const [taxonomy, setTaxonomy] = useState([])
   const [priorities, setPriorities] = useState([])
   const [users, setUsers] = useState([])
+  const [cases, setCases] = useState([])
   const [listArtifact, setListArtifact] = useState([])
   const [loading, setLoading] = useState(true)
   const [contactCreated, setContactsCreated ] = useState(null);
   const [showAlert, setShowAlert] = useState(false)
+  const [selectCase, setSelectCase] = useState("")
+  const [updateCases, setUpdateCases] = useState("")
 
   const resetShowAlert = () => {
     setShowAlert(false);
@@ -58,6 +60,22 @@ const CreateEvent = () => {
         })
         .catch((error) => {
             setShowAlert(true) //hace falta?
+            setError(error)
+            
+        }).finally(() => {
+            setLoading(false)
+        })
+
+        getAllCases().then((response) => { 
+          let list = []
+          response.map((item) => {
+            const parts = item.url.split("/");
+            let itemNumber = parts[parts.length - 2];
+            list.push({value:item.url, label:itemNumber})
+          })
+          setCases(list)
+        })
+        .catch((error) => {
             setError(error)
             
         }).finally(() => {
@@ -124,27 +142,21 @@ const CreateEvent = () => {
     }  
     fetchPosts()
     
-  },[contactCreated]);
+  },[contactCreated, updateCases]);
 
   const createEvent=()=>{
     
     const formDataEvent = new FormData();
     console.log(body.date)
 
-    //console.log(fecha.toISOString())//YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]
-
     formDataEvent.append("date", body.date)// tengo que hacer esto porque solo me acepta este formato, ver a futuro
-    //f.append("date", fecha.toISOString())
+   
     formDataEvent.append("priority",body.priority)
     formDataEvent.append("tlp", body.tlp)
     formDataEvent.append("taxonomy", body.taxonomy)
     formDataEvent.append("feed", body.feed)
-    //if (body.domain !== ""){
-    //  formDataEvent.append("domain", body.domain)
-    //}
     formDataEvent.append("todos", body.todos)
     formDataEvent.append("comments", body.comments)
-    //formDataEvent.append("cidr", body.cidr)
     formDataEvent.append("notes", body.notes)
     formDataEvent.append("parent", body.parent)
     formDataEvent.append("reporter", body.reporter)
@@ -173,13 +185,18 @@ const CreateEvent = () => {
         setError(error);            
     })  
   }
+  console.log(body)
   return (
     <div>
         <Alert showAlert={showAlert} resetShowAlert={resetShowAlert}/>
         <Row>
           <Navigation actualPosition="Agregar evento" path="/events" index ="Evento"/>
         </Row>
-        <FormEvent createEvent={createEvent} setBody={setBody} body={body} feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated} evidence={evidence} setEvidence={setEvidence}/>
+        <FormEvent createEvent={createEvent} setBody={setBody} body={body} 
+                    feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} 
+                    users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated} 
+                    evidence={evidence} setEvidence={setEvidence} cases={cases}
+                    selectCase={selectCase} setSelectCase={setSelectCase} setUpdateCases={setUpdateCases}/>
           
     </div>
   )

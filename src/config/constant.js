@@ -55,5 +55,9 @@ export const COMPONENT_URL={
     searchCase: "search/case/",
     logout: "ctoken/logout/",
     refreshCookieToken: "ctoken/refresh/",
-    stringidentifier:"stringidentifier/"
+    stringidentifier:"stringidentifier/",
+    dashboardFeed:"dashboard/feeds",
+    dashboardEvent:"dashboard/events",
+    dashboardCases:"dashboard/cases",
+    dashboardNetworkEntities:"dashboard/network_entities",
 };

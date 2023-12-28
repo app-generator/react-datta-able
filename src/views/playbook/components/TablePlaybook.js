@@ -41,8 +41,8 @@ const TablePlaybook = ({setIsModify, list, loading, currentPage}) => {
                     for (const taxonomyItem of item.taxonomy) {
                       try {
                         const response = await getTaxonomy(taxonomyItem);
-                        console.log(response.data.name);
-                        list3.push(response.data.name);
+                        console.log(response.data.url);
+                        list3.push(response.data.url);
                         console.log(list3);
                       } catch (error) {
                         console.error('Error:', error);

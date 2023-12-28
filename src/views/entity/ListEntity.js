@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import CrudButton from '../../components/Button/CrudButton'; 
 import TableEntity from './components/TableEntity'; 
-import { getAllEntities, getEntities } from '../../api/services/entities';
+import { getEntities } from '../../api/services/entities';
 import { Link } from 'react-router-dom';
 import Navigation from '../../components/Navigation/Navigation';
 import Search from '../../components/Search/Search';
@@ -34,13 +34,7 @@ const ListEntity = () => {
 
     useEffect( ()=> {
 
-        getAllEntities()
-            .then(response => {
-                setAllEntities(response)
-            })
-            .catch(() => {
-                console.log("se produjo un error en el getAll")
-            })
+        
 
         getEntities(currentPage) 
             .then((response) => {
@@ -65,16 +59,6 @@ const ListEntity = () => {
     // ------- SEARCH --------
     const action = () => {
         console.log("llamada backend")
-    }
-
-    //filtro
-    let show = []
-    if (!search) {
-        show = entities
-    } else {
-        show = allEntities.filter( (item) => 
-            item.name.toLowerCase().includes(search.toLocaleLowerCase())
-        )
     }
 
 return (

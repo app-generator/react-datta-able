@@ -22,6 +22,7 @@ const ListTaxonomies = () => {
     const [countItems, setCountItems] = useState(0);
     const [updatePagination, setUpdatePagination] = useState(false)
     const [disabledPagination, setDisabledPagination] = useState(true)
+    const [wordToSearch, setWordToSearch]= useState('')
 
     const [order, setOrder] = useState("");
 
@@ -31,7 +32,7 @@ const ListTaxonomies = () => {
     }
     
     useEffect(() => {        
-        getTaxonomies(currentPage,order)
+        getTaxonomies(currentPage,wordToSearch, order)
         .then((response) => {
             setCountItems(response.data.count)
             setTaxonomies(response.data.results)
@@ -47,7 +48,7 @@ const ListTaxonomies = () => {
             setShowAlert(true)
             setLoading(false)
         })
-    }, [currentPage, isModify, order]); 
+    }, [currentPage, isModify, order, wordToSearch,]); 
         
     //valores ingresados
     const searcher = (e) => {
@@ -68,7 +69,7 @@ const ListTaxonomies = () => {
                         <Card.Header>
                             <Row>
                                 <Col sm={12} lg={9}>
-                                    <Search type="por nombre" action={searcher} search={search} setSearch={setSearch}/>
+                                    <Search type="por nombre" setWordToSearch={setWordToSearch} wordToSearch={wordToSearch} setLoading={setLoading}/>
                                 </Col> 
                                 
                                 <Col sm={12} lg={3}>

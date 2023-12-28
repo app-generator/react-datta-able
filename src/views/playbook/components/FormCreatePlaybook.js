@@ -29,8 +29,9 @@ const FormCreatePlaybook = (props) => {
                 return e.value 
             })
             )
+        console.log(props.taxonomy)
         }
-
+  
     return (
         <React.Fragment>
             <Form>
@@ -69,7 +70,7 @@ const FormCreatePlaybook = (props) => {
                 <Row>
                     <Col>
                         <Form.Group>
-                            { validatePlaybookName(props.name) && (props.taxonomy.length > 0) ? // 
+                            {props.name !=="" && validatePlaybookName(props.name) && (props.taxonomy.length > 0) ? // 
                                 <><Button variant="primary" onClick={props.ifConfirm}>{props.save}</Button></>
                                 : 
                                 <><Button variant="primary" disabled>{props.save}</Button></> 

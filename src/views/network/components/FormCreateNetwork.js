@@ -134,9 +134,7 @@ const FormCreateNetwork = (props) => {
                                 type="choice"
                                 as="select"
                                 value={props.type}
-                                onChange={(e) =>  props.setType(e.target.value)}
-                                isInvalid={!validateSelect(props.type)}
-                            >
+                                onChange={(e) =>  props.setType(e.target.value)}>
                                 <option key={0} value=''>Seleccione</option>
                                 <option key={1} value='internal'>Interna</option>
                                 <option key={2} value='external'>Externa</option>                                
@@ -217,7 +215,7 @@ const FormCreateNetwork = (props) => {
                 <Row>
                     <Col>
                         <Form.Group>
-                            { validateSelect(props.type) && (props.contacts.length > 0) ?  
+                            {props.address_value !== "" && !showErrorMessage && validateSelect(props.type) && (props.contacts.length > 0) ?  
                                 <><Button variant="primary" onClick={props.ifConfirm } >Guardar</Button></>
                                 : 
                                 <><Button variant="primary" disabled>Guardar</Button></> //disabled
