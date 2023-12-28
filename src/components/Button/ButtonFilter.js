@@ -9,6 +9,7 @@ const ButtonFilter = ({open, setOpen}) => {
         tune
       </span>
     </Button>
+    
   );
 }
 

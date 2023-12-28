@@ -8,7 +8,9 @@ import FileUpload  from '../../../components/UploadFiles/FileUpload/FileUpload'
 import FileList from '../../../components/UploadFiles/FileList/FileList'
 import { postArtifact } from "../../../api/services/artifact";
 import { postStringIdentifier } from "../../../api/services/stringIdentifier";
+import { postCase } from "../../../api/services/cases";
 import Alert from '../../../components/Alert/Alert';
+import ModalFormCase from './ModalFormCase';
 
 
 
@@ -23,6 +25,28 @@ const FormEvent = (props) => {
     const [showAlert, setShowAlert] = useState(false)
     const [showErrorMessage, setShowErrorMessage] = useState(false)
 
+    //modal create case
+    const [showModalCase, setShowModalCase] = useState(false);
+
+    //create case
+    const [bodyCase, setBodyCase] = useState({
+        date:"",
+        lifecycle:"",
+        parent:"",
+        priority:"",
+        tlp:"",
+        assigned:"",
+        state:"",
+        attend_date:"",
+        solve_date:"",
+        selectedEvent:"",
+        comments:[],
+          
+      }) 
+      const [evidenceCase, setEvidenceCase] = useState([])
+      //commet
+      const [ comm, setComm ] = useState();
+
     const resetShowAlert = () => {
         setShowAlert(false);
     } 
@@ -33,8 +57,10 @@ const FormEvent = (props) => {
         .map(elemento => ({value: elemento.value, label:elemento.label}))
 
         setArtifactsValueLabel(listDefaultArtifact)
+
+        
     
-    },[props.body.artifacts, props.listArtifact])
+    },[props.body.artifacts, props.listArtifact, ])
 
     const completeFieldStringIdentifier=(event)=>{ 
        
@@ -111,6 +137,80 @@ const FormEvent = (props) => {
         }).finally(() => {
             setModalCreate(false)
         })  
+    };
+    const modalCase = () => {
+        //setId
+        setShowModalCase(true);
+      }
+    //Create
+  const createCase = () => {
+    const form = new FormData();
+    form.append("date",bodyCase.date)
+    form.append("lifecycle",bodyCase.lifecycle)
+    if(bodyCase.parent !== null) {
+        form.append("parent", bodyCase.parent)
+    }
+    form.append("priority", bodyCase.priority)
+    form.append("tlp", bodyCase.tlp)
+    if(bodyCase.assigned !== null) {
+        form.append("assigned", bodyCase.assigned)
+    }
+    form.append("state", bodyCase.state)
+    form.append("attend_date", bodyCase.attend_date)
+    form.append("solve_date", bodyCase.solve_date)
+        
+    
+    //form.append("evidence", "http://localhost:8000/api/event/1/")
+    //form.append("evidence", ["http://localhost:8000/api/event/1/", "http://localhost:8000/api/event/2/"])
+    //form.append("evidence", evidences)
+    if (evidenceCase !== null){
+        for (let index=0; index< evidenceCase.length  ; index++){
+        form.append("evidence", evidenceCase[index])
+        console.log(evidenceCase[index])
+        }
+    }/*else{
+        form.append("evidence", evidences)
+    }
+    */
+    if (comm !== null){
+        let array = bodyCase.comments;
+        array.push(comm)
+        setBodyCase((prevBodyCase) => ({
+          ...prevBodyCase,
+          comments: comm,
+        }));
+        //setComments((e) => [...e, comm])
+        console.log(comm);
+        console.log(array);
+        console.log(bodyCase.comments);
+        form.append("comments", array)   
+    }
+
+    console.log(form)
+    postCase(form)
+        .then((response) => { 
+          setBodyCase({
+            date:"",
+            lifecycle:"",
+            parent:"",
+            priority:"",
+            tlp:"",
+            assigned:"",
+            state:"",
+            attend_date:"",
+            solve_date:"",
+            selectedEvent:"",
+            comments:[],
+              
+          })
+          setShowModalCase(false)
+          props.setUpdateCases(response)
+            
+        })
+        .catch((error) => {
+            console.log(error.data)
+            setShowAlert(true)
+        }); 
     };
 
   return (
@@ -223,9 +323,19 @@ const FormEvent = (props) => {
                 <Row>
                     <Col sm={4} lg={4}>
                         <Form.Group>
-                            <Form.Label>Casos</Form.Label>
+                            <Form.Label>Caso asociado</Form.Label>
                             <Select options={props.cases} value={props.selectCase} isClearable placeholder={"Seleccione un caso"} onChange={(e) => complete(e)}  />
                         </Form.Group>
+                    </Col>
+                    <Col sm={4} lg={4}>
+                    <br></br>
+                    <Button 
+                            size="lm"
+                            variant="outline-dark"
+                            onClick={() => modalCase()}
+                            >
+                            Crear nuevo caso
+                    </Button>
                     </Col>
                 </Row>
                 <Form.Group controlId="formGridAddress1">
@@ -331,17 +441,37 @@ const FormEvent = (props) => {
                         </Col> 
                     </Row>
                 </Modal.Body>
-            </Modal>      
+            </Modal> 
+            <Modal show={showModalCase} onHide={() => setShowModalCase(false)} aria-labelledby="contained-modal-title-vcenter" centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Agregar eventos a un caso</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                
+                  <div id="example-collapse-text">
+                   <ModalFormCase body={bodyCase} setBody={setBodyCase} 
+                                evidence={evidenceCase}  setEvidence={setEvidenceCase} 
+                                createCase={createCase} comm={comm} setComm={setComm} />
+                  </div>
+                <Modal.Footer>
+                        <Button variant="outline-primary" onClick={createCase  }>
+                        Crear
+                        </Button>
+
+                        <Button variant="outline-secondary" onClick={() => setShowModalCase(false)}>Cancelar</Button>
+                </Modal.Footer>
+                </Modal.Body>
+                
+            </Modal>     
         </Card.Body>
         </Card>
         
-        {/* props.body.date !== "" &&  props.body.tlp !== "-1" && props.body.taxonomy !== "-1" && props.body.feed !== "-1"
+        { props.body.date !== "" &&  props.body.tlp !== "-1" && props.body.taxonomy !== "-1" && props.body.feed !== "-1"
             && props.body.priority !== "-1" && props.body.address_value !== "" && !showErrorMessage?
             <Button variant="primary" onClick={props.createEvent} >Guardar</Button> 
             : 
             <Button variant="primary" disabled>Guardar</Button>                                    
-                    */}
-        <Button variant="primary" onClick={props.createEvent} >Guardar</Button> 
+        }
         <Button variant="primary" href="/events">Cancelar</Button>      
     </div>
   )

@@ -58,6 +58,6 @@ export const COMPONENT_URL={
     stringidentifier:"stringidentifier/",
     dashboardFeed:"dashboard/feeds",
     dashboardEvent:"dashboard/events",
-    dashboardEvent:"dashboard/cases",
-    dashboardEvent:"dashboard/network_entities",
+    dashboardCases:"dashboard/cases",
+    dashboardNetworkEntities:"dashboard/network_entities",
 };

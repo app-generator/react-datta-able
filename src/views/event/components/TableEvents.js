@@ -112,6 +112,9 @@ const TableEvents = ({events, loading, selectedEvent, setSelectedEvent, order, s
                             </th>
                             <th>#</th>
                             <Ordering field="date" label="Fecha" order={order} setOrder={setOrder} setLoading={setLoading} />
+                            <th>Identificador </th>
+                            <th>Dominio</th>
+                            <th>Cidr</th>
                             <th>TLP</th>
                             <th>Taxonomia</th>
                             <th>Fuente de Informacion</th>
@@ -131,6 +134,9 @@ const TableEvents = ({events, loading, selectedEvent, setSelectedEvent, order, s
                                 <td>{1+index+10*(currentPage-1)}</td>
 
                                 <td>{event.date ? event.date.slice(0,10)+" "+event.date.slice(11,19): ""}</td>
+                                <td>{event.address_value}</td>
+                                <td>{event.domain}</td>
+                                <td>{event.cidr}</td>
                                 
                                 <td><CallBackendByName url={event.tlp} callback={callbackTlp } useBadge={true}/></td>
                                 
@@ -159,7 +165,7 @@ const TableEvents = ({events, loading, selectedEvent, setSelectedEvent, order, s
                       </ul>
                       <ModalConfirm type='delete' component='Estado' name={deleteName} showModal={remove} onHide={() => setRemove(false)} ifConfirm={() => handleDelete(deleteUrl)}/>    
 
-<Modal size='lg' show={modalShow} onHide={() => setModalShow(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
+        <Modal size='lg' show={modalShow} onHide={() => setModalShow(false)} aria-labelledby="contained-modal-title-vcenter" centered>            
             <Modal.Body>
                 <Row>    
                     <Col>                 

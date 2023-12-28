@@ -8,6 +8,7 @@ import { getTaxonomy } from '../../api/services/taxonomies';
 import { getPriority } from '../../api/services/priorities';
 import { getTLPSpecific } from '../../api/services/tlp';
 import { getFeed } from '../../api/services/feeds';
+import { getEvent } from '../../api/services/events';
 import { useLocation } from "react-router-dom";
 import Navigation from '../../components/Navigation/Navigation'
 import { getArtefact } from '../../api/services/artifact';
@@ -15,10 +16,15 @@ import ViewFiles from '../../components/Button/ViewFiles';
 
 const ReadEvent = () => {
     const location = useLocation();
-    const [childernes, setChildernes]=useState([])
-    const [evidence,setEvidence]=useState([])
-    const fromState = location.state;
-    const [body,setBody]=useState(fromState)
+    const [body,setBody]=useState({})
+
+
+    useEffect( ()=> {
+        let event= location.state;
+        getEvent(event.url).then((responsive) =>{
+            setBody(responsive.data)
+        })
+      },[]);
 
     const callbackTaxonomy = (url ,setPriority) => {
         getTaxonomy(url)
@@ -60,6 +66,7 @@ const ReadEvent = () => {
         })
         .catch();
     }
+    console.log(body.date)
   return (
     <div>
         <Row>
@@ -75,7 +82,7 @@ const ReadEvent = () => {
                             Fecha
                         </Col>
                         <Col sm={12} lg={4}>
-                            <Form.Control plaintext readOnly defaultValue={body.date.slice(0,10)+" "+body.date.slice(11,19)} />
+                            <Form.Control plaintext readOnly defaultValue={body.date !== undefined ? body.date.slice(0,10)+" "+body.date.slice(11,19): ""} />
                         </Col>
                     </Row>
                     <p/>
@@ -84,7 +91,8 @@ const ReadEvent = () => {
                                 Tlp
                         </Col>
                         <Col sm={12} lg={4}>
-                            <CallBackendByName url={body.tlp} callback={callbackTlp}/>
+                            {body.tlp !== undefined ?
+                                <CallBackendByName url={body.tlp} callback={callbackTlp}/> : ""}
                         </Col>
 
                     </Row>
@@ -94,7 +102,8 @@ const ReadEvent = () => {
                             Taxonomia
                         </Col>
                         <Col sm={12} lg={4}>
-                            <CallBackendByName url={body.taxonomy} callback={callbackTaxonomy}/>
+                            {body.taxonomy !== undefined ?
+                                <CallBackendByName url={body.taxonomy} callback={callbackTaxonomy}/> : ""}
                         </Col>
 
                     </Row>
@@ -104,7 +113,8 @@ const ReadEvent = () => {
                             Fuentes de informacion
                         </Col>
                         <Col sm={12} lg={4}>
-                            <CallBackendByName url={body.feed} callback={callbackFeed}/>
+                            { body.feed !== undefined ?
+                                <CallBackendByName url={body.feed} callback={callbackFeed}/> : ""}
                         </Col>
 
                     </Row>
@@ -114,7 +124,8 @@ const ReadEvent = () => {
                             Prioridad
                         </Col>
                         <Col sm={12} lg={4}>
-                            <CallBackendByName url={body.priority} callback={callbackPriority}/>
+                            {body.priority !== undefined ?
+                                <CallBackendByName url={body.priority} callback={callbackPriority}/>: ""}
                         </Col>
 
                     </Row>
@@ -124,7 +135,8 @@ const ReadEvent = () => {
                             Usuario que reporta
                         </Col>
                         <Col sm={12} lg={4}>
-                            <CallBackendByName url={body.reporter} callback={callbackPriority}/>
+                            {body.reporter !== undefined ?
+                                <CallBackendByName url={body.reporter} callback={callbackPriority}/>: ""}
                         </Col>
                     </Row>
                {/*</Table>*/}
@@ -136,10 +148,10 @@ const ReadEvent = () => {
             </Card.Header>
             <Card.Body>
                 <Row>
-                    { 
+                    { body.artifacts !== undefined ? 
                        body.artifacts.map((url) => {
                         return  (<CallBackendByType url={url} callback={callbackArtefact} useBadge={true}/>)
-                        })
+                        }): ""
                     }
                 </Row>
             </Card.Body>
@@ -185,10 +197,10 @@ const ReadEvent = () => {
                     <Card.Body>
                         <Row>
                         
-                        {
+                        { body.evidence !== undefined ?
                             body.evidence.map((url, index) => {
                                 return  (<ViewFiles url={url} index={index+1}  />)
-                                })
+                                }): ""
                         }
                         
                         </Row>
@@ -212,13 +224,13 @@ const ReadEvent = () => {
                     <tr>
                         <td>Creación</td>
                         <td>
-                            <Form.Control plaintext readOnly defaultValue={body.created.slice(0,10)+" "+body.date.slice(11,19)} />
+                            <Form.Control plaintext readOnly defaultValue={body.created !== undefined ?  body.created.slice(0,10)+" "+body.date.slice(11,19) : ""} />
                         </td>
                     </tr>
                     <tr>
                         <td>Actualización</td>
                         <td>
-                            <Form.Control plaintext readOnly defaultValue={body.modified.slice(0,10)+" "+body.date.slice(11,19)} />
+                            <Form.Control plaintext readOnly defaultValue={ body.modified !== undefined ? body.modified.slice(0,10)+" "+body.date.slice(11,19) : ""} />
                         </td>
                     </tr>
                     

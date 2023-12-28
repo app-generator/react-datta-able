@@ -15,8 +15,8 @@ import ModalConfirm from '../../components/Modal/ModalConfirm';
 import Alert from '../../components/Alert/Alert';
 import ButtonFilter from '../../components/Button/ButtonFilter';
 import Select from 'react-select';
-import { getAllCases, patchCase } from "../../api/services/cases";
-import FormCase from '../case/components/FormCase';
+import { getAllCases, patchCase, postCase } from "../../api/services/cases";
+import ModalFormCase from './components/ModalFormCase';
 import { getStates } from '../../api/services/states';
 
 const ListEvent = () => {
@@ -39,7 +39,7 @@ const ListEvent = () => {
   const [selectCase, setSelectCase] = useState("")
 
   //add to cases
-  const [openCases, setOpenCases] = useState(false);
+  const [openCases, setOpenCases] = useState(true);
   const [opeFormCases, setOpenFormCases] = useState(false);
   const [allStates, setAllStates] = useState([]) //multiselect
 
@@ -77,6 +77,25 @@ const ListEvent = () => {
   const [open, setOpen] = useState(false);
   const [updatePagination, setUpdatePagination] = useState(false)
   const [disabledPagination, setDisabledPagination] = useState(true)
+
+  //create case
+  const [bodyCase, setBodyCase] = useState({
+    date:"",
+    lifecycle:"",
+    parent:"",
+    priority:"",
+    tlp:"",
+    assigned:"",
+    state:"",
+    attend_date:"",
+    solve_date:"",
+    selectedEvent:"",
+    comments:[],
+      
+  }) 
+  const [evidenceCase, setEvidenceCase] = useState([])
+  //commet
+  const [ comm, setComm ] = useState();
 
   function updatePage(chosenPage){
     setCurrentPage(chosenPage);
@@ -158,7 +177,7 @@ const ListEvent = () => {
       setShowAlert(true)
     })
 
-  }, [ currentPage, ifModify, wordToSearch, taxonomyFilter, tlpFilter, feedFilter, filterDate, order])
+  }, [ currentPage, ifModify, wordToSearch, taxonomyFilter, tlpFilter, feedFilter, filterDate, order, ])
 
   const mergeConfirm = () => {
     //setId
@@ -211,6 +230,7 @@ const ListEvent = () => {
 
   };
 
+
   const addEventsToCase=()=>{ 
     patchCase(selectCase.value,selectedEvent ).then((response) => {
       setSelectedEvent([])
@@ -220,6 +240,102 @@ const ListEvent = () => {
     })
     setShowModalCase(false);
   };
+  const clearModal=()=>{ 
+    setBodyCase({
+      date:"",
+      lifecycle:"",
+      parent:"",
+      priority:"",
+      tlp:"",
+      assigned:"",
+      state:"",
+      attend_date:"",
+      solve_date:"",
+      selectedEvent:"",
+      comments:[],
+        
+    })
+    setSelectedEvent([])
+    setSelectCase("")
+    setShowModalCase(false)
+
+  };
+
+  //Create
+  const createCase = () => {
+    const form = new FormData();
+    form.append("date",bodyCase.date)
+    form.append("lifecycle",bodyCase.lifecycle)
+    if(bodyCase.parent !== null) {
+        form.append("parent", bodyCase.parent)
+    }
+    form.append("priority", bodyCase.priority)
+    form.append("tlp", bodyCase.tlp)
+    if(bodyCase.assigned !== null) {
+        form.append("assigned", bodyCase.assigned)
+    }
+    form.append("state", bodyCase.state)
+    form.append("attend_date", bodyCase.attend_date)
+    form.append("solve_date", bodyCase.solve_date)
+        
+    selectedEvent.forEach(selectedEvent => {
+        form.append("events", selectedEvent);
+    });
+    
+    //form.append("evidence", "http://localhost:8000/api/event/1/")
+    //form.append("evidence", ["http://localhost:8000/api/event/1/", "http://localhost:8000/api/event/2/"])
+    //form.append("evidence", evidences)
+    if (evidenceCase !== null){
+        for (let index=0; index< evidenceCase.length  ; index++){
+        form.append("evidence", evidenceCase[index])
+        console.log(evidenceCase[index])
+        }
+    }/*else{
+        form.append("evidence", evidences)
+    }
+    */
+    if (comm !== null){
+        let array = bodyCase.comments;
+        array.push(comm)
+        setBodyCase((prevBodyCase) => ({
+          ...prevBodyCase,
+          comments: comm,
+        }));
+        //setComments((e) => [...e, comm])
+        console.log(comm);
+        console.log(array);
+        console.log(bodyCase.comments);
+        form.append("comments", array)   
+    }
+
+    console.log(form)
+    postCase(form)
+        .then((response) => { 
+          setBodyCase({
+            date:"",
+            lifecycle:"",
+            parent:"",
+            priority:"",
+            tlp:"",
+            assigned:"",
+            state:"",
+            attend_date:"",
+            solve_date:"",
+            selectedEvent:"",
+            comments:[],
+              
+          })
+          setSelectedEvent([])
+          setSelectCase("")
+          setShowModalCase(false)
+            
+        })
+        .catch((error) => {
+            console.log(error.data)
+            setShowAlert(true)
+        }); 
+};
+
 
   return (
      <div>
@@ -323,39 +439,46 @@ const ListEvent = () => {
           </Row>
       </Card.Footer>
       <ModalConfirm type='merge' component='eventos' name={selectedEvent} showModal={showModal} onHide={() => setShowModal(false)} ifConfirm={() => merge()}/>
-      <Modal show={showModalCase} onHide={() => setShowModalCase(false)} aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal show={showModalCase} onHide={() => clearModal()} aria-labelledby="contained-modal-title-vcenter" centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Desea agregar estos eventos a un caso</Modal.Title>
+                    <Modal.Title>Agregar eventos a un caso</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <ButtonFilter open={openCases} setOpen={setOpenCases} />
+                <Button variant="primary" className='text-capitalize' size="sm" active={openCases} onClick={() => setOpenCases(!openCases)} aria-expanded={openCases}>
+                  Agregar a un caso existente
+                </Button>
+                <Button variant="primary" className='text-capitalize' size="sm" active={!openCases} onClick={() => setOpenCases(!openCases)} aria-expanded={!openCases}>
+                  Crear a un nuevo caso
+                </Button>
+                
                 <Collapse in={openCases}>
-                  <div id="example-collapse-text">
+                  <div id="example-collapse-text"> 
                   <Row>
-                    <Col sm={4} lg={4}>
+                    <Col sm={10} lg={10}>
+                        
                         <Form.Group>
                             <Form.Label>Casos</Form.Label>
                             <Select options={cases} value={selectCase} isClearable placeholder={"Seleccione un caso"} onChange={(e) => complete(e)}  />
                         </Form.Group>
                     </Col>
                     </Row>
+                    
+                  </div>
+                </Collapse>
+                <Collapse in={!openCases}>
+                  <div id="example-collapse-text">
+                   <ModalFormCase body={bodyCase} setBody={setBodyCase} 
+                                evidence={evidenceCase}  setEvidence={setEvidenceCase} 
+                                createCase={createCase} comm={comm} setComm={setComm} />
+                  </div>
+                </Collapse>
                     <Modal.Footer>
-                          <Button variant="outline-primary" onClick={addEventsToCase}>
-                            Confimar 
+                          <Button variant="outline-primary" onClick={openCases ? addEventsToCase: createCase  }>
+                            {openCases ?  "Confirmar": "Crear"} 
                           </Button>
 
-                          <Button variant="outline-secondary" onClick={() => setShowModalCase(false)}>Cancelar</Button>
+                          <Button variant="outline-secondary" onClick={() => clearModal()}>Cancelar</Button>
                     </Modal.Footer>
-                  </div>
-                </Collapse>
-                
-                <ButtonFilter open={opeFormCases} setOpen={setOpenFormCases} />
-                <Collapse in={opeFormCases}>
-                  <div id="example-collapse-text">
-                   <FormCase caseItem={caseItem} allStates={allStates} edit={false} save='Crear' selectedEvent={selectedEvent} setSelectedEvent={setSelectedEvent}
-                              setSelectCase={setSelectCase} setShowModalCase={setShowModalCase}/>
-                  </div>
-                </Collapse>
                 </Modal.Body>
                 
             </Modal>

@@ -44,6 +44,7 @@ const CreateEvent = () => {
   const [contactCreated, setContactsCreated ] = useState(null);
   const [showAlert, setShowAlert] = useState(false)
   const [selectCase, setSelectCase] = useState("")
+  const [updateCases, setUpdateCases] = useState("")
 
   const resetShowAlert = () => {
     setShowAlert(false);
@@ -141,7 +142,7 @@ const CreateEvent = () => {
     }  
     fetchPosts()
     
-  },[contactCreated]);
+  },[contactCreated, updateCases]);
 
   const createEvent=()=>{
     
@@ -195,7 +196,7 @@ const CreateEvent = () => {
                     feeds={feeds} taxonomy={taxonomy} tlp={TLP} priorities={priorities} 
                     users={users} listArtifact={listArtifact} setContactsCreated={setContactsCreated} 
                     evidence={evidence} setEvidence={setEvidence} cases={cases}
-                    selectCase={selectCase} setSelectCase={setSelectCase}/>
+                    selectCase={selectCase} setSelectCase={setSelectCase} setUpdateCases={setUpdateCases}/>
           
     </div>
   )

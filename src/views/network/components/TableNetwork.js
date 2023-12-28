@@ -93,7 +93,9 @@ const TableNetwork = ({setIsModify, list, loading, order, setOrder, setLoading ,
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Dominio o cidr</th>
+                            <th>Direción de valor </th>
+                            <th>Dominio</th>
+                            <th>Cidr</th>
                             <Ordering field="type" label="Tipo" order={order} setOrder={setOrder} setLoading={setLoading} />
                             <th>Activo</th>
                             <th>Entidad</th>
@@ -103,11 +105,12 @@ const TableNetwork = ({setIsModify, list, loading, order, setOrder, setLoading ,
                     <tbody>
                         {list.map((network, index) =>
                         {
-                            console.log(network.network_entity)
                             return (
                                 <tr key={network.url}>
                                     <th scope="row">{ 1+index+10*(currentPage-1)  }</th>
                                     <td>{network.address_value}</td>
+                                    <td>{network.domain}</td>
+                                    <td>{network.cidr}</td>
                                     <td>{network.type === 'internal' ? 'Interna' : 'Externa'}</td>
                                     <td>
                                         <ActiveButton active={network.active} onClick={() => pressActive(network.cidr, network.active, network.url)} />

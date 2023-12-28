@@ -8,9 +8,12 @@ import FileUpload  from '../../../components/UploadFiles/FileUpload/FileUpload'
 import FileList from '../../../components/UploadFiles/FileList/FileList'
 import Alert from '../../../components/Alert/Alert';
 import { putCase, postCase } from '../../../api/services/cases';
+import { useLocation } from "react-router-dom";
 
 const FormCase = (props) => {  // props: edit, caseitem, allStates 
 
+    const location = useLocation();
+    const fromState = location.state;
     const [url, setUrl] = useState(props.edit ? props.caseItem.url : null) 
     const [date, setDate] = useState(props.caseItem.date  !== null ? props.caseItem.date.substr(0,16) : '') 
     const [lifecycle, setLifecycle] = useState(props.caseItem.lifecycle) 
@@ -171,6 +174,7 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
             setIfClick(false)
         });    
     };
+    console.log(fromState)
 
     //Create
     const addCase = () => {
@@ -189,7 +193,7 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
         form.append("state", state)
         form.append("attend_date", attend_date)
         form.append("solve_date", solve_date)
-        if (props.selectCase !== null){
+        if (props.selectedEvent !== undefined){
             
             props.selectedEvent.forEach(selectedEvent => {
                 form.append("events", selectedEvent);
@@ -222,14 +226,17 @@ const FormCase = (props) => {  // props: edit, caseitem, allStates
         postCase(form)
         .then((response) => { 
             console.log(response)
-            if (props.selectedEvent == null){
-                window.location.href = "/cases"
+            if (fromState === "redirecToCreateEvent"){
+                window.location.href = "/events/create"
+            }else{
+                window.location.href = "/cases"           
             }
-            if (props.selectedEvent !== null){
+            if (props.selectedEvent !== undefined){
                 props.setSelectedEvent([])
                 props.setSelectCase("")
                 props.setShowModalCase(false)
-            }            
+            } 
+            
             
 
         })

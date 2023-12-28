@@ -52,7 +52,7 @@ const TableTaxonomy = ({setIsModify, list, loading, order, setOrder, setLoading,
                             <th>#</th>  
                             <Ordering field="name" label="Nombre" order={order} setOrder={setOrder} setLoading={setLoading} />
                             <th>Activo</th>     
-                            <th>Reportes</th>                                                                         
+                            <th>Eventos</th>                                                                         
                             <th>Acciones</th>
                         </tr>
                     </thead>
