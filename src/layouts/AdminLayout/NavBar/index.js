@@ -41,10 +41,10 @@ const NavBar = () => {
                     <i className="feather icon-more-vertical"/>
                 </Link> */}
             </div>
-            <div className={collapseClass.join(' ')}>
+            {/* <div className={collapseClass.join(' ')}>
                 <NavLeft />
                 <NavRight />
-            </div>
+            </div> */}
         </React.Fragment>
     );
 
