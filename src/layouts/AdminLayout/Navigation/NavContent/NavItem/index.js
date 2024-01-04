@@ -35,7 +35,7 @@ const NavItem = ({ layout, item }) => {
         );
     } else {
         subContent = (
-            <NavLink to={item.url} className="nav-link" exact={true} target={itemTarget}>
+            <NavLink to={item.url} className="nav-link" exact={true} target={itemTarget} onClick={item.onClick}>
                 <NavIcon items={item} />
                 {itemTitle}
                 <NavBadge items={item} />

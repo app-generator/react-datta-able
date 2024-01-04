@@ -1,3 +1,5 @@
+import { handleLogout } from './layouts/AdminLayout/NavBar/NavRight/index';
+
 const menuItems = {
     items: [ 
         {
@@ -161,10 +163,11 @@ const menuItems = {
                     id: 'logout',
                     title: 'Logout',
                     type: 'item',
-                    url: '/logout',
+                    url: '/auth/logout',
                     classes: '',
                     icon: 'fa fa-sign-out-alt',
                     breadcrumbs: false,
+                    onClick: handleLogout,
                 }
             ]
         

@@ -17,24 +17,25 @@ import avatar4 from '../../../../assets/images/user/avatar-4.jpg';
 
 import Alert from './../../../../components/Alert/Alert'; 
 
+
+const { dispatch } = store;
+
+const handleLogout = () => {
+
+    logout().finally(() => {
+        dispatch({
+            type: LOGOUT,
+        });
+        dispatch({
+            type: CLEAR_MESSAGE
+        });
+    });
+
+};
+
 const NavRight = () => {
 
     const [listOpen, setListOpen] = useState(false);
-
-    const { dispatch } = store;
-
-    const handleLogout = () => {
-
-        logout().finally(() => {
-            dispatch({
-                type: LOGOUT,
-            });
-            dispatch({
-                type: CLEAR_MESSAGE
-            });
-        });
-        
-    };
 
     return (
         <React.Fragment>
@@ -194,3 +195,4 @@ const NavRight = () => {
 };
 
 export default NavRight;
+export { handleLogout };
