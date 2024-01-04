@@ -136,16 +136,34 @@ const menuItems = {
                             classes: '',
                             icon: '',
                             breadcrumbs: false,
+                        },
+                        {
+                            id: 'users',
+                            title: 'Usuarios',
+                            type: 'item',
+                            url: '/users',
+                            classes: '',
+                            icon: '',
+                            breadcrumbs: false,
                         }
                     ]
                 },
                 {
-                    id: 'users',
-                    title: 'Usuarios',
+                    id: 'profile',
+                    title: 'Perfil',
                     type: 'item',
-                    url: '/users',
+                    url: '/profile',
                     classes: '',
                     icon: 'feather icon-user',
+                    breadcrumbs: false,
+                },
+                {
+                    id: 'logout',
+                    title: 'Logout',
+                    type: 'item',
+                    url: '/logout',
+                    classes: '',
+                    icon: 'fa fa-sign-out-alt',
                     breadcrumbs: false,
                 }
             ]
