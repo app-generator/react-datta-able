@@ -149,15 +149,6 @@ const menuItems = {
                             breadcrumbs: false,
                         }
                     ]
-                },
-                {
-                    id: 'profile',
-                    title: 'Perfil',
-                    type: 'item',
-                    url: '/profile',
-                    classes: '',
-                    icon: 'feather icon-user',
-                    breadcrumbs: false,
                 }
             ]
         }
@@ -168,6 +159,15 @@ const menuItems = {
             title: '',
             type: 'group',
             children: [
+                {
+                    id: 'profile',
+                    title: 'Perfil',
+                    type: 'item',
+                    url: '/profile',
+                    classes: '',
+                    icon: 'feather icon-user',
+                    breadcrumbs: false,
+                },
                 {
                     id: 'logout',
                     title: 'Logout',
