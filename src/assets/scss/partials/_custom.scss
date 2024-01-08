@@ -7,6 +7,31 @@
     min-height: 0px;
 }
 
+.scrollbar-container {
+    min-height: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .pcoded-navbar.menupos-static .datta-scroll.navbar-content {
     min-height: 0px;
+}
+
+@media screen and (max-width: 991px) {
+    .pcoded-navbar.menupos-static .datta-scroll.navbar-content {
+        height: 100%;
+    }
+}
+
+#nav-ps-next-bottom {
+    bottom: 0px;
+    position: sticky;
+    width: 100%;
+    background: $menu-dark-background;
+    z-index: 9999;
+    align-self: flex-end;
+    box-shadow:
+        inset 0 7px 4px -7px $theme-font-color,
+        0 0 0 0px $theme-font-color;
 }

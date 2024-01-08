@@ -3,9 +3,18 @@ import { ListGroup } from 'react-bootstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import NavGroup from './NavGroup';
+// import NavGroupNoTitle from './NavGroupNoTitle';
 
 const NavContent = ({ navigation }) => {
-    const navItems = navigation.map((item) => {
+    const navItems = navigation.items.map((item) => {
+        switch (item.type) {
+            case 'group':
+                return <NavGroup layout="vertical" key={'nav-group-' + item.id} group={item} />;
+            default:
+                return false;
+        }
+    });
+    const navItemsBottom = navigation.itemsBottom.map((item) => {
         switch (item.type) {
             case 'group':
                 return <NavGroup layout="vertical" key={'nav-group-' + item.id} group={item} />;
@@ -20,6 +29,9 @@ const NavContent = ({ navigation }) => {
             <PerfectScrollbar>
                 <ListGroup variant="flush" as="ul" bsPrefix=" " className="nav pcoded-inner-navbar" id="nav-ps-next">
                     {navItems}
+                </ListGroup>
+                <ListGroup variant="flush" as="ul" bsPrefix=" " className="nav pcoded-inner-navbar" id="nav-ps-bottom">
+                    {navItemsBottom}
                 </ListGroup>
             </PerfectScrollbar>
         </div>

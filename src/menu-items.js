@@ -158,20 +158,28 @@ const menuItems = {
                     classes: '',
                     icon: 'feather icon-user',
                     breadcrumbs: false,
-                },
+                }
+            ]
+        }
+    ],
+    itemsBottom: [
+        {
+            id: 'principal',
+            title: '',
+            type: 'group',
+            children: [
                 {
                     id: 'logout',
                     title: 'Logout',
                     type: 'item',
-                    url: '/auth/logout',
-                    classes: '',
+                    url: '',
+                    classes: 'logout-btn',
                     icon: 'fa fa-sign-out-alt',
                     breadcrumbs: false,
                     onClick: handleLogout,
                 }
             ]
-        
-        }        
+        }
     ]
 };
 

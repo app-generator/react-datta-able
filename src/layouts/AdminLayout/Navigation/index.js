@@ -37,14 +37,14 @@ const Navigation = () => {
     let navContent = (
         <div className={navBarClass.join(' ')}>
             <NavLogo />
-            <NavContent navigation={navigation.items} />
+            <NavContent navigation={navigation} />
         </div>
     );
     if (windowSize.width < 992) {
         navContent = (
             <div className="navbar-wrapper">
                 <NavLogo />
-                <NavContent navigation={navigation.items} />
+                <NavContent navigation={navigation} />
             </div>
         );
     }

@@ -5,6 +5,7 @@ import NavItem from '../NavItem';
 
 const NavGroup = ({ layout, group }) => {
     let navItems = '';
+    let groupHeader = '';
 
     if (group.children) {
         const groups = group.children;
@@ -21,11 +22,17 @@ const NavGroup = ({ layout, group }) => {
         });
     }
 
-    return (
-        <React.Fragment>
+    if (group.title !== '') {
+        groupHeader = (
             <ListGroup.Item as="li" bsPrefix=" " key={group.id} className="nav-item pcoded-menu-caption">
                 <label>{group.title}</label>
             </ListGroup.Item>
+        );
+    }
+
+    return (
+        <React.Fragment>
+            {groupHeader}
             {navItems}
         </React.Fragment>
     );
